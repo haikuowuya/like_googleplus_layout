@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="poppyview_pressed_color">#9933cc</color>
+    <color name="poppyview_default_color">#aa66cc</color>
+    
+     
+    <color name="underline_default_color">#99ff00ff</color>
+    <color name="line_color">#99ff0000</color>
+</resources>

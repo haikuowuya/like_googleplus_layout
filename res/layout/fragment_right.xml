@@ -1,0 +1,44 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <SlidingDrawer
+        android:id="@+id/sliding_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:content="@+id/lv_list"
+        android:handle="@+id/btn_drawer"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/lv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFF000" >
+        </ListView>
+        <Button
+            android:id="@+id/btn_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/ic_clock"
+            android:drawableTop="@drawable/line"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:text="已读通知!" />
+    </SlidingDrawer>
+
+    <TextView
+        android:id="@+id/tv_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:drawablePadding="10dp"
+        android:layout_gravity="center"
+        android:drawableTop="@drawable/ic_no_notification"
+        android:text="没有未读通知!"
+        android:textSize="20sp" />
+
+</FrameLayout>

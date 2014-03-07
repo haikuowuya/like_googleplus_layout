@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="#FF000000"
+    android:gravity="center" >
+
+    <Button
+        android:id="@+id/btn_picture"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@null"
+        android:drawableTop="@drawable/ic_camera_active"
+        android:text="照片"
+        android:textColor="#427FED"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btn_location"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@null"
+        android:drawableTop="@drawable/ic_location_active"
+        android:text="位置"
+        android:textColor="#E16156"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btn_mood"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@null"
+        android:drawableTop="@drawable/ic_mood_active"
+        android:text="心情"
+        android:textColor="#F4B400"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btn_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@null"
+        android:drawableTop="@drawable/ic_text_active"
+        android:text="文字"
+        android:textColor="#489935"
+        android:textSize="14sp" />
+
+</LinearLayout>

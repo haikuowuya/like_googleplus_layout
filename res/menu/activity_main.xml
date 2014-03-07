@@ -1,0 +1,31 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_group"
+        android:icon="@drawable/ic_menu_group"
+        android:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_notification"     
+        android:icon="@drawable/ic_menu_notification"
+        android:showAsAction="always"/>
+    <item
+        android:icon="@drawable/ic_menu_overflow"
+        android:visible="false"
+        android:showAsAction="never">   
+        <menu>
+            <item
+                android:id="@+id/menu_refresh"
+                android:title="刷新"/>
+            <item
+                android:id="@+id/menu_settings"
+                android:title="设置"/>
+            <item
+                android:id="@+id/menu_feedback"
+                android:title="反馈"/>
+            <item
+                android:id="@+id/menu_help"
+                android:title="帮助"/>
+        </menu>
+    </item>
+
+</menu>
