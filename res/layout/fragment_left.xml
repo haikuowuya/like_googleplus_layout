@@ -22,8 +22,8 @@
             android:id="@+id/tv_username"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:textColor="@android:color/white"
-            android:gravity="center_vertical" />
+            android:gravity="center_vertical"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
     <ListView

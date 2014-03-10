@@ -51,7 +51,7 @@ public class PictureFragment extends BaseFragment implements LoaderCallbacks<Lin
 		 LinkedList<PictureItem> dataWrapper = generateHeaderId(data);
 		//排序  
          Collections.sort(dataWrapper, new YMDComparator());  
-         mSGHGridView.setAdapter(new StickyGridAdapter(getActivity(), dataWrapper));
+         mSGHGridView.setAdapter(new StickyGridAdapter(getActivity(), dataWrapper,mSGHGridView));
 	}
 
 	@Override

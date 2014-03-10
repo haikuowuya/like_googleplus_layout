@@ -541,7 +541,6 @@ public class StickyGridHeadersGridView extends GridView implements OnScrollListe
 		}
 		else if (adapter instanceof StickyGridHeadersSimpleAdapter)
 		{
-			// Wrap up simple adapter to auto-generate the data we need.
 			baseAdapter = new StickyGridHeadersSimpleAdapterWrapper((StickyGridHeadersSimpleAdapter) adapter);
 		}
 		else

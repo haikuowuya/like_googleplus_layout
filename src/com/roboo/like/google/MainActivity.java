@@ -6,20 +6,16 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 
 import com.roboo.like.google.fragments.ContentFragment;
 import com.roboo.like.google.fragments.LeftFragment;
 import com.roboo.like.google.fragments.RightFragment;
-import com.roboo.like.google.views.helper.PullToRefreshHelper;
 
 public class MainActivity extends BaseActivity
 {

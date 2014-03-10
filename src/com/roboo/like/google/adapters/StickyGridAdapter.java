@@ -1,16 +1,19 @@
 package com.roboo.like.google.adapters;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,8 +24,14 @@ import com.roboo.like.google.models.PictureItem;
 public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersSimpleAdapter
 {
 	private List<PictureItem> hasHeaderIdList;
+	private AbsListView mAbsListView;
 	private LayoutInflater mInflater;
-	private Point mPoint = new Point(0, 0);// 用来封装ImageView的宽和高的对象
+	/**
+	 * 记录所有正在下载或等待下载的任务。
+	 */
+	private Set<BitmapWorkerTask> taskCollection = new HashSet<BitmapWorkerTask>();
+	private int mFirstVisibleItem;
+	private int mVisibleItemCount;
 	// 获取应用程序的最大内存
 	final int maxMemory = (int) (Runtime.getRuntime().maxMemory());
 	private LruCache<String, Bitmap> mLruCache = new LruCache<String, Bitmap>(maxMemory / 8)
@@ -33,10 +42,12 @@ public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersS
 		};
 	};
 
-	public StickyGridAdapter(Context context, List<PictureItem> hasHeaderIdList)
+	public StickyGridAdapter(Context context, List<PictureItem> hasHeaderIdList,AbsListView absListView)
 	{
+		this.mAbsListView = absListView;
 		mInflater = LayoutInflater.from(context);
 		this.hasHeaderIdList = hasHeaderIdList;
+//		mAbsListView.setOnScrollListener(new OnScrollListenerImpl());
 	}
 
 	@Override
@@ -63,6 +74,7 @@ public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersS
 		convertView = mInflater.inflate(R.layout.picture_grid_item, parent, false);
 		ImageView imageView = (ImageView) convertView.findViewById(R.id.iv_image);
 		String path = hasHeaderIdList.get(position).getPath();
+		imageView.setTag(path);
 		if (mLruCache.get(path) == null)
 		{
 			new BitmapWorkerTask(imageView).execute(path);
@@ -94,14 +106,17 @@ public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersS
 
 	/**
 	 * 异步下载图片的任务。
-	 * 
-	 * @author guolin
 	 */
 	class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap>
 	{
 		private ImageView mImageView;
 		private String imagePath;
-
+		@Override
+		protected void onPreExecute()
+		{
+			 taskCollection.add(this);
+			super.onPreExecute();
+		}
 		public BitmapWorkerTask(ImageView mImageView)
 		{
 			super();
@@ -121,7 +136,7 @@ public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersS
 			options.inJustDecodeBounds = true;
 			BitmapFactory.decodeFile(path, options);
 			// 设置缩放比例
-			options.inSampleSize = computeScale(options, 200, 200);
+			options.inSampleSize = computeScale(options, 300, 300);
 			// 设置为false,解析Bitmap对象加入到内存中
 			options.inJustDecodeBounds = false;
 			return BitmapFactory.decodeFile(path, options);
@@ -130,6 +145,7 @@ public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersS
 		@Override
 		protected void onPostExecute(Bitmap bitmap)
 		{
+			taskCollection.remove(this);
 			mImageView.setImageBitmap(bitmap);
 			mLruCache.put(imagePath, bitmap);
 		}
@@ -165,4 +181,59 @@ public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersS
 
 	}
 
+	private class OnScrollListenerImpl implements OnScrollListener
+	{
+		public void onScrollStateChanged(AbsListView view, int scrollState)
+		{
+			// 仅当GridView静止时才去下载图片，GridView滑动时取消所有正在下载的任务
+			if (scrollState == SCROLL_STATE_IDLE)
+			{
+				showImageWhenIDLE(view, mFirstVisibleItem, mVisibleItemCount);
+			}
+			else
+			{
+				cancelAllTasks();
+			}
+		}
+
+		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+		{
+			mFirstVisibleItem = firstVisibleItem;
+			mVisibleItemCount = visibleItemCount;
+
+		}
+	}
+
+	private void showImageWhenIDLE(AbsListView view, int firstVisibleItem, int visibleItemCount)
+	{
+		for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++)
+		{
+			PictureItem item = hasHeaderIdList.get(i);
+			String imagePath = item.getPath();
+			Bitmap bitmap = mLruCache.get(imagePath);
+			ImageView imageView = (ImageView) view.findViewWithTag(imagePath);
+			if (bitmap != null)
+			{
+				imageView.setImageBitmap(bitmap);
+			}
+			else
+			{
+				new BitmapWorkerTask(imageView).execute(imagePath);
+			}
+		}
+	}
+
+	/**
+	 * 取消所有正在下载或等待下载的任务。
+	 */
+	public void cancelAllTasks()
+	{
+		if (taskCollection != null)
+		{
+			for (BitmapWorkerTask task : taskCollection)
+			{
+				task.cancel(false);
+			}
+		}
+	}
 }
