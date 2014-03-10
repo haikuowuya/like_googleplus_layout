@@ -25,6 +25,7 @@
         <activity android:name=".PictureActivity" />
         <activity android:name=".LocationActivity" />
         <activity android:name=".MoodActivity" />
+        <activity android:name=".PictureDetailActivity" />
     </application>
 
 </manifest>

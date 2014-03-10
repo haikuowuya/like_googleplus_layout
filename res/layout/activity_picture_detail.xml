@@ -1,0 +1,14 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
+
+  <com.roboo.like.google.views.ZoomImageView 
+        android:id="@+id/ziv_image"
+        android:layout_width="match_parent"
+        android:src="@drawable/ic_default_image"
+        android:scaleType="fitXY"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

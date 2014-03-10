@@ -4,13 +4,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -18,14 +19,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.roboo.like.google.PictureDetailActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.models.PictureItem;
+import com.roboo.like.google.utils.BitmapUtils;
 
 public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersSimpleAdapter
 {
 	private List<PictureItem> hasHeaderIdList;
 	private AbsListView mAbsListView;
 	private LayoutInflater mInflater;
+	private Activity mActivity;
 	/**
 	 * 记录所有正在下载或等待下载的任务。
 	 */
@@ -42,27 +46,23 @@ public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersS
 		};
 	};
 
-	public StickyGridAdapter(Context context, List<PictureItem> hasHeaderIdList,AbsListView absListView)
+	public StickyGridAdapter(Activity activity, List<PictureItem> hasHeaderIdList,AbsListView absListView)
 	{
 		this.mAbsListView = absListView;
-		mInflater = LayoutInflater.from(context);
+		this.mActivity = activity;
+		mInflater = LayoutInflater.from(mActivity);
 		this.hasHeaderIdList = hasHeaderIdList;
 //		mAbsListView.setOnScrollListener(new OnScrollListenerImpl());
 	}
-
-	@Override
+ 
 	public int getCount()
 	{
 		return hasHeaderIdList.size();
 	}
-
-	@Override
 	public Object getItem(int position)
 	{
 		return hasHeaderIdList.get(position);
 	}
-
-	@Override
 	public long getItemId(int position)
 	{
 		return position;
@@ -74,7 +74,6 @@ public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersS
 		convertView = mInflater.inflate(R.layout.picture_grid_item, parent, false);
 		ImageView imageView = (ImageView) convertView.findViewById(R.id.iv_image);
 		String path = hasHeaderIdList.get(position).getPath();
-		imageView.setTag(path);
 		if (mLruCache.get(path) == null)
 		{
 			new BitmapWorkerTask(imageView).execute(path);
@@ -83,6 +82,7 @@ public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersS
 		{
 			imageView.setImageBitmap(mLruCache.get(path));
 		}
+		imageView.setOnClickListener(new OnClickListenerImpl(path));
 		return convertView;
 	}
 
@@ -126,22 +126,10 @@ public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersS
 		protected Bitmap doInBackground(String... params)
 		{
 			imagePath = params[0];
-			return handlerBitmap(imagePath);
+			return BitmapUtils.getBitmap(imagePath);
 		}
 
-		private Bitmap handlerBitmap(String path)
-		{
-			BitmapFactory.Options options = new BitmapFactory.Options();
-			// 设置为true,表示解析Bitmap对象，该对象不占内存
-			options.inJustDecodeBounds = true;
-			BitmapFactory.decodeFile(path, options);
-			// 设置缩放比例
-			options.inSampleSize = computeScale(options, 300, 300);
-			// 设置为false,解析Bitmap对象加入到内存中
-			options.inJustDecodeBounds = false;
-			return BitmapFactory.decodeFile(path, options);
-		}
-
+		
 		@Override
 		protected void onPostExecute(Bitmap bitmap)
 		{
@@ -150,35 +138,7 @@ public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersS
 			mLruCache.put(imagePath, bitmap);
 		}
 
-		/**
-		 * 根据View(主要是ImageView)的宽和高来计算Bitmap缩放比例。默认不缩放
-		 * 
-		 * @param options
-		 * @param width
-		 * @param height
-		 */
-		private int computeScale(BitmapFactory.Options options, int viewWidth, int viewHeight)
-		{
-			int inSampleSize = 1;
-			if (viewWidth == 0 || viewWidth == 0)
-			{
-				return inSampleSize;
-			}
-			int bitmapWidth = options.outWidth;
-			int bitmapHeight = options.outHeight;
-
-			// 假如Bitmap的宽度或高度大于我们设定图片的View的宽高，则计算缩放比例
-			if (bitmapWidth > viewWidth || bitmapHeight > viewWidth)
-			{
-				int widthScale = Math.round((float) bitmapWidth / (float) viewWidth);
-				int heightScale = Math.round((float) bitmapHeight / (float) viewWidth);
-
-				// 为了保证图片不缩放变形，我们取宽高比例最小的那个
-				inSampleSize = widthScale < heightScale ? widthScale : heightScale;
-			}
-			return inSampleSize;
-		}
-
+		
 	}
 
 	private class OnScrollListenerImpl implements OnScrollListener
@@ -235,5 +195,21 @@ public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersS
 				task.cancel(false);
 			}
 		}
+	}
+	private class OnClickListenerImpl implements OnClickListener
+	{
+		String imagePath;
+		
+		public OnClickListenerImpl(String imagePath)
+		{
+ 
+			this.imagePath = imagePath;
+		}
+ 
+		public void onClick(View v)
+		{ 
+			PictureDetailActivity.actionPictureDetail(mActivity, imagePath);
+		}
+		
 	}
 }
