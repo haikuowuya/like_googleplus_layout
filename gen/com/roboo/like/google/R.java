@@ -64,40 +64,45 @@ public final class R {
         public static final int ptr_progressbar_indeterminate_holo8=0x7f020023;
     }
     public static final class id {
-        public static final int btn_drawer=0x7f0a000a;
-        public static final int btn_location=0x7f0a000c;
-        public static final int btn_mood=0x7f0a000d;
-        public static final int btn_picture=0x7f0a000b;
-        public static final int btn_text=0x7f0a000e;
+        public static final int btn_drawer=0x7f0a000c;
+        public static final int btn_location=0x7f0a000e;
+        public static final int btn_mood=0x7f0a000f;
+        public static final int btn_picture=0x7f0a000d;
+        public static final int btn_text=0x7f0a0010;
         public static final int drawer_container=0x7f0a0000;
         public static final int frame_container=0x7f0a0001;
         public static final int frame_left_container=0x7f0a0002;
         public static final int frame_right_container=0x7f0a0003;
-        public static final int iv_image=0x7f0a0004;
-        public static final int iv_user=0x7f0a0007;
-        public static final int lv_list=0x7f0a0006;
-        public static final int menu_feedback=0x7f0a0017;
-        public static final int menu_group=0x7f0a0013;
-        public static final int menu_help=0x7f0a0018;
-        public static final int menu_notification=0x7f0a0014;
-        public static final int menu_refresh=0x7f0a0015;
-        public static final int menu_settings=0x7f0a0016;
-        public static final int ptr_content=0x7f0a000f;
-        public static final int ptr_progress=0x7f0a0012;
-        public static final int ptr_text=0x7f0a0011;
-        public static final int ptr_text_opaque_bg=0x7f0a0010;
-        public static final int sliding_drawer=0x7f0a0009;
-        public static final int tv_text=0x7f0a0005;
-        public static final int tv_username=0x7f0a0008;
+        public static final int iv_image=0x7f0a0005;
+        public static final int iv_user=0x7f0a0008;
+        public static final int lv_list=0x7f0a0007;
+        public static final int menu_feedback=0x7f0a0019;
+        public static final int menu_group=0x7f0a0015;
+        public static final int menu_help=0x7f0a001a;
+        public static final int menu_notification=0x7f0a0016;
+        public static final int menu_refresh=0x7f0a0017;
+        public static final int menu_settings=0x7f0a0018;
+        public static final int pb_progress=0x7f0a0004;
+        public static final int ptr_content=0x7f0a0011;
+        public static final int ptr_progress=0x7f0a0014;
+        public static final int ptr_text=0x7f0a0013;
+        public static final int ptr_text_opaque_bg=0x7f0a0012;
+        public static final int sgh_gridview=0x7f0a000a;
+        public static final int sliding_drawer=0x7f0a000b;
+        public static final int tv_text=0x7f0a0006;
+        public static final int tv_username=0x7f0a0009;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int drawer_list_item=0x7f030001;
-        public static final int fragment_content=0x7f030002;
-        public static final int fragment_left=0x7f030003;
-        public static final int fragment_right=0x7f030004;
-        public static final int poppyview=0x7f030005;
-        public static final int ptr_default_header=0x7f030006;
+        public static final int activity_picture=0x7f030001;
+        public static final int drawer_list_item=0x7f030002;
+        public static final int fragment_content=0x7f030003;
+        public static final int fragment_left=0x7f030004;
+        public static final int fragment_picture=0x7f030005;
+        public static final int fragment_right=0x7f030006;
+        public static final int picture_grid_item=0x7f030007;
+        public static final int poppyview=0x7f030008;
+        public static final int ptr_default_header=0x7f030009;
     }
     public static final class menu {
         public static final int activity_main=0x7f090000;
@@ -128,7 +133,6 @@ public final class R {
         AppBaseTheme from BOTH res/values/styles.xml and
         res/values-v11/styles.xml on API 14+ devices.
     
- API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f080000;
         /**  Application theme. 

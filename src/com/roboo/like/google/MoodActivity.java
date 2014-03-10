@@ -21,13 +21,6 @@ public class MoodActivity extends BaseActivity
 		customActionBar();
 	}
 
-	private void customActionBar()
-	{
-		mActionBar.setDisplayHomeAsUpEnabled(true);
-		mActionBar.setTitle("心情");
-		mActionBar.setLogo(R.drawable.ic_abs_mood_up);
-	}
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
@@ -42,4 +35,17 @@ public class MoodActivity extends BaseActivity
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+	public void initView()
+	{
+
+	}
+
+	private void customActionBar()
+	{
+		mActionBar.setDisplayHomeAsUpEnabled(true);
+		mActionBar.setTitle("心情");
+		mActionBar.setLogo(R.drawable.ic_abs_mood_up);
+	}
+
 }

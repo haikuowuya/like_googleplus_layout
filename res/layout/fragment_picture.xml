@@ -1,0 +1,11 @@
+<com.roboo.like.google.views.StickyGridHeadersGridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sgh_gridview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:horizontalSpacing="4dp"
+    android:verticalSpacing="4dp"
+    android:numColumns="auto_fit"
+    android:columnWidth="90dp"
+    android:clipToPadding="false"
+    android:background="@android:color/white"
+     />

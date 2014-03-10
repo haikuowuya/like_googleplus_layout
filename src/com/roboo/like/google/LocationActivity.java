@@ -19,6 +19,11 @@ public class LocationActivity extends BaseActivity
 		super.onCreate(savedInstanceState);
 		customActionBar();
 	}
+	 
+		public void initView()
+		{
+		 
+		}
 	private void customActionBar()
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -41,4 +46,5 @@ public class LocationActivity extends BaseActivity
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
 }

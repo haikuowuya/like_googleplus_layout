@@ -97,7 +97,8 @@ public class MainActivity extends BaseActivity
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	 
+	 
 	private void customActionBar()
 	{ 
 		mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -114,7 +115,7 @@ public class MainActivity extends BaseActivity
 		});
 	}
 
-	private void initView()
+	public  void initView()
 	{
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_container);
 	}
