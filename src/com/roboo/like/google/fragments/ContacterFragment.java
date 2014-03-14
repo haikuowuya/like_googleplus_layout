@@ -49,6 +49,10 @@ public class ContacterFragment extends BaseFragment implements LoaderCallbacks<L
 	{
 		mProgressBar.setVisibility(View.GONE);
 		 mListView.setAdapter(new ContacterAdapter(getActivity(), data));
+		 for(ContacterItem item : data)
+		 {
+			 System.out.println(" item = " + item);
+		 }
 	}
 
 	@Override

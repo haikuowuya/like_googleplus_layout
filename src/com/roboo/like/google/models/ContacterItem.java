@@ -1,9 +1,13 @@
 package com.roboo.like.google.models;
 
+import android.graphics.Bitmap;
+
 public class ContacterItem implements Comparable<ContacterItem>
 {
 	public String name;
+	public String icon;
 	public String phone;
+	public Bitmap bitmap;
 
 	public ContacterItem()
 	{
@@ -20,7 +24,7 @@ public class ContacterItem implements Comparable<ContacterItem>
 	@Override
 	public String toString()
 	{
-		return "联系人姓名 = " + name + "  联系人号码  = " + phone;
+		return "联系人姓名 = " + name + "  联系人号码  = " + phone +" 联系人头像 = " + icon;
 	}
 
 	public int compareTo(ContacterItem another)
