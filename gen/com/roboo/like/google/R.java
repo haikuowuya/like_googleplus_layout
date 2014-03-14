@@ -9,8 +9,17 @@ package com.roboo.like.google;
 
 public final class R {
     public static final class anim {
-        public static final int ptr_fade_in=0x7f040000;
-        public static final int ptr_fade_out=0x7f040001;
+        public static final int base_slide_bottom_in=0x7f040000;
+        public static final int base_slide_bottom_out=0x7f040001;
+        public static final int base_slide_left_in=0x7f040002;
+        public static final int base_slide_left_out=0x7f040003;
+        public static final int base_slide_right_in=0x7f040004;
+        public static final int base_slide_right_out=0x7f040005;
+        public static final int base_slide_up_in=0x7f040006;
+        public static final int base_slide_up_out=0x7f040007;
+        public static final int base_stay_orig=0x7f040008;
+        public static final int ptr_fade_in=0x7f040009;
+        public static final int ptr_fade_out=0x7f04000a;
     }
     public static final class array {
         public static final int actionbar_navigation_list_text_arrays=0x7f050001;
@@ -26,95 +35,107 @@ public final class R {
         public static final int underline_default_color=0x7f060002;
     }
     public static final class drawable {
-        public static final int ic_abs_location_up=0x7f020000;
-        public static final int ic_abs_mood_up=0x7f020001;
-        public static final int ic_abs_picture_up=0x7f020002;
-        public static final int ic_camera_active=0x7f020003;
-        public static final int ic_clock=0x7f020004;
-        public static final int ic_community=0x7f020005;
-        public static final int ic_default_image=0x7f020006;
-        public static final int ic_drawer=0x7f020007;
-        public static final int ic_events=0x7f020008;
-        public static final int ic_friend=0x7f020009;
-        public static final int ic_hangout=0x7f02000a;
-        public static final int ic_home=0x7f02000b;
-        public static final int ic_launcher=0x7f02000c;
-        public static final int ic_location=0x7f02000d;
-        public static final int ic_location_active=0x7f02000e;
-        public static final int ic_menu_group=0x7f02000f;
-        public static final int ic_menu_notification=0x7f020010;
-        public static final int ic_menu_overflow=0x7f020011;
-        public static final int ic_mood_active=0x7f020012;
-        public static final int ic_no_notification=0x7f020013;
-        public static final int ic_picture=0x7f020014;
-        public static final int ic_search=0x7f020015;
-        public static final int ic_text_active=0x7f020016;
-        public static final int ic_user_background=0x7f020017;
-        public static final int line=0x7f020018;
-        public static final int poppyview_selector=0x7f020019;
-        public static final int ptr_progress_horizontal_holo_center=0x7f02001a;
-        public static final int ptr_progress_indeterminate_horizontal_holo=0x7f02001b;
-        public static final int ptr_progress_primary_holo=0x7f02001c;
-        public static final int ptr_progressbar_indeterminate_holo1=0x7f02001d;
-        public static final int ptr_progressbar_indeterminate_holo2=0x7f02001e;
-        public static final int ptr_progressbar_indeterminate_holo3=0x7f02001f;
-        public static final int ptr_progressbar_indeterminate_holo4=0x7f020020;
-        public static final int ptr_progressbar_indeterminate_holo5=0x7f020021;
-        public static final int ptr_progressbar_indeterminate_holo6=0x7f020022;
-        public static final int ptr_progressbar_indeterminate_holo7=0x7f020023;
-        public static final int ptr_progressbar_indeterminate_holo8=0x7f020024;
+        public static final int ic_abs_friend_up=0x7f020000;
+        public static final int ic_abs_location_up=0x7f020001;
+        public static final int ic_abs_mood_up=0x7f020002;
+        public static final int ic_abs_picture_up=0x7f020003;
+        public static final int ic_camera_active=0x7f020004;
+        public static final int ic_clock=0x7f020005;
+        public static final int ic_community=0x7f020006;
+        public static final int ic_default_image=0x7f020007;
+        public static final int ic_drawer=0x7f020008;
+        public static final int ic_events=0x7f020009;
+        public static final int ic_friend=0x7f02000a;
+        public static final int ic_hangout=0x7f02000b;
+        public static final int ic_home=0x7f02000c;
+        public static final int ic_launcher=0x7f02000d;
+        public static final int ic_location=0x7f02000e;
+        public static final int ic_location_active=0x7f02000f;
+        public static final int ic_menu_group=0x7f020010;
+        public static final int ic_menu_notification=0x7f020011;
+        public static final int ic_menu_overflow=0x7f020012;
+        public static final int ic_mood_active=0x7f020013;
+        public static final int ic_no_notification=0x7f020014;
+        public static final int ic_picture=0x7f020015;
+        public static final int ic_search=0x7f020016;
+        public static final int ic_text_active=0x7f020017;
+        public static final int ic_user_background=0x7f020018;
+        public static final int line=0x7f020019;
+        public static final int poppyview_selector=0x7f02001a;
+        public static final int ptr_progress_horizontal_holo_center=0x7f02001b;
+        public static final int ptr_progress_indeterminate_horizontal_holo=0x7f02001c;
+        public static final int ptr_progress_primary_holo=0x7f02001d;
+        public static final int ptr_progressbar_indeterminate_holo1=0x7f02001e;
+        public static final int ptr_progressbar_indeterminate_holo2=0x7f02001f;
+        public static final int ptr_progressbar_indeterminate_holo3=0x7f020020;
+        public static final int ptr_progressbar_indeterminate_holo4=0x7f020021;
+        public static final int ptr_progressbar_indeterminate_holo5=0x7f020022;
+        public static final int ptr_progressbar_indeterminate_holo6=0x7f020023;
+        public static final int ptr_progressbar_indeterminate_holo7=0x7f020024;
+        public static final int ptr_progressbar_indeterminate_holo8=0x7f020025;
     }
     public static final class id {
-        public static final int btn_drawer=0x7f0a000d;
-        public static final int btn_location=0x7f0a000f;
-        public static final int btn_mood=0x7f0a0010;
-        public static final int btn_picture=0x7f0a000e;
-        public static final int btn_text=0x7f0a0011;
-        public static final int drawer_container=0x7f0a0000;
-        public static final int frame_container=0x7f0a0001;
-        public static final int frame_left_container=0x7f0a0002;
-        public static final int frame_right_container=0x7f0a0003;
-        public static final int iv_image=0x7f0a0006;
-        public static final int iv_user=0x7f0a0009;
-        public static final int lv_list=0x7f0a0008;
-        public static final int menu_feedback=0x7f0a001a;
-        public static final int menu_group=0x7f0a0016;
-        public static final int menu_help=0x7f0a001b;
-        public static final int menu_notification=0x7f0a0017;
-        public static final int menu_refresh=0x7f0a0018;
-        public static final int menu_settings=0x7f0a0019;
-        public static final int pb_progress=0x7f0a0004;
-        public static final int ptr_content=0x7f0a0012;
-        public static final int ptr_progress=0x7f0a0015;
-        public static final int ptr_text=0x7f0a0014;
-        public static final int ptr_text_opaque_bg=0x7f0a0013;
-        public static final int sgh_gridview=0x7f0a000b;
-        public static final int sliding_drawer=0x7f0a000c;
-        public static final int tv_text=0x7f0a0007;
-        public static final int tv_username=0x7f0a000a;
-        public static final int ziv_image=0x7f0a0005;
+        public static final int btn_drawer=0x7f0b000d;
+        public static final int btn_location=0x7f0b000f;
+        public static final int btn_mood=0x7f0b0010;
+        public static final int btn_picture=0x7f0b000e;
+        public static final int btn_text=0x7f0b0011;
+        public static final int drawer_container=0x7f0b0000;
+        public static final int frame_container=0x7f0b0001;
+        public static final int frame_left_container=0x7f0b0003;
+        public static final int frame_right_container=0x7f0b0004;
+        public static final int iv_image=0x7f0b0007;
+        public static final int iv_user=0x7f0b0009;
+        public static final int lv_list=0x7f0b0008;
+        public static final int menu_feedback=0x7f0b001a;
+        public static final int menu_group=0x7f0b0016;
+        public static final int menu_help=0x7f0b001b;
+        public static final int menu_notification=0x7f0b0017;
+        public static final int menu_refresh=0x7f0b0018;
+        public static final int menu_settings=0x7f0b0019;
+        public static final int pb_progress=0x7f0b0002;
+        public static final int ptr_content=0x7f0b0012;
+        public static final int ptr_progress=0x7f0b0015;
+        public static final int ptr_text=0x7f0b0014;
+        public static final int ptr_text_opaque_bg=0x7f0b0013;
+        public static final int sgh_gridview=0x7f0b000b;
+        public static final int sliding_drawer=0x7f0b000c;
+        public static final int tv_text=0x7f0b0006;
+        public static final int tv_username=0x7f0b000a;
+        public static final int ziv_image=0x7f0b0005;
+    }
+    public static final class integer {
+        public static final int card_flip_time_full=0x7f070003;
+        public static final int card_flip_time_half=0x7f070004;
+        public static final int fade_animation_duration=0x7f070001;
+        public static final int polymeric_slide_left_out_duration=0x7f070002;
+        public static final int slide_animation_duration=0x7f070000;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
-        public static final int activity_picture=0x7f030001;
-        public static final int activity_picture_detail=0x7f030002;
-        public static final int drawer_list_item=0x7f030003;
-        public static final int fragment_content=0x7f030004;
-        public static final int fragment_left=0x7f030005;
-        public static final int fragment_picture=0x7f030006;
-        public static final int fragment_right=0x7f030007;
-        public static final int picture_grid_item=0x7f030008;
-        public static final int poppyview=0x7f030009;
-        public static final int ptr_default_header=0x7f03000a;
+        public static final int activity_contacter=0x7f030000;
+        public static final int activity_main=0x7f030001;
+        public static final int activity_picture=0x7f030002;
+        public static final int activity_picture_detail=0x7f030003;
+        public static final int contacter_list_item=0x7f030004;
+        public static final int drawer_list_item=0x7f030005;
+        public static final int fragment_contacter=0x7f030006;
+        public static final int fragment_content=0x7f030007;
+        public static final int fragment_left=0x7f030008;
+        public static final int fragment_picture=0x7f030009;
+        public static final int fragment_right=0x7f03000a;
+        public static final int picture_grid_item=0x7f03000b;
+        public static final int poppyview=0x7f03000c;
+        public static final int ptr_default_header=0x7f03000d;
     }
     public static final class menu {
-        public static final int activity_main=0x7f090000;
+        public static final int activity_main=0x7f0a0000;
     }
     public static final class string {
-        public static final int app_name=0x7f070000;
-        public static final int hello_world=0x7f070001;
+        public static final int app_name=0x7f080000;
+        public static final int hello_world=0x7f080001;
     }
     public static final class style {
+        public static final int Animation_Activity_Style=0x7f090002;
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
@@ -137,11 +158,10 @@ public final class R {
         res/values-v11/styles.xml on API 14+ devices.
     
          */
-        public static final int AppBaseTheme=0x7f080000;
+        public static final int AppBaseTheme=0x7f090000;
         /**  Application theme. 
- All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f080001;
-        public static final int Widget_PullToRefresh_ProgressBar_Horizontal_Center=0x7f080002;
+        public static final int AppTheme=0x7f090001;
+        public static final int Widget_PullToRefresh_ProgressBar_Horizontal_Center=0x7f090003;
     }
 }

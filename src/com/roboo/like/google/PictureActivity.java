@@ -1,15 +1,12 @@
 package com.roboo.like.google;
 
-import com.roboo.like.google.fragments.PictureFragment;
-
-import android.R.anim;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.ProgressBar;
+
+import com.roboo.like.google.fragments.PictureFragment;
 
 /** 图片界面 */
 public class PictureActivity extends BaseActivity
@@ -21,7 +18,6 @@ public class PictureActivity extends BaseActivity
 	{
 		Intent intent = new Intent(activity, PictureActivity.class);
 		activity.startActivity(intent);
-
 	}
 
 	protected void onCreate(Bundle savedInstanceState)
@@ -38,20 +34,7 @@ public class PictureActivity extends BaseActivity
 		
 	}
 	 
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())
-		{
-		case android.R.id.home:
-			finish();
-
-			break;
-
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+	
 
 	public void initView()
 	{

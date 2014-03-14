@@ -2,8 +2,13 @@ package com.roboo.like.google;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.roboo.like.google.utils.BitmapUtils;
 import com.roboo.like.google.views.ZoomImageView;
@@ -11,6 +16,7 @@ import com.roboo.like.google.views.ZoomImageView;
 /** 图片详情界面 */
 public class PictureDetailActivity extends BaseActivity
 {
+	
 	private ZoomImageView  mImageView;
 	private static final String EXTRA_IMAGE_PATH="image_path";
 
@@ -42,17 +48,15 @@ public class PictureDetailActivity extends BaseActivity
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
 	public void initView()
 	{
 		mImageView  = (ZoomImageView) findViewById(R.id.ziv_image);
+		 
 	}
-
 	private void customActionBar()
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mActionBar.setTitle("照片详情");
 		mActionBar.setLogo(R.drawable.ic_abs_picture_up);
 	}
-
 }

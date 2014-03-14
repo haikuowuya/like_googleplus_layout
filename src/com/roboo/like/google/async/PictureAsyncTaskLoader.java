@@ -1,4 +1,4 @@
-package com.roboo.like.google.fragments;
+package com.roboo.like.google.async;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,28 +12,19 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.AsyncTaskLoader;
 
 import com.roboo.like.google.models.PictureItem;
 
-public class GetNativePictureAsyncTaskLoader extends AsyncTaskLoader<LinkedList<PictureItem>>
+public class PictureAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<PictureItem>> 
 {
 	private Context mContext;
-
-	public GetNativePictureAsyncTaskLoader(Context context)
+	public PictureAsyncTaskLoader(Context context)
 	{
 		super(context);
-		this.mContext = context;
+		mContext = context;
+		 
 	}
 
-	@Override
-	protected void onStartLoading()
-	{
-		super.onStartLoading();
-		forceLoad();
-	}
-
-	@Override
 	public LinkedList<PictureItem> loadInBackground()
 	{
 		LinkedList<PictureItem> items = null;

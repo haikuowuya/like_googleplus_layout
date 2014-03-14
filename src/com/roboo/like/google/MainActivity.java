@@ -120,5 +120,9 @@ public class MainActivity extends BaseActivity
 	{
 		return ArrayAdapter.createFromResource(this, R.array.actionbar_navigation_list_text_arrays, android.R.layout.simple_list_item_1);
 	}
+	public void closeLeftDrawer()
+	{
+		mDrawerLayout.closeDrawer(Gravity.LEFT);
+	}
 
 }

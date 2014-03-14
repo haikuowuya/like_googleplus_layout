@@ -2,24 +2,22 @@ package com.roboo.like.google.fragments;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
-import com.roboo.like.google.R;
-
-import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import com.roboo.like.google.ContacterActivity;
+import com.roboo.like.google.MainActivity;
+import com.roboo.like.google.PictureActivity;
+import com.roboo.like.google.R;
 
 public class LeftFragment extends BaseFragment
 {
@@ -45,10 +43,14 @@ public class LeftFragment extends BaseFragment
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
-
 		super.onActivityCreated(savedInstanceState);
 		mListView.setAdapter(getAdapter());
 		mTvUsername.setText(DUMMY_USERNAME);
+		setListener();
+	}
+	private void setListener()
+	{
+		mListView.setOnItemClickListener(new OnItemClickListenerImpl());
 	}
 
 	private BaseAdapter getAdapter()
@@ -63,11 +65,30 @@ public class LeftFragment extends BaseFragment
 			hashMap.put(from[0], getResources().getIdentifier(tmp[0],"drawable",getActivity().getPackageName())+"");
 			hashMap.put(from[1], tmp[1]);
 			data.add(hashMap);
-		}
-			
+		}	
 		int[] to = new int[]{R.id.iv_image,R.id.tv_text};
 		SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity(), data, R.layout.drawer_list_item, from, to);
 		return simpleAdapter;
 	}
 
+	private class OnItemClickListenerImpl implements OnItemClickListener
+	{
+		MainActivity mainActivity = (MainActivity) getActivity();
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+		{
+			switch (position)
+			{
+			case 1://人脉
+				ContacterActivity.actionContacter(mainActivity);
+				break;
+			case 2://照片
+					PictureActivity.actionPicture(mainActivity);
+				break;
+ 
+			}
+			mainActivity.closeLeftDrawer();
+		}
+		
+	}
+	
 }

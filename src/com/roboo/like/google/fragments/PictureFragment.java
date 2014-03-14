@@ -19,6 +19,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.roboo.like.google.PictureDetailActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.StickyGridAdapter;
+import com.roboo.like.google.async.PictureAsyncTaskLoader;
 import com.roboo.like.google.models.PictureItem;
 import com.roboo.like.google.views.StickyGridHeadersGridView;
 
@@ -49,7 +50,7 @@ public class PictureFragment extends BaseFragment implements LoaderCallbacks<Lin
 
 	public Loader<LinkedList<PictureItem>> onCreateLoader(int id, Bundle args)
 	{
-		return new GetNativePictureAsyncTaskLoader(getActivity());
+		return new PictureAsyncTaskLoader(getActivity());
 	}
 
 	@Override
@@ -64,7 +65,6 @@ public class PictureFragment extends BaseFragment implements LoaderCallbacks<Lin
 	@Override
 	public void onLoaderReset(Loader<LinkedList<PictureItem>> loader)
 	{
-
 	}
 
 	/**

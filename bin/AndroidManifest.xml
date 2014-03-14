@@ -4,6 +4,9 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <!-- 读取联系人权限 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="16" />
@@ -26,6 +29,7 @@
         <activity android:name=".LocationActivity" />
         <activity android:name=".MoodActivity" />
         <activity android:name=".PictureDetailActivity" />
+        <activity android:name=".ContacterActivity" />
     </application>
 
 </manifest>
