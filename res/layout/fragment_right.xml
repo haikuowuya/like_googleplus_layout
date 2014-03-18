@@ -17,6 +17,7 @@
             android:layout_height="match_parent"
             android:background="#FFF000" >
         </ListView>
+
         <Button
             android:id="@+id/btn_drawer"
             android:layout_width="match_parent"
@@ -26,18 +27,22 @@
             android:drawableRight="@drawable/ic_clock"
             android:drawableTop="@drawable/line"
             android:gravity="center_vertical"
+            android:paddingBottom="4dp"
             android:paddingLeft="20dp"
             android:text="已读通知!" />
     </SlidingDrawer>
 
-    <TextView
-        android:id="@+id/tv_text"
+    <Button
+        android:id="@+id/btn_notification"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:drawablePadding="10dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:drawablePadding="10dp"
+        android:layout_marginBottom="30dp"
+        android:paddingTop="160dp"
+        android:background="@null"
         android:drawableTop="@drawable/ic_no_notification"
+        android:gravity="center_horizontal"
         android:text="没有未读通知!"
         android:textSize="20sp" />
 

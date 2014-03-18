@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SlidingDrawer;
@@ -22,7 +23,7 @@ public class RightFragment extends BaseFragment
 {
 	private ListView mListView;
 	private SlidingDrawer mSlidingDrawer;
-	private TextView mTvText;
+	private Button mBtnNotification;
 	public static RightFragment newInstance()
 	{
 		RightFragment fragment = new RightFragment();
@@ -35,7 +36,7 @@ public class RightFragment extends BaseFragment
 		View view = inflater.inflate(R.layout.fragment_right, null);
 		mListView = (ListView) view.findViewById(R.id.lv_list);
 		mSlidingDrawer = (SlidingDrawer) view.findViewById(R.id.sliding_drawer);
-		mTvText = (TextView) view.findViewById(R.id.tv_text);
+		mBtnNotification = (Button) view.findViewById(R.id.btn_notification);
 		return view;
 	}
 
@@ -59,7 +60,7 @@ public class RightFragment extends BaseFragment
 	{
 		public void onScrollStarted()
 		{
-			mTvText.setVisibility(View.GONE);
+			mBtnNotification.setVisibility(View.GONE);
 		}
 
 		public void onScrollEnded()
@@ -74,7 +75,7 @@ public class RightFragment extends BaseFragment
 		@Override
 		public void onDrawerClosed()
 		{
-			mTvText.setVisibility(View.VISIBLE);
+			mBtnNotification.setVisibility(View.VISIBLE);
 		}
 		
 	}

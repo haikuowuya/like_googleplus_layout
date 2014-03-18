@@ -2,13 +2,8 @@ package com.roboo.like.google;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.roboo.like.google.utils.BitmapUtils;
 import com.roboo.like.google.views.ZoomImageView;

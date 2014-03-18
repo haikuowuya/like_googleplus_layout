@@ -1,11 +1,10 @@
 package com.roboo.like.google;
 
-import com.roboo.like.google.fragments.ContacterFragment;
-import com.roboo.like.google.fragments.PictureFragment;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.roboo.like.google.fragments.ContacterFragment;
 
 public class ContacterActivity extends BaseActivity
 {

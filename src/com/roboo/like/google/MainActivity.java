@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.Menu;
@@ -17,11 +18,11 @@ import com.roboo.like.google.fragments.ContentFragment;
 import com.roboo.like.google.fragments.LeftFragment;
 import com.roboo.like.google.fragments.RightFragment;
 
-public class MainActivity extends BaseActivity
+public class MainActivity extends FragmentActivity
 {
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
-
+	protected ActionBar mActionBar;
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -74,7 +75,8 @@ public class MainActivity extends BaseActivity
 			{
 				mDrawerLayout.openDrawer(Gravity.LEFT);
 			}
-			break;
+			return true;
+		 
 		case R.id.menu_notification:
 			if (mDrawerLayout.isDrawerOpen(Gravity.LEFT))
 			{
@@ -88,15 +90,12 @@ public class MainActivity extends BaseActivity
 			{
 				mDrawerLayout.openDrawer(Gravity.RIGHT);
 			}
-		default:
-			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	 
-	 
 	private void customActionBar()
 	{ 
+		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mActionBar.setHomeButtonEnabled(true);
 		mActionBar.setDisplayShowTitleEnabled(false);
@@ -114,6 +113,7 @@ public class MainActivity extends BaseActivity
 	public  void initView()
 	{
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_container);
+ 
 	}
 
 	private BaseAdapter getAdapter()
@@ -122,7 +122,10 @@ public class MainActivity extends BaseActivity
 	}
 	public void closeLeftDrawer()
 	{
-		mDrawerLayout.closeDrawer(Gravity.LEFT);
+		if(mDrawerLayout.isDrawerOpen(Gravity.LEFT))
+		{
+			mDrawerLayout.closeDrawer(Gravity.LEFT);
+		}
 	}
 
 }

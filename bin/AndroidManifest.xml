@@ -29,6 +29,7 @@
         <activity android:name=".LocationActivity" />
         <activity android:name=".MoodActivity" />
         <activity android:name=".PictureDetailActivity" />
+        <activity android:name=".UserActivity" />
         <activity android:name=".ContacterActivity" />
     </application>
 

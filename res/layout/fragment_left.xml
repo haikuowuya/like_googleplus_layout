@@ -4,27 +4,16 @@
     android:background="@android:color/white"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btn_username"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:background="@drawable/ic_user_background"
-        android:gravity="bottom" >
-
-        <ImageView
-            android:id="@+id/iv_user"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:padding="4dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_launcher" />
-
-        <TextView
-            android:id="@+id/tv_username"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:gravity="center_vertical"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
+        android:drawableLeft="@drawable/ic_launcher"
+        android:gravity="center_vertical"
+        android:paddingTop="90dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
 
     <ListView
         android:id="@+id/lv_list"
