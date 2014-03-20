@@ -1,6 +1,10 @@
 package com.roboo.like.google.fragments;
 
+import java.util.LinkedList;
+
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,12 +21,23 @@ import com.roboo.like.google.LocationActivity;
 import com.roboo.like.google.MoodActivity;
 import com.roboo.like.google.PictureActivity;
 import com.roboo.like.google.R;
+import com.roboo.like.google.adapters.NewsListViewAdapter;
+import com.roboo.like.google.async.NewsAsyncTaskLoader;
+import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.views.helper.PoppyListViewHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.OnRefreshListener;
 
-public class ContentFragment extends BaseFragment
+public class ContentFragment extends BaseFragment implements LoaderCallbacks<LinkedList<NewsItem>>
 {
+	/**
+	 * IT之家之ANDROID之家
+	 */
+	public static final String IT_ANDROID = "http://it.ithome.com/category/10_";
+	private static final String ARG_CURRENT_PAGENO ="current_pageno";
+	private static final String ARG_NEWS_URL="new_url";
+	/** 获取的是当前第几页的新闻数据 */
+	private int mCurrentPageNo = 1;
 	private ListView mListView;
 	private PoppyListViewHelper mPoppyListViewHelper;
 	private PullToRefreshHelper mPullToRefreshAttacher;
@@ -31,7 +46,8 @@ public class ContentFragment extends BaseFragment
 	private Button mBtnLocation;
 	private Button mBtnMood;
 	private Button mBtnText;
-
+	private NewsListViewAdapter mAdapter;
+	
 	public static ContentFragment newInstance()
 	{
 		ContentFragment fragment = new ContentFragment();
@@ -50,8 +66,7 @@ public class ContentFragment extends BaseFragment
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
-		mListView.setAdapter(getAdapter());
-	
+		 
 		mPoppyView = mPoppyListViewHelper.createPoppyViewOnListView(R.id.lv_list, R.layout.poppyview);
 		mBtnPicture = (Button) mPoppyView.findViewById(R.id.btn_picture);
 		mBtnLocation = (Button) mPoppyView.findViewById(R.id.btn_location);
@@ -61,16 +76,26 @@ public class ContentFragment extends BaseFragment
 		{
 			public void onRefreshStarted(View view)
 			{
-
+				Bundle bundle = new Bundle();
+				bundle.putString(ARG_NEWS_URL, IT_ANDROID);
+				bundle.putInt(ARG_CURRENT_PAGENO, mCurrentPageNo++);
+				getActivity().getSupportLoaderManager().restartLoader(0, bundle, ContentFragment.this);
+				
 			}
 		});
+		Bundle bundle = new Bundle();
+		bundle.putString(ARG_NEWS_URL, IT_ANDROID);
+		bundle.putInt(ARG_CURRENT_PAGENO, mCurrentPageNo);
+		getActivity().getSupportLoaderManager().initLoader(0, bundle, this);
 	}
+
 	@Override
 	public void onResume()
 	{
 		super.onResume();
 		setListener();
 	}
+
 	private void setListener()
 	{
 		mListView.setOnItemClickListener(new OnListItemClickListenerImpl());
@@ -81,11 +106,7 @@ public class ContentFragment extends BaseFragment
 		mBtnText.setOnClickListener(onClickListenerImpl);
 	}
 
-	private ListAdapter getAdapter()
-	{
-		return ArrayAdapter.createFromResource(getActivity(), R.array.dummy_text_arrays, android.R.layout.simple_list_item_1);
-	}
-
+	 
 	private class OnListItemClickListenerImpl implements OnItemClickListener
 	{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -139,5 +160,29 @@ public class ContentFragment extends BaseFragment
 		{
 
 		}
+	}
+
+	@Override
+	public Loader<LinkedList<NewsItem>> onCreateLoader(int id, Bundle args)
+	{
+		System.out.println("args.int = " + args.getInt(ARG_CURRENT_PAGENO, 1));
+		return new NewsAsyncTaskLoader(getActivity(), args.getString(ARG_NEWS_URL), args.getInt(ARG_CURRENT_PAGENO, 1));
+	}
+
+	@Override
+	public void onLoadFinished(Loader<LinkedList<NewsItem>> loader, LinkedList<NewsItem> data)
+	{
+		if (null != data)
+		{
+			mAdapter = new NewsListViewAdapter(getActivity(), data);
+			mListView.setAdapter(mAdapter);
+		}
+		mPullToRefreshAttacher.setRefreshComplete();
+	}
+
+	@Override
+	public void onLoaderReset(Loader<LinkedList<NewsItem>> loader)
+	{
+
 	}
 }

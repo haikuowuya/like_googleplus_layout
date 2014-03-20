@@ -233,11 +233,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int all=0x7f060003;
         public static final int bottom=0x7f060002;
         public static final int btn_drawer=0x7f060011;
-        public static final int btn_location=0x7f060017;
-        public static final int btn_mood=0x7f060018;
+        public static final int btn_location=0x7f060019;
+        public static final int btn_mood=0x7f06001a;
         public static final int btn_notification=0x7f060012;
-        public static final int btn_picture=0x7f060016;
-        public static final int btn_text=0x7f060019;
+        public static final int btn_picture=0x7f060018;
+        public static final int btn_text=0x7f06001b;
         public static final int btn_username=0x7f06000e;
         public static final int cpi_indicator=0x7f060014;
         public static final int drawer_container=0x7f060004;
@@ -248,22 +248,24 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int iv_image=0x7f06000b;
         public static final int left=0x7f060000;
         public static final int lv_list=0x7f06000d;
-        public static final int menu_feedback=0x7f060022;
-        public static final int menu_group=0x7f06001e;
-        public static final int menu_help=0x7f060023;
-        public static final int menu_notification=0x7f06001f;
-        public static final int menu_refresh=0x7f060020;
-        public static final int menu_settings=0x7f060021;
+        public static final int menu_feedback=0x7f060024;
+        public static final int menu_group=0x7f060020;
+        public static final int menu_help=0x7f060025;
+        public static final int menu_notification=0x7f060021;
+        public static final int menu_refresh=0x7f060022;
+        public static final int menu_settings=0x7f060023;
         public static final int pb_progress=0x7f060006;
-        public static final int ptr_content=0x7f06001a;
-        public static final int ptr_progress=0x7f06001d;
-        public static final int ptr_text=0x7f06001c;
-        public static final int ptr_text_opaque_bg=0x7f06001b;
+        public static final int ptr_content=0x7f06001c;
+        public static final int ptr_progress=0x7f06001f;
+        public static final int ptr_text=0x7f06001e;
+        public static final int ptr_text_opaque_bg=0x7f06001d;
         public static final int right=0x7f060001;
         public static final int sgh_gridview=0x7f06000f;
         public static final int slhlv_list=0x7f06000c;
         public static final int sliding_drawer=0x7f060010;
+        public static final int tv_sub_title=0x7f060017;
         public static final int tv_text=0x7f06000a;
+        public static final int tv_title=0x7f060016;
         public static final int vp_pager=0x7f060013;
         public static final int ziv_image=0x7f060009;
     }
@@ -289,10 +291,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int fragment_picture=0x7f03000b;
         public static final int fragment_right=0x7f03000c;
         public static final int fragment_user=0x7f03000d;
-        public static final int picture_grid_item=0x7f03000e;
-        public static final int poppyview=0x7f03000f;
-        public static final int ptr_default_header=0x7f030010;
-        public static final int sticky_header_view=0x7f030011;
+        public static final int news_list_item=0x7f03000e;
+        public static final int picture_grid_item=0x7f03000f;
+        public static final int poppyview=0x7f030010;
+        public static final int ptr_default_header=0x7f030011;
+        public static final int sticky_header_view=0x7f030012;
     }
     public static final class menu {
         public static final int activity_main=0x7f0b0000;
