@@ -21,12 +21,13 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 import com.roboo.like.google.R;
+import com.roboo.like.google.adapters.ImageFragmentAdapter;
 
 /**
  * Draws circles (one for each view). The current view position is filled and
  * others are only stroked.
  */
-public class CirclePageIndicator extends View 
+public class CirclePageIndicator extends View
 {
 	private static final int INVALID_POINTER = -1;
 	/**
@@ -215,12 +216,21 @@ public class CirclePageIndicator extends View
 	protected void onDraw(Canvas canvas)
 	{
 		super.onDraw(canvas);
-
 		if (mViewPager == null)
 		{
 			return;
 		}
-		final int count = mViewPager.getAdapter().getCount();
+
+		int count = mViewPager.getAdapter().getCount();
+		// ==================================================================
+		// ==================================================================
+		if (mViewPager.getAdapter() instanceof ImageFragmentAdapter)
+		{
+			ImageFragmentAdapter adapter = (ImageFragmentAdapter) mViewPager.getAdapter();
+			count = adapter.getReadlCount();
+		}
+		// ==================================================================
+		// ==================================================================
 		if (count == 0)
 		{
 			return;
@@ -415,7 +425,6 @@ public class CirclePageIndicator extends View
 		return true;
 	}
 
-	
 	public void setViewPager(ViewPager view)
 	{
 		if (mViewPager == view)
@@ -434,6 +443,7 @@ public class CirclePageIndicator extends View
 		mViewPager.setOnPageChangeListener(mListener);
 		invalidate();
 	}
+
 	public void setViewPager(ViewPager view, int initialPosition)
 	{
 		setViewPager(view);
@@ -477,7 +487,6 @@ public class CirclePageIndicator extends View
 			mListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
 		}
 	}
-
 
 	public void onPageSelected(int position)
 	{

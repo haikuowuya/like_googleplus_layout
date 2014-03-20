@@ -34,7 +34,7 @@ import android.widget.ListAdapter;
 import com.roboo.like.google.adapters.StickyGridHeadersBaseAdapter;
 import com.roboo.like.google.adapters.StickyGridHeadersBaseAdapterWrapper;
 import com.roboo.like.google.adapters.StickyGridHeadersBaseAdapterWrapper.HeaderFillerView;
-import com.roboo.like.google.adapters.StickyGridHeadersSimpleAdapter;
+import com.roboo.like.google.adapters.StickyHeadersAdapter;
 import com.roboo.like.google.adapters.StickyGridHeadersSimpleAdapterWrapper;
 
 /**
@@ -539,9 +539,9 @@ public class StickyGridHeadersGridView extends GridView implements OnScrollListe
 		{
 			baseAdapter = (StickyGridHeadersBaseAdapter) adapter;
 		}
-		else if (adapter instanceof StickyGridHeadersSimpleAdapter)
+		else if (adapter instanceof StickyHeadersAdapter)
 		{
-			baseAdapter = new StickyGridHeadersSimpleAdapterWrapper((StickyGridHeadersSimpleAdapter) adapter);
+			baseAdapter = new StickyGridHeadersSimpleAdapterWrapper((StickyHeadersAdapter) adapter);
 		}
 		else
 		{

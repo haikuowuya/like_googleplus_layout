@@ -23,10 +23,10 @@ import com.roboo.like.google.R;
 import com.roboo.like.google.models.PictureItem;
 import com.roboo.like.google.utils.BitmapUtils;
 
-public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersSimpleAdapter
+public class StickyGridAdapter extends BaseAdapter implements StickyHeadersAdapter
 {
 	private List<PictureItem> hasHeaderIdList;
-	private AbsListView mAbsListView;
+
 	private LayoutInflater mInflater;
 	private Activity mActivity;
 	/**
@@ -45,13 +45,12 @@ public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersS
 		};
 	};
 
-	public StickyGridAdapter(Activity activity, List<PictureItem> hasHeaderIdList,AbsListView absListView)
+	public StickyGridAdapter(Activity activity, List<PictureItem> hasHeaderIdList)
 	{
-		this.mAbsListView = absListView;
+
 		this.mActivity = activity;
 		mInflater = LayoutInflater.from(mActivity);
 		this.hasHeaderIdList = hasHeaderIdList;
-//		mAbsListView.setOnScrollListener(new OnScrollListenerImpl());
 	}
  
 	public int getCount()
@@ -85,11 +84,10 @@ public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersS
 		return convertView;
 	}
 
-	@Override
 	public View getHeaderView(int position, View convertView, ViewGroup parent)
 	{
-		convertView = mInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
-		TextView textView = (TextView) convertView.findViewById(android.R.id.text1);
+		convertView = mInflater.inflate( R.layout.sticky_header_view, parent, false);
+		TextView textView = (TextView) convertView.findViewById(R.id.tv_text);
 		textView.setText(hasHeaderIdList.get(position).getTime());
 		return convertView;
 	}
@@ -97,7 +95,6 @@ public class StickyGridAdapter extends BaseAdapter implements StickyGridHeadersS
 	/**
 	 * 获取HeaderId, 只要HeaderId不相等就添加一个Header
 	 */
-	@Override
 	public long getHeaderId(int position)
 	{
 		return hasHeaderIdList.get(position).getHeaderId();

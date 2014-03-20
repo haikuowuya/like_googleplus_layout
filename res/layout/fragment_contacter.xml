@@ -2,13 +2,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ListView
-        android:id="@+id/lv_list"
+    <com.roboo.like.google.views.StickyListHeadersListView
+        android:id="@+id/slhlv_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent"
+        android:clipToPadding="false"
+        android:drawSelectorOnTop="true"
         android:fadingEdge="none"
-        android:cacheColorHint="@android:color/transparent" >
-    </ListView>
+        android:fastScrollEnabled="true"
+        android:fastScrollAlwaysVisible="true"
+        android:padding="16dip"
+        android:scrollbarStyle="outsideOverlay" />
 
     <ProgressBar
         android:id="@+id/pb_progress"

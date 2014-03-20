@@ -34,11 +34,11 @@ import android.widget.BaseAdapter;
  */
 public class StickyGridHeadersSimpleAdapterWrapper extends BaseAdapter implements
         StickyGridHeadersBaseAdapter {
-    private StickyGridHeadersSimpleAdapter mDelegate;
+    private StickyHeadersAdapter mDelegate;
 
     private HeaderData[] mHeaders;
 
-    public StickyGridHeadersSimpleAdapterWrapper(StickyGridHeadersSimpleAdapter adapter) {
+    public StickyGridHeadersSimpleAdapterWrapper(StickyHeadersAdapter adapter) {
         mDelegate = adapter;
         adapter.registerDataSetObserver(new DataSetObserverExtension());
         mHeaders = generateHeaderList(adapter);
@@ -94,7 +94,7 @@ public class StickyGridHeadersSimpleAdapterWrapper extends BaseAdapter implement
         return mDelegate.hasStableIds();
     }
 
-    protected HeaderData[] generateHeaderList(StickyGridHeadersSimpleAdapter adapter) {
+    protected HeaderData[] generateHeaderList(StickyHeadersAdapter adapter) {
         Map<Long, HeaderData> mapping = new HashMap<Long, HeaderData>();
         List<HeaderData> headers = new ArrayList<HeaderData>();
 

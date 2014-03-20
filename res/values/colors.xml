@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="poppyview_pressed_color">#9933cc</color>
     <color name="poppyview_default_color">#aa66cc</color>
-    
-     
     <color name="underline_default_color">#99ff00ff</color>
     <color name="line_color">#99ff0000</color>
+    <color name="red_color">#FF0000</color>
+    <color name="alpha_red_color">#88FF0000</color>
+
+    <!-- 天空蓝色 -->
+    <color name="sky_blue_color">#87CEEB</color>
+    <!-- 紫罗兰色 -->
+    <color name="violet_color">#EE82EE</color>
+    <!-- 紫红色 -->
+    <color name="fuchsia_color">#FF00FF</color>
+    <!-- 幽灵白 -->
+    <color name="ghostwhite_color">#F8F8FF</color>
+
 </resources>

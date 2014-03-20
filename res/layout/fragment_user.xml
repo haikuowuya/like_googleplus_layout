@@ -2,23 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/com.roboo.like.google"
     android:layout_width="match_parent"
-    
-    android:layout_height="160dp" >
+    android:layout_height="match_parent" >
 
-    <android.support.v4.view.ViewPager
+    <com.roboo.like.google.views.InfiniteViewPager
         android:id="@+id/vp_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="160dp" />
 
     <com.roboo.like.google.views.CirclePageIndicator
         android:id="@+id/cpi_indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerInParent="true"
+        android:layout_alignBottom="@+id/vp_pager"
+        android:layout_alignRight="@+id/vp_pager"
         android:background="#66666666"
         android:padding="4dp"
+        app:centered="false"
         app:radius="4dp" />
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+		android:src="@drawable/image_view_level_drawable"
+        android:layout_below="@+id/cpi_indicator" />
+
+    <ImageButton
+        android:id="@+id/ibtn_menu"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="#454545" />
 
 </RelativeLayout>

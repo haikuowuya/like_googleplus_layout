@@ -1,5 +1,7 @@
 package com.roboo.like.google.adapters;
 
+import java.util.LinkedList;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,22 +10,26 @@ import com.roboo.like.google.fragments.ImageFragment;
 
 public class ImageFragmentAdapter extends FragmentPagerAdapter
 {
-
-	public ImageFragmentAdapter(FragmentManager fm)
+	private LinkedList<Object> data;
+	public ImageFragmentAdapter(FragmentManager fm, LinkedList<Object> data)
 	{
 		super(fm);
+		this.data = data;
 	}
-
-	@Override
+ 
 	public Fragment getItem(int position)
 	{
-		return ImageFragment.newInstance();
+		int virtualPostion = position %data.size();
+		return ImageFragment.newInstance(data.get(virtualPostion));
 	}
-
-	@Override
+ 
 	public int getCount()
 	{
-		return 4;
+		return 100; 
+	}
+	public int getReadlCount()
+	{
+		return data.size();
 	}
 
 }

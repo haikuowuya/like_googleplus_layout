@@ -30,7 +30,7 @@ import android.widget.ListAdapter;
  * 
  * @author Tonic Artos
  */
-public interface StickyGridHeadersSimpleAdapter extends ListAdapter
+public interface StickyHeadersAdapter extends ListAdapter
 {
 	/**
 	 * Get the header id associated with the specified position in the list.
