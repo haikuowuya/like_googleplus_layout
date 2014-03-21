@@ -8,6 +8,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import android.text.TextUtils;
+
 import com.roboo.like.google.models.NewsItem;
 
 public class NewsUtils
@@ -16,6 +18,8 @@ public class NewsUtils
 	private static final String QQ_NEWS_CONTENT_ID = "Cnt-Main-Article-QQ";
 	private static final String IT_HOME_NEWS_CONTENT_ID = "paragraph";
 	private static final String IT_HOME_STYLE_CLASS_NAME = "cate_list";
+	private static final String FOUR_BLANK="    ";
+	private static final String IT_HOME_LAZY_IMG_URL="http://img.ithome.com/images/v2/grey.gif";
 
 	public static LinkedList<NewsItem> getNewsList(String channelUrl, int pageNo) throws IOException
 	{
@@ -159,7 +163,7 @@ public class NewsUtils
 	public static LinkedList<NewsItem> getITHomeNewsList(String ithomeurl, int pageNo) throws IOException
 	{
 		LinkedList<NewsItem> data = null;
-//		ithomeurl = http://it.ithome.com/category/10_1.html
+		// ithomeurl = http://it.ithome.com/category/10_1.html
 		String itHomeUrl = ithomeurl + pageNo + ".html";
 		Document document = Jsoup.connect(itHomeUrl).timeout(20000).get();
 
@@ -177,7 +181,7 @@ public class NewsUtils
 					{
 						for (Element ee : ess)
 						{
-							Element h2Element = ee.getElementsByTag("h2").get(0);
+							Element h2Element = ee.getElementsByTag("h2").get(0).getElementsByTag("a").get(0);
 							Element aElement = ee.getElementsByClass("list_thumbnail").get(0);
 							Element imgElement = aElement.getElementsByTag("img").get(0);
 							Element pElement = ee.getElementsByTag("p").get(0);
@@ -222,7 +226,7 @@ public class NewsUtils
 					{
 						for (Element ee : ess)
 						{
-							Element h2Element = ee.getElementsByTag("h2").get(0);
+							Element h2Element = ee.getElementsByTag("h2").get(0).getElementsByTag("a").get(0);
 							Element aElement = ee.getElementsByClass("list_thumbnail").get(0);
 							Element imgElement = aElement.getElementsByTag("img").get(0);
 							Element pElement = ee.getElementsByTag("p").get(0);
@@ -254,7 +258,6 @@ public class NewsUtils
 		Document document = Jsoup.connect(newsUrl).get();
 		if (null != document)
 		{
-
 			Element element = document.getElementById(IT_HOME_NEWS_CONTENT_ID);
 			Elements es = element.getElementsByTag("p");
 			es.first().html("<font color='red'>IT之家</font>");
@@ -275,6 +278,47 @@ public class NewsUtils
 				{
 					return new String(data.getBytes(), "UTF-8");
 				}
+			}
+		}
+		return data;
+	}
+	public static LinkedList<String> getITHomeNewsDataList(String newsUrl) throws IOException
+	{
+		LinkedList<String> data = null;
+		Document document = Jsoup.connect(newsUrl).get();
+		if (null != document)
+		{
+			Element element = document.getElementById(IT_HOME_NEWS_CONTENT_ID);
+			Elements es = element.getElementsByTag("p");
+			 
+			if (null != es)
+			{
+				data = new LinkedList<String>();
+				for (Element element2 : es)
+				{
+					String content = "";
+					Elements imgsElement = element2.getElementsByTag("img");
+					if (null != imgsElement && imgsElement.size() > 0)
+					{
+						Element imgElement = imgsElement.first();
+//						System.out.println("图片地址  = "+ imgElement.attr("data-original"));
+						imgElement.attr("onclick", "window.android.toast(\"" + imgElement.attr("src") + "\"" + "," + 0 + ")");
+						content = imgElement.attr("src");
+						if(IT_HOME_LAZY_IMG_URL.equals(content))
+						{
+							content = imgElement.attr("data-original");
+						}
+					}
+					else if(!element2.hasClass("content_copyright"))
+					{
+						content = FOUR_BLANK+element2.text();
+					}
+					if(!TextUtils.isEmpty(content))
+					{
+						data.add(content);
+					}
+				}
+			 
 			}
 		}
 		return data;

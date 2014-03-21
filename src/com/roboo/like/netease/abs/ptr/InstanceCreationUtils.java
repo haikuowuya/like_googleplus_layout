@@ -43,7 +43,7 @@ public class InstanceCreationUtils
 		BUILT_IN_DELEGATES.put(AbsListViewDelegate.SUPPORTED_VIEW_CLASS, AbsListViewDelegate.class);
 
 	}
-
+	/**可进行刷新View的代理*/
 	public static PullToRefreshHelper.ViewDelegate getBuiltInViewDelegate(final View view)
 	{
 		final Set<Map.Entry<Class, Class>> entries = BUILT_IN_DELEGATES.entrySet();
@@ -51,8 +51,7 @@ public class InstanceCreationUtils
 		{
 			if (entry.getKey().isInstance(view))
 			{
-				return InstanceCreationUtils.newInstance(view.getContext(),
-					entry.getValue(), VIEW_DELEGATE_CONSTRUCTOR_SIGNATURE, null);
+				return InstanceCreationUtils.newInstance(view.getContext(), entry.getValue(), VIEW_DELEGATE_CONSTRUCTOR_SIGNATURE, null);
 			}
 		}
 		return null;
@@ -86,8 +85,7 @@ public class InstanceCreationUtils
 		return null;
 	}
 
-	private static <T> T newInstance(Context context, Class clazz, Class[] constructorSig,
-		Object[] arguments)
+	private static <T> T newInstance(Context context, Class clazz, Class[] constructorSig, Object[] arguments)
 	{
 		try
 		{

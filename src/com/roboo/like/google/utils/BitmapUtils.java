@@ -1,5 +1,7 @@
 package com.roboo.like.google.utils;
 
+import java.io.InputStream;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -28,6 +30,18 @@ public class BitmapUtils
 		// 设置为false,解析Bitmap对象加入到内存中
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeFile(path, options);
+	}
+	public static  Bitmap getBitmap(InputStream inputStream,int width ,int height)
+	{
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		// 设置为true,表示解析Bitmap对象，该对象不占内存
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeStream(inputStream);
+		// 设置缩放比例
+		options.inSampleSize = computeScale(options, width, height);
+		// 设置为false,解析Bitmap对象加入到内存中
+		options.inJustDecodeBounds = false;
+		return BitmapFactory.decodeStream(inputStream, null, options);
 	}
 
 	/**

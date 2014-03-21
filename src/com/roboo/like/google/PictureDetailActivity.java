@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.roboo.like.google.async.BitmapAsyncTask;
 import com.roboo.like.google.utils.BitmapUtils;
 import com.roboo.like.google.views.ZoomImageView;
 
@@ -13,6 +14,7 @@ public class PictureDetailActivity extends BaseActivity
 {
 	
 	private ZoomImageView  mImageView;
+	private String mImagePath  ;
 	private static final String EXTRA_IMAGE_PATH="image_path";
 
 	/** 跳转到图片详情界面 */
@@ -29,8 +31,16 @@ public class PictureDetailActivity extends BaseActivity
 		setContentView(R.layout.activity_picture_detail);
 		initView();
 		customActionBar();
+		mImagePath = getIntent().getStringExtra(EXTRA_IMAGE_PATH);
 		
-		mImageView.setImageBitmap(BitmapUtils.getBitmap(getIntent().getStringExtra(EXTRA_IMAGE_PATH), 480, 800));
+		if(mImagePath.startsWith(PREFIX_IMG_URL))
+		{
+			new BitmapAsyncTask(mImageView, getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels).execute(mImagePath);
+		}
+		else
+		{
+			mImageView.setImageBitmap(BitmapUtils.getBitmap(mImagePath, getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels));
+		}
 	}
 	 
 	public boolean onOptionsItemSelected(MenuItem item)

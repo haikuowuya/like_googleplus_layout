@@ -1,5 +1,7 @@
 package com.roboo.like.google;
 
+import java.util.LinkedList;
+
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.graphics.Color;
@@ -14,15 +16,21 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 
+import com.roboo.like.google.adapters.NewsTypeListAdapter;
 import com.roboo.like.google.fragments.ContentFragment;
 import com.roboo.like.google.fragments.LeftFragment;
 import com.roboo.like.google.fragments.RightFragment;
+import com.roboo.like.google.models.NewsTypeItem;
 
 public class MainActivity extends FragmentActivity
 {
+	/** 默认是Android之家 */
+	public static final String IT_ANDROID = "http://it.ithome.com/category/10_";
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
 	protected ActionBar mActionBar;
+	private NewsTypeListAdapter mAdapter;
+
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -39,7 +47,7 @@ public class MainActivity extends FragmentActivity
 		}
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_container) == null)
 		{
-			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, ContentFragment.newInstance()).commit();
+			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, ContentFragment.newInstance(IT_ANDROID)).commit();
 		}
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name);
@@ -76,7 +84,7 @@ public class MainActivity extends FragmentActivity
 				mDrawerLayout.openDrawer(Gravity.LEFT);
 			}
 			return true;
-		 
+
 		case R.id.menu_notification:
 			if (mDrawerLayout.isDrawerOpen(Gravity.LEFT))
 			{
@@ -93,8 +101,9 @@ public class MainActivity extends FragmentActivity
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 	private void customActionBar()
-	{ 
+	{
 		mActionBar = getActionBar();
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mActionBar.setHomeButtonEnabled(true);
@@ -105,24 +114,42 @@ public class MainActivity extends FragmentActivity
 		{
 			public boolean onNavigationItemSelected(int itemPosition, long itemId)
 			{
-				return false;
+				NewsTypeItem item = (NewsTypeItem) mAdapter.getItem(itemPosition);
+				getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, ContentFragment.newInstance(item.url)).commit();
+				 return true;
 			}
 		});
 	}
 
-	public  void initView()
+	public void initView()
 	{
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_container);
- 
+
 	}
 
 	private BaseAdapter getAdapter()
 	{
-		return ArrayAdapter.createFromResource(this, R.array.actionbar_navigation_list_text_arrays, android.R.layout.simple_list_item_1);
+		String[] arrays = getResources().getStringArray(R.array.actionbar_navigation_list_text_arrays);
+
+		LinkedList<NewsTypeItem> data = new LinkedList<NewsTypeItem>();
+		for (String str : arrays)
+		{
+			String[] tmp = str.split("#");
+			if (tmp.length > 1)
+			{
+				NewsTypeItem item = new NewsTypeItem();
+				item.name = tmp[0];
+				item.url = tmp[1];
+				data.add(item);
+			}
+		}
+		 mAdapter =  new NewsTypeListAdapter(data, this);
+		 return mAdapter;
 	}
+
 	public void closeLeftDrawer()
 	{
-		if(mDrawerLayout.isDrawerOpen(Gravity.LEFT))
+		if (mDrawerLayout.isDrawerOpen(Gravity.LEFT))
 		{
 			mDrawerLayout.closeDrawer(Gravity.LEFT);
 		}

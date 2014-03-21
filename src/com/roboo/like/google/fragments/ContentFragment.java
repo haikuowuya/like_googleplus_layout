@@ -9,16 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.roboo.like.google.LocationActivity;
 import com.roboo.like.google.MoodActivity;
+import com.roboo.like.google.NewsActivity;
 import com.roboo.like.google.PictureActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.NewsListViewAdapter;
@@ -30,33 +30,53 @@ import com.roboo.like.google.views.helper.PullToRefreshHelper.OnRefreshListener;
 
 public class ContentFragment extends BaseFragment implements LoaderCallbacks<LinkedList<NewsItem>>
 {
-	/**
-	 * IT之家之ANDROID之家
-	 */
-	public static final String IT_ANDROID = "http://it.ithome.com/category/10_";
-	private static final String ARG_CURRENT_PAGENO ="current_pageno";
-	private static final String ARG_NEWS_URL="new_url";
+
+	/** Bundle当前加载数据的页数Key */
+	private static final String ARG_CURRENT_PAGENO = "current_pageno";
+
+	/** Bundle当前获取新闻URL */
+	private static final String ARG_NEWS_URL = "news_url";
 	/** 获取的是当前第几页的新闻数据 */
 	private int mCurrentPageNo = 1;
+	/** ListView */
 	private ListView mListView;
+	/** 当ListView向上滚动时会出现的View的辅助类 */
 	private PoppyListViewHelper mPoppyListViewHelper;
+	/** ActionBar下拉刷新的辅助类 */
 	private PullToRefreshHelper mPullToRefreshAttacher;
+	/** 当ListView向上滚动时会出现的View */
 	private View mPoppyView;
+	/** 图片 */
 	private Button mBtnPicture;
+	/** 我的位置 */
 	private Button mBtnLocation;
+	/** 心情 */
 	private Button mBtnMood;
+	/** 文字 */
 	private Button mBtnText;
+	/** 新闻列表适配器 */
 	private NewsListViewAdapter mAdapter;
-	
-	public static ContentFragment newInstance()
+	/** ListView最后一列是否可见的标志 */
+	public boolean mLastItemVisible;
+	/** ListView 的 FooterView */
+	private View mFooterView;
+	/** 新闻列表适配器的数据源 */
+	private LinkedList<NewsItem> mData;
+
+	/** 创建一个 ContentFragment 实例 */
+	public static ContentFragment newInstance(String newsUrl)
 	{
 		ContentFragment fragment = new ContentFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString(ARG_NEWS_URL, newsUrl);
+		fragment.setArguments(bundle);
 		return fragment;
 	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_content, null);
+		mFooterView = inflater.inflate(R.layout.listview_footer_view, null);
 		mListView = (ListView) view.findViewById(R.id.lv_list);
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
@@ -66,7 +86,7 @@ public class ContentFragment extends BaseFragment implements LoaderCallbacks<Lin
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
-		 
+
 		mPoppyView = mPoppyListViewHelper.createPoppyViewOnListView(R.id.lv_list, R.layout.poppyview);
 		mBtnPicture = (Button) mPoppyView.findViewById(R.id.btn_picture);
 		mBtnLocation = (Button) mPoppyView.findViewById(R.id.btn_location);
@@ -76,17 +96,20 @@ public class ContentFragment extends BaseFragment implements LoaderCallbacks<Lin
 		{
 			public void onRefreshStarted(View view)
 			{
-				Bundle bundle = new Bundle();
-				bundle.putString(ARG_NEWS_URL, IT_ANDROID);
-				bundle.putInt(ARG_CURRENT_PAGENO, mCurrentPageNo++);
-				getActivity().getSupportLoaderManager().restartLoader(0, bundle, ContentFragment.this);
-				
+				loadFirstData();
 			}
+
 		});
-		Bundle bundle = new Bundle();
-		bundle.putString(ARG_NEWS_URL, IT_ANDROID);
+		loadFirstData();
+	}
+
+	private void loadFirstData()
+	{
+		Bundle bundle = getArguments();
+		mCurrentPageNo = 1;
 		bundle.putInt(ARG_CURRENT_PAGENO, mCurrentPageNo);
-		getActivity().getSupportLoaderManager().initLoader(0, bundle, this);
+		mPullToRefreshAttacher.setRefreshing(true);
+		getActivity().getSupportLoaderManager().restartLoader(0, bundle, ContentFragment.this);
 	}
 
 	@Override
@@ -99,6 +122,7 @@ public class ContentFragment extends BaseFragment implements LoaderCallbacks<Lin
 	private void setListener()
 	{
 		mListView.setOnItemClickListener(new OnListItemClickListenerImpl());
+		// mListView.setOnScrollListener(new OnScrollListenerImpl());
 		OnClickListenerImpl onClickListenerImpl = new OnClickListenerImpl();
 		mBtnLocation.setOnClickListener(onClickListenerImpl);
 		mBtnMood.setOnClickListener(onClickListenerImpl);
@@ -106,14 +130,36 @@ public class ContentFragment extends BaseFragment implements LoaderCallbacks<Lin
 		mBtnText.setOnClickListener(onClickListenerImpl);
 	}
 
-	 
+	private class OnScrollListenerImpl implements OnScrollListener
+	{
+		public void onScrollStateChanged(AbsListView view, int scrollState)
+		{
+			if (scrollState == OnScrollListener.SCROLL_STATE_IDLE && mLastItemVisible)
+			{
+				loadNextData();
+			}
+
+		}
+
+		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+		{
+			mLastItemVisible = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount - 1);
+		}
+	}
+
 	private class OnListItemClickListenerImpl implements OnItemClickListener
 	{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		{
-			Toast.makeText(getActivity(), "" + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+			if (parent.getAdapter().getItemViewType(position) == AbsListView.ITEM_VIEW_TYPE_HEADER_OR_FOOTER)
+			{
+				loadNextData();
+			}
+			else
+			{
+				NewsActivity.actionNews(getActivity(), (NewsItem) parent.getAdapter().getItem(position));
+			}
 		}
-
 	}
 
 	private class OnClickListenerImpl implements OnClickListener
@@ -162,7 +208,7 @@ public class ContentFragment extends BaseFragment implements LoaderCallbacks<Lin
 		}
 	}
 
-	@Override
+	/** initLoader/reStartLoader方法被调用时会执行onCreateLoader */
 	public Loader<LinkedList<NewsItem>> onCreateLoader(int id, Bundle args)
 	{
 		System.out.println("args.int = " + args.getInt(ARG_CURRENT_PAGENO, 1));
@@ -172,10 +218,17 @@ public class ContentFragment extends BaseFragment implements LoaderCallbacks<Lin
 	@Override
 	public void onLoadFinished(Loader<LinkedList<NewsItem>> loader, LinkedList<NewsItem> data)
 	{
+		if (null == mData && data != null)
+		{
+			mData = data;
+			mAdapter = new NewsListViewAdapter(getActivity(), mData);
+			mListView.addFooterView(mFooterView);
+			mListView.setAdapter(mAdapter);
+		}
 		if (null != data)
 		{
-			mAdapter = new NewsListViewAdapter(getActivity(), data);
-			mListView.setAdapter(mAdapter);
+			mData.addAll(data);
+			mAdapter.notifyDataSetChanged();
 		}
 		mPullToRefreshAttacher.setRefreshComplete();
 	}
@@ -183,6 +236,14 @@ public class ContentFragment extends BaseFragment implements LoaderCallbacks<Lin
 	@Override
 	public void onLoaderReset(Loader<LinkedList<NewsItem>> loader)
 	{
+
+	}
+
+	private void loadNextData()
+	{
+		Bundle bundle = getArguments();
+		bundle.putInt(ARG_CURRENT_PAGENO, ++mCurrentPageNo);
+		getActivity().getSupportLoaderManager().restartLoader(0, bundle, ContentFragment.this);
 
 	}
 }

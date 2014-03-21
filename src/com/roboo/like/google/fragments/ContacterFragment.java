@@ -1,10 +1,7 @@
 package com.roboo.like.google.fragments;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Map;
 
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -12,14 +9,12 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.ContacterAdapter;
 import com.roboo.like.google.async.ContacterAsyncTaskLoader;
 import com.roboo.like.google.models.ContacterItem;
-import com.roboo.like.google.models.PictureItem;
 import com.roboo.like.google.views.StickyListHeadersListView;
 
 public class ContacterFragment extends BaseFragment implements LoaderCallbacks<LinkedList<ContacterItem>>

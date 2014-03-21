@@ -12,14 +12,14 @@
         <item>ic_search#搜索</item>
     </string-array>
     <string-array name="actionbar_navigation_list_text_arrays">
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
+        <item>Android之家#http://it.ithome.com/category/10_</item>
+        <item>IPhone之家#http://it.ithome.com/category/5_</item>
+        <item>主题之家#http://it.ithome.com/category/13_</item>
+        <item>游戏之家#http://it.ithome.com/category/14_</item>
+        <item>IT之家#http://it.ithome.com/category/1_</item>
+        <item>WIN8之家#http://it.ithome.com/category/2_</item>
+        <item>WIN7之家#http://it.ithome.com/category/3_</item>
+        <item>IT之外#http://it.ithome.com/category/17_</item>
     </string-array>
     <string-array name="dummy_text_arrays">
         <item>全部</item>

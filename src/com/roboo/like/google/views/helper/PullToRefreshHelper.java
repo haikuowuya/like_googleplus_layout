@@ -45,12 +45,6 @@ import android.widget.TextView;
 
 import com.roboo.like.google.R;
 import com.roboo.like.netease.abs.ptr.InstanceCreationUtils;
-
- 
-
-/**
- * FIXME
- */
 public class PullToRefreshHelper implements View.OnTouchListener
 {
 	private static final int DEFAULT_HEADER_LAYOUT = R.layout.ptr_default_header;
@@ -64,9 +58,6 @@ public class PullToRefreshHelper implements View.OnTouchListener
 	private static final String LOG_TAG = "PullToRefreshAttacher";
 
 	private static final WeakHashMap<Activity, PullToRefreshHelper> ATTACHERS = new WeakHashMap<Activity, PullToRefreshHelper>();
-
-	/* Member Variables */
-
 	private final Activity mActivity;
 
 	private final EnvironmentDelegate mEnvironmentDelegate;
@@ -90,11 +81,8 @@ public class PullToRefreshHelper implements View.OnTouchListener
 	private final Handler mHandler = new Handler();
 
 	/**
-	 * Get a PullToRefreshAttacher for this Activity. If there is already a
-	 * PullToRefreshAttacher attached to the Activity, the existing one is
-	 * returned, otherwise a new instance is created. This version of the method
-	 * will use default configuration options for everything.
-	 * 
+	 * 获取一个与当前Activity有关联的 PullToRefreshAttacher 实例， 如果已经存在，就返回存在的实例， 否则重新创建一个
+	 * 创建完成后界面中已经在Actionbar的位置添加了刷新标识器布局
 	 * @param activity
 	 *            Activity to attach to.
 	 * @return PullToRefresh attached to the Activity.
@@ -182,7 +170,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 		// Header View to itself. See DecorChildLayout for more info.
 		DecorChildLayout decorContents = new DecorChildLayout(activity, decorView, mHeaderView);
 
-		// Now add the DecorChildLayout to the decor view
+		/*把封装有HeaderView刷新指示器的View添加到系统的DeCorView(android.R.id.content【FramegLayout】)中去**/
 		decorView.addView(decorContents, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
 		// Notify transformer
@@ -921,8 +909,8 @@ public class PullToRefreshHelper implements View.OnTouchListener
 
 			// Labels to display
 			mPullRefreshLabel = "下拉刷新…";
-			mRefreshingLabel = "放开以刷新…";
-			mReleaseLabel = "正在载入…";
+			mRefreshingLabel = "正在更新数据…";
+			mReleaseLabel = "放开以刷新…";
 
 			mContentLayout = (ViewGroup) headerView.findViewById(R.id.ptr_content);
 			if (mContentLayout != null)
@@ -1075,8 +1063,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 			TypedArray abStyle = context.getTheme().obtainStyledAttributes(outValue.resourceId, android_styleable_ActionBar);
 			try
 			{
-				// background is the first attr in the array above so it's index
-				// is 0.
+				 
 				return abStyle.getDrawable(0);
 			}
 			finally
@@ -1084,14 +1071,14 @@ public class PullToRefreshHelper implements View.OnTouchListener
 				abStyle.recycle();
 			}
 		}
-
+		/**获取ActionBar的高度*/
 		protected int getActionBarSize(Context context)
 		{
 			int[] attrs = { android.R.attr.actionBarSize };
 			TypedArray values = context.getTheme().obtainStyledAttributes(attrs);
 			try
 			{
-				return values.getDimensionPixelSize(0, 0);
+				return values.getDimensionPixelSize(0, 0);//第一个参数数组索引，第二个参数 默认值
 			}
 			finally
 			{

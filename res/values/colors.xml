@@ -7,6 +7,10 @@
     <color name="line_color">#99ff0000</color>
     <color name="red_color">#FF0000</color>
     <color name="alpha_red_color">#88FF0000</color>
+    <!-- 白色 -->
+    <color name="white_color">#FFFFFF</color>
+    <!-- 乳白色 -->
+    <color name="ivorg_color">#F0F0ED</color>
 
     <!-- 天空蓝色 -->
     <color name="sky_blue_color">#87CEEB</color>
@@ -16,5 +20,13 @@
     <color name="fuchsia_color">#FF00FF</color>
     <!-- 幽灵白 -->
     <color name="ghostwhite_color">#F8F8FF</color>
+    <!-- ListView列表项按下效果-->
+    <color name="list_item_pressed_color">#D5D5D5</color>
+    <!-- ListView列表项边框默认颜色-->
+    <color name="list_item_border_default_color">#E1E2E4</color>
+    <!-- ListView列表项边框按下颜色-->
+    <color name="list_item_border_pressed_color">@color/alpha_red_color</color>
+    <!-- ListView列表项默认效果-->
+    <color name="list_item_default_color">@color/white_color</color>
 
 </resources>
