@@ -18,8 +18,8 @@ public class NewsUtils
 	private static final String QQ_NEWS_CONTENT_ID = "Cnt-Main-Article-QQ";
 	private static final String IT_HOME_NEWS_CONTENT_ID = "paragraph";
 	private static final String IT_HOME_STYLE_CLASS_NAME = "cate_list";
-	private static final String FOUR_BLANK="    ";
-	private static final String IT_HOME_LAZY_IMG_URL="http://img.ithome.com/images/v2/grey.gif";
+	private static final String FOUR_BLANK = "    ";
+	private static final String IT_HOME_LAZY_IMG_URL = "http://img.ithome.com/images/v2/grey.gif";
 
 	public static LinkedList<NewsItem> getNewsList(String channelUrl, int pageNo) throws IOException
 	{
@@ -252,6 +252,7 @@ public class NewsUtils
 		return data;
 	}
 
+	/** 获取每条新闻的图片和内容 */
 	public static String getITHomeNewsData(String newsUrl) throws IOException
 	{
 		String data = null;
@@ -282,6 +283,8 @@ public class NewsUtils
 		}
 		return data;
 	}
+
+	/** 获取每条新闻的图片和内容 */
 	public static LinkedList<String> getITHomeNewsDataList(String newsUrl) throws IOException
 	{
 		LinkedList<String> data = null;
@@ -289,36 +292,42 @@ public class NewsUtils
 		if (null != document)
 		{
 			Element element = document.getElementById(IT_HOME_NEWS_CONTENT_ID);
-			Elements es = element.getElementsByTag("p");
-			 
-			if (null != es)
+			if (element != null)
 			{
-				data = new LinkedList<String>();
-				for (Element element2 : es)
+				Elements es = element.getElementsByTag("p");
+				if (null != es)
 				{
-					String content = "";
-					Elements imgsElement = element2.getElementsByTag("img");
-					if (null != imgsElement && imgsElement.size() > 0)
+					data = new LinkedList<String>();
+					for (Element element2 : es)
 					{
-						Element imgElement = imgsElement.first();
-//						System.out.println("图片地址  = "+ imgElement.attr("data-original"));
-						imgElement.attr("onclick", "window.android.toast(\"" + imgElement.attr("src") + "\"" + "," + 0 + ")");
-						content = imgElement.attr("src");
-						if(IT_HOME_LAZY_IMG_URL.equals(content))
+						String content = "";
+						Elements imgsElement = element2.getElementsByTag("img");
+						if (null != imgsElement && imgsElement.size() > 0)
 						{
-							content = imgElement.attr("data-original");
+							Element imgElement = imgsElement.first();
+							// System.out.println("图片地址  = "+
+							// imgElement.attr("data-original"));
+							imgElement.attr("onclick", "window.android.toast(\"" + imgElement.attr("src") + "\"" + "," + 0 + ")");
+							content = imgElement.attr("src");
+							if (IT_HOME_LAZY_IMG_URL.equals(content))
+							{
+								content = imgElement.attr("data-original");
+							}
+						}
+						else if (!element2.hasClass("content_copyright"))
+						{
+							content = FOUR_BLANK + element2.text();
+						}
+						if (!TextUtils.isEmpty(content))
+						{
+							data.add(content);
 						}
 					}
-					else if(!element2.hasClass("content_copyright"))
-					{
-						content = FOUR_BLANK+element2.text();
-					}
-					if(!TextUtils.isEmpty(content))
-					{
-						data.add(content);
-					}
 				}
-			 
+			}
+			else
+			{
+				System.out.println("出错的URL   = " + newsUrl);
 			}
 		}
 		return data;
