@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import android.content.Context;
 
+import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.utils.NewsUtils;
 
 public class NewsContentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<String>>
@@ -22,7 +23,18 @@ public class NewsContentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<S
 		try
 		{
 			data  = NewsUtils.getITHomeNewsDataList(mNewsUrl);
-			
+		
+			if(GoogleApplication.TEST)
+			{
+				if(null != data )
+				{
+					for(String str : data)
+					{
+						System.out.println("str = " + str);
+					}
+				}
+			}
+		
 		}
 		catch (IOException e)
 		{

@@ -11,13 +11,14 @@ import com.roboo.like.google.utils.NewsUtils;
 public class NewsAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<NewsItem>>
 {
 	private String mChannelUrl;
-	private int  mPageNo;
+	private int mPageNo;
 
 	public NewsAsyncTaskLoader(Context context, String channelUrl)
 	{
 		this(context, channelUrl, 1);
 	}
-	public NewsAsyncTaskLoader(Context context, String channelUrl,int pageNo)
+
+	public NewsAsyncTaskLoader(Context context, String channelUrl, int pageNo)
 	{
 		super(context);
 		mChannelUrl = channelUrl;
@@ -30,9 +31,19 @@ public class NewsAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<NewsItem
 		LinkedList<NewsItem> data = null;
 		try
 		{
+			long startTime = System.currentTimeMillis();
 			data = NewsUtils.getITHomeNewsList(mChannelUrl, mPageNo);
+			long endTime = System.currentTimeMillis();
+			if (endTime - startTime < 1000L)
+			{
+				Thread.sleep(1000);
+			}
 		}
 		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		catch (InterruptedException e)
 		{
 			e.printStackTrace();
 		}

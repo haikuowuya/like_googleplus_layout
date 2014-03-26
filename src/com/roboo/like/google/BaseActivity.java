@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.FrameLayout;
 
 import com.roboo.like.google.listener.SwipeBackListener;
@@ -25,7 +26,10 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		mActionBar = getActionBar();
+		if(isActionBarEnable())
+		{
+			mActionBar = getActionBar();
+		}
 		mActivityHelper = new SwipeBackActivityHelper(this);
 		mActivityHelper.onActivityCreate();
 		super.setContentView(R.layout.activity_base);
@@ -44,7 +48,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 		super.onPostCreate(savedInstanceState);
 		mActivityHelper.onPostCreate();
 	}
-
+	
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId())
@@ -61,7 +65,10 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 	{
 		return mActivityHelper.getSwipeBackLayout();
 	}
-
+	private boolean isActionBarEnable()
+	{
+		return !getWindow().hasFeature(Window.FEATURE_NO_TITLE);
+	}
 	@Override
 	public void setSwipeBackEnable(boolean enable)
 	{

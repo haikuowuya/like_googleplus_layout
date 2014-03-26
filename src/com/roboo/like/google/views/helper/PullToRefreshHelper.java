@@ -44,7 +44,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.roboo.like.google.R;
-import com.roboo.like.netease.abs.ptr.InstanceCreationUtils;
+import com.roboo.like.google.abs.ptr.InstanceCreationUtils;
 public class PullToRefreshHelper implements View.OnTouchListener
 {
 	private static final int DEFAULT_HEADER_LAYOUT = R.layout.ptr_default_header;

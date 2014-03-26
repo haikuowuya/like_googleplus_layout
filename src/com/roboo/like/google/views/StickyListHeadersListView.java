@@ -22,9 +22,9 @@ import android.widget.ListView;
 import android.widget.SectionIndexer;
 
 import com.roboo.like.google.adapters.StickyHeadersAdapter;
-import com.roboo.roboowish.stickylistheaders.AdapterWrapper;
-import com.roboo.roboowish.stickylistheaders.SectionIndexerAdapterWrapper;
-import com.roboo.roboowish.stickylistheaders.WrapperView;
+import com.roboo.like.google.stickylistheaders.AdapterWrapper;
+import com.roboo.like.google.stickylistheaders.SectionIndexerAdapterWrapper;
+import com.roboo.like.google.stickylistheaders.WrapperView;
 
 @TargetApi(17)
 public class StickyListHeadersListView extends ListView

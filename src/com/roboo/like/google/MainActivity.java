@@ -17,7 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 
 import com.roboo.like.google.adapters.NewsTypeListAdapter;
-import com.roboo.like.google.fragments.ContentFragment;
+import com.roboo.like.google.fragments.MainFragment;
 import com.roboo.like.google.fragments.LeftFragment;
 import com.roboo.like.google.fragments.RightFragment;
 import com.roboo.like.google.models.NewsTypeItem;
@@ -47,7 +47,7 @@ public class MainActivity extends FragmentActivity
 		}
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_container) == null)
 		{
-			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, ContentFragment.newInstance(IT_ANDROID)).commit();
+			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, MainFragment.newInstance(IT_ANDROID)).commit();
 		}
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name);
@@ -115,7 +115,7 @@ public class MainActivity extends FragmentActivity
 			public boolean onNavigationItemSelected(int itemPosition, long itemId)
 			{
 				NewsTypeItem item = (NewsTypeItem) mAdapter.getItem(itemPosition);
-				getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, ContentFragment.newInstance(item.url)).commit();
+				getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, MainFragment.newInstance(item.url)).commit();
 				 return true;
 			}
 		});

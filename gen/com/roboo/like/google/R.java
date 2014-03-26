@@ -162,36 +162,48 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int alpha_red_color=0x7f070005;
         /**  紫红色 
          */
-        public static final int fuchsia_color=0x7f07000a;
+        public static final int fuchsia_color=0x7f07000e;
         /**  幽灵白 
          */
-        public static final int ghostwhite_color=0x7f07000b;
+        public static final int ghostwhite_color=0x7f07000f;
+        /**   热粉红色  
+         */
+        public static final int hotpink_color=0x7f070009;
         /**  乳白色 
          */
         public static final int ivorg_color=0x7f070007;
+        /**   亮海蓝色 
+         */
+        public static final int lightseagreen_color=0x7f07000a;
         public static final int line_color=0x7f070003;
         /**  ListView列表项边框默认颜色
          */
-        public static final int list_item_border_default_color=0x7f07000d;
+        public static final int list_item_border_default_color=0x7f070011;
         /**  ListView列表项边框按下颜色
          */
-        public static final int list_item_border_pressed_color=0x7f07000e;
+        public static final int list_item_border_pressed_color=0x7f070012;
         /**  ListView列表项默认效果
          */
-        public static final int list_item_default_color=0x7f07000f;
+        public static final int list_item_default_color=0x7f070013;
         /**  ListView列表项按下效果
          */
-        public static final int list_item_pressed_color=0x7f07000c;
+        public static final int list_item_pressed_color=0x7f070010;
+        /**   红橙色
+         */
+        public static final int orangered_color=0x7f07000b;
         public static final int poppyview_default_color=0x7f070001;
         public static final int poppyview_pressed_color=0x7f070000;
         public static final int red_color=0x7f070004;
         /**  天空蓝色 
          */
         public static final int sky_blue_color=0x7f070008;
+        /**   青绿色
+         */
+        public static final int turquoise_color=0x7f07000c;
         public static final int underline_default_color=0x7f070002;
         /**  紫罗兰色 
          */
-        public static final int violet_color=0x7f070009;
+        public static final int violet_color=0x7f07000d;
         /**  白色 
          */
         public static final int white_color=0x7f070006;
@@ -254,23 +266,23 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class id {
         public static final int all=0x7f060003;
         public static final int bottom=0x7f060002;
-        public static final int btn_drawer=0x7f060012;
-        public static final int btn_loading_or_retry=0x7f060018;
+        public static final int btn_drawer=0x7f060013;
+        public static final int btn_loading_or_retry=0x7f060019;
         public static final int btn_location=0x7f06001c;
         public static final int btn_mood=0x7f06001d;
-        public static final int btn_notification=0x7f060013;
+        public static final int btn_notification=0x7f060014;
         public static final int btn_picture=0x7f06001b;
         public static final int btn_text=0x7f06001e;
         public static final int btn_username=0x7f06000e;
-        public static final int cpi_indicator=0x7f060015;
+        public static final int cpi_indicator=0x7f060016;
         public static final int drawer_container=0x7f060004;
         public static final int frame_container=0x7f060005;
         public static final int frame_left_container=0x7f060007;
         public static final int frame_right_container=0x7f060008;
-        public static final int ibtn_menu=0x7f060016;
+        public static final int ibtn_menu=0x7f060017;
         public static final int iv_image=0x7f06000b;
         public static final int left=0x7f060000;
-        public static final int linear_container=0x7f06000f;
+        public static final int linear_container=0x7f060010;
         public static final int lv_list=0x7f06000d;
         public static final int menu_feedback=0x7f060027;
         public static final int menu_group=0x7f060023;
@@ -284,14 +296,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ptr_text=0x7f060021;
         public static final int ptr_text_opaque_bg=0x7f060020;
         public static final int right=0x7f060001;
-        public static final int sgh_gridview=0x7f060010;
+        public static final int sgh_gridview=0x7f060011;
         public static final int slhlv_list=0x7f06000c;
-        public static final int sliding_drawer=0x7f060011;
-        public static final int tv_load_next=0x7f060017;
+        public static final int sliding_drawer=0x7f060012;
+        public static final int tv_load_next=0x7f060018;
         public static final int tv_sub_title=0x7f06001a;
         public static final int tv_text=0x7f06000a;
-        public static final int tv_title=0x7f060019;
-        public static final int vp_pager=0x7f060014;
+        public static final int tv_title=0x7f06000f;
+        public static final int vp_pager=0x7f060015;
         public static final int ziv_image=0x7f060009;
     }
     public static final class integer {
