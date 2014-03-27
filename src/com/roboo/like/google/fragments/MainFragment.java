@@ -27,6 +27,7 @@ import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.NewsListViewAdapter;
 import com.roboo.like.google.async.NewsAsyncTaskLoader;
 import com.roboo.like.google.models.NewsItem;
+import com.roboo.like.google.utils.CardToastUtils;
 import com.roboo.like.google.views.helper.PoppyListViewHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.OnRefreshListener;
@@ -251,6 +252,12 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 				}
 			}
 		}
+		String messageText ="加载  " + data.size() + " 条新数据";
+		if(mCurrentPageNo ==1)
+		{
+			messageText = " 更新  " + data.size() + " 条新数据";
+		}
+		new CardToastUtils(getActivity()).showAndAutoDismiss(messageText);
 		mProgressBar.setVisibility(View.INVISIBLE);
 		mTvText.setText("点击加载下一页");
 		mPullToRefreshAttacher.setRefreshComplete();

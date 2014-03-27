@@ -3,13 +3,19 @@ package com.roboo.like.google.fragments;
 import java.util.Collections;
 import java.util.LinkedList;
 
+import android.R.layout;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.FrameLayout.LayoutParams;
 
 import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.ContacterAdapter;
@@ -33,8 +39,17 @@ public class ContacterFragment extends BaseFragment implements LoaderCallbacks<L
 	{
 		View view = inflater.inflate(R.layout.fragment_contacter, null);
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
-		mProgressBar = (ProgressBar) view.findViewById(R.id.pb_progress);
+		addProgressBar();
 		return view;
+	}
+
+	private void addProgressBar()
+	{
+		mProgressBar = new ProgressBar(getActivity());
+		FrameLayout frameLayout = (FrameLayout) getActivity().findViewById(Window.ID_ANDROID_CONTENT);
+		FrameLayout.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		params.gravity = Gravity.CENTER;
+		frameLayout.addView(mProgressBar, params);
 	}
 
 	@Override
@@ -51,13 +66,17 @@ public class ContacterFragment extends BaseFragment implements LoaderCallbacks<L
 
 	public void onLoadFinished(Loader<LinkedList<ContacterItem>> loader, LinkedList<ContacterItem> data)
 	{
-		mProgressBar.setVisibility(View.GONE);
-		Collections.sort(data);
-		mListView.setAdapter(new ContacterAdapter(getActivity(), data));
-		for (ContacterItem item : data)
+		if (null != data)
 		{
-			System.out.println(" item = " + item);
+			Collections.sort(data);
+			mListView.setAdapter(new ContacterAdapter(getActivity(), data));
+			for (ContacterItem item : data)
+			{
+				System.out.println(" item = " + item);
+			}
 		}
+
+		mProgressBar.setVisibility(View.GONE);
 	}
 
 	public void onLoaderReset(Loader<LinkedList<ContacterItem>> loader)

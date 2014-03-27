@@ -53,7 +53,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private Random mRandom = new Random();
 	/** 异步图片加载器 */
 	private ImageLoader mImageLoader;
-	/**ViewGroup中添加View时的动画*/
+	/**ViewGroup中添加View时的动画操作对象*/
 	private LayoutTransition mTransitioner;
 	public static NewsFragment newInstance(NewsItem item)
 	{
@@ -135,6 +135,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 					params.leftMargin = ltrb;
 					params.rightMargin = ltrb;
 					TextView textView = new TextView(getActivity());
+					textView.setClickable(true);
 					textView.setText(str);
 					textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 					textView.setLayoutParams(params);
@@ -173,20 +174,22 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		}
 
 	}
+	/**设置ViewGroup添加子View时的动画*/
 	private void setLinearContainerAnimation()
 	{
-		mTransitioner = new LayoutTransition();
- 
-		mTransitioner.setStagger(LayoutTransition.CHANGE_APPEARING, 100);
-        mTransitioner.setStagger(LayoutTransition.CHANGE_DISAPPEARING, 100);
+		mTransitioner = new LayoutTransition(); 
+		mTransitioner.setStagger(LayoutTransition.CHANGE_APPEARING, 100);//添加View
+        mTransitioner.setStagger(LayoutTransition.CHANGE_DISAPPEARING, 100);//移除View
+        //定制动画
         setupCustomAnimations();
+        //设置mLinearContainer布局改变时动画
 		mLinearContainer.setLayoutTransition(mTransitioner);
 
 	}
 	/**定制ViewGroup添加View时显示的动画*/
 	private void setupCustomAnimations()
 	{
-		// Changing while Adding
+		// 添加改变时执行
 		PropertyValuesHolder pvhLeft =
 			PropertyValuesHolder.ofInt("left", 0, 1);
 		PropertyValuesHolder pvhTop =
@@ -213,7 +216,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 			}
 		});
 
-		// Changing while Removing
+		// 移除改变时执行
 		Keyframe kf0 = Keyframe.ofFloat(0f, 0f);
 		Keyframe kf1 = Keyframe.ofFloat(.9999f, 360f);
 		Keyframe kf2 = Keyframe.ofFloat(1f, 0f);
@@ -232,7 +235,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 			}
 		});
 
-		// Adding
+		// 添加时执行
 		ObjectAnimator animIn = ObjectAnimator.ofFloat(null, "rotationY", 90f, 0f).
 			setDuration(mTransitioner.getDuration(LayoutTransition.APPEARING));
 		mTransitioner.setAnimator(LayoutTransition.APPEARING, animIn);
@@ -245,7 +248,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 			}
 		});
 
-		// Removing
+		// 移除View时执行的动画
 		ObjectAnimator animOut = ObjectAnimator.ofFloat(null, "rotationX", 0f, 90f).
 			setDuration(mTransitioner.getDuration(LayoutTransition.DISAPPEARING));
 		mTransitioner.setAnimator(LayoutTransition.DISAPPEARING, animOut);

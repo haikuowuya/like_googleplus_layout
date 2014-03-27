@@ -318,7 +318,7 @@ public class NewsUtils
 						{
 							content = FOUR_BLANK + element2.text();
 						}
-						if (!TextUtils.isEmpty(content))
+						if (content.length() > FOUR_BLANK.length())
 						{
 							data.add(content);
 						}

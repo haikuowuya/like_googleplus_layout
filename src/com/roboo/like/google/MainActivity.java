@@ -13,12 +13,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 
 import com.roboo.like.google.adapters.NewsTypeListAdapter;
-import com.roboo.like.google.fragments.MainFragment;
 import com.roboo.like.google.fragments.LeftFragment;
+import com.roboo.like.google.fragments.MainFragment;
 import com.roboo.like.google.fragments.RightFragment;
 import com.roboo.like.google.models.NewsTypeItem;
 

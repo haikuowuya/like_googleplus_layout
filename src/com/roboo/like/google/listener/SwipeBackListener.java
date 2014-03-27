@@ -16,5 +16,6 @@ public interface SwipeBackListener
 	 * Scroll out contentView and finish the activity
 	 */
 	public abstract void scrollToFinishActivity();
+	public abstract void scrollToNextActivity();
 
 }

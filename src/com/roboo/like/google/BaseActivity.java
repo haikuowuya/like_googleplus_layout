@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 
 import com.roboo.like.google.listener.SwipeBackListener;
 import com.roboo.like.google.views.SwipeBackFrameLayout;
+import com.roboo.like.google.views.SwipeBackFrameLayout.SwipeListener;
 import com.roboo.like.google.views.helper.SwipeBackActivityHelper;
 
 public abstract class BaseActivity extends FragmentActivity implements SwipeBackListener
@@ -74,6 +75,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 	{
 		getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackFrameLayout.EDGE_LEFT);
 		getSwipeBackLayout().setEnableGesture(enable);
+		getSwipeBackLayout().addSwipeListener(new SwipeListenerImpl());
 
 	}
 
@@ -82,12 +84,31 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 	{
 		getSwipeBackLayout().scrollToFinishActivity();
 	}
-
+	
 	@Override
-	public void overridePendingTransition(int enterAnim, int exitAnim)
+	public void scrollToNextActivity()
 	{
-		// enterAnim = R.anim.base_slide_bottom_in;
-		// exitAnim = R.anim.base_slide_right_out;
-		super.overridePendingTransition(enterAnim, exitAnim);
+		
+	}
+
+	private class SwipeListenerImpl implements SwipeListener
+	{
+		public void onScrollStateChange(int state, float scrollPercent)
+		{
+			 System.out.println("onScrollStateChange");
+		}
+
+		@Override
+		public void onEdgeTouch(int edgeFlag)
+		{
+			 System.out.println("onEdgeTouch");
+		}
+
+		@Override
+		public void onScrollOverThreshold()
+		{
+			 System.out.println("onScrollOverThreshold");
+		}
+		
 	}
 }
