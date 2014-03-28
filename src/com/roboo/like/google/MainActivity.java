@@ -11,6 +11,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.BaseAdapter;
@@ -152,6 +153,16 @@ public class MainActivity extends FragmentActivity
 		{
 			mDrawerLayout.closeDrawer(Gravity.LEFT);
 		}
+	}
+ 
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+	{
+		if(keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			GoogleApplication application = (GoogleApplication) getApplication();
+			application.unBindNetworkService();
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 }

@@ -23,18 +23,6 @@ public class NewsContentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<S
 		try
 		{
 			data  = NewsUtils.getITHomeNewsDataList(mNewsUrl);
-			GoogleApplication.TEST = true;
-			if(GoogleApplication.TEST)
-			{
-				if(null != data )
-				{
-					for(String str : data)
-					{
-						System.out.println("str = " + str);
-					}
-				}
-			}
-		
 		}
 		catch (IOException e)
 		{

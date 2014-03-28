@@ -220,7 +220,11 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	/** initLoader/reStartLoader方法被调用时会执行onCreateLoader */
 	public Loader<LinkedList<NewsItem>> onCreateLoader(int id, Bundle args)
 	{
-		System.out.println("args.int = " + args.getInt(ARG_CURRENT_PAGENO, 1));
+		GoogleApplication.TEST = false;
+		if(GoogleApplication.TEST )
+		{
+			System.out.println("当前加载的是第   " + args.getInt(ARG_CURRENT_PAGENO, 1)+" 页数据");
+		}
 		mProgressBar.setVisibility(View.VISIBLE);
 		mTvText.setText("正在加载数据中……");
 		return new NewsAsyncTaskLoader(getActivity(), args.getString(ARG_NEWS_URL), args.getInt(ARG_CURRENT_PAGENO, 1));
@@ -243,23 +247,24 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 				mData.addAll(data);
 				mAdapter.notifyDataSetChanged();
 			}
-			for(NewsItem item :data)
+			for (NewsItem item : data)
 			{
-				GoogleApplication.TEST = false;
-				if(GoogleApplication.TEST)
+				GoogleApplication.TEST = true;
+				if (GoogleApplication.TEST)
 				{
-					System.out.println( "Item = 【 "+item + " 】 ");
+					System.out.println("Item = 【 " + item + " 】 ");
 				}
 			}
+
+			String messageText = "加载  " + data.size() + " 条新数据";
+			if (mCurrentPageNo == 1)
+			{
+				messageText = " 更新  " + data.size() + " 条新数据";
+			}
+			new CardToastUtils(getActivity()).showAndAutoDismiss(messageText);
+			mProgressBar.setVisibility(View.INVISIBLE);
+			mTvText.setText("点击加载下一页");
 		}
-		String messageText ="加载  " + data.size() + " 条新数据";
-		if(mCurrentPageNo ==1)
-		{
-			messageText = " 更新  " + data.size() + " 条新数据";
-		}
-		new CardToastUtils(getActivity()).showAndAutoDismiss(messageText);
-		mProgressBar.setVisibility(View.INVISIBLE);
-		mTvText.setText("点击加载下一页");
 		mPullToRefreshAttacher.setRefreshComplete();
 	}
 

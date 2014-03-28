@@ -10,11 +10,16 @@ import java.util.Map;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
+import android.widget.ProgressBar;
 
 import com.roboo.like.google.PictureDetailActivity;
 import com.roboo.like.google.R;
@@ -26,6 +31,7 @@ import com.roboo.like.google.views.StickyGridHeadersGridView;
 public class PictureFragment extends BaseFragment implements LoaderCallbacks<LinkedList<PictureItem>>
 {
 	private StickyGridHeadersGridView mSGHGridView;
+	private ProgressBar mProgressBar;
 
 	public static PictureFragment newInstance()
 	{
@@ -38,7 +44,18 @@ public class PictureFragment extends BaseFragment implements LoaderCallbacks<Lin
 	{
 		View view = inflater.inflate(R.layout.fragment_picture, null);
 		mSGHGridView = (StickyGridHeadersGridView) view.findViewById(R.id.sgh_gridview);
+		addProgressBar();
 		return view;
+
+	}
+
+	private void addProgressBar()
+	{
+		mProgressBar = new ProgressBar(getActivity());
+		FrameLayout frameLayout = (FrameLayout) getActivity().findViewById(Window.ID_ANDROID_CONTENT);
+		FrameLayout.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		params.gravity = Gravity.CENTER;
+		frameLayout.addView(mProgressBar, params);
 	}
 
 	@Override
@@ -56,16 +73,18 @@ public class PictureFragment extends BaseFragment implements LoaderCallbacks<Lin
 	@Override
 	public void onLoadFinished(Loader<LinkedList<PictureItem>> loader, LinkedList<PictureItem> data)
 	{
-		LinkedList<PictureItem> dataWrapper = generateHeaderId(data);
-		// 排序
-		Collections.sort(dataWrapper, new YMDComparator());
-		mSGHGridView.setAdapter(new StickyGridAdapter(getActivity(), dataWrapper));
+		if (null != data)
+		{
+			LinkedList<PictureItem> dataWrapper = generateHeaderId(data);
+			Collections.sort(dataWrapper, new YMDComparator());	// 排序
+			mSGHGridView.setAdapter(new StickyGridAdapter(getActivity(), dataWrapper));
+		}
+		mProgressBar.setVisibility(View.GONE);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<LinkedList<PictureItem>> loader)
-	{
-	}
+	{}
 
 	/**
 	 * 对GridView的Item生成HeaderId, 根据图片的添加时间的年、月、日来生成HeaderId 年、月、日相等HeaderId就相同

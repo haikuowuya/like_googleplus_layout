@@ -34,6 +34,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.roboo.like.google.BaseActivity;
+import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.PictureDetailActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.async.NewsContentAsyncTaskLoader;
@@ -53,8 +54,9 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private Random mRandom = new Random();
 	/** 异步图片加载器 */
 	private ImageLoader mImageLoader;
-	/**ViewGroup中添加View时的动画操作对象*/
+	/** ViewGroup中添加View时的动画操作对象 */
 	private LayoutTransition mTransitioner;
+
 	public static NewsFragment newInstance(NewsItem item)
 	{
 		NewsFragment fragment = new NewsFragment();
@@ -70,8 +72,8 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		View view = inflater.inflate(R.layout.fragment_news, null);
 		mLinearContainer = (LinearLayout) view.findViewById(R.id.linear_container);
 		mTvTitle = (TextView) view.findViewById(R.id.tv_title);
-		 
-		 Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "custom.ttf");
+
+		Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "custom.ttf");
 		addProgressBar();
 		mTvTitle.setTypeface(typeface);
 		return view;
@@ -143,6 +145,13 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 					textView.setBackgroundResource(R.drawable.list_item_selector);
 					mLinearContainer.addView(textView);
 				}
+
+				GoogleApplication.TEST = true;
+				if (GoogleApplication.TEST)
+				{
+					System.out.println("str = " + str);
+				}
+
 			}
 		}
 		int nextIndex = mRandom.nextInt(COLORS_COLLECTION.length);
@@ -174,37 +183,31 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		}
 
 	}
-	/**设置ViewGroup添加子View时的动画*/
+
+	/** 设置ViewGroup添加子View时的动画 */
 	private void setLinearContainerAnimation()
 	{
-		mTransitioner = new LayoutTransition(); 
-		mTransitioner.setStagger(LayoutTransition.CHANGE_APPEARING, 100);//添加View
-        mTransitioner.setStagger(LayoutTransition.CHANGE_DISAPPEARING, 100);//移除View
-        //定制动画
-        setupCustomAnimations();
-        //设置mLinearContainer布局改变时动画
+		mTransitioner = new LayoutTransition();
+		mTransitioner.setStagger(LayoutTransition.CHANGE_APPEARING, 100);// 添加View
+		mTransitioner.setStagger(LayoutTransition.CHANGE_DISAPPEARING, 100);// 移除View
+		// 定制动画
+		setupCustomAnimations();
+		// 设置mLinearContainer布局改变时动画
 		mLinearContainer.setLayoutTransition(mTransitioner);
 
 	}
-	/**定制ViewGroup添加View时显示的动画*/
+
+	/** 定制ViewGroup添加View时显示的动画 */
 	private void setupCustomAnimations()
 	{
 		// 添加改变时执行
-		PropertyValuesHolder pvhLeft =
-			PropertyValuesHolder.ofInt("left", 0, 1);
-		PropertyValuesHolder pvhTop =
-			PropertyValuesHolder.ofInt("top", 0, 1);
-		PropertyValuesHolder pvhRight =
-			PropertyValuesHolder.ofInt("right", 0, 1);
-		PropertyValuesHolder pvhBottom =
-			PropertyValuesHolder.ofInt("bottom", 0, 1);
-		PropertyValuesHolder pvhScaleX =
-			PropertyValuesHolder.ofFloat("scaleX", 1f, 0f, 1f);
-		PropertyValuesHolder pvhScaleY =
-			PropertyValuesHolder.ofFloat("scaleY", 1f, 0f, 1f);
-		final ObjectAnimator changeIn = ObjectAnimator.ofPropertyValuesHolder(
-			this, pvhLeft, pvhTop, pvhRight, pvhBottom, pvhScaleX, pvhScaleY).
-			setDuration(mTransitioner.getDuration(LayoutTransition.CHANGE_APPEARING));
+		PropertyValuesHolder pvhLeft = PropertyValuesHolder.ofInt("left", 0, 1);
+		PropertyValuesHolder pvhTop = PropertyValuesHolder.ofInt("top", 0, 1);
+		PropertyValuesHolder pvhRight = PropertyValuesHolder.ofInt("right", 0, 1);
+		PropertyValuesHolder pvhBottom = PropertyValuesHolder.ofInt("bottom", 0, 1);
+		PropertyValuesHolder pvhScaleX = PropertyValuesHolder.ofFloat("scaleX", 1f, 0f, 1f);
+		PropertyValuesHolder pvhScaleY = PropertyValuesHolder.ofFloat("scaleY", 1f, 0f, 1f);
+		final ObjectAnimator changeIn = ObjectAnimator.ofPropertyValuesHolder(this, pvhLeft, pvhTop, pvhRight, pvhBottom, pvhScaleX, pvhScaleY).setDuration(mTransitioner.getDuration(LayoutTransition.CHANGE_APPEARING));
 		mTransitioner.setAnimator(LayoutTransition.CHANGE_APPEARING, changeIn);
 		changeIn.addListener(new AnimatorListenerAdapter()
 		{
@@ -220,11 +223,8 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		Keyframe kf0 = Keyframe.ofFloat(0f, 0f);
 		Keyframe kf1 = Keyframe.ofFloat(.9999f, 360f);
 		Keyframe kf2 = Keyframe.ofFloat(1f, 0f);
-		PropertyValuesHolder pvhRotation =
-			PropertyValuesHolder.ofKeyframe("rotation", kf0, kf1, kf2);
-		final ObjectAnimator changeOut = ObjectAnimator.ofPropertyValuesHolder(
-			this, pvhLeft, pvhTop, pvhRight, pvhBottom, pvhRotation).
-			setDuration(mTransitioner.getDuration(LayoutTransition.CHANGE_DISAPPEARING));
+		PropertyValuesHolder pvhRotation = PropertyValuesHolder.ofKeyframe("rotation", kf0, kf1, kf2);
+		final ObjectAnimator changeOut = ObjectAnimator.ofPropertyValuesHolder(this, pvhLeft, pvhTop, pvhRight, pvhBottom, pvhRotation).setDuration(mTransitioner.getDuration(LayoutTransition.CHANGE_DISAPPEARING));
 		mTransitioner.setAnimator(LayoutTransition.CHANGE_DISAPPEARING, changeOut);
 		changeOut.addListener(new AnimatorListenerAdapter()
 		{
@@ -236,8 +236,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		});
 
 		// 添加时执行
-		ObjectAnimator animIn = ObjectAnimator.ofFloat(null, "rotationY", 90f, 0f).
-			setDuration(mTransitioner.getDuration(LayoutTransition.APPEARING));
+		ObjectAnimator animIn = ObjectAnimator.ofFloat(null, "rotationY", 90f, 0f).setDuration(mTransitioner.getDuration(LayoutTransition.APPEARING));
 		mTransitioner.setAnimator(LayoutTransition.APPEARING, animIn);
 		animIn.addListener(new AnimatorListenerAdapter()
 		{
@@ -249,8 +248,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		});
 
 		// 移除View时执行的动画
-		ObjectAnimator animOut = ObjectAnimator.ofFloat(null, "rotationX", 0f, 90f).
-			setDuration(mTransitioner.getDuration(LayoutTransition.DISAPPEARING));
+		ObjectAnimator animOut = ObjectAnimator.ofFloat(null, "rotationX", 0f, 90f).setDuration(mTransitioner.getDuration(LayoutTransition.DISAPPEARING));
 		mTransitioner.setAnimator(LayoutTransition.DISAPPEARING, animOut);
 		animOut.addListener(new AnimatorListenerAdapter()
 		{

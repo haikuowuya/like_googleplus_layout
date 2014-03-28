@@ -188,10 +188,19 @@ public class NewsUtils
 							NewsItem news = new NewsItem();
 							String url = aElement.attr("href");
 							String md5 = MD5Utils.generate(url);
-
 							String title = h2Element.text();
 							String subTitle = pElement.text();
 							String src = imgElement.attr("data-original");
+							if (!TextUtils.isEmpty(url))
+							{
+								int start = url.lastIndexOf("/");
+								int end = url.lastIndexOf(".");
+								if (start != -1 && end != -1)
+								{
+									String newsId = url.substring(start + 1, end);
+									news.setNewsId(newsId);
+								}
+							}
 							news.setSrc(src);
 							news.setMd5(md5);
 							news.setUrl(url);

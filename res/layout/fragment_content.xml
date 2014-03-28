@@ -1,10 +1,26 @@
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/lv_list"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/ivorg_color"
-    android:dividerHeight="10dp"
-    android:scrollbarStyle="outsideOverlay"
-    android:divider="@android:color/transparent"
-    android:fadeScrollbars="false"
-    android:footerDividersEnabled="true" />
+    android:layout_height="match_parent" >
+
+    <ListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/lv_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ivorg_color"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:fadeScrollbars="false"
+        android:footerDividersEnabled="true"
+        android:scrollbarStyle="outsideOverlay" />
+
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="没有数据" />
+
+</FrameLayout>

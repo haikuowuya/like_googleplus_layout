@@ -5,7 +5,9 @@ import java.io.Serializable;
 public class NewsItem implements Serializable
 {
 	private static final long serialVersionUID = 2452345351L;
-	private String md5 ;
+	/** 新闻Id用于获取评论时使用 */
+	private String newsId;
+	private String md5;
 	private String title;
 	private String subTitle;
 	private String url;
@@ -14,10 +16,12 @@ public class NewsItem implements Serializable
 	private String source;
 	private long date = System.currentTimeMillis();
 	private String newsCategoryMd5;
+
 	public NewsItem()
 	{
 		super();
 	}
+
 	public NewsItem(String md5, String title, String subTitle, String url, String src)
 	{
 		super();
@@ -27,6 +31,7 @@ public class NewsItem implements Serializable
 		this.url = url;
 		this.src = src;
 	}
+
 	public NewsItem(String md5, String title, String subTitle, String url, String src, String source)
 	{
 		super();
@@ -38,6 +43,7 @@ public class NewsItem implements Serializable
 		this.src = src;
 		this.source = source;
 	}
+
 	public NewsItem(String md5, String title, String subTitle, String url, String src, String note, String source, long date)
 	{
 		super();
@@ -50,97 +56,123 @@ public class NewsItem implements Serializable
 		this.source = source;
 		this.date = date;
 	}
-	
+
 	public String getNewsCategoryMd5()
 	{
 		return newsCategoryMd5;
 	}
+
 	public void setNewsCategoryMd5(String newsCategoryMd5)
 	{
 		this.newsCategoryMd5 = newsCategoryMd5;
 	}
+
 	public String getMd5()
 	{
 		return md5;
 	}
+
 	public void setMd5(String md5)
 	{
 		this.md5 = md5;
 	}
-	
+
 	public String getTitle()
 	{
 		return title;
 	}
+
 	public void setTitle(String title)
 	{
 		this.title = title;
 	}
+
 	public String getSubTitle()
 	{
 		return subTitle;
 	}
+
 	public void setSubTitle(String subTitle)
 	{
 		this.subTitle = subTitle;
 	}
+
 	public String getUrl()
 	{
 		return url;
 	}
+
 	public void setUrl(String url)
 	{
 		this.url = url;
 	}
+
 	public String getSrc()
 	{
 		return src;
 	}
+
 	public void setSrc(String src)
 	{
 		this.src = src;
 	}
+
 	public String getNote()
 	{
 		return note;
 	}
+
 	public void setNote(String note)
 	{
 		this.note = note;
 	}
+
 	public String getSource()
 	{
 		return source;
 	}
+
 	public void setSource(String source)
 	{
 		this.source = source;
 	}
+
 	public long getDate()
 	{
 		return date;
 	}
+
 	public void setDate(long date)
 	{
 		this.date = date;
 	}
+
 	@Override
 	public boolean equals(Object o)
 	{
-		if(null != o && o instanceof NewsItem)
+		if (null != o && o instanceof NewsItem)
 		{
-			return this.md5.equals(((NewsItem)o).getMd5());
+			return this.md5.equals(((NewsItem) o).getMd5());
 		}
 		return false;
-		
 	}
+
+	public String getNewsId()
+	{
+		return newsId;
+	}
+
+	public void setNewsId(String newsId)
+	{
+		this.newsId = newsId;
+	}
+
 	@Override
 	public String toString()
 	{
-	
-		return  "md5 = " + md5 + " url = " + url + " title = " + title
-			+" subTitle = " + subTitle + " src = "+ src ;
-		
+
+		return "md5 = " + md5 + " newsId = " + newsId + " url = " + url + " title = " + title + " subTitle = " + subTitle + " src = " + src;
+
 	}
-	
+
 }
