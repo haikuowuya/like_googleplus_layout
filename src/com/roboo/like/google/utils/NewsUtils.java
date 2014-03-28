@@ -14,6 +14,7 @@ import com.roboo.like.google.models.NewsItem;
 
 public class NewsUtils
 {
+	private static final int TIME_OUT= 20000;
 	private static final String QQ_NEWS_STYLE_CLASS_NAME = "Q-tpWrap";
 	private static final String QQ_NEWS_CONTENT_ID = "Cnt-Main-Article-QQ";
 	private static final String IT_HOME_NEWS_CONTENT_ID = "paragraph";
@@ -220,7 +221,7 @@ public class NewsUtils
 	{
 		LinkedList<NewsItem> data = null;
 		String itHomeUrl = baseUrl + category + "_" + pageNo + ".html";
-		Document document = Jsoup.connect(itHomeUrl).timeout(20000).get();
+		Document document = Jsoup.connect(itHomeUrl).timeout(TIME_OUT).get();
 		if (null != document)
 		{
 			Elements es = document.getElementsByClass(IT_HOME_STYLE_CLASS_NAME);

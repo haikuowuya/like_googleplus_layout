@@ -146,7 +146,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 					mLinearContainer.addView(textView);
 				}
 
-				GoogleApplication.TEST = true;
+				GoogleApplication.TEST = false;
 				if (GoogleApplication.TEST)
 				{
 					System.out.println("str = " + str);

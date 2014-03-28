@@ -249,7 +249,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			}
 			for (NewsItem item : data)
 			{
-				GoogleApplication.TEST = true;
+				GoogleApplication.TEST = false;
 				if (GoogleApplication.TEST)
 				{
 					System.out.println("Item = 【 " + item + " 】 ");
