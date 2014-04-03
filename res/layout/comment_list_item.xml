@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_item_selector"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/turquoise_color"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/tv_floor"
+            style="@style/Comment.List.Item.TextView.Style"
+            android:text="1楼"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_nick"
+            style="@style/Comment.List.Item.TextView.Style"
+            android:text="匿名"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_phone_type"
+            style="@style/Comment.List.Item.TextView.Style"
+            android:text="魅族手机"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            style="@style/Comment.List.Item.TextView.Style"
+            android:text="河南南阳" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            style="@style/Comment.List.Item.TextView.Style"
+            android:layout_width="match_parent"
+            android:gravity="right"
+            android:text="2014-3-31" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/orangered_color"
+        android:padding="10dp"
+        android:text="评论内容"
+        android:textColor="@color/white_color"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/hotpink_color" >
+
+        <TextView
+            android:id="@+id/tv_agree"
+            style="@style/Comment.List.Item.TextView.Style"
+            android:text="支持" />
+
+        <TextView
+            android:id="@+id/tv_disAgree"
+            style="@style/Comment.List.Item.TextView.Style"
+            android:text="反对" />
+    </LinearLayout>
+
+</LinearLayout>

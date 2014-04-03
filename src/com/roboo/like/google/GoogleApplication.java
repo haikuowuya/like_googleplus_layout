@@ -9,8 +9,10 @@ import android.util.Log;
 
 public class GoogleApplication extends Application
 {
+	
+	public static final String BASE_COMMENT_URL= "http://www.ithome.com/ithome/GetAjaxData.aspx?type=commentpage";
 	/**获取评论的URL*/
-	public static final String BASE_COMMENT_URL= "http://www.ithome.com/ithome/GetAjaxData.aspx?newsid=78507&type=commentpage&page=1";
+	public static final String DUMMY_COMMENT_URL= "http://www.ithome.com/ithome/GetAjaxData.aspx?newsid=78507&type=commentpage&page=1";
 	/**用于测试*/
 	public static boolean TEST = true;
 	/**DEBUG TAG*/

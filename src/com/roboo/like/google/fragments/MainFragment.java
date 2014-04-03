@@ -278,7 +278,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	{
 		Bundle bundle = getArguments();
 		bundle.putInt(ARG_CURRENT_PAGENO, ++mCurrentPageNo);
-		getActivity().getSupportLoaderManager().restartLoader(0, bundle, MainFragment.this);
+		getActivity().getSupportLoaderManager().restartLoader(0, bundle, this);
 
 	}
 }

@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -34,6 +35,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.roboo.like.google.BaseActivity;
+import com.roboo.like.google.CommentActivity;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.PictureDetailActivity;
 import com.roboo.like.google.R;
@@ -123,6 +125,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 				if (str.startsWith(BaseActivity.PREFIX_IMG_URL))
 				{
 					ImageView imageView = new ImageView(getActivity());
+					imageView.setId(R.id.iv_image);
 					imageView.setLayoutParams(params);
 					imageView.setBackgroundResource(R.drawable.list_item_selector);
 					DisplayImageOptions options = new DisplayImageOptions.Builder().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image)
@@ -151,14 +154,31 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 				{
 					System.out.println("str = " + str);
 				}
-
 			}
+			addCommentButton(params,ltrb);
 		}
 		int nextIndex = mRandom.nextInt(COLORS_COLLECTION.length);
 		mTvTitle.setBackgroundColor(getResources().getColor(COLORS_COLLECTION[nextIndex]));
 		mTvTitle.setText(mItem.getTitle());
 		mTvTitle.setVisibility(View.VISIBLE);
 		mProgressBar.setVisibility(View.GONE);
+	}
+
+	private void addCommentButton(android.widget.LinearLayout.LayoutParams params, int ltrb)
+	{
+		params.leftMargin = ltrb;
+		params.rightMargin = ltrb;
+		Button button = new Button(getActivity());
+		button.setId(R.id.btn_comment);
+		button.setClickable(true);
+		button.setText("查看评论");
+		button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+		button.setLayoutParams(params);
+		button.setPadding(ltrb, ltrb, ltrb, ltrb);
+		button.setBackgroundResource(R.drawable.list_item_selector);
+		mLinearContainer.addView(button);
+		button.setOnClickListener(new OnClickListenerImpl());
+		 
 	}
 
 	public void onLoaderReset(Loader<LinkedList<String>> loader)
@@ -170,6 +190,10 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	{
 
 		private String imagePath;
+		
+		public OnClickListenerImpl()
+		{
+		}
 
 		public OnClickListenerImpl(String imagePath)
 		{
@@ -179,7 +203,17 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		@Override
 		public void onClick(View v)
 		{
-			PictureDetailActivity.actionPictureDetail(getActivity(), imagePath);
+			switch (v.getId())
+			{
+			case R.id.iv_image:
+				
+				PictureDetailActivity.actionPictureDetail(getActivity(), imagePath);
+				break;
+
+			case R.id.btn_comment:
+				CommentActivity.actionComment(getActivity(), mItem.getNewsId());
+				break;
+			}
 		}
 
 	}

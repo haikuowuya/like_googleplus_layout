@@ -298,7 +298,7 @@ public class NewsUtils
 	public static LinkedList<String> getITHomeNewsDataList(String newsUrl) throws IOException
 	{
 		LinkedList<String> data = null;
-		Document document = Jsoup.connect(newsUrl).get();
+		Document document = Jsoup.connect(newsUrl).timeout(TIME_OUT).get();
 		if (null != document)
 		{
 			Element element = document.getElementById(IT_HOME_NEWS_CONTENT_ID);

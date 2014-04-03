@@ -1,7 +1,5 @@
 package com.roboo.like.google;
 
-import java.io.IOException;
-
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -12,7 +10,6 @@ import android.view.Window;
 import android.widget.FrameLayout;
 
 import com.roboo.like.google.listener.SwipeBackListener;
-import com.roboo.like.google.utils.CommentUtils;
 import com.roboo.like.google.views.SwipeBackFrameLayout;
 import com.roboo.like.google.views.SwipeBackFrameLayout.SwipeListener;
 import com.roboo.like.google.views.helper.SwipeBackActivityHelper;
@@ -38,15 +35,6 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 		mActivityHelper.onActivityCreate();
 		super.setContentView(R.layout.activity_base);
 		mContainer = (FrameLayout) findViewById(R.id.frame_container);
-		try
-		{
-			CommentUtils.getCommentList(GoogleApplication.BASE_COMMENT_URL);
-		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public void setContentView(int layoutResID)
@@ -54,8 +42,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 		View childView = LayoutInflater.from(this).inflate(layoutResID, null);
 		mContainer.addView(childView);
 	}
-
-	@Override
+ 
 	protected void onPostCreate(Bundle savedInstanceState)
 	{
 		super.onPostCreate(savedInstanceState);
