@@ -30,22 +30,16 @@ import com.roboo.like.google.adapters.ImageFragmentAdapter;
 public class CirclePageIndicator extends View
 {
 	private static final int INVALID_POINTER = -1;
-	/**
-	 * 圆圈的半径
-	 */
+	/** 圆圈的半径 */
 	private float mRadius;
-	/**
-	 * 圆的默认填充颜色
-	 */
+	
+	/** 圆的默认填充颜色 */
 	private final Paint mPaintPageFill = new Paint(ANTI_ALIAS_FLAG);
-	/**
-	 * 圆边框填充颜色
-	 */
+	/** 圆边框填充颜色*/
 	private final Paint mPaintStroke = new Paint(ANTI_ALIAS_FLAG);
-	/**
-	 * 圆的填充颜色
-	 */
+	/** 圆的填充颜色*/
 	private final Paint mPaintFill = new Paint(ANTI_ALIAS_FLAG);
+	/**与之关联的 ViewPager*/
 	private ViewPager mViewPager;
 	private ViewPager.OnPageChangeListener mListener;
 	private int mCurrentPage;
@@ -76,8 +70,6 @@ public class CirclePageIndicator extends View
 		super(context, attrs, defStyle);
 		if (isInEditMode())
 			return;
-
-		// Load defaults from resources
 		final Resources res = getResources();
 		final int defaultPageColor = 0x00000000;
 		final int defaultOrientation = 0;
@@ -224,12 +216,15 @@ public class CirclePageIndicator extends View
 		int count = mViewPager.getAdapter().getCount();
 		// ==================================================================
 		// ==================================================================
+		// 对无限循环 ViewPager 适配器的处理
+		// ==================================================================
+		// ==================================================================
 		if (mViewPager.getAdapter() instanceof ImageFragmentAdapter)
 		{
 			ImageFragmentAdapter adapter = (ImageFragmentAdapter) mViewPager.getAdapter();
 			count = adapter.getReadlCount();
 		}
-		// ==================================================================
+		 
 		// ==================================================================
 		if (count == 0)
 		{

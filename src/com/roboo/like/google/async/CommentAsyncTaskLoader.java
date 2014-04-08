@@ -7,9 +7,7 @@ import android.content.Context;
 
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.models.CommentItem;
-import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.CommentUtils;
-import com.roboo.like.google.utils.NewsUtils;
 
 public class CommentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<CommentItem>>
 {
