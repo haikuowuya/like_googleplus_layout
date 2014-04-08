@@ -13,13 +13,17 @@ import com.roboo.like.google.listener.SwipeBackListener;
 import com.roboo.like.google.views.SwipeBackFrameLayout;
 import com.roboo.like.google.views.SwipeBackFrameLayout.SwipeListener;
 import com.roboo.like.google.views.helper.SwipeBackActivityHelper;
+ 
 
 public abstract class BaseActivity extends FragmentActivity implements SwipeBackListener
 {
 	/**IT之家的图片地址前缀*/
 	public  static final String PREFIX_IMG_URL = "http://img.ithome.com";
+	/**滑动关闭Activity的帮助工具类对象*/
 	protected SwipeBackActivityHelper mActivityHelper;
+	/**ActionBar对象*/
 	protected ActionBar mActionBar;
+	/**主要的窗口容器*/
 	private FrameLayout mContainer;
 
 	public abstract void initView();
@@ -41,12 +45,14 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 	{
 		View childView = LayoutInflater.from(this).inflate(layoutResID, null);
 		mContainer.addView(childView);
+		 
 	}
  
 	protected void onPostCreate(Bundle savedInstanceState)
 	{
 		super.onPostCreate(savedInstanceState);
 		mActivityHelper.onPostCreate();
+	 
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item)
@@ -57,10 +63,9 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 			finish();
 			break;
 		}
+		 
 		return super.onOptionsItemSelected(item);
 	}
-
-	@Override
 	public SwipeBackFrameLayout getSwipeBackLayout()
 	{
 		return mActivityHelper.getSwipeBackLayout();
