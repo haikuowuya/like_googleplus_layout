@@ -2,13 +2,22 @@
     android:id="@+id/drawer_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+   
     android:background="@android:color/white" >
 
-  <com.roboo.like.google.views.ZoomImageView 
+    <com.roboo.like.google.views.ZoomImageView
         android:id="@+id/ziv_image"
         android:layout_width="match_parent"
-        android:src="@drawable/ic_default_image"
+        android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:layout_height="match_parent" />
+        android:src="@drawable/ic_default_image"
+        android:visibility="gone" />
+
+    <com.roboo.like.google.views.PhotoView
+        android:id="@+id/pv_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       android:layout_centerInParent="true"
+        android:src="@drawable/ic_default_image" />
 
 </RelativeLayout>

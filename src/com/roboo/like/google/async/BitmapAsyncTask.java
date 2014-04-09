@@ -14,23 +14,22 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.roboo.like.google.utils.BitmapUtils;
-import com.roboo.like.google.views.ZoomImageView;
 
 public class BitmapAsyncTask extends AsyncTask<String, Integer, Bitmap>
 {
-	private View mView;
+	private ImageView mImageView;
 	private int mImageWidth;
 	private int mImageHeight;
 
-	public BitmapAsyncTask(View mView)
+	public BitmapAsyncTask(ImageView imageView)
 	{
-		this.mView = mView;
+		this.mImageView = imageView;
 	}
 
-	public BitmapAsyncTask(View mView, int mImageWidth, int mImageHeight)
+	public BitmapAsyncTask(ImageView imageView, int mImageWidth, int mImageHeight)
 	{
 		super();
-		this.mView = mView;
+		this.mImageView = imageView;
 		this.mImageWidth = mImageWidth;
 		this.mImageHeight = mImageHeight;
 	}
@@ -38,10 +37,10 @@ public class BitmapAsyncTask extends AsyncTask<String, Integer, Bitmap>
 	@Override
 	protected Bitmap doInBackground(String... params)
 	{
-		String url = params[0];
+		String imagePath = params[0];
 		try
 		{
-			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+			HttpURLConnection connection = (HttpURLConnection) new URL(imagePath).openConnection();
 			if (connection.getResponseCode() == HttpStatus.SC_OK)
 			{
 				InputStream inputStream = connection.getInputStream();
@@ -51,12 +50,10 @@ public class BitmapAsyncTask extends AsyncTask<String, Integer, Bitmap>
 		}
 		catch (MalformedURLException e)
 		{
-
 			e.printStackTrace();
 		}
 		catch (IOException e)
 		{
-
 			e.printStackTrace();
 		}
 
@@ -73,15 +70,7 @@ public class BitmapAsyncTask extends AsyncTask<String, Integer, Bitmap>
 	{
 		if (null != bitmap)
 		{
-			if (mView instanceof ZoomImageView)
-			{
-				((ZoomImageView) mView).setImageBitmap(bitmap);
-
-			}
-			else if (mView instanceof ImageView)
-			{
-				((ImageView) mView).setImageBitmap(bitmap);
-			}
+			mImageView.setImageBitmap(bitmap);
 		}
 	}
 

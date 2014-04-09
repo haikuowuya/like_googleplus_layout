@@ -15,13 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.ProgressBar;
 
-import com.roboo.like.google.PictureDetailActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.StickyGridAdapter;
 import com.roboo.like.google.async.PictureAsyncTaskLoader;

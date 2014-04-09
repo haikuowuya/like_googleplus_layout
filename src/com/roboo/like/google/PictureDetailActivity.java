@@ -7,18 +7,18 @@ import android.view.MenuItem;
 
 import com.roboo.like.google.async.BitmapAsyncTask;
 import com.roboo.like.google.utils.BitmapUtils;
-import com.roboo.like.google.views.ZoomImageView;
+import com.roboo.like.google.views.PhotoView;
 
 /** 图片详情界面 */
 public class PictureDetailActivity extends BaseActivity
 {
-	
-	private ZoomImageView  mImageView;
-	private String mImagePath  ;
-	private static final String EXTRA_IMAGE_PATH="image_path";
+
+	private PhotoView mPhotoView;
+	private String mImagePath;
+	private static final String EXTRA_IMAGE_PATH = "image_path";
 
 	/** 跳转到图片详情界面 */
-	public static void actionPictureDetail(Activity activity,String imagePath)
+	public static void actionPictureDetail(Activity activity, String imagePath)
 	{
 		Intent intent = new Intent(activity, PictureDetailActivity.class);
 		intent.putExtra(EXTRA_IMAGE_PATH, imagePath);
@@ -32,17 +32,17 @@ public class PictureDetailActivity extends BaseActivity
 		initView();
 		customActionBar();
 		mImagePath = getIntent().getStringExtra(EXTRA_IMAGE_PATH);
-		
-		if(mImagePath.startsWith(PREFIX_IMG_URL))
+		System.out.println("图片 URL = " + mImagePath);
+		if (mImagePath.startsWith(PREFIX_IMG_URL))
 		{
-			new BitmapAsyncTask(mImageView, getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels).execute(mImagePath);
+			new BitmapAsyncTask(mPhotoView, getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels).execute(mImagePath);
 		}
 		else
 		{
-			mImageView.setImageBitmap(BitmapUtils.getBitmap(mImagePath, getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels));
+			mPhotoView.setImageBitmap(BitmapUtils.getBitmap(mImagePath, getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels));
 		}
 	}
-	 
+
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId())
@@ -53,11 +53,12 @@ public class PictureDetailActivity extends BaseActivity
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
 	public void initView()
 	{
-		mImageView  = (ZoomImageView) findViewById(R.id.ziv_image);
-		 
+		mPhotoView = (PhotoView) findViewById(R.id.pv_image);
 	}
+
 	private void customActionBar()
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(true);
