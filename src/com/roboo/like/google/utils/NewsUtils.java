@@ -14,7 +14,7 @@ import com.roboo.like.google.models.NewsItem;
 
 public class NewsUtils
 {
-	private static final int TIME_OUT= 20000;
+	private static final int TIME_OUT = 20000;
 	private static final String QQ_NEWS_STYLE_CLASS_NAME = "Q-tpWrap";
 	private static final String QQ_NEWS_CONTENT_ID = "Cnt-Main-Article-QQ";
 	private static final String IT_HOME_NEWS_CONTENT_ID = "paragraph";
@@ -183,31 +183,35 @@ public class NewsUtils
 						for (Element ee : ess)
 						{
 							Element h2Element = ee.getElementsByTag("h2").get(0).getElementsByTag("a").get(0);
-							Element aElement = ee.getElementsByClass("list_thumbnail").get(0);
-							Element imgElement = aElement.getElementsByTag("img").get(0);
-							Element pElement = ee.getElementsByTag("p").get(0);
-							NewsItem news = new NewsItem();
-							String url = aElement.attr("href");
-							String md5 = MD5Utils.generate(url);
-							String title = h2Element.text();
-							String subTitle = pElement.text();
-							String src = imgElement.attr("data-original");
-							if (!TextUtils.isEmpty(url))
+							if (null != ee.getElementsByClass("list_thumbnail") && ee.getElementsByClass("list_thumbnail").size() > 0)
 							{
-								int start = url.lastIndexOf("/");
-								int end = url.lastIndexOf(".");
-								if (start != -1 && end != -1)
+								Element aElement = ee.getElementsByClass("list_thumbnail").get(0);
+								String url = aElement.attr("href");
+
+								Element imgElement = aElement.getElementsByTag("img").get(0);
+								Element pElement = ee.getElementsByTag("p").get(0);
+								NewsItem news = new NewsItem();
+								String md5 = MD5Utils.generate(url);
+								String title = h2Element.text();
+								String subTitle = pElement.text();
+								String src = imgElement.attr("data-original");
+								if (!TextUtils.isEmpty(url))
 								{
-									String newsId = url.substring(start + 1, end);
-									news.setNewsId(newsId);
+									int start = url.lastIndexOf("/");
+									int end = url.lastIndexOf(".");
+									if (start != -1 && end != -1 && end > start)
+									{
+										String newsId = url.substring(start + 1, end);
+										news.setNewsId(newsId);
+									}
 								}
+								news.setSrc(src);
+								news.setMd5(md5);
+								news.setUrl(url);
+								news.setTitle(title);
+								news.setSubTitle(subTitle);
+								data.add(news);
 							}
-							news.setSrc(src);
-							news.setMd5(md5);
-							news.setUrl(url);
-							news.setTitle(title);
-							news.setSubTitle(subTitle);
-							data.add(news);
 						}
 					}
 

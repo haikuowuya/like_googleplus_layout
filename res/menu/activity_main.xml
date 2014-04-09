@@ -3,15 +3,21 @@
     <item
         android:id="@+id/menu_group"
         android:icon="@drawable/ic_menu_group"
+        android:visible="false"
         android:showAsAction="always"/>
     <item
-        android:id="@+id/menu_notification"     
+        android:id="@+id/menu_download"
+        android:icon="@drawable/ic_menu_download"
+        android:title="下载"
+        android:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_notification"
         android:icon="@drawable/ic_menu_notification"
         android:showAsAction="always"/>
     <item
         android:icon="@drawable/ic_menu_overflow"
-        android:visible="false"
-        android:showAsAction="never">   
+        android:showAsAction="never"
+        android:visible="false">
         <menu>
             <item
                 android:id="@+id/menu_refresh"

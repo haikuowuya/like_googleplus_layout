@@ -16,7 +16,7 @@ import com.roboo.like.google.views.helper.SwipeBackActivityHelper;
  
 
 public abstract class BaseActivity extends FragmentActivity implements SwipeBackListener
-{
+{ 
 	/**IT之家的图片地址前缀*/
 	public  static final String PREFIX_IMG_URL = "http://img.ithome.com";
 	/**滑动关闭Activity的帮助工具类对象*/
@@ -77,7 +77,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 	@Override
 	public void setSwipeBackEnable(boolean enable)
 	{
-		getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackFrameLayout.EDGE_LEFT);
+		getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackFrameLayout.EDGE_RIGHT);
 		getSwipeBackLayout().setEnableGesture(enable);
 		getSwipeBackLayout().addSwipeListener(new SwipeListenerImpl());
 

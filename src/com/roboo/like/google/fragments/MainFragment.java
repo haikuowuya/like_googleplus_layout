@@ -2,7 +2,9 @@ package com.roboo.like.google.fragments;
 
 import java.util.LinkedList;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
@@ -10,13 +12,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.LocationActivity;
@@ -24,12 +24,15 @@ import com.roboo.like.google.MoodActivity;
 import com.roboo.like.google.NewsActivity;
 import com.roboo.like.google.PictureActivity;
 import com.roboo.like.google.R;
+import com.roboo.like.google.TextActivity;
 import com.roboo.like.google.adapters.NewsListViewAdapter;
 import com.roboo.like.google.async.NewsAsyncTaskLoader;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.CardToastUtils;
+import com.roboo.like.google.utils.NetWorkUtils;
 import com.roboo.like.google.views.helper.PoppyListViewHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper;
+import com.roboo.like.google.views.helper.PullToRefreshHelper.DefaultHeaderTransformer;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.OnRefreshListener;
 
 public class MainFragment extends BaseFragment implements LoaderCallbacks<LinkedList<NewsItem>>
@@ -68,7 +71,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	/** 当点击FooterView时显示加载数据标识 */
 	private ProgressBar mProgressBar;
 	/** 正在加载数据中…… */
-	private TextView mTvText;
+	private Button mBtnLoadNext;
 
 	/** 创建一个 ContentFragment 实例 */
 	public static MainFragment newInstance(String newsUrl)
@@ -82,10 +85,10 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.fragment_content, null);
+		View view = inflater.inflate(R.layout.fragment_content, null);//TODO
 		mFooterView = inflater.inflate(R.layout.listview_footer_view, null);
 		mProgressBar = (ProgressBar) mFooterView.findViewById(R.id.pb_progress);
-		mTvText = (TextView) mFooterView.findViewById(R.id.tv_load_next);
+		mBtnLoadNext = (Button) mFooterView.findViewById(R.id.btn_load_next);
 		mListView = (ListView) view.findViewById(R.id.lv_list);
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
@@ -113,6 +116,11 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 
 	private void loadFirstData()
 	{
+		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
+		{
+			DefaultHeaderTransformer transformer = (DefaultHeaderTransformer) mPullToRefreshAttacher.getHeaderTransformer();
+			transformer.setRefreshingText("正在获取离线数据");
+		}
 		Bundle bundle = getArguments();
 		mCurrentPageNo = 1;
 		bundle.putInt(ARG_CURRENT_PAGENO, mCurrentPageNo);
@@ -130,29 +138,11 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private void setListener()
 	{
 		mListView.setOnItemClickListener(new OnListItemClickListenerImpl());
-		// mListView.setOnScrollListener(new OnScrollListenerImpl());
 		OnClickListenerImpl onClickListenerImpl = new OnClickListenerImpl();
 		mBtnLocation.setOnClickListener(onClickListenerImpl);
 		mBtnMood.setOnClickListener(onClickListenerImpl);
 		mBtnPicture.setOnClickListener(onClickListenerImpl);
 		mBtnText.setOnClickListener(onClickListenerImpl);
-	}
-
-	private class OnScrollListenerImpl implements OnScrollListener
-	{
-		public void onScrollStateChanged(AbsListView view, int scrollState)
-		{
-			if (scrollState == OnScrollListener.SCROLL_STATE_IDLE && mLastItemVisible)
-			{
-				loadNextData();
-			}
-
-		}
-
-		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
-		{
-			mLastItemVisible = (totalItemCount > 0) && (firstVisibleItem + visibleItemCount >= totalItemCount - 1);
-		}
 	}
 
 	private class OnListItemClickListenerImpl implements OnItemClickListener
@@ -190,7 +180,6 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 				break;
 			}
 		}
-
 		/** 图片 */
 		public void picture()
 		{
@@ -212,7 +201,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		/** 文字 */
 		public void text()
 		{
-
+			TextActivity.actionText(getActivity());
 		}
 	}
 
@@ -220,13 +209,20 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	public Loader<LinkedList<NewsItem>> onCreateLoader(int id, Bundle args)
 	{
 		GoogleApplication.TEST = false;
-		if(GoogleApplication.TEST )
+		if (GoogleApplication.TEST)
 		{
-			System.out.println("当前加载的是第   " + args.getInt(ARG_CURRENT_PAGENO, 1)+" 页数据");
+			System.out.println("当前加载的是第   " + args.getInt(ARG_CURRENT_PAGENO, 1) + " 页数据");
 		}
 		mProgressBar.setVisibility(View.VISIBLE);
-		mTvText.setText("正在加载数据中……");
+		mBtnLoadNext.setText("正在加载数据中……");
 		return new NewsAsyncTaskLoader(getActivity(), args.getString(ARG_NEWS_URL), args.getInt(ARG_CURRENT_PAGENO, 1));
+	}
+	/**跳转到设置界面*/
+	public void networkSettings()
+	{
+		Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
 	}
 
 	@Override
@@ -234,6 +230,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	{
 		if (data != null)
 		{
+			getActivity().findViewById(android.R.id.empty).setVisibility(View.GONE);
 			if (null == mData)
 			{
 				mData = data;
@@ -243,7 +240,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			}
 			else
 			{
-				mData.addAll(data);
+				handleAddData(data);
 				mAdapter.notifyDataSetChanged();
 			}
 			for (NewsItem item : data)
@@ -254,30 +251,59 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 					System.out.println("Item = 【 " + item + " 】 ");
 				}
 			}
-
 			String messageText = "加载  " + data.size() + " 条新数据";
 			if (mCurrentPageNo == 1)
 			{
 				messageText = " 更新  " + data.size() + " 条新数据";
 			}
 			new CardToastUtils(getActivity()).showAndAutoDismiss(messageText);
-			mProgressBar.setVisibility(View.INVISIBLE);
-			mTvText.setText("点击加载下一页");
+
+			mBtnLoadNext.setText("点击加载下一页");
 		}
+		else
+		{
+			getActivity().findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
+			mBtnLoadNext.setText("所有数据加载完毕");
+		}
+		if(!NetWorkUtils.isNetworkAvailable(getActivity()))
+		{
+			mBtnLoadNext.setText("设置网络");
+		}
+		mProgressBar.setVisibility(View.INVISIBLE);
 		mPullToRefreshAttacher.setRefreshComplete();
+	}
+	/**处理数据重复问题*/
+	private void handleAddData(LinkedList<NewsItem> data)
+	{
+		 for(NewsItem item :data)
+		 {
+			 if(!mData.contains(item))
+			 {
+				 mData.add(item);
+			 }
+		 }
 	}
 
 	@Override
 	public void onLoaderReset(Loader<LinkedList<NewsItem>> loader)
 	{
-
 	}
-
 	private void loadNextData()
 	{
-		Bundle bundle = getArguments();
-		bundle.putInt(ARG_CURRENT_PAGENO, ++mCurrentPageNo);
-		getActivity().getSupportLoaderManager().restartLoader(0, bundle, this);
-
+		// =========================================================================
+		// =========================================================================
+		// 如果网络可用的话点击就去加载下一页数据， 如果不可用的话点击就跳转到系统网络设置界面
+		// =========================================================================
+		// =========================================================================
+		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
+		{
+			 networkSettings();
+		}
+		else
+		{
+			Bundle bundle = getArguments();
+			bundle.putInt(ARG_CURRENT_PAGENO, ++mCurrentPageNo);
+			getActivity().getSupportLoaderManager().restartLoader(0, bundle, this);
+		}
 	}
 }

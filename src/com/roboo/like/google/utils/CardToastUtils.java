@@ -29,7 +29,7 @@ public class CardToastUtils
 	/** 显示消息TextView的背景资源颜色 */
 	private static final int MESSAGE_TEXT_BACKGROUND_COLOR = 0xFFDCDCDC;
 	/** 默认显示持续的时间 */
-	private static final long SHOW_DURATION_TIME = 1000L;
+	private static final long SHOW_DURATION_TIME = 2500L;
 	private Activity mActivity;
 	private ViewGroup mCardToastContainer;
 	private ViewGroup mCardToastView;

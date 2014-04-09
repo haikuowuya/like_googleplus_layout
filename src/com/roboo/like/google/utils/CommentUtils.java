@@ -36,7 +36,7 @@ public class CommentUtils
 				data = new LinkedList<CommentItem>();
 				for (Element element : elements)
 				{
-					System.out.println("element = " + element);
+//					System.out.println("element = " + element);
 					Elements divElements = element.getElementsByTag("div");
 					Element replyElement = null;
 					if (element.getElementsByClass("reply") != null && element.getElementsByClass("reply").size() > 0)

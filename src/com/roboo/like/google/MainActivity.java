@@ -1,9 +1,11 @@
 package com.roboo.like.google;
 
-import java.util.LinkedList;
-
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -21,11 +23,13 @@ import com.roboo.like.google.fragments.LeftFragment;
 import com.roboo.like.google.fragments.MainFragment;
 import com.roboo.like.google.fragments.RightFragment;
 import com.roboo.like.google.models.NewsTypeItem;
+import com.roboo.like.google.utils.DataUtils;
 
 public class MainActivity extends FragmentActivity
 {
 	/** 默认是Android之家 */
 	public static final String IT_ANDROID = "http://it.ithome.com/category/10_";
+	private static final String WIFI = "WIFI";
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
 	protected ActionBar mActionBar;
@@ -34,7 +38,7 @@ public class MainActivity extends FragmentActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_main);//TODO
 		initView();
 		customActionBar();
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_left_container) == null)
@@ -98,6 +102,10 @@ public class MainActivity extends FragmentActivity
 			{
 				mDrawerLayout.openDrawer(Gravity.RIGHT);
 			}
+			return true;
+		case R.id.menu_download:
+			showDownloadDialog();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -116,7 +124,8 @@ public class MainActivity extends FragmentActivity
 			{
 				NewsTypeItem item = (NewsTypeItem) mAdapter.getItem(itemPosition);
 				getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, MainFragment.newInstance(item.url)).commit();
-				 return true;
+				mDrawerLayout.closeDrawers();
+				return true;
 			}
 		});
 	}
@@ -124,27 +133,12 @@ public class MainActivity extends FragmentActivity
 	public void initView()
 	{
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_container);
-
 	}
 
 	private BaseAdapter getAdapter()
 	{
-		String[] arrays = getResources().getStringArray(R.array.actionbar_navigation_list_text_arrays);
-
-		LinkedList<NewsTypeItem> data = new LinkedList<NewsTypeItem>();
-		for (String str : arrays)
-		{
-			String[] tmp = str.split("#");
-			if (tmp.length > 1)
-			{
-				NewsTypeItem item = new NewsTypeItem();
-				item.name = tmp[0];
-				item.url = tmp[1];
-				data.add(item);
-			}
-		}
-		 mAdapter =  new NewsTypeListAdapter(data, this);
-		 return mAdapter;
+		mAdapter = new NewsTypeListAdapter(DataUtils.handleNewsType(this), this);
+		return mAdapter;
 	}
 
 	public void closeLeftDrawer()
@@ -154,10 +148,10 @@ public class MainActivity extends FragmentActivity
 			mDrawerLayout.closeDrawer(Gravity.LEFT);
 		}
 	}
- 
+
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
-		if(keyCode == KeyEvent.KEYCODE_BACK)
+		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
 			GoogleApplication application = (GoogleApplication) getApplication();
 			application.unBindNetworkService();
@@ -165,4 +159,24 @@ public class MainActivity extends FragmentActivity
 		return super.onKeyDown(keyCode, event);
 	}
 
+	public void wifiDownload()
+	{
+		if (WIFI.equals(GoogleApplication.mNetworkType))
+		{
+			Intent intent = new Intent(this, WIFIDownloadService.class);
+			startService(intent);
+		}
+	}
+
+	private void showDownloadDialog()
+	{
+		AlertDialog dialog = new AlertDialog.Builder(this).setIcon(getApplicationInfo().icon).setTitle("离线下载新闻").setMessage("是否WIFI下离线下载所有新闻").setNegativeButton("取消", null).setPositiveButton("确定", new OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int which)
+			{
+				wifiDownload();
+			}
+		}).create();
+		dialog.show();
+	}
 }

@@ -12,17 +12,20 @@ public class FileUtils
 	public static final String TYPE_IMG = "images";
 	public static final String TYPE_APK = "apks";
 	public static final String TYPE_DATA = "datas";
+	public static final String TYPE_NEWS_LIST="list";
+	public static final String TYPE_NEWS_CONTENT="content";
+	public static final String TYPE_NEWS_COMMENT="comment";
 
 	public static File getFileCacheDir(Context context, String fileType)
 	{
 		String path = null;
 		if (hasSDCard())
 		{
-			path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "android" + File.separator + "data" + File.separator + context.getPackageName();
+			path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "android" + File.separator + "data" + File.separator + context.getPackageName()+File.separator+TYPE_DATA;
 		}
 		else
 		{
-			path = Environment.getDataDirectory().getAbsolutePath() + File.separator + "data" + File.separator + context.getPackageName();
+			path = Environment.getDataDirectory().getAbsolutePath() + File.separator + "data" + File.separator + context.getPackageName()+File.separator+TYPE_DATA;
 		}
 		if (!TextUtils.isEmpty(fileType))
 		{

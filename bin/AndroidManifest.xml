@@ -33,12 +33,14 @@
         <activity android:name=".PictureActivity" />
         <activity android:name=".LocationActivity" />
         <activity android:name=".MoodActivity" />
+        <activity android:name=".TextActivity" />
         <activity android:name=".PictureDetailActivity" />
         <activity android:name=".UserActivity" />
         <activity android:name=".ContacterActivity" />
         <activity android:name=".NewsActivity" />
         <activity android:name=".CommentActivity" />
         <service  android:name=".NetworkService"></service>
+        <service  android:name=".WIFIDownloadService"></service>
     </application>
 
 </manifest>

@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.LinkedList;
@@ -35,7 +34,7 @@ public class NewsContentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<S
 		LinkedList<String> data = null;
 		try
 		{
-			File file = new File(FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_DATA), MD5Utils.generate(mNewsUrl));
+			File file = new File(FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_NEWS_CONTENT), MD5Utils.generate(mNewsUrl));
 			if (file.exists())
 			{
 				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
@@ -50,7 +49,7 @@ public class NewsContentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<S
 			else
 			{
 				data = NewsUtils.getITHomeNewsDataList(mNewsUrl);
-				saveNewsData(data);
+				saveNewsContentData(data);
 			}
 		}
 		catch (IOException e)
@@ -64,9 +63,9 @@ public class NewsContentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<S
 		return data;
 	}
 
-	private void saveNewsData(LinkedList<String> data)
+	private void saveNewsContentData(LinkedList<String> data)
 	{
-		File dirFile = FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_DATA);
+		File dirFile = FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_NEWS_CONTENT);
 		File dataFile = new File(dirFile, MD5Utils.generate(mNewsUrl));
 		try
 		{

@@ -10,12 +10,12 @@
         android:id="@+id/pb_progress"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_toLeftOf="@+id/tv_load_next"
+        android:layout_toLeftOf="@+id/btn_load_next"
         android:padding="10dp"
         android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/tv_load_next"
+    <Button
+        android:id="@+id/btn_load_next"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_centerInParent="true"
@@ -24,6 +24,7 @@
         android:gravity="center"
         android:textColor="@drawable/text_color_selector"
         android:padding="10dp"
+        android:background="@null"
         android:textSize="16sp"
         android:text="点击加载下一页" />
 

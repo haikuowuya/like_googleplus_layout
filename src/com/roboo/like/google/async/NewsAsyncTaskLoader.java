@@ -44,7 +44,7 @@ public class NewsAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<NewsItem
 		try
 		{
 
-			File file = new File(FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_DATA), MD5Utils.generate(mChannelUrl));
+			File file = new File(FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_NEWS_LIST), MD5Utils.generate(mChannelUrl));
 			if (!NetWorkUtils.isNetworkAvailable(mContext) && file.exists() && mPageNo == 1)
 			{
 				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
@@ -55,6 +55,7 @@ public class NewsAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<NewsItem
 				{
 					System.out.println("从本地文件读取对象成功");
 				}
+				Thread.sleep(1000L);
 			}
 			else
 			{
@@ -63,25 +64,26 @@ public class NewsAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<NewsItem
 				{
 					saveNewsListData(data);
 				}
-
 			}
-
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
 		}
 		catch (ClassNotFoundException e)
 		{
 			e.printStackTrace();
 		}
-
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 		return data;
 	}
 
 	private void saveNewsListData(LinkedList<NewsItem> data)
 	{
-		File dirFile = FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_DATA);
+		File dirFile = FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_NEWS_LIST);
 		File dataFile = new File(dirFile, MD5Utils.generate(mChannelUrl));
 		try
 		{
