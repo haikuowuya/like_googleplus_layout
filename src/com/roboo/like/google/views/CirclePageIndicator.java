@@ -32,7 +32,6 @@ public class CirclePageIndicator extends View
 	private static final int INVALID_POINTER = -1;
 	/** 圆圈的半径 */
 	private float mRadius;
-	
 	/** 圆的默认填充颜色 */
 	private final Paint mPaintPageFill = new Paint(ANTI_ALIAS_FLAG);
 	/** 圆边框填充颜色*/

@@ -1,12 +1,18 @@
 package com.roboo.like.google;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
 import android.view.MenuItem;
 
-import com.roboo.like.google.async.BitmapAsyncTask;
-import com.roboo.like.google.utils.BitmapUtils;
+import com.roboo.like.google.adapters.ImagePagerAdapter;
+import com.roboo.like.google.views.CirclePageIndicator;
 import com.roboo.like.google.views.PhotoView;
 
 /** 图片详情界面 */
@@ -14,8 +20,24 @@ public class PictureDetailActivity extends BaseActivity
 {
 
 	private PhotoView mPhotoView;
+	private int mCurrentPosition = 0;
 	private String mImagePath;
+	private ViewPager mViewPager;
+	private CirclePageIndicator mIndicator;
 	private static final String EXTRA_IMAGE_PATH = "image_path";
+	private static final String EXTRA_IMAGE_LIST = "image_list";
+	private ArrayList<String> mImageUrls = new ArrayList<String>();
+	private Handler mHandler = new Handler();
+	private Runnable mSwapRunnable = new Runnable()
+	{
+		public void run()
+		{
+			mCurrentPosition = (mCurrentPosition + 1) % mImageUrls.size();
+			mViewPager.setCurrentItem(mCurrentPosition);
+			mIndicator.setCurrentItem(mCurrentPosition);
+			mHandler.postDelayed(mSwapRunnable, 2000L);
+		}
+	};
 
 	/** 跳转到图片详情界面 */
 	public static void actionPictureDetail(Activity activity, String imagePath)
@@ -25,21 +47,47 @@ public class PictureDetailActivity extends BaseActivity
 		activity.startActivity(intent);
 	}
 
+	/** 跳转到图片详情界面 */
+	public static void actionPictureDetail(Activity activity, ArrayList<String> imageUrls)
+	{
+		Intent intent = new Intent(activity, PictureDetailActivity.class);
+		intent.putStringArrayListExtra(EXTRA_IMAGE_LIST, imageUrls);
+		activity.startActivity(intent);
+	}
+
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_picture_detail);
+		setContentView(R.layout.activity_picture_detail);//TODO
 		initView();
 		customActionBar();
 		mImagePath = getIntent().getStringExtra(EXTRA_IMAGE_PATH);
-		System.out.println("图片 URL = " + mImagePath);
-		if (mImagePath.startsWith(PREFIX_IMG_URL))
+		if (!TextUtils.isEmpty(mImagePath))
 		{
-			new BitmapAsyncTask(mPhotoView, getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels).execute(mImagePath);
+			mImageUrls.add(mImagePath);
 		}
 		else
 		{
-			mPhotoView.setImageBitmap(BitmapUtils.getBitmap(mImagePath, getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels));
+			mImageUrls = getIntent().getStringArrayListExtra(EXTRA_IMAGE_LIST);
+		}
+		mViewPager.setAdapter(new ImagePagerAdapter(this, mImageUrls));
+		mIndicator.setViewPager(mViewPager);
+		mViewPager.setOnPageChangeListener(new OnPageChangeListenerImpl());
+	}
+
+	protected void onPause()
+	{
+		super.onPause();
+		mHandler.removeCallbacks(mSwapRunnable);
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		if (mImageUrls.size() > 0)
+		{
+			mHandler.postDelayed(mSwapRunnable, 2000L);
 		}
 	}
 
@@ -56,6 +104,8 @@ public class PictureDetailActivity extends BaseActivity
 
 	public void initView()
 	{
+		mViewPager = (ViewPager) findViewById(R.id.vp_pager);
+		mIndicator = (CirclePageIndicator) findViewById(R.id.cpi_indicator);
 		mPhotoView = (PhotoView) findViewById(R.id.pv_image);
 	}
 
@@ -64,5 +114,22 @@ public class PictureDetailActivity extends BaseActivity
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mActionBar.setTitle("照片详情");
 		mActionBar.setLogo(R.drawable.ic_abs_picture_up);
+	}
+
+	private class OnPageChangeListenerImpl implements OnPageChangeListener
+	{
+		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+		{}
+
+		public void onPageSelected(int position)
+		{
+			mCurrentPosition = position;
+			mIndicator.setCurrentItem(position);
+
+		}
+
+		public void onPageScrollStateChanged(int state)
+		{}
+
 	}
 }

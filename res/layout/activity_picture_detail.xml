@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.roboo.like.google"
     android:id="@+id/drawer_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   
     android:background="@android:color/white" >
 
     <com.roboo.like.google.views.ZoomImageView
@@ -17,7 +17,33 @@
         android:id="@+id/pv_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-       android:layout_centerInParent="true"
-        android:src="@drawable/ic_default_image" />
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_default_image"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent" >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_default_image" />
+
+        <com.roboo.like.google.views.CirclePageIndicator
+            android:id="@+id/cpi_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            app:centered="true"
+            app:fillColor="@color/orangered_color"
+            app:strokeColor="@color/red_color"
+            app:pageColor="@color/sky_blue_color"
+            app:radius="4dp" />
+    </LinearLayout>
 
 </RelativeLayout>

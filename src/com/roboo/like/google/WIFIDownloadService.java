@@ -121,6 +121,12 @@ public class WIFIDownloadService extends Service
 	{
 		File dirFile = FileUtils.getFileCacheDir(this, FileUtils.TYPE_NEWS_LIST);
 		File dataFile = new File(dirFile, MD5Utils.generate(mTypeItem.url));
+		if(dataFile.exists())
+		{
+			dataFile.delete();
+			System.out.println("删除  ：： "+ mTypeItem.name + " 文件");
+			
+		}
 		try
 		{
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(dataFile));

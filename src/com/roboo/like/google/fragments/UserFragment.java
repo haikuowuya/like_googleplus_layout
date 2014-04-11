@@ -14,7 +14,6 @@ import android.widget.ImageView;
 
 import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.ImageFragmentAdapter;
-import com.roboo.like.google.adapters.InfinitePagerAdapter;
 import com.roboo.like.google.views.CirclePageIndicator;
 
 public class UserFragment extends BaseFragment

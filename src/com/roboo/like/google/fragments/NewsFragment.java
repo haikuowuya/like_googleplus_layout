@@ -1,5 +1,6 @@
 package com.roboo.like.google.fragments;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -14,7 +15,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
-import android.text.TextPaint;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,9 +22,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -120,20 +120,22 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 			int ltrb = (int) (10 * getActivity().getResources().getDisplayMetrics().density);
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			params.bottomMargin = ltrb;
+			ArrayList<String> imageUrls = new ArrayList<String>();
 			for (String str : data)
 			{
 				if (str.startsWith(BaseActivity.PREFIX_IMG_URL))
 				{
+					imageUrls.add(str);
 					ImageView imageView = new ImageView(getActivity());
 					imageView.setId(R.id.iv_image);
 					imageView.setLayoutParams(params);
 					imageView.setBackgroundResource(R.drawable.list_item_selector);
-					DisplayImageOptions options = new DisplayImageOptions.Builder().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image)
-							.showImageOnFail(R.drawable.ic_default_image).cacheInMemory().cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
+					DisplayImageOptions options = new DisplayImageOptions.Builder().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image).showImageOnFail(R.drawable.ic_default_image).cacheInMemory()
+							.cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
 					mImageLoader.displayImage(str, imageView, options);
 					imageView.setPadding(ltrb, ltrb, ltrb, ltrb);
 					mLinearContainer.addView(imageView);
-					imageView.setOnClickListener(new OnClickListenerImpl(str));
+					imageView.setOnClickListener(new OnClickListenerImpl(imageUrls));
 				}
 				else
 				{
@@ -155,7 +157,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 					System.out.println("str = " + str);
 				}
 			}
-			addCommentButton(params,ltrb);
+			addCommentButton(params, ltrb);
 		}
 		int nextIndex = mRandom.nextInt(COLORS_COLLECTION.length);
 		mTvTitle.setBackgroundColor(getResources().getColor(COLORS_COLLECTION[nextIndex]));
@@ -178,7 +180,6 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		button.setBackgroundResource(R.drawable.list_item_selector);
 		mLinearContainer.addView(button);
 		button.setOnClickListener(new OnClickListenerImpl());
-		 
 	}
 
 	public void onLoaderReset(Loader<LinkedList<String>> loader)
@@ -188,16 +189,14 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 
 	private class OnClickListenerImpl implements OnClickListener
 	{
+		private ArrayList<String> mImageUrls;
 
-		private String imagePath;
-		
 		public OnClickListenerImpl()
-		{
-		}
+		{}
 
-		public OnClickListenerImpl(String imagePath)
+		public OnClickListenerImpl(ArrayList<String> imageUrls)
 		{
-			this.imagePath = imagePath;
+			this.mImageUrls = imageUrls;
 		}
 
 		@Override
@@ -206,8 +205,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 			switch (v.getId())
 			{
 			case R.id.iv_image:
-				
-				PictureDetailActivity.actionPictureDetail(getActivity(), imagePath);
+				PictureDetailActivity.actionPictureDetail(getActivity(), mImageUrls);
 				break;
 
 			case R.id.btn_comment:
