@@ -12,6 +12,8 @@ import java.util.concurrent.CyclicBarrier;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.Looper;
+import android.widget.Toast;
 
 import com.roboo.like.google.models.CommentItem;
 import com.roboo.like.google.models.NewsItem;
@@ -34,6 +36,9 @@ public class WIFIDownloadService extends Service
 		public void run()
 		{
 			stopSelf();
+			Looper.prepare();
+			Toast.makeText(getBaseContext(), "所有新闻都下载完成", Toast.LENGTH_SHORT).show();
+			Looper.loop();
 			System.out.println("所有的任务都完成   耗时  = "+(System.currentTimeMillis() - mStartTime));
 		}
 	};
