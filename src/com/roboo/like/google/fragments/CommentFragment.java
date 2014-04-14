@@ -15,10 +15,12 @@ import android.support.v4.content.Loader;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -34,13 +36,8 @@ import com.roboo.like.google.models.CommentItem;
 public class CommentFragment extends BaseFragment implements LoaderCallbacks<LinkedList<CommentItem>>
 {
 	private static final String ARG_NEWS_ID = "news_id";
-	private static final int[] COLORS_COLLECTION = new int[] { R.color.red_color, R.color.sky_blue_color, R.color.hotpink_color, R.color.lightseagreen_color, R.color.orangered_color, R.color.turquoise_color };
-
 	/** 显示获取新闻内容进度条 */
 	private ProgressBar mProgressBar;
- 
-
-	private Random mRandom = new Random();
 	/** 异步图片加载器 */
 	private ImageLoader mImageLoader;
 	/** ViewGroup中添加View时的动画操作对象 */
@@ -48,12 +45,17 @@ public class CommentFragment extends BaseFragment implements LoaderCallbacks<Lin
 	private CommentAdapter mAdapter;
 	private LinkedList<CommentItem> mData;
 	private ListView mListView;
+	private View mFooterView;
+	private Button mBtnLoadNext;
+	private ProgressBar mFooterProgressBar;
+	private int  mCurrentCommentPageNo = 1;
 
 	public static CommentFragment newInstance(String newsId)
 	{
 		CommentFragment fragment = new CommentFragment();
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(ARG_NEWS_ID, newsId);
+		 
 		fragment.setArguments(bundle);
 		return fragment;
 	}
@@ -62,6 +64,9 @@ public class CommentFragment extends BaseFragment implements LoaderCallbacks<Lin
 	{
 		View view = inflater.inflate(R.layout.fragment_comment, null);
 		mListView = (ListView) view.findViewById(R.id.lv_list);
+		mFooterView = inflater.inflate(R.layout.listview_footer_view, null);
+		mFooterProgressBar = (ProgressBar) mFooterView.findViewById(R.id.pb_progress);
+		mBtnLoadNext = (Button) mFooterView.findViewById(R.id.btn_load_next);
 		addProgressBar();
 		return view;
 	}
@@ -87,18 +92,20 @@ public class CommentFragment extends BaseFragment implements LoaderCallbacks<Lin
 
 	private void setListener()
 	{
-
+		mBtnLoadNext.setOnClickListener( new OnClickListenerImpl());
 	}
 
 	public Loader<LinkedList<CommentItem>> onCreateLoader(int id, Bundle args)
 	{
 		String newsId = getArguments().getString(ARG_NEWS_ID);
-		return new CommentAsyncTaskLoader(getActivity(), newsId);
+		return new CommentAsyncTaskLoader(getActivity(), newsId,mCurrentCommentPageNo);
 	}
 
 	@Override
 	public void onLoadFinished(Loader<LinkedList<CommentItem>> loader, LinkedList<CommentItem> data)
 	{
+		mFooterProgressBar.setVisibility(View.INVISIBLE);
+		mBtnLoadNext.setText("点击加载下一页");
 		if (null != data)
 		{
 			setLinearContainerAnimation();
@@ -109,7 +116,9 @@ public class CommentFragment extends BaseFragment implements LoaderCallbacks<Lin
 			{
 				mData = data;
 				mAdapter = new CommentAdapter(getActivity(), mData);
+				mListView.addFooterView(mFooterView);
 				mListView.setAdapter(mAdapter);
+				
 			}
 			else
 			{
@@ -123,6 +132,19 @@ public class CommentFragment extends BaseFragment implements LoaderCallbacks<Lin
 				{
 					System.out.println("评论Item = 【 " + item + " 】");
 				}
+			}
+		}
+		else 
+		{
+			if(mCurrentCommentPageNo ==1)
+			{
+				mListView.setEmptyView(getActivity().findViewById(android.R.id.empty));
+			}
+			else if(mCurrentCommentPageNo > 1)
+			{
+				mCurrentCommentPageNo --;
+				mBtnLoadNext.setText("所有数据加载完毕");
+				mBtnLoadNext.setClickable(false);
 			}
 		}
 		mProgressBar.setVisibility(View.GONE);
@@ -207,6 +229,19 @@ public class CommentFragment extends BaseFragment implements LoaderCallbacks<Lin
 				view.setRotationX(0f);
 			}
 		});
-
+	}
+	private class OnClickListenerImpl implements OnClickListener
+	{
+		public void onClick(View v)
+		{
+			loadNextData();
+		}
+	}
+	private void loadNextData()
+	{
+		 mCurrentCommentPageNo++;
+		 mFooterProgressBar.setVisibility(View.VISIBLE);
+		 mBtnLoadNext.setText("正在获取数据……");
+		getActivity().getSupportLoaderManager().restartLoader(0, getArguments(), this);
 	}
 }

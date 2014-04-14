@@ -13,6 +13,7 @@ import android.animation.PropertyValuesHolder;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.util.TypedValue;
@@ -44,6 +45,8 @@ import com.roboo.like.google.models.NewsItem;
 
 public class NewsFragment extends BaseFragment implements LoaderCallbacks<LinkedList<String>>
 {
+	/** 向 ViewGroup 中添加view时动画持续时间 */
+	private static final int ANIMATION_DURATION_TIME = 100;
 	private static final String ARG_NEWS = "news";
 	private static final int[] COLORS_COLLECTION = new int[] { R.color.red_color, R.color.sky_blue_color, R.color.hotpink_color, R.color.lightseagreen_color, R.color.orangered_color, R.color.turquoise_color };
 	private NewsItem mItem;
@@ -58,6 +61,16 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private ImageLoader mImageLoader;
 	/** ViewGroup中添加View时的动画操作对象 */
 	private LayoutTransition mTransitioner;
+	private Handler mHandler = new Handler();
+	/**动画结束后执行隐藏进度圈和显示标题*/
+	private Runnable mHideProgressBarRunnable = new Runnable()
+	{
+		public void run()
+		{
+			 mProgressBar.setVisibility(View.GONE);
+			 mTvTitle.setVisibility(View.VISIBLE);
+		}
+	};
 
 	public static NewsFragment newInstance(NewsItem item)
 	{
@@ -71,10 +84,9 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.fragment_news, null);
+		View view = inflater.inflate(R.layout.fragment_news, null);// TODO
 		mLinearContainer = (LinearLayout) view.findViewById(R.id.linear_container);
 		mTvTitle = (TextView) view.findViewById(R.id.tv_title);
-
 		Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "custom.ttf");
 		addProgressBar();
 		mTvTitle.setTypeface(typeface);
@@ -85,7 +97,6 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	{
 		mProgressBar = new ProgressBar(getActivity());
 		FrameLayout frameLayout = (FrameLayout) getActivity().findViewById(Window.ID_ANDROID_CONTENT);
-
 		FrameLayout.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		params.gravity = Gravity.CENTER;
 		frameLayout.addView(mProgressBar, params);
@@ -114,28 +125,32 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	@Override
 	public void onLoadFinished(Loader<LinkedList<String>> loader, LinkedList<String> data)
 	{
+		int durationTime = ANIMATION_DURATION_TIME;
 		if (null != data)
 		{
+			durationTime = ANIMATION_DURATION_TIME * data.size();
 			setLinearContainerAnimation();
 			int ltrb = (int) (10 * getActivity().getResources().getDisplayMetrics().density);
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			params.bottomMargin = ltrb;
 			ArrayList<String> imageUrls = new ArrayList<String>();
+			int position = 0;
 			for (String str : data)
 			{
 				if (str.startsWith(BaseActivity.PREFIX_IMG_URL))
 				{
+					position++;
 					imageUrls.add(str);
 					ImageView imageView = new ImageView(getActivity());
 					imageView.setId(R.id.iv_image);
 					imageView.setLayoutParams(params);
-					imageView.setBackgroundResource(R.drawable.list_item_selector);
+					// imageView.setBackgroundResource(R.drawable.list_item_selector);
 					DisplayImageOptions options = new DisplayImageOptions.Builder().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image).showImageOnFail(R.drawable.ic_default_image).cacheInMemory()
 							.cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
 					mImageLoader.displayImage(str, imageView, options);
 					imageView.setPadding(ltrb, ltrb, ltrb, ltrb);
 					mLinearContainer.addView(imageView);
-					imageView.setOnClickListener(new OnClickListenerImpl(imageUrls));
+					imageView.setOnClickListener(new OnClickListenerImpl(imageUrls, position));
 				}
 				else
 				{
@@ -144,10 +159,10 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 					TextView textView = new TextView(getActivity());
 					textView.setClickable(true);
 					textView.setText(str);
-					textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+					textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 					textView.setLayoutParams(params);
 					textView.setPadding(ltrb, ltrb, ltrb, ltrb);
-					textView.setBackgroundResource(R.drawable.list_item_selector);
+					// textView.setBackgroundResource(R.drawable.list_item_default);
 					mLinearContainer.addView(textView);
 				}
 
@@ -162,8 +177,8 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		int nextIndex = mRandom.nextInt(COLORS_COLLECTION.length);
 		mTvTitle.setBackgroundColor(getResources().getColor(COLORS_COLLECTION[nextIndex]));
 		mTvTitle.setText(mItem.getTitle());
-		mTvTitle.setVisibility(View.VISIBLE);
-		mProgressBar.setVisibility(View.GONE);
+		mHandler.postDelayed(mHideProgressBarRunnable, durationTime);
+
 	}
 
 	private void addCommentButton(android.widget.LinearLayout.LayoutParams params, int ltrb)
@@ -174,7 +189,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		button.setId(R.id.btn_comment);
 		button.setClickable(true);
 		button.setText("查看评论");
-		button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+		button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 		button.setLayoutParams(params);
 		button.setPadding(ltrb, ltrb, ltrb, ltrb);
 		button.setBackgroundResource(R.drawable.list_item_selector);
@@ -190,13 +205,21 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private class OnClickListenerImpl implements OnClickListener
 	{
 		private ArrayList<String> mImageUrls;
+		private int mPosition;
 
 		public OnClickListenerImpl()
 		{}
 
 		public OnClickListenerImpl(ArrayList<String> imageUrls)
 		{
-			this.mImageUrls = imageUrls;
+			this(imageUrls, 0);
+		}
+
+		public OnClickListenerImpl(ArrayList<String> mImageUrls, int mPosition)
+		{
+			super();
+			this.mImageUrls = mImageUrls;
+			this.mPosition = mPosition;
 		}
 
 		@Override
@@ -205,7 +228,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 			switch (v.getId())
 			{
 			case R.id.iv_image:
-				PictureDetailActivity.actionPictureDetail(getActivity(), mImageUrls);
+				PictureDetailActivity.actionPictureDetail(getActivity(), mImageUrls, mPosition);
 				break;
 
 			case R.id.btn_comment:
@@ -220,8 +243,8 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private void setLinearContainerAnimation()
 	{
 		mTransitioner = new LayoutTransition();
-		mTransitioner.setStagger(LayoutTransition.CHANGE_APPEARING, 100);// 添加View
-		mTransitioner.setStagger(LayoutTransition.CHANGE_DISAPPEARING, 100);// 移除View
+		mTransitioner.setStagger(LayoutTransition.CHANGE_APPEARING, ANIMATION_DURATION_TIME);// 添加View
+		mTransitioner.setStagger(LayoutTransition.CHANGE_DISAPPEARING, ANIMATION_DURATION_TIME);// 移除View
 		// 定制动画
 		setupCustomAnimations();
 		// 设置mLinearContainer布局改变时动画

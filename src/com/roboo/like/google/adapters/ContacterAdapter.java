@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckedTextView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
@@ -55,7 +56,7 @@ public class ContacterAdapter extends BaseAdapter implements StickyHeadersAdapte
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		convertView = LayoutInflater.from(mActivity).inflate(R.layout.contacter_list_item, null);
-		TextView textView = (TextView) convertView.findViewById(R.id.tv_text);
+		CheckedTextView textView = (CheckedTextView) convertView.findViewById(R.id.ctv_text);
 
 		textView.setText(mData.get(position).name);
 		return convertView;

@@ -192,7 +192,7 @@ public class NewsUtils
 								Element pElement = ee.getElementsByTag("p").get(0);
 								NewsItem news = new NewsItem();
 								String md5 = MD5Utils.generate(url);
-								String title = h2Element.text();
+								String title = h2Element.text().trim();
 								String subTitle = pElement.text();
 								String src = imgElement.attr("data-original");
 								if (!TextUtils.isEmpty(url))

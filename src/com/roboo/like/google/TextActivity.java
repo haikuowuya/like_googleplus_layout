@@ -3,7 +3,6 @@ package com.roboo.like.google;
 import java.io.IOException;
 import java.io.InputStream;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;

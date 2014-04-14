@@ -26,6 +26,7 @@ public class PictureDetailActivity extends BaseActivity
 	private CirclePageIndicator mIndicator;
 	private static final String EXTRA_IMAGE_PATH = "image_path";
 	private static final String EXTRA_IMAGE_LIST = "image_list";
+	private static final String EXTRA_IMAGE_POSITION = "image_postion";
 	private ArrayList<String> mImageUrls = new ArrayList<String>();
 	private Handler mHandler = new Handler();
 	private Runnable mSwapRunnable = new Runnable()
@@ -48,10 +49,11 @@ public class PictureDetailActivity extends BaseActivity
 	}
 
 	/** 跳转到图片详情界面 */
-	public static void actionPictureDetail(Activity activity, ArrayList<String> imageUrls)
+	public static void actionPictureDetail(Activity activity, ArrayList<String> imageUrls,int position)
 	{
 		Intent intent = new Intent(activity, PictureDetailActivity.class);
 		intent.putStringArrayListExtra(EXTRA_IMAGE_LIST, imageUrls);
+		intent.putExtra(EXTRA_IMAGE_POSITION, position);
 		activity.startActivity(intent);
 	}
 
@@ -61,6 +63,7 @@ public class PictureDetailActivity extends BaseActivity
 		setContentView(R.layout.activity_picture_detail);//TODO
 		initView();
 		customActionBar();
+		mCurrentPosition = getIntent().getIntExtra(EXTRA_IMAGE_POSITION, 0);
 		mImagePath = getIntent().getStringExtra(EXTRA_IMAGE_PATH);
 		if (!TextUtils.isEmpty(mImagePath))
 		{
@@ -72,6 +75,8 @@ public class PictureDetailActivity extends BaseActivity
 		}
 		mViewPager.setAdapter(new ImagePagerAdapter(this, mImageUrls));
 		mIndicator.setViewPager(mViewPager);
+		mIndicator.setCurrentItem(mCurrentPosition);
+		mViewPager.setCurrentItem(mCurrentPosition);
 		mViewPager.setOnPageChangeListener(new OnPageChangeListenerImpl());
 	}
 

@@ -16,11 +16,10 @@
 
     <Button
         android:id="@+id/btn_load_next"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_centerInParent="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+       
         android:gravity="center"
         android:textColor="@drawable/text_color_selector"
         android:padding="10dp"

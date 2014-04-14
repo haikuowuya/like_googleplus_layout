@@ -64,7 +64,10 @@ public class CommentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<Comme
 			{
 
 				data = CommentUtils.getCommentList(commentUrl);
-				saveNewsComment(data, commentUrl);
+				if(data != null )
+				{
+					saveNewsComment(data, commentUrl);
+				}
 			}
 		}
 		catch (IOException e)

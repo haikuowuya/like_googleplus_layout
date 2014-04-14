@@ -8,14 +8,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/turquoise_color"
-        android:padding="10dp" >
+        android:padding="4dp" >
 
         <TextView
             android:id="@+id/tv_floor"
             style="@style/Comment.List.Item.TextView.Style"
-            android:text="1楼"
-            android:visibility="gone" />
+            android:text="1楼" />
 
         <TextView
             android:id="@+id/tv_nick"
@@ -46,16 +44,14 @@
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/orangered_color"
         android:padding="10dp"
         android:text="评论内容"
-        android:textColor="@color/white_color"
         android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/hotpink_color" >
+        android:visibility="gone" >
 
         <TextView
             android:id="@+id/tv_agree"
