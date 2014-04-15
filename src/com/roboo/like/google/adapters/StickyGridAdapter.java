@@ -52,15 +52,17 @@ public class StickyGridAdapter extends BaseAdapter implements StickyHeadersAdapt
 		mInflater = LayoutInflater.from(mActivity);
 		this.hasHeaderIdList = hasHeaderIdList;
 	}
- 
+
 	public int getCount()
 	{
 		return hasHeaderIdList.size();
 	}
+
 	public Object getItem(int position)
 	{
 		return hasHeaderIdList.get(position);
 	}
+
 	public long getItemId(int position)
 	{
 		return position;
@@ -86,7 +88,7 @@ public class StickyGridAdapter extends BaseAdapter implements StickyHeadersAdapt
 
 	public View getHeaderView(int position, View convertView, ViewGroup parent)
 	{
-		convertView = mInflater.inflate( R.layout.sticky_header_view, parent, false);
+		convertView = mInflater.inflate(R.layout.sticky_header_view, parent, false);
 		TextView textView = (TextView) convertView.findViewById(R.id.tv_text);
 		textView.setText(hasHeaderIdList.get(position).getTime());
 		return convertView;
@@ -107,12 +109,14 @@ public class StickyGridAdapter extends BaseAdapter implements StickyHeadersAdapt
 	{
 		private ImageView mImageView;
 		private String imagePath;
+
 		@Override
 		protected void onPreExecute()
 		{
-			 taskCollection.add(this);
+			taskCollection.add(this);
 			super.onPreExecute();
 		}
+
 		public BitmapWorkerTask(ImageView mImageView)
 		{
 			super();
@@ -125,16 +129,17 @@ public class StickyGridAdapter extends BaseAdapter implements StickyHeadersAdapt
 			return BitmapUtils.getBitmap(imagePath);
 		}
 
-		
 		@Override
 		protected void onPostExecute(Bitmap bitmap)
 		{
 			taskCollection.remove(this);
-			mImageView.setImageBitmap(bitmap);
-			mLruCache.put(imagePath, bitmap);
+			if (null != imagePath && null != bitmap)
+			{
+				mImageView.setImageBitmap(bitmap);
+				mLruCache.put(imagePath, bitmap);
+			}
 		}
 
-		
 	}
 
 	private class OnScrollListenerImpl implements OnScrollListener
@@ -192,20 +197,21 @@ public class StickyGridAdapter extends BaseAdapter implements StickyHeadersAdapt
 			}
 		}
 	}
+
 	private class OnClickListenerImpl implements OnClickListener
 	{
 		String imagePath;
-		
+
 		public OnClickListenerImpl(String imagePath)
 		{
- 
+
 			this.imagePath = imagePath;
 		}
- 
+
 		public void onClick(View v)
-		{ 
+		{
 			PictureDetailActivity.actionPictureDetail(mActivity, imagePath);
 		}
-		
+
 	}
 }

@@ -3,14 +3,15 @@
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:addStatesFromChildren="true"
-    android:descendantFocusability="blocksDescendants"
-    android:background="@drawable/list_item_selector" >
+    android:background="@drawable/list_item_selector"
+    android:descendantFocusability="blocksDescendants" >
 
     <ProgressBar
         android:id="@+id/pb_progress"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_toLeftOf="@+id/btn_load_next"
+        android:layout_marginLeft="40dp"
+        android:indeterminateDrawable="@drawable/progressbar"
         android:padding="10dp"
         android:visibility="invisible" />
 
@@ -19,12 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_centerInParent="true"
-       
-        android:gravity="center"
-        android:textColor="@drawable/text_color_selector"
-        android:padding="10dp"
+        android:layout_marginRight="40dp"
+        android:layout_toRightOf="@+id/pb_progress"
         android:background="@null"
-        android:textSize="16sp"
-        android:text="点击加载下一页" />
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="点击加载下一页"
+        android:textColor="@drawable/text_color_selector"
+        android:textSize="16sp" />
 
 </RelativeLayout>

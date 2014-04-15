@@ -51,12 +51,22 @@ public class NewsContentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<S
 				data = NewsUtils.getITHomeNewsDataList(mNewsUrl);
 				saveNewsContentData(data);
 			}
+			
+			mEndTime = System.currentTimeMillis();
+			if (mEndTime - mStartTime < THREAD_LEAST_DURATION_TIME)
+			{
+				Thread.sleep(THREAD_LEAST_DURATION_TIME);
+			}
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch (InterruptedException e)
 		{
 			e.printStackTrace();
 		}

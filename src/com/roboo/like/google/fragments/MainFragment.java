@@ -26,7 +26,7 @@ import com.roboo.like.google.PictureActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.TextActivity;
 import com.roboo.like.google.adapters.NewsListViewAdapter;
-import com.roboo.like.google.async.NewsAsyncTaskLoader;
+import com.roboo.like.google.async.NewsListAsyncTaskLoader;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.CardToastUtils;
 import com.roboo.like.google.utils.NetWorkUtils;
@@ -44,6 +44,8 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private static final String ARG_NEWS_URL = "news_url";
 	/** 获取的是当前第几页的新闻数据 */
 	private int mCurrentPageNo = 1;
+	private int mStubCurrentPageNo = mCurrentPageNo;
+	 
 	/** ListView */
 	private ListView mListView;
 	/** 当ListView向上滚动时会出现的View的辅助类 */
@@ -127,8 +129,10 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mPullToRefreshAttacher.setRefreshing(true);
 		getActivity().getSupportLoaderManager().restartLoader(0, bundle, MainFragment.this);
 	}
-
-	@Override
+	public void onSaveInstanceState(Bundle outState)
+	{
+		super.onSaveInstanceState(outState);
+	}
 	public void onResume()
 	{
 		super.onResume();
@@ -144,7 +148,6 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mBtnPicture.setOnClickListener(onClickListenerImpl);
 		mBtnText.setOnClickListener(onClickListenerImpl);
 	}
-
 	private class OnListItemClickListenerImpl implements OnItemClickListener
 	{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -177,6 +180,9 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 				break;
 			case R.id.btn_text:// 文字
 				text();
+				break;
+			case R.id.btn_load_next://加载下一页
+				loadNextData();
 				break;
 			}
 		}
@@ -215,7 +221,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		}
 		mProgressBar.setVisibility(View.VISIBLE);
 		mBtnLoadNext.setText("正在加载数据中……");
-		return new NewsAsyncTaskLoader(getActivity(), args.getString(ARG_NEWS_URL), args.getInt(ARG_CURRENT_PAGENO, 1));
+		return new NewsListAsyncTaskLoader(getActivity(), args.getString(ARG_NEWS_URL), args.getInt(ARG_CURRENT_PAGENO, 1));
 	}
 	/**跳转到设置界面*/
 	public void networkSettings()
@@ -230,17 +236,20 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	{
 		if (data != null)
 		{
+			int updateCount = 0;
 			getActivity().findViewById(android.R.id.empty).setVisibility(View.GONE);
 			if (null == mData)
 			{
 				mData = data;
+				updateCount = mData.size();
 				mAdapter = new NewsListViewAdapter(getActivity(), mData);
 				mListView.addFooterView(mFooterView);
 				mListView.setAdapter(mAdapter);
+				mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
 			}
 			else
 			{
-				handleAddData(data);
+				updateCount = handleAddData(data).size();
 				mAdapter.notifyDataSetChanged();
 			}
 			for (NewsItem item : data)
@@ -251,10 +260,10 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 					System.out.println("Item = 【 " + item + " 】 ");
 				}
 			}
-			String messageText = "加载  " + data.size() + " 条新数据";
+			String messageText = "加载  " + updateCount+ " 条新数据";
 			if (mCurrentPageNo == 1)
 			{
-				messageText = " 更新  " + data.size() + " 条新数据";
+				messageText = " 更新  " + updateCount + " 条新数据";
 			}
 			new CardToastUtils(getActivity()).showAndAutoDismiss(messageText);
 
@@ -273,15 +282,18 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mPullToRefreshAttacher.setRefreshComplete();
 	}
 	/**处理数据重复问题*/
-	private void handleAddData(LinkedList<NewsItem> data)
+	private LinkedList<NewsItem>  handleAddData(LinkedList<NewsItem> data)
 	{
+		LinkedList<NewsItem> tmpItems = new LinkedList<NewsItem>();
 		 for(NewsItem item :data)
 		 {
 			 if(!mData.contains(item))
 			 {
+				 tmpItems.add(item);
 				 mData.add(item);
 			 }
 		 }
+		 return tmpItems;
 	}
 
 	@Override
@@ -302,7 +314,10 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		else
 		{
 			Bundle bundle = getArguments();
-			bundle.putInt(ARG_CURRENT_PAGENO, ++mCurrentPageNo);
+			mStubCurrentPageNo +=1;
+			mCurrentPageNo = mStubCurrentPageNo;
+			bundle.putInt(ARG_CURRENT_PAGENO, mStubCurrentPageNo);
+			
 			getActivity().getSupportLoaderManager().restartLoader(0, bundle, this);
 		}
 	}

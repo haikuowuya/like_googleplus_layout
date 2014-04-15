@@ -38,6 +38,7 @@
         <activity android:name=".UserActivity" />
         <activity android:name=".ContacterActivity" />
         <activity android:name=".NewsActivity" />
+        <activity android:name=".CameraActivity" />
         <activity android:name=".CommentActivity" />
         <service  android:name=".NetworkService"></service>
         <service  android:name=".WIFIDownloadService"></service>

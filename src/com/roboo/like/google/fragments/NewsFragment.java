@@ -96,6 +96,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private void addProgressBar()
 	{
 		mProgressBar = new ProgressBar(getActivity());
+		mProgressBar.setIndeterminateDrawable(getActivity().getResources().getDrawable(R.drawable.progressbar));
 		FrameLayout frameLayout = (FrameLayout) getActivity().findViewById(Window.ID_ANDROID_CONTENT);
 		FrameLayout.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		params.gravity = Gravity.CENTER;

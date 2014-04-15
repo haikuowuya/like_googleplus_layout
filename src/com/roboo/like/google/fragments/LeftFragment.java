@@ -3,7 +3,9 @@ package com.roboo.like.google.fragments;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.roboo.like.google.CameraActivity;
 import com.roboo.like.google.ContacterActivity;
 import com.roboo.like.google.MainActivity;
 import com.roboo.like.google.PictureActivity;
@@ -24,6 +27,7 @@ import com.roboo.like.google.UserActivity;
 public class LeftFragment extends BaseFragment
 {
 	private static final String DUMMY_USERNAME = "haikuo wuya \r\nhaikuowuya@gmail.com";
+	private static final int REQUEST_CAMERA_CODE = 1334;
 	private ListView mListView;
 	private Button mBtnUsername;
 
@@ -100,10 +104,34 @@ public class LeftFragment extends BaseFragment
 			case 2:// 照片
 				PictureActivity.actionPicture(mainActivity);
 				break;
+			case 3:// 拍照
+					// CameraActivity.actionCamera(getActivity());
+				startCamera();
 			}
 			mainActivity.closeLeftDrawer();
 		}
+	}
 
+	private void startCamera()
+	{
+		startActivityForResult(createCameraIntent(), REQUEST_CAMERA_CODE);
+	}
+
+	/** 拍照Intent */
+	private Intent createCameraIntent()
+	{
+		Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);// 拍照
+		Intent imageIntent = new Intent(Intent.ACTION_GET_CONTENT);// 选择图片文件
+		imageIntent.setType("image/*");
+		return cameraIntent;
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		 
+		CameraActivity.actionCamera(getActivity(),data.getData());
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.roboo.like.google.fragments;
 
 import java.util.LinkedList;
-import java.util.Random;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -18,9 +17,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -74,6 +73,7 @@ public class CommentFragment extends BaseFragment implements LoaderCallbacks<Lin
 	private void addProgressBar()
 	{
 		mProgressBar = new ProgressBar(getActivity());
+		mProgressBar.setIndeterminateDrawable(getActivity().getResources().getDrawable(R.drawable.progressbar));
 		FrameLayout frameLayout = (FrameLayout) getActivity().findViewById(Window.ID_ANDROID_CONTENT);
 
 		FrameLayout.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);

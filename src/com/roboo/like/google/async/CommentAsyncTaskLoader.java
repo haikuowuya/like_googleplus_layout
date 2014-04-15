@@ -64,17 +64,27 @@ public class CommentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<Comme
 			{
 
 				data = CommentUtils.getCommentList(commentUrl);
-				if(data != null )
+				if (data != null)
 				{
 					saveNewsComment(data, commentUrl);
 				}
 			}
+			mEndTime = System.currentTimeMillis();
+			if (mEndTime - mStartTime < THREAD_LEAST_DURATION_TIME)
+			{
+				Thread.sleep(THREAD_LEAST_DURATION_TIME);
+			}
+		}
+
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
-		catch (ClassNotFoundException e)
+		catch (InterruptedException e)
 		{
 			e.printStackTrace();
 		}

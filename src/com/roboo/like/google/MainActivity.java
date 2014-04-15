@@ -38,7 +38,7 @@ public class MainActivity extends FragmentActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);//TODO
+		setContentView(R.layout.activity_main);// TODO
 		initView();
 		customActionBar();
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_left_container) == null)
