@@ -1065,16 +1065,17 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
 
 	// ===================================================================
 	// ===================================================================
-	// 兼容性
+	// 兼容性 SDK_INT >=16时报错
 	// ===================================================================
 	// ===================================================================
 	public void postOnAnimation(View view, Runnable runnable)
 	{
-		if (VERSION.SDK_INT >= 16)
-		{
-			postOnAnimation(view, runnable);
-		}
-		else
+	 
+//		if (VERSION.SDK_INT >= 16)
+//		{
+//			postOnAnimation(view, runnable);
+//		}
+//		else
 		{
 			view.postDelayed(runnable, 1000 / 60);
 		}
