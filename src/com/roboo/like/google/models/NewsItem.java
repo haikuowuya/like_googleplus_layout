@@ -14,8 +14,10 @@ public class NewsItem implements Serializable
 	private String src;
 	private String note = "新闻备注";
 	private String source;
+	private String time;
 	private long date = System.currentTimeMillis();
 	private String newsCategoryMd5;
+	public int headerId;
 
 	public NewsItem()
 	{
@@ -36,7 +38,6 @@ public class NewsItem implements Serializable
 	{
 		super();
 		this.md5 = md5;
-
 		this.title = title;
 		this.subTitle = subTitle;
 		this.url = url;
@@ -55,6 +56,26 @@ public class NewsItem implements Serializable
 		this.note = note;
 		this.source = source;
 		this.date = date;
+	}
+
+	public int getHeaderId()
+	{
+		return headerId;
+	}
+
+	public void setHeaderId(int headerId)
+	{
+		this.headerId = headerId;
+	}
+
+	public String getTime()
+	{
+		return time;
+	}
+
+	public void setTime(String time)
+	{
+		this.time = time;
 	}
 
 	public String getNewsCategoryMd5()

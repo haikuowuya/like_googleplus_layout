@@ -507,6 +507,7 @@ public class GifDecoder {
 		for (int i = 0; i < 6; i++) {
 			id += (char) read();
 		}
+		System.out.println("id = " + id);
 		if (!id.startsWith("GIF")) {
 			status = STATUS_FORMAT_ERROR;
 			return;

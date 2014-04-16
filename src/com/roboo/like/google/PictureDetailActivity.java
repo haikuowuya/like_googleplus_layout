@@ -13,13 +13,12 @@ import android.view.MenuItem;
 
 import com.roboo.like.google.adapters.ImagePagerAdapter;
 import com.roboo.like.google.views.CirclePageIndicator;
-import com.roboo.like.google.views.PhotoView;
 
 /** 图片详情界面 */
 public class PictureDetailActivity extends BaseActivity
 {
-
-	private PhotoView mPhotoView;
+	/** 是否自动切换图片 */
+	private static final boolean IS_AUTO_SWITCH_PIC = false;
 	private int mCurrentPosition = 0;
 	private String mImagePath;
 	private ViewPager mViewPager;
@@ -49,7 +48,7 @@ public class PictureDetailActivity extends BaseActivity
 	}
 
 	/** 跳转到图片详情界面 */
-	public static void actionPictureDetail(Activity activity, ArrayList<String> imageUrls,int position)
+	public static void actionPictureDetail(Activity activity, ArrayList<String> imageUrls, int position)
 	{
 		Intent intent = new Intent(activity, PictureDetailActivity.class);
 		intent.putStringArrayListExtra(EXTRA_IMAGE_LIST, imageUrls);
@@ -60,7 +59,7 @@ public class PictureDetailActivity extends BaseActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_picture_detail);//TODO
+		setContentView(R.layout.activity_picture_detail);// TODO
 		initView();
 		customActionBar();
 		mCurrentPosition = getIntent().getIntExtra(EXTRA_IMAGE_POSITION, 0);
@@ -92,7 +91,10 @@ public class PictureDetailActivity extends BaseActivity
 		super.onResume();
 		if (mImageUrls.size() > 0)
 		{
-			mHandler.postDelayed(mSwapRunnable, 2000L);
+			if (IS_AUTO_SWITCH_PIC)
+			{
+				mHandler.postDelayed(mSwapRunnable, 2000L);
+			}
 		}
 	}
 
@@ -111,7 +113,6 @@ public class PictureDetailActivity extends BaseActivity
 	{
 		mViewPager = (ViewPager) findViewById(R.id.vp_pager);
 		mIndicator = (CirclePageIndicator) findViewById(R.id.cpi_indicator);
-		mPhotoView = (PhotoView) findViewById(R.id.pv_image);
 	}
 
 	private void customActionBar()

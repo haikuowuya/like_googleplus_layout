@@ -7,6 +7,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,7 +37,7 @@ public class TextActivity extends BaseActivity
 	private boolean mIsPlayingGif = false;
 	private GifDecoder mGifDecoder;
 	private Bitmap mTmpBitmap;
-	private 	Runnable mUpdateResults = new Runnable()
+	private Runnable mUpdateResults = new Runnable()
 	{
 		public void run()
 		{
@@ -93,7 +95,7 @@ public class TextActivity extends BaseActivity
 					ViewTreeObserver vto = mText.getViewTreeObserver();
 					if (vto != null)
 					{
-//						vto.removeOnGlobalLayoutListener(this);
+						// vto.removeOnGlobalLayoutListener(this);
 					}
 					mScroll.computeScroll();
 					Animator anim = ObjectAnimator.ofInt(mScroll, "scrollY", 0, mContent.getBottom());
@@ -146,41 +148,51 @@ public class TextActivity extends BaseActivity
 	private void playGif(InputStream stream)
 	{
 		mGifDecoder = new GifDecoder();
-		mGifDecoder.read(stream);
-
-		mIsPlayingGif = true;
-
-		new Thread(new Runnable()
+		int resultCode = mGifDecoder.read(stream);
+		if (resultCode > 0)
 		{
-			public void run()
+			Bitmap bitmap = BitmapFactory.decodeStream(stream);
+			if(null == bitmap)
 			{
-				final int n = mGifDecoder.getFrameCount();
-				final int ntimes = mGifDecoder.getLoopCount();
-				int repetitionCounter = 0;
-				do
-				{
-					for (int i = 0; i < n; i++)
-					{
-						mTmpBitmap = mGifDecoder.getFrame(i);
-						int t = mGifDecoder.getDelay(i);
-						mHandler.post(mUpdateResults);
-						try
-						{
-							Thread.sleep(t);
-						}
-						catch (InterruptedException e)
-						{
-							e.printStackTrace();
-						}
-					}
-					if (ntimes != 0)
-					{
-						repetitionCounter++;
-					}
-				}
-				while (mIsPlayingGif && (repetitionCounter <= ntimes));
+				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 			}
-		}).start();
+			mImage.setImageBitmap(bitmap);
+		}
+		else
+		{
+			mIsPlayingGif = true;
+			new Thread(new Runnable()
+			{
+				public void run()
+				{
+					final int n = mGifDecoder.getFrameCount();
+					final int ntimes = mGifDecoder.getLoopCount();
+					int repetitionCounter = 0;
+					do
+					{
+						for (int i = 0; i < n; i++)
+						{
+							mTmpBitmap = mGifDecoder.getFrame(i);
+							int t = mGifDecoder.getDelay(i);
+							mHandler.post(mUpdateResults);
+							try
+							{
+								Thread.sleep(t);
+							}
+							catch (InterruptedException e)
+							{
+								e.printStackTrace();
+							}
+						}
+						if (ntimes != 0)
+						{
+							repetitionCounter++;
+						}
+					}
+					while (mIsPlayingGif && (repetitionCounter <= ntimes));
+				}
+			}).start();
+		}
 	}
 
 	public void stopRendering()

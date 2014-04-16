@@ -36,5 +36,6 @@
     <color name="list_item_border_pressed_color">@color/alpha_red_color</color>
     <!-- ListView列表项默认效果-->
     <color name="list_item_default_color">@color/white_color</color>
+      <color name="fast_scroll_track_color">#E5D033</color>
 
 </resources>

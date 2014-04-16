@@ -56,6 +56,9 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private LinearLayout mLinearContainer;
 	/** 显示新闻标题 */
 	private TextView mTvTitle;
+	/**显示新闻日期*/
+	private TextView mTvTime;
+	
 	private Random mRandom = new Random();
 	/** 异步图片加载器 */
 	private ImageLoader mImageLoader;
@@ -69,6 +72,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		{
 			 mProgressBar.setVisibility(View.GONE);
 			 mTvTitle.setVisibility(View.VISIBLE);
+			 mTvTime.setVisibility(View.VISIBLE);
 		}
 	};
 
@@ -87,6 +91,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		View view = inflater.inflate(R.layout.fragment_news, null);// TODO
 		mLinearContainer = (LinearLayout) view.findViewById(R.id.linear_container);
 		mTvTitle = (TextView) view.findViewById(R.id.tv_title);
+		mTvTime = (TextView) view.findViewById(R.id.tv_time);
 		Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "custom.ttf");
 		addProgressBar();
 		mTvTitle.setTypeface(typeface);
@@ -135,7 +140,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			params.bottomMargin = ltrb;
 			ArrayList<String> imageUrls = new ArrayList<String>();
-			int position = 0;
+			int position = -1;
 			for (String str : data)
 			{
 				if (str.startsWith(BaseActivity.PREFIX_IMG_URL))
@@ -177,7 +182,8 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		}
 		int nextIndex = mRandom.nextInt(COLORS_COLLECTION.length);
 		mTvTitle.setBackgroundColor(getResources().getColor(COLORS_COLLECTION[nextIndex]));
-		mTvTitle.setText(mItem.getTitle());
+		mTvTitle.setText(mItem.getTitle() );
+		mTvTime.setText(mItem.getTime());
 		mHandler.postDelayed(mHideProgressBarRunnable, durationTime);
 
 	}
@@ -210,12 +216,6 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 
 		public OnClickListenerImpl()
 		{}
-
-		public OnClickListenerImpl(ArrayList<String> imageUrls)
-		{
-			this(imageUrls, 0);
-		}
-
 		public OnClickListenerImpl(ArrayList<String> mImageUrls, int mPosition)
 		{
 			super();

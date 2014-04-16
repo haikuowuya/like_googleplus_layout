@@ -3,7 +3,6 @@ package com.roboo.like.google.fragments;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import android.R.layout;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -13,9 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.ProgressBar;
 
 import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.ContacterAdapter;

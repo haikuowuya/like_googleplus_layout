@@ -7,7 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.ListIterator;
+import java.util.Map;
 
 import android.content.Context;
 
@@ -43,7 +48,6 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 		LinkedList<NewsItem> data = null;
 		try
 		{
-
 			File file = new File(FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_NEWS_LIST), MD5Utils.generate(mChannelUrl));
 			if (!NetWorkUtils.isNetworkAvailable(mContext) && file.exists() && mPageNo == 1)
 			{
@@ -55,16 +59,16 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 				{
 					System.out.println("从本地文件读取对象成功");
 				}
-				 
 			}
 			else
 			{
 				data = NewsUtils.getITHomeNewsList(mChannelUrl, mPageNo);
-				if (mPageNo == 1 && null != data)
+				if (mPageNo == 1 && data != null)
 				{
 					saveNewsListData(data);
 				}
 			}
+			
 			mEndTime = System.currentTimeMillis();
 			if (mEndTime - mStartTime < THREAD_LEAST_DURATION_TIME)
 			{
@@ -110,4 +114,6 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 			e.printStackTrace();
 		}
 	}
+	
+	
 }

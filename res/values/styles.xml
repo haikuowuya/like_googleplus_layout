@@ -8,6 +8,9 @@
         <item name="android:windowAnimationStyle">@style/Animation.Activity.Translucent.Style</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_selector</item>
+        <item name="android:fastScrollTrackDrawable">@color/fast_scroll_track_color</item>
+        <item name="android:fastScrollOverlayPosition">atThumb</item>
     </style>
 
     <style name="Animation.Activity.Style" parent="@android:style/Animation.Activity">
@@ -43,14 +46,14 @@
         <item name="shadow_right">@drawable/shadow_right</item>
         <item name="shadow_bottom">@drawable/shadow_bottom</item>
     </style>
-	<style name="Comment.List.Item.TextView.Style" parent="@android:style/Widget.TextView">
-	    <item name="android:layout_width">wrap_content</item>
-	    <item name="android:layout_height">wrap_content</item>
-	    <item name="android:padding">4dp</item>
-	    <item name="android:textSize">14sp</item>     
-	    <item name="android:singleLine">true</item>
-	    <item name="android:ellipsize">middle</item>
-	 
-	    
-	</style>
+
+    <style name="Comment.List.Item.TextView.Style" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">middle</item>
+    </style>
+
 </resources>
