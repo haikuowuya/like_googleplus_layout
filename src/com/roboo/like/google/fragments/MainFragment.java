@@ -140,17 +140,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			Field field = AbsListView.class.getDeclaredField(DECLARED_OPERA_FAST_SCROLLER_FIELD);
 			field.setAccessible(true);
 			Object object = field.get(mListView);
-		 
-//			field = field.getType().getDeclaredField(DECLARED_OVERLAY_POS);
-//			field.setAccessible(true);
-//			RectF rectF = (RectF) field.get(object);
-//			RectF newRectF = new RectF();
-//			newRectF.left = rectF.left;
-//			newRectF.top = rectF.top;
-//			newRectF.right = rectF.left + 150;
-//			newRectF.bottom = rectF.top + 50;
-//			field.set(object, newRectF);
-		
+
 
 			field = field.getType().getDeclaredField(DECLARED_PAINT);// 获取绘制文字的画笔
 			field.setAccessible(true);
@@ -162,10 +152,26 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			paint.setStyle(Paint.Style.FILL_AND_STROKE);
 			field.set(object, paint);
 			
-			
+			 
+
 			field = field.getType().getDeclaredField(DECLARED_OVERLAY_SIZE);//
 			field.setAccessible(true);
 			field.set(object, 50);
+			
+			
+			field = field.getType().getDeclaredField(DECLARED_OVERLAY_POS);
+			field.setAccessible(true);
+			RectF rectF = (RectF) field.get(object);
+			RectF newRectF = new RectF();
+			newRectF.left = rectF.left;
+			newRectF.top = rectF.top;
+			newRectF.right = rectF.left + 150;
+			newRectF.bottom = rectF.top + 50;
+			field.set(object, newRectF);
+ 
+			
+			
+			
 			System.out.println("修改滑动时现在字体大小成功  "+ field.getInt(object));
 		}
 		catch (Exception e)
