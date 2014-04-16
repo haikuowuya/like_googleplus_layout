@@ -7,12 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.io.OptionalDataException;
+import java.io.StreamCorruptedException;
 import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Map;
 
 import android.content.Context;
 
@@ -51,24 +48,27 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 			File file = new File(FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_NEWS_LIST), MD5Utils.generate(mChannelUrl));
 			if (!NetWorkUtils.isNetworkAvailable(mContext) && file.exists() && mPageNo == 1)
 			{
-				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
-				data = (LinkedList<NewsItem>) objectInputStream.readObject();
-				objectInputStream.close();
-				GoogleApplication.TEST = true;
-				if (GoogleApplication.TEST)
-				{
-					System.out.println("从本地文件读取对象成功");
-				}
+				data = getOfflineData(file);
 			}
 			else
 			{
 				data = NewsUtils.getITHomeNewsList(mChannelUrl, mPageNo);
-				if (mPageNo == 1 && data != null)
+				if (null != data)
 				{
-					saveNewsListData(data);
+					if (mPageNo == 1)
+					{
+						saveNewsListData(data);
+					}
+					else
+					{
+						appendNewsListData(data); 
+					}
 				}
 			}
-			
+			if (data == null && file.exists())
+			{
+				data = getOfflineData(file);
+			}
 			mEndTime = System.currentTimeMillis();
 			if (mEndTime - mStartTime < THREAD_LEAST_DURATION_TIME)
 			{
@@ -90,6 +90,23 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 		return data;
 	}
 
+	
+
+	/** 从文件中获取本地的离线数据 */
+	private LinkedList<NewsItem> getOfflineData(File file) throws StreamCorruptedException, IOException, FileNotFoundException, OptionalDataException, ClassNotFoundException
+	{
+		LinkedList<NewsItem> data;
+		ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
+		data = (LinkedList<NewsItem>) objectInputStream.readObject();
+		objectInputStream.close();
+		GoogleApplication.TEST = true;
+		if (GoogleApplication.TEST)
+		{
+			System.out.println("从本地文件读取对象成功");
+		}
+		return data;
+	}
+	/**保存第一页数据到本地文件中*/
 	private void saveNewsListData(LinkedList<NewsItem> data)
 	{
 		File dirFile = FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_NEWS_LIST);
@@ -114,6 +131,40 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 			e.printStackTrace();
 		}
 	}
-	
-	
+	/**将第一页以后的数据追加到本地文件中去
+	 * @throws ClassNotFoundException 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 * @throws OptionalDataException 
+	 * @throws StreamCorruptedException */
+	private void appendNewsListData(LinkedList<NewsItem> data) throws StreamCorruptedException, OptionalDataException, FileNotFoundException, IOException, ClassNotFoundException
+	{
+		File dirFile = FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_NEWS_LIST);
+		File dataFile = new File(dirFile, MD5Utils.generate(mChannelUrl));
+		LinkedList<NewsItem> offlineData = getOfflineData(dataFile);
+		LinkedList<NewsItem> needAppendData = new LinkedList<NewsItem>();
+		if(null != offlineData && data != null)
+		{
+			for(NewsItem item : data)
+			{
+				if(!offlineData.contains(item))
+				{
+					needAppendData.add(item);
+				}
+			}
+			if(needAppendData.size() > 0)
+			{
+				ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(dataFile,true));
+				objectOutputStream.writeObject(data);
+				objectOutputStream.close();
+				GoogleApplication.TEST = true;
+				if (GoogleApplication.TEST)
+				{
+					System.out.println("追加新闻列表对象写入文件成功 :: 追加新闻个数  = " +needAppendData.size() );
+				}
+			
+			}
+		}
+	}
+
 }

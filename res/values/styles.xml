@@ -9,8 +9,10 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_selector</item>
-        <item name="android:fastScrollTrackDrawable">@color/fast_scroll_track_color</item>
+<item name="android:fastScrollTrackDrawable">@color/fast_scroll_track_color</item>
         <item name="android:fastScrollOverlayPosition">atThumb</item>
+    <item name="android:fastScrollPreviewBackgroundRight">@drawable/ic_fast_scroll_label_right</item>  
+      <!--   <item name="android:fastScrollOverlayPosition">?android:attr/fastScrollOverlayPosition</item> -->
     </style>
 
     <style name="Animation.Activity.Style" parent="@android:style/Animation.Activity">

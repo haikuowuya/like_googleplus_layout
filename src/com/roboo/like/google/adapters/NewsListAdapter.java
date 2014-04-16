@@ -1,9 +1,8 @@
 package com.roboo.like.google.adapters;
 
-import java.util.Comparator;
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
-import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -25,6 +24,7 @@ import com.roboo.like.google.models.NewsItem;
 
 public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter, SectionIndexer
 {
+	private static final boolean IS_CUSTOM_FAST_SCROLL_LABEL= false;
 	private Context context;
 	private LinkedList<NewsItem> mData;
 	private ImageLoader mImageLoader;
@@ -142,12 +142,39 @@ public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter
 		String[] sections = new String[mSectionIndex.size()];
 		for (int i = 0; i < mSectionIndex.size(); i++)
 		{
-			sections[i] = mData.get(mSectionIndex.get(i)).getTime();
+			sections[i] = getFastScrollLabel(mData.get(mSectionIndex.get(i)).getTime());
 		}
 		return sections;
 	}
-	
-	@Override
+	/**获取快速滑动时显示的文字*/
+	private String getFastScrollLabel(String time)
+	{
+		if(IS_CUSTOM_FAST_SCROLL_LABEL)
+		{
+		 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM月");
+		 String currentMonth = simpleDateFormat.format(new Date(System.currentTimeMillis()));
+		 String newsPublishMonth = null;
+		 String newsPublishDay = null;
+		 if(time.contains("月") &&time.contains("日"))
+		 {
+			 newsPublishMonth = time.split("月")[0]+"月";
+			 newsPublishDay = time.split("月")[1].split("日")[0];
+		 }
+		 System.out.println( "currentMonth = "+currentMonth + " newsPublishMonth = "+newsPublishMonth);
+		 if(currentMonth.equals(newsPublishMonth))
+		 {
+			 return newsPublishDay ;
+		 }
+		 else 
+		 {
+			 return newsPublishMonth;
+		 }
+		}
+		else
+		{
+			return time;
+		}
+	}
 	public int getPositionForSection(int section)
 	{
 		if (section >= mSectionIndex.size())

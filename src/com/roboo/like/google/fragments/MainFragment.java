@@ -1,25 +1,28 @@
 package com.roboo.like.google.fragments;
 
-import java.text.SimpleDateFormat;
+import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -44,7 +47,11 @@ import com.roboo.like.google.views.helper.PullToRefreshHelper.OnRefreshListener;
 
 public class MainFragment extends BaseFragment implements LoaderCallbacks<LinkedList<NewsItem>>
 {
-	
+	private static final String DECLARED_OPERA_FAST_SCROLLER_FIELD = "mFastScroller";// FastScroller
+	private static final String DECLARED_OVERLAY_SIZE = "mOverlaySize";// int
+
+	private static final String DECLARED_OVERLAY_POS = "mOverlayPos"; // RectF
+	private static final String DECLARED_PAINT = "mPaint"; // Paint
 	/** Bundle当前加载数据的页数Key */
 	private static final String ARG_CURRENT_PAGENO = "current_pageno";
 	/** Bundle当前获取新闻URL */
@@ -54,7 +61,6 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private int mStubCurrentPageNo = mCurrentPageNo;
 	/** 用于记录兩條新聞日期不相同时，该比较字符串所在List集合的索引位置，在生成HeaderId时进行获取 */
 	private LinkedList<Integer> mSectionIndex = new LinkedList<Integer>();
-	
 	/** ListView */
 	private StickyListHeadersListView mListView;
 	/** 当ListView向上滚动时会出现的View的辅助类 */
@@ -83,7 +89,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private ProgressBar mProgressBar;
 	/** 正在加载数据中…… */
 	private Button mBtnLoadNext;
-	
+
 	/** 创建一个 ContentFragment 实例 */
 	public static MainFragment newInstance(String newsUrl)
 	{
@@ -93,7 +99,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		fragment.setArguments(bundle);
 		return fragment;
 	}
-	
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_main, null);// TODO
@@ -105,7 +111,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
 		return view;
 	}
-	
+
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
@@ -120,17 +126,59 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			{
 				loadFirstData();
 			}
-			
+
 		});
 		loadFirstData();
+		modifyDefaultListViewFieldValue();
 	}
-	
+
+	/** 修改ListView一些默认属性值 */
+	private void modifyDefaultListViewFieldValue()
+	{
+		try
+		{
+			Field field = AbsListView.class.getDeclaredField(DECLARED_OPERA_FAST_SCROLLER_FIELD);
+			field.setAccessible(true);
+			Object object = field.get(mListView);
+		 
+//			field = field.getType().getDeclaredField(DECLARED_OVERLAY_POS);
+//			field.setAccessible(true);
+//			RectF rectF = (RectF) field.get(object);
+//			RectF newRectF = new RectF();
+//			newRectF.left = rectF.left;
+//			newRectF.top = rectF.top;
+//			newRectF.right = rectF.left + 150;
+//			newRectF.bottom = rectF.top + 50;
+//			field.set(object, newRectF);
+		
+
+			field = field.getType().getDeclaredField(DECLARED_PAINT);// 获取绘制文字的画笔
+			field.setAccessible(true);
+			Paint paint = new Paint();
+			paint.setColor(getResources().getColor(R.color.red_color));
+			paint.setAntiAlias(true);
+			paint.setTextAlign(Paint.Align.CENTER);
+			paint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20, getResources().getDisplayMetrics()));
+			paint.setStyle(Paint.Style.FILL_AND_STROKE);
+			field.set(object, paint);
+			
+			
+			field = field.getType().getDeclaredField(DECLARED_OVERLAY_SIZE);//
+			field.setAccessible(true);
+			field.set(object, 50);
+			System.out.println("修改滑动时现在字体大小成功  "+ field.getInt(object));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	private void loadFirstData()
 	{
 		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
 		{
-			DefaultHeaderTransformer transformer = (DefaultHeaderTransformer) mPullToRefreshAttacher
-					.getHeaderTransformer();
+			DefaultHeaderTransformer transformer = (DefaultHeaderTransformer) mPullToRefreshAttacher.getHeaderTransformer();
 			transformer.setRefreshingText("正在获取离线数据");
 		}
 		Bundle bundle = getArguments();
@@ -139,16 +187,18 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mPullToRefreshAttacher.setRefreshing(true);
 		getActivity().getSupportLoaderManager().restartLoader(0, bundle, MainFragment.this);
 	}
+
 	public void onSaveInstanceState(Bundle outState)
 	{
 		super.onSaveInstanceState(outState);
 	}
+
 	public void onResume()
 	{
 		super.onResume();
 		setListener();
 	}
-	
+
 	private void setListener()
 	{
 		mListView.setOnItemClickListener(new OnListItemClickListenerImpl());
@@ -158,6 +208,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mBtnPicture.setOnClickListener(onClickListenerImpl);
 		mBtnText.setOnClickListener(onClickListenerImpl);
 	}
+
 	private class OnListItemClickListenerImpl implements OnItemClickListener
 	{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -172,7 +223,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			}
 		}
 	}
-	
+
 	/** initLoader/reStartLoader方法被调用时会执行onCreateLoader */
 	public Loader<LinkedList<NewsItem>> onCreateLoader(int id, Bundle args)
 	{
@@ -183,9 +234,9 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		}
 		mProgressBar.setVisibility(View.VISIBLE);
 		mBtnLoadNext.setText("正在加载数据中……");
-		return new NewsListAsyncTaskLoader(getActivity(), args.getString(ARG_NEWS_URL), args.getInt(ARG_CURRENT_PAGENO,
-				1));
+		return new NewsListAsyncTaskLoader(getActivity(), args.getString(ARG_NEWS_URL), args.getInt(ARG_CURRENT_PAGENO, 1));
 	}
+
 	private class OnClickListenerImpl implements OnClickListener
 	{
 		public void onClick(View v)
@@ -209,31 +260,32 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 				break;
 			}
 		}
+
 		/** 图片 */
 		public void picture()
 		{
 			PictureActivity.actionPicture(getActivity());
 		}
-		
+
 		/** 位置 */
 		public void location()
 		{
 			LocationActivity.actionLocation(getActivity());
 		}
-		
+
 		/** 心情 */
 		public void mood()
 		{
 			MoodActivity.actionMood(getActivity());
 		}
-		
+
 		/** 文字 */
 		public void text()
 		{
 			TextActivity.actionText(getActivity());
 		}
 	}
-	
+
 	/** 跳转到设置界面 */
 	public void networkSettings()
 	{
@@ -241,7 +293,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
 	}
-	
+
 	@Override
 	public void onLoadFinished(Loader<LinkedList<NewsItem>> loader, LinkedList<NewsItem> data)
 	{
@@ -253,7 +305,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			{
 				mData = data;
 				updateCount = mData.size();
-				mAdapter = new NewsListAdapter(getActivity(), mData,mSectionIndex);
+				mAdapter = new NewsListAdapter(getActivity(), mData, mSectionIndex);
 				mListView.addFooterView(mFooterView);
 				mListView.setAdapter(mAdapter);
 				mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
@@ -262,11 +314,11 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			{
 				updateCount = handleAddData(data).size();
 			}
-		
+
 			Collections.sort(generateHeaderId(mData), new YMDComparator());
 			mAdapter.setSectionIndex(mSectionIndex);
 			mAdapter.notifyDataSetChanged();
-			
+
 			for (NewsItem item : data)
 			{
 				GoogleApplication.TEST = false;
@@ -295,24 +347,34 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mProgressBar.setVisibility(View.INVISIBLE);
 		mPullToRefreshAttacher.setRefreshComplete();
 	}
-	/** 处理数据重复问题 */
+
+	/** 处理数据重复问题,以及将最新的数据放在最上面 */
 	private LinkedList<NewsItem> handleAddData(LinkedList<NewsItem> data)
 	{
 		LinkedList<NewsItem> tmpItems = new LinkedList<NewsItem>();
-		for (NewsItem item : data)
+		for (int i = data.size() - 1; i >= 0; i--)
 		{
+			NewsItem item = data.get(i);
 			if (!mData.contains(item))
 			{
+				if (mCurrentPageNo == 1)
+				{
+					mData.addFirst(item);
+				}
+				else
+				{
+					mData.add(item);
+				}
 				tmpItems.add(item);
-				mData.add(item);
 			}
 		}
 		return tmpItems;
 	}
-	
+
 	@Override
 	public void onLoaderReset(Loader<LinkedList<NewsItem>> loader)
 	{}
+
 	private void loadNextData()
 	{
 		// =========================================================================
@@ -333,12 +395,13 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			getActivity().getSupportLoaderManager().restartLoader(0, bundle, this);
 		}
 	}
+
 	private LinkedList<NewsItem> generateHeaderId(LinkedList<NewsItem> nonHeaderIdList)
 	{
 		Map<String, Integer> mHeaderIdMap = new HashMap<String, Integer>();
 		int mHeaderId = 1;
 		LinkedList<NewsItem> hasHeaderIdList;
-		
+
 		for (int i = 0; i < nonHeaderIdList.size(); i++)
 		{
 			NewsItem item = nonHeaderIdList.get(i);
@@ -358,13 +421,17 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		hasHeaderIdList = nonHeaderIdList;
 		return hasHeaderIdList;
 	}
+
 	public class YMDComparator implements Comparator<NewsItem>
 	{
-	 
 		public int compare(NewsItem o1, NewsItem o2)
 		{
-			return  o2.getTime().compareTo(o1.getTime());
+			if (null != o1 && null != o2)
+			{
+				return o2.getTime().compareTo(o1.getTime());
+			}
+			return 0;
 		}
 	}
-	
+
 }
