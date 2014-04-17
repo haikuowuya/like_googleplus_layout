@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
 import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.MKGeneralListener;
 import com.baidu.mapapi.map.MapController;
@@ -13,6 +16,7 @@ import com.baidu.platform.comapi.basestruct.GeoPoint;
 /** 我的位置 */
 public class LocationActivity extends BaseActivity
 {
+	public LocationClient mLocationClient = null;
 	private MapView mMapView;
 	/** 百度地图管理器，需要在setContentView之前init */
 	private BMapManager mBMapManager = null;
@@ -27,7 +31,10 @@ public class LocationActivity extends BaseActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		mBMapManager = new BMapManager(getApplicationContext());
+		mLocationClient = new LocationClient(getApplicationContext());
+		mLocationClient.registerLocationListener(new BDLocationListenerImpl());
 		mBMapManager.init(new MKGeneralListenerImpl());
+		
 		super.onCreate(savedInstanceState);
 		customActionBar();
 		setContentView(R.layout.activity_location);
@@ -102,6 +109,48 @@ public class LocationActivity extends BaseActivity
 		}
 
 		public void onGetPermissionState(int arg0)
+		{
+
+		}
+	}
+
+	private class BDLocationListenerImpl implements BDLocationListener
+	{
+
+		public void onReceiveLocation(BDLocation location)
+		{
+			if (location == null)
+			{
+				return;
+			}
+			StringBuffer stringBuffer = new StringBuffer(256);
+			stringBuffer.append("time : ");
+			stringBuffer.append(location.getTime());
+			stringBuffer.append("\nerror code : ");
+			stringBuffer.append(location.getLocType());
+			stringBuffer.append("\nlatitude : ");
+			stringBuffer.append(location.getLatitude());
+			stringBuffer.append("\nlontitude : ");
+			stringBuffer.append(location.getLongitude());
+			stringBuffer.append("\nradius : ");
+			stringBuffer.append(location.getRadius());
+			if (location.getLocType() == BDLocation.TypeGpsLocation)
+			{
+				stringBuffer.append("\nspeed : ");
+				stringBuffer.append(location.getSpeed());
+				stringBuffer.append("\nsatellite : ");
+				stringBuffer.append(location.getSatelliteNumber());
+			}
+			else if (location.getLocType() == BDLocation.TypeNetWorkLocation)
+			{
+				stringBuffer.append("\naddr : ");
+				stringBuffer.append(location.getAddrStr());
+			}
+			System.out.println("定位结果   = " + stringBuffer.toString());
+		}
+
+		@Override
+		public void onReceivePoi(BDLocation location)
 		{
 
 		}
