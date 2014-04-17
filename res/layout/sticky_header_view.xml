@@ -13,6 +13,15 @@
         android:textColor="@color/violet_color"
         android:textSize="18sp"
         android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tv_today_news_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:padding="5dp"
+        android:textColor="@color/red_color"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <ProgressBar
         android:layout_width="wrap_content"

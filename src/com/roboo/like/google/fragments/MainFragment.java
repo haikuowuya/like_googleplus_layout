@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -48,8 +46,7 @@ import com.roboo.like.google.views.helper.PullToRefreshHelper.OnRefreshListener;
 public class MainFragment extends BaseFragment implements LoaderCallbacks<LinkedList<NewsItem>>
 {
 	private static final String DECLARED_OPERA_FAST_SCROLLER_FIELD = "mFastScroller";// FastScroller
-	private static final String DECLARED_OVERLAY_SIZE = "mOverlaySize";// int
-
+	private static final String DECLARED_OVERLAY_SIZE = "mOverlaySize";// int 
 	private static final String DECLARED_OVERLAY_POS = "mOverlayPos"; // RectF
 	private static final String DECLARED_PAINT = "mPaint"; // Paint
 	/** Bundle当前加载数据的页数Key */
@@ -61,6 +58,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private int mStubCurrentPageNo = mCurrentPageNo;
 	/** 用于记录兩條新聞日期不相同时，该比较字符串所在List集合的索引位置，在生成HeaderId时进行获取 */
 	private LinkedList<Integer> mSectionIndex = new LinkedList<Integer>();
+	
 	/** ListView */
 	private StickyListHeadersListView mListView;
 	/** 当ListView向上滚动时会出现的View的辅助类 */
@@ -148,13 +146,13 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			paint.setColor(getResources().getColor(R.color.red_color));
 			paint.setAntiAlias(true);
 			paint.setTextAlign(Paint.Align.CENTER);
-			paint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20, getResources().getDisplayMetrics()));
+			paint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18, getResources().getDisplayMetrics()));
 			paint.setStyle(Paint.Style.FILL_AND_STROKE);
 			field.set(object, paint);
 			
 			 
 
-			field = field.getType().getDeclaredField(DECLARED_OVERLAY_SIZE);//
+			field = field.getType().getDeclaredField(DECLARED_OVERLAY_SIZE);
 			field.setAccessible(true);
 			field.set(object, 50);
 			
@@ -168,10 +166,6 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			newRectF.right = rectF.left + 150;
 			newRectF.bottom = rectF.top + 50;
 			field.set(object, newRectF);
- 
-			
-			
-			
 			System.out.println("修改滑动时现在字体大小成功  "+ field.getInt(object));
 		}
 		catch (Exception e)
@@ -320,7 +314,6 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			{
 				updateCount = handleAddData(data).size();
 			}
-
 			Collections.sort(generateHeaderId(mData), new YMDComparator());
 			mAdapter.setSectionIndex(mSectionIndex);
 			mAdapter.notifyDataSetChanged();

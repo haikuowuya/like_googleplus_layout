@@ -16,21 +16,13 @@ import java.util.Vector;
  * http://droid-blog.net/2011/10/14/tutorial-how-to-use-animated-gifs-in-android-part-1/
  */
 public class GifDecoder {
-	/**
-	 * File read status: No errors.
-	 */
+	/**读取正确状态码*/
 	public static final int STATUS_OK = 0;
-	/**
-	 * File read status: Error decoding file (may be partially decoded)
-	 */
+	/** 格式错误状态码*/
 	public static final int STATUS_FORMAT_ERROR = 1;
-	/**
-	 * File read status: Unable to open source.
-	 */
+	/**给定文件打不开状态码*/
 	public static final int STATUS_OPEN_ERROR = 2;
-	/**
-	 * max decoder pixel stack size
-	 */
+	/** 解码时给定的最大栈大小*/
 	protected static final int MAX_STACK_SIZE = 4096;
 	protected InputStream in;
 	protected int status;
@@ -342,16 +334,11 @@ public class GifDecoder {
 		}
 	}
 
-	/**
-	 * Returns true if an error was encountered during reading/decoding
-	 */
+	/** 当解码/读取文件信息出错是返回true */
 	protected boolean err() {
 		return status != STATUS_OK;
 	}
-
-	/**
-	 * Initializes or re-initializes reader
-	 */
+	/**初始化信息*/
 	protected void init() {
 		status = STATUS_OK;
 		frameCount = 0;
@@ -361,7 +348,7 @@ public class GifDecoder {
 	}
 
 	/**
-	 * Reads a single byte from the input stream.
+	 * 从流中读取一个字节
 	 */
 	protected int read() {
 		int curByte = 0;
@@ -441,6 +428,7 @@ public class GifDecoder {
 		boolean done = false;
 		while (!(done || err())) {
 			int code = read();
+			System.out.println("code = " + code);
 			switch (code) {
 				case 0x2C: // image separator
 					readBitmap();
@@ -500,7 +488,7 @@ public class GifDecoder {
 	}
 
 	/**
-	 * Reads GIF file header information.
+	 * 读取给定流中的头信息
 	 */
 	protected void readHeader() {
 		String id = "";

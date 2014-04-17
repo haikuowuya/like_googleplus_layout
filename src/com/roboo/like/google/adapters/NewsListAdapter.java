@@ -2,6 +2,7 @@ package com.roboo.like.google.adapters;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import android.content.Context;
@@ -31,7 +32,7 @@ public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter
 	private LayoutInflater mInflater;
 	/** 用于记录兩條新聞日期不相同时，该比较字符串所在List集合的索引位置，在生成HeaderId时进行获取 */
 	private LinkedList<Integer> mSectionIndex = new LinkedList<Integer>();
-	
+	private HashMap<String, Integer> mNewsCountInDay = new HashMap<String, Integer>();
 	public NewsListAdapter(Context context, LinkedList<NewsItem> data)
 	{
 		super();
@@ -132,7 +133,11 @@ public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter
 	{
 		convertView = mInflater.inflate(R.layout.sticky_header_view, parent, false);
 		TextView textView = (TextView) convertView.findViewById(R.id.tv_text);
-		textView.setText(mData.get(position).getTime());
+		TextView tvTodayNewsCount   = (TextView) convertView.findViewById(R.id.tv_today_news_count);
+		String  time = mData.get(position).getTime();
+		int count =  null == mNewsCountInDay.get(time)?0:mNewsCountInDay.get(time).intValue();
+		textView.setText(time );
+		tvTodayNewsCount.setText("总共 "+count+" 条");
 		return convertView;
 	}
 	
@@ -203,6 +208,22 @@ public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter
 	public void setSectionIndex(LinkedList<Integer> sectionIndex)
 	{
 		mSectionIndex = sectionIndex;
+		String currentNewsTime = mData.get(0).getTime();
+		int count = 0;
+		for(int i = 0;i < mData.size();i++)
+		{
+			NewsItem item = mData.get(i);
+			if(currentNewsTime.equals(item.getTime()))
+			{
+				count++;
+			}
+			else {
+				mNewsCountInDay.put(currentNewsTime, count);
+				currentNewsTime = item.getTime();
+				count = 1;
+			}
+		}
+		mNewsCountInDay.put(currentNewsTime, count);//最后一个日期
 	}
 	 
 }

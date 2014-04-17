@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
@@ -26,10 +25,8 @@ import com.roboo.like.google.stickylistheaders.AdapterWrapper;
 import com.roboo.like.google.stickylistheaders.SectionIndexerAdapterWrapper;
 import com.roboo.like.google.stickylistheaders.WrapperView;
 
-@TargetApi(17)
 public class StickyListHeadersListView extends ListView
 {
-
 	public interface OnHeaderClickListener
 	{
 		public void onHeaderClick(StickyListHeadersListView l, View header, int itemPosition, long headerId, boolean currentlySticky);
@@ -115,7 +112,13 @@ public class StickyListHeadersListView extends ListView
 
 	public StickyListHeadersListView(Context context, AttributeSet attrs)
 	{
-		this(context, attrs, android.R.attr.listViewStyle);
+		this(context, attrs, 0);
+		// ======================================================================
+		// ======================================================================
+		// 源代码默认的
+		// ======================================================================
+		// ======================================================================
+		// this(context, attrs, android.R.attr.listViewStyle);
 	}
 
 	public StickyListHeadersListView(Context context, AttributeSet attrs, int defStyle)

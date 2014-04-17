@@ -61,7 +61,7 @@ public class CommentFragment extends BaseFragment implements LoaderCallbacks<Lin
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.fragment_comment, null);
+		View view = inflater.inflate(R.layout.fragment_comment, null);//TODO
 		mListView = (ListView) view.findViewById(R.id.lv_list);
 		mFooterView = inflater.inflate(R.layout.listview_footer_view, null);
 		mFooterProgressBar = (ProgressBar) mFooterView.findViewById(R.id.pb_progress);

@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -70,9 +69,6 @@ public class TextActivity extends BaseActivity
 		{
 		case android.R.id.home:
 			finish();
-
-			break;
-		default:
 			break;
 		}
 		return super.onOptionsItemSelected(item);

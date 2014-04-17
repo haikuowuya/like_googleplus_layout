@@ -1,24 +1,21 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-     android:background="@color/ivorg_color"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/ivorg_color" >
 
     <com.roboo.like.google.views.StickyListHeadersListView
         android:id="@+id/slhlv_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:cacheColorHint="@android:color/transparent"
-        android:clipToPadding="false"
         android:divider="@android:color/transparent"
         android:dividerHeight="10dp"
         android:drawSelectorOnTop="true"
-        android:scrollbars="none"
         android:fadeScrollbars="false"
-        android:listSelector="@null"
-        android:footerDividersEnabled="true"
-        android:fadingEdge="none"
+        android:cacheColorHint="@android:color/transparent"
         android:fastScrollEnabled="true"
-        android:scrollbarStyle="outsideOverlay" />
+        android:listSelector="@android:color/transparent"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="none" />
 
     <TextView
         android:id="@android:id/empty"
@@ -26,7 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
+        android:layout_centerInParent="true"
         android:text="没有数据"
         android:visibility="gone" />
 
-</FrameLayout>
+</RelativeLayout>

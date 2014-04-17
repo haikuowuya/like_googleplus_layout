@@ -11,7 +11,6 @@ import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -92,9 +91,9 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mLinearContainer = (LinearLayout) view.findViewById(R.id.linear_container);
 		mTvTitle = (TextView) view.findViewById(R.id.tv_title);
 		mTvTime = (TextView) view.findViewById(R.id.tv_time);
-		Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "custom.ttf");
+//		Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "custom.ttf");
+//		mTvTitle.setTypeface(typeface);
 		addProgressBar();
-		mTvTitle.setTypeface(typeface);
 		return view;
 	}
 
@@ -136,13 +135,15 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		{
 			durationTime = ANIMATION_DURATION_TIME * data.size();
 			setLinearContainerAnimation();
-			int ltrb = (int) (10 * getActivity().getResources().getDisplayMetrics().density);
+			int lr = (int) (10 * getActivity().getResources().getDisplayMetrics().density);
+			int tb = 5;
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-			params.bottomMargin = ltrb;
+			params.bottomMargin = lr;
 			ArrayList<String> imageUrls = new ArrayList<String>();
 			int position = -1;
-			for (String str : data)
+			for (int i = 0; i< data.size();i++)
 			{
+				String str = data.get(i);
 				if (str.startsWith(BaseActivity.PREFIX_IMG_URL))
 				{
 					position++;
@@ -150,24 +151,24 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 					ImageView imageView = new ImageView(getActivity());
 					imageView.setId(R.id.iv_image);
 					imageView.setLayoutParams(params);
-					// imageView.setBackgroundResource(R.drawable.list_item_selector);
+					 imageView.setBackgroundResource(R.drawable.list_item_selector);
 					DisplayImageOptions options = new DisplayImageOptions.Builder().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image).showImageOnFail(R.drawable.ic_default_image).cacheInMemory()
 							.cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
 					mImageLoader.displayImage(str, imageView, options);
-					imageView.setPadding(ltrb, ltrb, ltrb, ltrb);
+					imageView.setPadding(lr, tb, lr, tb);
 					mLinearContainer.addView(imageView);
 					imageView.setOnClickListener(new OnClickListenerImpl(imageUrls, position));
 				}
 				else
 				{
-					params.leftMargin = ltrb;
-					params.rightMargin = ltrb;
+					params.leftMargin = lr;
+					params.rightMargin = lr;
 					TextView textView = new TextView(getActivity());
 					textView.setClickable(true);
 					textView.setText(str);
 					textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 					textView.setLayoutParams(params);
-					textView.setPadding(ltrb, ltrb, ltrb, ltrb);
+					textView.setPadding(lr, tb, lr, tb);
 					// textView.setBackgroundResource(R.drawable.list_item_default);
 					mLinearContainer.addView(textView);
 				}
@@ -178,7 +179,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 					System.out.println("str = " + str);
 				}
 			}
-			addCommentButton(params, ltrb);
+			addCommentButton(params, lr);
 		}
 		int nextIndex = mRandom.nextInt(COLORS_COLLECTION.length);
 		mTvTitle.setBackgroundColor(getResources().getColor(COLORS_COLLECTION[nextIndex]));
