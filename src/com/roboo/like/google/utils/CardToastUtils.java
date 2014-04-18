@@ -95,7 +95,6 @@ public class CardToastUtils
 				{
 
 					Handler handler = new Handler();
-
 					handler.post(mHideImmediateRunnable);
 				}
 
@@ -156,6 +155,11 @@ public class CardToastUtils
 		{
 			throw new IllegalAccessError(ERROR_CONTAINERNULL);
 		}
+	}
+	public CardToastUtils setMessageTextColor(int color)
+	{
+		mMessageTextView.setTextColor(color);
+		return this;
 	}
 
 	public void show()

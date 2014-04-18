@@ -37,7 +37,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 		}
 		mActivityHelper = new SwipeBackActivityHelper(this);
 		mActivityHelper.onActivityCreate();
-		super.setContentView(R.layout.activity_base);
+		super.setContentView(R.layout.activity_base);//TODO
 		mContainer = (FrameLayout) findViewById(R.id.frame_container);
 	}
 
