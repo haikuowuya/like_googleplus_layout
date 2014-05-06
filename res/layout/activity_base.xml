@@ -8,12 +8,22 @@
         android:id="@+id/card_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
     <FrameLayout
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/card_container" >
     </FrameLayout>
+   
 
+    <!--
+    <com.roboo.like.google.views.OverScrollView
+       
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/card_container"
+        android:background="@color/white_color" >
+    </com.roboo.like.google.views.OverScrollView>
+ -->
 </RelativeLayout>
