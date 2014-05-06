@@ -10,7 +10,11 @@ import android.animation.Keyframe;
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -18,16 +22,21 @@ import android.support.v4.content.Loader;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -55,23 +64,24 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private LinearLayout mLinearContainer;
 	/** 显示新闻标题 */
 	private TextView mTvTitle;
-	/**显示新闻日期*/
+	/** 显示新闻日期 */
 	private TextView mTvTime;
-	
+
 	private Random mRandom = new Random();
 	/** 异步图片加载器 */
 	private ImageLoader mImageLoader;
 	/** ViewGroup中添加View时的动画操作对象 */
 	private LayoutTransition mTransitioner;
 	private Handler mHandler = new Handler();
-	/**动画结束后执行隐藏进度圈和显示标题*/
+	private ScrollView mScrollView;
+	/** 动画结束后执行隐藏进度圈和显示标题 */
 	private Runnable mHideProgressBarRunnable = new Runnable()
 	{
 		public void run()
 		{
-			 mProgressBar.setVisibility(View.GONE);
-			 mTvTitle.setVisibility(View.VISIBLE);
-			 mTvTime.setVisibility(View.VISIBLE);
+			mProgressBar.setVisibility(View.GONE);
+			mTvTitle.setVisibility(View.VISIBLE);
+			mTvTime.setVisibility(View.VISIBLE);
 		}
 	};
 
@@ -89,10 +99,12 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	{
 		View view = inflater.inflate(R.layout.fragment_news, null);// TODO
 		mLinearContainer = (LinearLayout) view.findViewById(R.id.linear_container);
+		mScrollView = (ScrollView) view.findViewById(R.id.sv_scrollview);
 		mTvTitle = (TextView) view.findViewById(R.id.tv_title);
 		mTvTime = (TextView) view.findViewById(R.id.tv_time);
-//		Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "custom.ttf");
-//		mTvTitle.setTypeface(typeface);
+		// Typeface typeface =
+		// Typeface.createFromAsset(getActivity().getAssets(), "custom.ttf");
+		// mTvTitle.setTypeface(typeface);
 		addProgressBar();
 		return view;
 	}
@@ -116,9 +128,29 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		getActivity().getSupportLoaderManager().initLoader(0, getArguments(), this);
 	}
 
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		if (null != imageButton)
+		{
+			imageButton.setVisibility(View.GONE);
+		}
+	}
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		if (null != imageButton)
+		{
+			imageButton.setVisibility(View.VISIBLE);
+		}
+	}
+
 	private void setListener()
 	{
-
+		mScrollView.setOnTouchListener(new OnTouchListenerImpl());
 	}
 
 	public Loader<LinkedList<String>> onCreateLoader(int id, Bundle args)
@@ -141,7 +173,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 			params.bottomMargin = lr;
 			ArrayList<String> imageUrls = new ArrayList<String>();
 			int position = -1;
-			for (int i = 0; i< data.size();i++)
+			for (int i = 0; i < data.size(); i++)
 			{
 				String str = data.get(i);
 				if (str.startsWith(BaseActivity.PREFIX_IMG_URL))
@@ -151,9 +183,9 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 					ImageView imageView = new ImageView(getActivity());
 					imageView.setId(R.id.iv_image);
 					imageView.setLayoutParams(params);
-					 imageView.setBackgroundResource(R.drawable.list_item_selector);
+					imageView.setBackgroundResource(R.drawable.list_item_selector);
 					DisplayImageOptions options = new DisplayImageOptions.Builder().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image).showImageOnFail(R.drawable.ic_default_image).cacheInMemory()
-							.cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
+						.cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
 					mImageLoader.displayImage(str, imageView, options);
 					imageView.setPadding(lr, tb, lr, tb);
 					mLinearContainer.addView(imageView);
@@ -183,10 +215,10 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		}
 		int nextIndex = mRandom.nextInt(COLORS_COLLECTION.length);
 		mTvTitle.setBackgroundColor(getResources().getColor(COLORS_COLLECTION[nextIndex]));
-		mTvTitle.setText(mItem.getTitle() );
+		mTvTitle.setText(mItem.getTitle());
 		mTvTime.setText(mItem.getTime());
 		mHandler.postDelayed(mHideProgressBarRunnable, durationTime);
-
+		addFrontView();
 	}
 
 	private void addCommentButton(android.widget.LinearLayout.LayoutParams params, int ltrb)
@@ -217,6 +249,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 
 		public OnClickListenerImpl()
 		{}
+
 		public OnClickListenerImpl(ArrayList<String> mImageUrls, int mPosition)
 		{
 			super();
@@ -315,6 +348,86 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 				view.setRotationX(0f);
 			}
 		});
+	}
 
+	private ImageButton imageButton;
+	private Bitmap initBitmap;
+	private WindowManager windowManager;
+
+	/** 在当前窗口中添加一个前端系统窗口(悬浮窗口) */
+	private void addFrontView()
+	{
+		// scrollView.fullScroll(ScrollView.FOCUS_DOWN);滚动到底部
+		// scrollView.fullScroll(ScrollView.FOCUS_UP);滚动到顶部
+		int paddingLTRB = (int) (10 * getResources().getDisplayMetrics().density);
+		int imageButtonWH = (int) (64 * getResources().getDisplayMetrics().density);
+		windowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+		FrameLayout frameLayout = new FrameLayout(getActivity());
+		frameLayout.setPadding(paddingLTRB, paddingLTRB, paddingLTRB, paddingLTRB);
+
+		FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.CENTER);
+
+		imageButton = new ImageButton(getActivity());
+		imageButton.setBackgroundResource(R.drawable.list_item_selector);
+
+		frameLayout.addView(imageButton, frameLayoutParams);
+
+		BitmapDrawable bitmapDrawable = (BitmapDrawable) getActivity().getResources().getDrawable(R.drawable.ic_down);
+		initBitmap = bitmapDrawable.getBitmap();
+		imageButton.setImageDrawable(bitmapDrawable);
+		imageButton.setTag(imageButton.hashCode());
+		imageButton.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				BitmapDrawable imageDrawable = (BitmapDrawable) imageButton.getDrawable();
+				Bitmap currentBitmap = imageDrawable.getBitmap();
+				System.out.println("initBitmap = " + initBitmap + " currentBitmap = " + currentBitmap);
+				if (initBitmap == currentBitmap)
+				{
+					imageButton.setImageResource(R.drawable.ic_up);
+					mScrollView.fullScroll(View.FOCUS_DOWN);
+				}
+				else
+				{
+					imageButton.setImageResource(R.drawable.ic_down);
+					mScrollView.fullScroll(View.FOCUS_UP);
+				}
+
+			}
+		});
+
+		WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(imageButtonWH, imageButtonWH, android.view.WindowManager.LayoutParams.TYPE_PRIORITY_PHONE,
+			android.view.WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | android.view.WindowManager.LayoutParams.FLAG_TOUCHABLE_WHEN_WAKING, PixelFormat.TRANSPARENT);
+		layoutParams.gravity = Gravity.RIGHT | Gravity.BOTTOM;
+		// 如果像在任何地方都出现悬浮View 自己新建一个token layoutParams.token = new Binder();
+		layoutParams.token = new Binder();
+		// layoutParams.token =
+		// getActivity().getWindow().getDecorView().getWindowToken();
+		windowManager.addView(frameLayout, layoutParams);
+
+	}
+
+	private class OnTouchListenerImpl implements OnTouchListener
+	{
+		public boolean onTouch(View v, MotionEvent event)
+		{
+			switch (event.getAction())
+			{
+			case MotionEvent.ACTION_MOVE:
+				System.out.println(" Y = " + mScrollView.getScrollY() + " :: " + mScrollView.getMeasuredHeight() + "  :: " + mScrollView.getTop() + " :: " + mScrollView.getBottom());
+				if (mScrollView.getScrollY() > mScrollView.getMeasuredHeight() && ((BitmapDrawable) imageButton.getDrawable()).getBitmap() == initBitmap)
+				{
+					imageButton.setImageResource(R.drawable.ic_up);
+
+				}
+				else if (mScrollView.getScrollY() < 100 && ((BitmapDrawable) imageButton.getDrawable()).getBitmap() != initBitmap)
+				{
+
+					imageButton.setImageResource(R.drawable.ic_down);
+				}
+			}
+			return false;
+		}
 	}
 }
