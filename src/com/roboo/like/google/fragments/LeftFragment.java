@@ -108,9 +108,10 @@ public class LeftFragment extends BaseFragment
 			case 3:// 拍照
 					// CameraActivity.actionCamera(getActivity());
 				startCamera();
-				case 4://位置信息
-					LocationActivity.actionLocation(getActivity());
-					break;
+				break;
+			case 4:// 位置信息
+				LocationActivity.actionLocation(getActivity());
+				break;
 			}
 			mainActivity.closeLeftDrawer();
 		}
@@ -133,8 +134,10 @@ public class LeftFragment extends BaseFragment
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		 
-		CameraActivity.actionCamera(getActivity(),data.getData());
+		if (null != data)
+		{
+			CameraActivity.actionCamera(getActivity(), data.getData());
+		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 

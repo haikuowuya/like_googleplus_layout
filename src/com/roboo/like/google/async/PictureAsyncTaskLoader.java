@@ -35,7 +35,7 @@ public class PictureAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<Pictu
 		if (mCursor != null && mCursor.getCount() > 0)
 		{
 			items = new LinkedList<PictureItem>();
-		}
+			mCursor.moveToFirst();
 		while (mCursor.moveToNext())
 		{
 			// 获取图片的路径
@@ -47,6 +47,7 @@ public class PictureAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<Pictu
 			items.add(item);
 		}
 		mCursor.close();
+		}
 		return items;
 	}
 
