@@ -66,7 +66,6 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private TextView mTvTitle;
 	/** 显示新闻日期 */
 	private TextView mTvTime;
-
 	private Random mRandom = new Random();
 	/** 异步图片加载器 */
 	private ImageLoader mImageLoader;
@@ -74,6 +73,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private LayoutTransition mTransitioner;
 	private Handler mHandler = new Handler();
 	private ScrollView mScrollView;
+	private boolean mHasAddedFrontView = false;
 	/** 动画结束后执行隐藏进度圈和显示标题 */
 	private Runnable mHideProgressBarRunnable = new Runnable()
 	{
@@ -132,22 +132,27 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	public void onPause()
 	{
 		super.onPause();
-		if (null != imageButton)
+		if(mHasAddedFrontView  )
 		{
-			imageButton.setVisibility(View.GONE);
+			ViewGroup viewGroup = (ViewGroup) imageButton.getParent();
+			viewGroup.setVisibility(View.GONE);
+//			windowManager.removeView(viewGroup);
 		}
+		
 	}
-
 	@Override
 	public void onResume()
 	{
 		super.onResume();
-		if (null != imageButton)
+		if(null != imageButton)
 		{
-			imageButton.setVisibility(View.VISIBLE);
+		ViewGroup viewGroup = (ViewGroup) imageButton.getParent();
+		viewGroup.setVisibility(View.VISIBLE);
 		}
+		
 	}
-
+	 
+	
 	private void setListener()
 	{
 		mScrollView.setOnTouchListener(new OnTouchListenerImpl());
@@ -212,13 +217,14 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 				}
 			}
 			addCommentButton(params, lr);
+			mHasAddedFrontView = addFrontView();
 		}
 		int nextIndex = mRandom.nextInt(COLORS_COLLECTION.length);
 		mTvTitle.setBackgroundColor(getResources().getColor(COLORS_COLLECTION[nextIndex]));
 		mTvTitle.setText(mItem.getTitle());
 		mTvTime.setText(mItem.getTime());
 		mHandler.postDelayed(mHideProgressBarRunnable, durationTime);
-		addFrontView();
+	
 	}
 
 	private void addCommentButton(android.widget.LinearLayout.LayoutParams params, int ltrb)
@@ -355,7 +361,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private WindowManager windowManager;
 
 	/** 在当前窗口中添加一个前端系统窗口(悬浮窗口) */
-	private void addFrontView()
+	private boolean  addFrontView()
 	{
 		// scrollView.fullScroll(ScrollView.FOCUS_DOWN);滚动到底部
 		// scrollView.fullScroll(ScrollView.FOCUS_UP);滚动到顶部
@@ -393,7 +399,6 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 					imageButton.setImageResource(R.drawable.ic_down);
 					mScrollView.fullScroll(View.FOCUS_UP);
 				}
-
 			}
 		});
 
@@ -405,7 +410,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		// layoutParams.token =
 		// getActivity().getWindow().getDecorView().getWindowToken();
 		windowManager.addView(frameLayout, layoutParams);
-
+		return true;
 	}
 
 	private class OnTouchListenerImpl implements OnTouchListener
@@ -419,7 +424,6 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 				if (mScrollView.getScrollY() > mScrollView.getMeasuredHeight() && ((BitmapDrawable) imageButton.getDrawable()).getBitmap() == initBitmap)
 				{
 					imageButton.setImageResource(R.drawable.ic_up);
-
 				}
 				else if (mScrollView.getScrollY() < 100 && ((BitmapDrawable) imageButton.getDrawable()).getBitmap() != initBitmap)
 				{

@@ -18,7 +18,7 @@ public class ContacterActivity extends BaseActivity
 	{
 		super.onCreate(savedInstanceState);
 		customActionBar();
-		setContentView(R.layout.activity_contacter);
+		setContentView(R.layout.activity_contacter);//TODO
 		if(getSupportFragmentManager().findFragmentById(R.id.frame_container) ==null)
 		{
 			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, ContacterFragment.newInstance()).commit();

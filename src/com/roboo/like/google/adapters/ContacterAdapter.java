@@ -10,6 +10,7 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
@@ -56,9 +57,15 @@ public class ContacterAdapter extends BaseAdapter implements StickyHeadersAdapte
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		convertView = LayoutInflater.from(mActivity).inflate(R.layout.contacter_list_item, null);
-		CheckedTextView textView = (CheckedTextView) convertView.findViewById(R.id.ctv_text);
-
+		final CheckedTextView textView = (CheckedTextView) convertView.findViewById(R.id.ctv_text);
 		textView.setText(mData.get(position).name);
+		textView.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+			  	textView.setChecked(!textView.isChecked());
+			}
+		});
 		return convertView;
 	}
 

@@ -13,6 +13,7 @@
     <item
         android:id="@+id/menu_notification"
         android:icon="@drawable/ic_menu_notification"
+        android:title="展开右菜单"
         android:showAsAction="always"/>
     <item
         android:icon="@drawable/ic_menu_overflow"

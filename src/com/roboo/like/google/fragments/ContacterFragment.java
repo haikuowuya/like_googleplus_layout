@@ -20,7 +20,7 @@ import com.roboo.like.google.adapters.ContacterAdapter;
 import com.roboo.like.google.async.ContacterAsyncTaskLoader;
 import com.roboo.like.google.models.ContacterItem;
 import com.roboo.like.google.views.StickyListHeadersListView;
-
+/**读取手机联系人信息*/
 public class ContacterFragment extends BaseFragment implements LoaderCallbacks<LinkedList<ContacterItem>>
 {
 	private ProgressBar mProgressBar;
@@ -35,7 +35,7 @@ public class ContacterFragment extends BaseFragment implements LoaderCallbacks<L
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.fragment_contacter, null);
+		View view = inflater.inflate(R.layout.fragment_contacter, null);//TODO 
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
 		addProgressBar();
 		return view;

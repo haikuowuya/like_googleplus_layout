@@ -79,7 +79,7 @@
         <activity android:name=".PictureDetailActivity" />
         <activity android:name=".UserActivity" />
         <activity android:name=".ContacterActivity" />
-        <activity android:name=".NewsActivity" />
+        <activity android:name=".NewsActivity" android:launchMode="singleTop" />
         <activity android:name=".CameraActivity" />
         <activity android:name=".CommentActivity" />
 

@@ -2,9 +2,11 @@
     android:id="@+id/ctv_text"
     android:layout_width="match_parent"
     android:layout_height="48dp"
- 	android:padding="10dp"
- 	android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+    android:padding="10dp"
     android:drawableLeft="@drawable/ic_picture"
+    android:checkMark="@drawable/checked_textview_selector"
     android:drawablePadding="10dp"
+   	android:background="@drawable/list_item_selector"
+   	android:textColor="@drawable/text_color_selector"
     android:gravity="center_vertical"
-    android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+    android:textAppearance="?android:attr/textAppearanceListItem" />
