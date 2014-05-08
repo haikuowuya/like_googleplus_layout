@@ -301,7 +301,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int frame_container=0x7f060008;
         public static final int frame_left_container=0x7f06000b;
         public static final int frame_right_container=0x7f06000c;
-        public static final int ibtn_menu=0x7f060029;
         public static final int image=0x7f060013;
         public static final int iv_image=0x7f060004;
         public static final int left=0x7f060000;
@@ -315,6 +314,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int menu_refresh=0x7f06003a;
         public static final int menu_settings=0x7f06003b;
         public static final int mv_mapview=0x7f06000a;
+        public static final int npb_progress=0x7f060029;
         public static final int pb_progress=0x7f060009;
         public static final int ptr_content=0x7f060031;
         public static final int ptr_progress=0x7f060034;

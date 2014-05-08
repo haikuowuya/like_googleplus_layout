@@ -11,10 +11,19 @@ import java.util.concurrent.CyclicBarrier;
 
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.os.Looper;
+import android.view.View;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+import com.roboo.like.google.listener.ImageLoadingListenerImpl;
 import com.roboo.like.google.models.CommentItem;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.models.NewsTypeItem;
@@ -29,8 +38,9 @@ public class WIFIDownloadService extends Service
 	/** 有进行离线下载的新闻栏目数据 */
 	private LinkedList<NewsTypeItem> mData;
 	/** 同步辅助类 */
-	private CyclicBarrier mCyclicBarrier;	
-	private long mStartTime ;
+	private CyclicBarrier mCyclicBarrier;
+	private ImageLoader mImageLoader;
+	private long mStartTime;
 	private Runnable mDownloadFinishRunnable = new Runnable()
 	{
 		public void run()
@@ -39,7 +49,7 @@ public class WIFIDownloadService extends Service
 			Looper.prepare();
 			Toast.makeText(getBaseContext(), "所有新闻都下载完成", Toast.LENGTH_SHORT).show();
 			Looper.loop();
-			System.out.println("所有的任务都完成   耗时  = "+(System.currentTimeMillis() - mStartTime));
+			System.out.println("所有的任务都完成   耗时  = " + (System.currentTimeMillis() - mStartTime));
 		}
 	};
 
@@ -58,7 +68,10 @@ public class WIFIDownloadService extends Service
 		{
 			new DownloadThread(mData.get(i), mCyclicBarrier).start();
 		}
-		 
+
+		mImageLoader = ImageLoader.getInstance();
+		ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).discCacheFileNameGenerator(new Md5FileNameGenerator()).build();
+		mImageLoader.init(imageLoaderConfiguration);
 	}
 
 	private class DownloadThread extends Thread
@@ -106,9 +119,20 @@ public class WIFIDownloadService extends Service
 				{
 					long startTime2 = System.currentTimeMillis();
 					LinkedList<String> newsContentData = NewsUtils.getITHomeNewsDataList(item.getUrl());
-					saveNewsContentData(newsContentData, item.getUrl());
+					LinkedList<String> tmpNewsContentData = new LinkedList<String>();
+					for (String str : newsContentData)
+					{
+//						if (str.startsWith(BaseActivity.PREFIX_IMG_URL))
+//						{
+//							mImageLoader.loadImage(str, new SimpleImageLoadingListener());
+//							str ="file://"+ mImageLoader.getDiscCache().get(str).getAbsolutePath();
+//						}
+						tmpNewsContentData.add(str);
+					}
+					saveNewsContentData(tmpNewsContentData, item.getUrl());
+
 					System.out.println("下载完成新闻内容 " + item.getTitle() + " 耗时  = " + (System.currentTimeMillis() - startTime2));
-					
+
 					long startTime3 = System.currentTimeMillis();
 					String commentUrl = GoogleApplication.BASE_COMMENT_URL + "&newsid=" + item.getNewsId() + "&page=" + 1;
 					LinkedList<CommentItem> newsCommentData = CommentUtils.getCommentList(commentUrl);
@@ -126,11 +150,11 @@ public class WIFIDownloadService extends Service
 	{
 		File dirFile = FileUtils.getFileCacheDir(this, FileUtils.TYPE_NEWS_LIST);
 		File dataFile = new File(dirFile, MD5Utils.generate(mTypeItem.url));
-		if(dataFile.exists())
+		if (dataFile.exists())
 		{
 			dataFile.delete();
-			System.out.println("删除  ：： "+ mTypeItem.name + " 文件");
-			
+			System.out.println("删除  ：： " + mTypeItem.name + " 文件");
+
 		}
 		try
 		{

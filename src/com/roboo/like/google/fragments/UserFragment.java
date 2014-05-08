@@ -15,10 +15,12 @@ import android.widget.ImageView;
 import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.ImageFragmentAdapter;
 import com.roboo.like.google.views.CirclePageIndicator;
+import com.roboo.like.google.views.NumberProgressBar;
 
 public class UserFragment extends BaseFragment
 {
 	private ViewPager mViewPager;
+	private NumberProgressBar mNumberProgressBar;
 	private CirclePageIndicator mIndicator;
 	private PagerAdapter mAdapter;
 	private int mPosition = 0;
@@ -28,6 +30,11 @@ public class UserFragment extends BaseFragment
 		public void handleMessage(android.os.Message msg)
 		{
 			mImageView.getDrawable().setLevel(msg.what%6);
+			if(mNumberProgressBar.getProgress() >=100)
+			{
+				mNumberProgressBar.setProgress(1);
+			}
+			mNumberProgressBar.incrementProgressBy(msg.what%6);
 		};
 	};
 	private Runnable mSwapRunnable = new Runnable()
@@ -50,10 +57,11 @@ public class UserFragment extends BaseFragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.fragment_user, null);
+		View view = inflater.inflate(R.layout.fragment_user, null);//TODO 
 		mViewPager = (ViewPager) view.findViewById(R.id.vp_pager);
 		mImageView = (ImageView) view.findViewById(R.id.iv_image);
 		mIndicator = (CirclePageIndicator) view.findViewById(R.id.cpi_indicator);
+		mNumberProgressBar = (NumberProgressBar) view.findViewById(R.id.npb_progress);
 		return view;
 	}
 

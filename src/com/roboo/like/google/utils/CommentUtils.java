@@ -36,7 +36,7 @@ public class CommentUtils
 				data = new LinkedList<CommentItem>();
 				for (Element element : elements)
 				{
-//					System.out.println("element = " + element);
+					// System.out.println("element = " + element);
 					Elements divElements = element.getElementsByTag("div");
 					Element replyElement = null;
 					if (element.getElementsByClass("reply") != null && element.getElementsByClass("reply").size() > 0)
@@ -51,18 +51,26 @@ public class CommentUtils
 					}
 					if (infoElement == null)
 					{
-						infoElement = element.getElementsByClass("re_info") == null ? null : element.getElementsByClass("re_info").get(0);
+						infoElement = element.getElementsByClass("re_info") == null ? null : element.getElementsByClass("re_info").size() > 0 ? element.getElementsByClass("re_info").get(0) : null;
 					}
 					if (replyElement != null)
 					{
 						LinkedList<CommentItem> replyItems = new LinkedList<CommentItem>();
 
 					}
-					String floor = infoElement.getElementsByClass("p_floor").get(0).text();
-					String nick = infoElement.getElementsByClass("nick").get(0).text();
-					Elements phoneTypeElements = infoElement.getElementsByTag("span");
+
+					String floor = "顶楼";
+					String nick = "思密达";
+					Elements phoneTypeElements = null;
+					String addressAndrTime = "";
+					if (infoElement != null)
+					{
+						floor = infoElement.getElementsByClass("p_floor").get(0).text();
+						nick = infoElement.getElementsByClass("nick").get(0).text();
+						phoneTypeElements = infoElement.getElementsByTag("span");
+						addressAndrTime = infoElement.ownText();
+					}
 					String phoneType = "";
-					String addressAndrTime = infoElement.ownText();
 					String address = "";
 					String replyTime = "";
 					String agrssCount = "支持(0)";
@@ -85,14 +93,14 @@ public class CommentUtils
 					}
 					if (commentElement == null)
 					{
-						commentElement = element.getElementsByClass("comm") == null ? null : element.getElementsByClass("comm").get(0);
+						commentElement = element.getElementsByClass("comm") == null ? null : element.getElementsByClass("comm").size() > 0?element.getElementsByClass("comm").get(0):null;
 					}
 					if (commentElement == null)
 					{
-						commentElement = element.getElementsByClass("re_comm") == null ? null : element.getElementsByClass("re_comm").get(0);
+						commentElement = element.getElementsByClass("re_comm") == null ? null : element.getElementsByClass("re_comm").size() > 0? element.getElementsByClass("re_comm").get(0):null;
 					}
-					 
-					if (commentElement.getElementsByTag("p") != null && commentElement.getElementsByTag("p").size() > 0)
+
+					if (null != commentElement && commentElement.getElementsByTag("p") != null && commentElement.getElementsByTag("p").size() > 0)
 					{
 						content = commentElement.getElementsByTag("p").get(0).text();
 					}
@@ -101,8 +109,8 @@ public class CommentUtils
 					{
 						content.replaceAll(BR, "\r\n");
 					}
-					content = FOUR_BLANK+ content;
-					if (commentElement.getElementsByClass("comm_reply") != null &&commentElement.getElementsByClass("comm_reply").size() > 2)
+					content = FOUR_BLANK + content;
+					if (null != commentElement && commentElement.getElementsByClass("comm_reply") != null && commentElement.getElementsByClass("comm_reply").size() > 2)
 					{
 						agrssCount = commentElement.getElementsByClass("comm_reply").get(0).text();
 						disAgrssCount = commentElement.getElementsByClass("comm_reply").get(2).text();

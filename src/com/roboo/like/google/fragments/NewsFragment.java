@@ -1,5 +1,6 @@
 package com.roboo.like.google.fragments;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
@@ -39,6 +40,9 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.cache.disc.DiscCacheAware;
+import com.nostra13.universalimageloader.cache.disc.naming.FileNameGenerator;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -50,6 +54,7 @@ import com.roboo.like.google.PictureDetailActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.async.NewsContentAsyncTaskLoader;
 import com.roboo.like.google.models.NewsItem;
+import com.roboo.like.google.utils.MD5Utils;
 
 public class NewsFragment extends BaseFragment implements LoaderCallbacks<LinkedList<String>>
 {
@@ -123,7 +128,8 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	{
 		super.onActivityCreated(savedInstanceState);
 		mImageLoader = ImageLoader.getInstance();
-		mImageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
+		ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(getActivity()).discCacheFileNameGenerator(new Md5FileNameGenerator()).build();
+		mImageLoader.init(imageLoaderConfiguration);
 		setListener();
 		getActivity().getSupportLoaderManager().initLoader(0, getArguments(), this);
 	}
@@ -132,27 +138,27 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	public void onPause()
 	{
 		super.onPause();
-		if(mHasAddedFrontView  )
+		if (mHasAddedFrontView)
 		{
 			ViewGroup viewGroup = (ViewGroup) imageButton.getParent();
 			viewGroup.setVisibility(View.GONE);
-//			windowManager.removeView(viewGroup);
+			// windowManager.removeView(viewGroup);
 		}
-		
+
 	}
+
 	@Override
 	public void onResume()
 	{
 		super.onResume();
-		if(null != imageButton)
+		if (null != imageButton)
 		{
-		ViewGroup viewGroup = (ViewGroup) imageButton.getParent();
-		viewGroup.setVisibility(View.VISIBLE);
+			ViewGroup viewGroup = (ViewGroup) imageButton.getParent();
+			viewGroup.setVisibility(View.VISIBLE);
 		}
-		
+
 	}
-	 
-	
+
 	private void setListener()
 	{
 		mScrollView.setOnTouchListener(new OnTouchListenerImpl());
@@ -181,7 +187,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 			for (int i = 0; i < data.size(); i++)
 			{
 				String str = data.get(i);
-				if (str.startsWith(BaseActivity.PREFIX_IMG_URL))
+				if (str.startsWith(BaseActivity.PREFIX_IMG_URL) || str.startsWith("file"))
 				{
 					position++;
 					imageUrls.add(str);
@@ -189,9 +195,16 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 					imageView.setId(R.id.iv_image);
 					imageView.setLayoutParams(params);
 					imageView.setBackgroundResource(R.drawable.list_item_selector);
+					if (str.startsWith("file"))//只有在离线下载时才会发生
+					{
+						System.out.println("替换后的图片文件路径   = " + mImageLoader.getDiscCache().get(str));
+					}
+
 					DisplayImageOptions options = new DisplayImageOptions.Builder().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image).showImageOnFail(R.drawable.ic_default_image).cacheInMemory()
 						.cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
 					mImageLoader.displayImage(str, imageView, options);
+					System.out.println("图片文件路径   = " + mImageLoader.getDiscCache().get(str));
+
 					imageView.setPadding(lr, tb, lr, tb);
 					mLinearContainer.addView(imageView);
 					imageView.setOnClickListener(new OnClickListenerImpl(imageUrls, position));
@@ -224,7 +237,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mTvTitle.setText(mItem.getTitle());
 		mTvTime.setText(mItem.getTime());
 		mHandler.postDelayed(mHideProgressBarRunnable, durationTime);
-	
+
 	}
 
 	private void addCommentButton(android.widget.LinearLayout.LayoutParams params, int ltrb)
@@ -361,7 +374,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private WindowManager windowManager;
 
 	/** 在当前窗口中添加一个前端系统窗口(悬浮窗口) */
-	private boolean  addFrontView()
+	private boolean addFrontView()
 	{
 		// scrollView.fullScroll(ScrollView.FOCUS_DOWN);滚动到底部
 		// scrollView.fullScroll(ScrollView.FOCUS_UP);滚动到顶部

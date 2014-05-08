@@ -20,12 +20,15 @@ public class NewsContentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<S
 {
 	private String mNewsUrl;
 	private Context mContext;
+ 
 
 	public NewsContentAsyncTaskLoader(Context context, String newsUrl)
 	{
 		super(context);
 		mContext = context;
 		mNewsUrl = newsUrl;
+		
+		
 	}
 
 	@SuppressWarnings("unchecked")

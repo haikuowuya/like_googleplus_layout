@@ -19,20 +19,20 @@
         android:padding="4dp"
         app:centered="false"
         app:radius="4dp" />
+
     <ImageView
         android:id="@+id/iv_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/cpi_indicator"
         android:layout_centerHorizontal="true"
-		android:src="@drawable/image_view_level_drawable"
-        android:layout_below="@+id/cpi_indicator" />
+        android:layout_centerVertical="true"
+        android:src="@drawable/image_view_level_drawable" />
 
-    <ImageButton
-        android:id="@+id/ibtn_menu"
+    <com.roboo.like.google.views.NumberProgressBar
+        android:id="@+id/npb_progress"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_alignParentBottom="true"
-        android:background="#454545" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
