@@ -1,6 +1,5 @@
 package com.roboo.like.google.fragments;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
@@ -40,8 +39,6 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.cache.disc.DiscCacheAware;
-import com.nostra13.universalimageloader.cache.disc.naming.FileNameGenerator;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -54,7 +51,6 @@ import com.roboo.like.google.PictureDetailActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.async.NewsContentAsyncTaskLoader;
 import com.roboo.like.google.models.NewsItem;
-import com.roboo.like.google.utils.MD5Utils;
 
 public class NewsFragment extends BaseFragment implements LoaderCallbacks<LinkedList<String>>
 {

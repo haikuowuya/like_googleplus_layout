@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.roboo.like.google.fragments.NewsFragment;
 import com.roboo.like.google.models.NewsItem;
@@ -55,4 +56,10 @@ public class NewsActivity extends BaseActivity
 
 	}
 
+	@Override
+	public void onUserInteraction()
+	{
+		super.onUserInteraction();
+		Toast.makeText(this, "用户触摸屏幕", Toast.LENGTH_SHORT).show();
+	}
 }

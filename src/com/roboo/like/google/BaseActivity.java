@@ -1,5 +1,7 @@
 package com.roboo.like.google;
 
+import java.util.Stack;
+
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -33,6 +35,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 		super.onCreate(savedInstanceState);
 		if(isActionBarEnable())
 		{
+		 
 			mActionBar = getActionBar();
 		}
 		mActivityHelper = new SwipeBackActivityHelper(this);
