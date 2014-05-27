@@ -1,6 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/com.roboo.like.google"
-    android:id="@+id/drawer_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white" >
@@ -17,13 +16,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="center"
+        android:background="#22222222"
         android:padding="10dp"
         app:centered="true"
         app:fillColor="@color/orangered_color"
         app:pageColor="@color/sky_blue_color"
-        android:background="#22222222"
         app:radius="4dp"
-        app:strokeWidth="0.5dp"
-        app:strokeColor="@color/red_color" />
+        app:strokeColor="@color/red_color"
+        app:strokeWidth="0.5dp" />
 
 </RelativeLayout>

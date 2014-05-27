@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<net.dynamicandroid.listview.DynamicListLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_color"
-    android:orientation="vertical" >
+    android:background="@color/ivorg_color" >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp" >
+        android:layout_height="80dp"
+        android:background="@color/white_color" >
 
         <TextView
             android:id="@+id/tv_title"
@@ -37,8 +37,8 @@
             android:textSize="20sp" />
     </RelativeLayout>
 
-    <ScrollView
-        android:id="@+id/sv_scrollview"
+    <net.dynamicandroid.listview.DynamicScrollView
+        android:id="@+id/dsv_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white_color" >
@@ -49,6 +49,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
         </LinearLayout>
-    </ScrollView>
+    </net.dynamicandroid.listview.DynamicScrollView>
 
-</LinearLayout>
+</net.dynamicandroid.listview.DynamicListLayout>

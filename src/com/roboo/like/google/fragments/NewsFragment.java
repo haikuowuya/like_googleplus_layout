@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
+import net.dynamicandroid.listview.DynamicScrollView;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.Keyframe;
@@ -36,7 +37,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -73,7 +73,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	/** ViewGroup中添加View时的动画操作对象 */
 	private LayoutTransition mTransitioner;
 	private Handler mHandler = new Handler();
-	private ScrollView mScrollView;
+	private DynamicScrollView mScrollView;
 	private boolean mHasAddedFrontView = false;
 	/** 动画结束后执行隐藏进度圈和显示标题 */
 	private Runnable mHideProgressBarRunnable = new Runnable()
@@ -100,7 +100,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	{
 		View view = inflater.inflate(R.layout.fragment_news, null);// TODO
 		mLinearContainer = (LinearLayout) view.findViewById(R.id.linear_container);
-		mScrollView = (ScrollView) view.findViewById(R.id.sv_scrollview);
+		mScrollView = (DynamicScrollView) view.findViewById(R.id.dsv_scrollview);
 		mTvTitle = (TextView) view.findViewById(R.id.tv_title);
 		mTvTime = (TextView) view.findViewById(R.id.tv_time);
 		// Typeface typeface =
@@ -138,7 +138,6 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		{
 			ViewGroup viewGroup = (ViewGroup) imageButton.getParent();
 			viewGroup.setVisibility(View.GONE);
-			// windowManager.removeView(viewGroup);
 		}
 
 	}
@@ -152,12 +151,11 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 			ViewGroup viewGroup = (ViewGroup) imageButton.getParent();
 			viewGroup.setVisibility(View.VISIBLE);
 		}
-
 	}
 
 	private void setListener()
 	{
-		mScrollView.setOnTouchListener(new OnTouchListenerImpl());
+//		mScrollView.setOnTouchListener(new OnTouchListenerImpl());
 	}
 
 	public Loader<LinkedList<String>> onCreateLoader(int id, Bundle args)
@@ -226,7 +224,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 				}
 			}
 			addCommentButton(params, lr);
-			mHasAddedFrontView = addFrontView();
+//			mHasAddedFrontView = addFrontView();
 		}
 		int nextIndex = mRandom.nextInt(COLORS_COLLECTION.length);
 		mTvTitle.setBackgroundColor(getResources().getColor(COLORS_COLLECTION[nextIndex]));
@@ -384,9 +382,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 
 		imageButton = new ImageButton(getActivity());
 		imageButton.setBackgroundResource(R.drawable.list_item_selector);
-
 		frameLayout.addView(imageButton, frameLayoutParams);
-
 		BitmapDrawable bitmapDrawable = (BitmapDrawable) getActivity().getResources().getDrawable(R.drawable.ic_down);
 		initBitmap = bitmapDrawable.getBitmap();
 		imageButton.setImageDrawable(bitmapDrawable);
@@ -410,7 +406,6 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 				}
 			}
 		});
-
 		WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(imageButtonWH, imageButtonWH, android.view.WindowManager.LayoutParams.TYPE_PRIORITY_PHONE,
 			android.view.WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | android.view.WindowManager.LayoutParams.FLAG_TOUCHABLE_WHEN_WAKING, PixelFormat.TRANSPARENT);
 		layoutParams.gravity = Gravity.RIGHT | Gravity.BOTTOM;
@@ -436,7 +431,6 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 				}
 				else if (mScrollView.getScrollY() < 100 && ((BitmapDrawable) imageButton.getDrawable()).getBitmap() != initBitmap)
 				{
-
 					imageButton.setImageResource(R.drawable.ic_down);
 				}
 			}

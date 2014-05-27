@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<net.dynamicandroid.listview.DynamicListLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ivorg_color"
-    android:orientation="vertical" >
+    android:background="@color/ivorg_color" >
 
-    <ListView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/lv_list"
+    <net.dynamicandroid.listview.DynamicListView
+        android:id="@+id/dlv_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
@@ -23,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:text="没有数据"
+        android:text="@string/tv_empty_data"
         android:visibility="gone" />
 
-</RelativeLayout>
+</net.dynamicandroid.listview.DynamicListLayout>

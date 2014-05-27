@@ -22,9 +22,12 @@ public final class R {
         public static final int ptr_fade_out=0x7f04000a;
     }
     public static final class array {
-        public static final int actionbar_navigation_list_text_arrays=0x7f050001;
-        public static final int dummy_text_arrays=0x7f050002;
-        public static final int left_drawer_text_arrays=0x7f050000;
+        public static final int actionbar_navigation_list_text_arrays=0x7f070004;
+        public static final int dummy_text_arrays=0x7f070005;
+        public static final int left_drawer_text_arrays=0x7f070003;
+        public static final int sample_eng=0x7f070000;
+        public static final int sample_kor=0x7f070001;
+        public static final int sample_num=0x7f070002;
     }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -159,55 +162,65 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int vpiCirclePageIndicatorStyle=0x7f010006;
     }
     public static final class color {
-        public static final int alpha_red_color=0x7f070005;
-        public static final int fast_scroll_track_color=0x7f070014;
+        public static final int alpha_red_color=0x7f0a0005;
+        public static final int fast_scroll_track_color=0x7f0a0014;
         /**  紫红色 
          */
-        public static final int fuchsia_color=0x7f07000e;
+        public static final int fuchsia_color=0x7f0a000e;
         /**  幽灵白 
          */
-        public static final int ghostwhite_color=0x7f07000f;
+        public static final int ghostwhite_color=0x7f0a000f;
         /**   热粉红色  
          */
-        public static final int hotpink_color=0x7f070009;
+        public static final int hotpink_color=0x7f0a0009;
         /**  乳白色 
          */
-        public static final int ivorg_color=0x7f070007;
+        public static final int ivorg_color=0x7f0a0007;
         /**   亮海蓝色 
          */
-        public static final int lightseagreen_color=0x7f07000a;
-        public static final int line_color=0x7f070003;
+        public static final int lightseagreen_color=0x7f0a000a;
+        public static final int line_color=0x7f0a0003;
         /**  ListView列表项边框默认颜色
          */
-        public static final int list_item_border_default_color=0x7f070011;
+        public static final int list_item_border_default_color=0x7f0a0011;
         /**  ListView列表项边框按下颜色
          */
-        public static final int list_item_border_pressed_color=0x7f070012;
+        public static final int list_item_border_pressed_color=0x7f0a0012;
         /**  ListView列表项默认效果
          */
-        public static final int list_item_default_color=0x7f070013;
+        public static final int list_item_default_color=0x7f0a0013;
         /**  ListView列表项按下效果
          */
-        public static final int list_item_pressed_color=0x7f070010;
+        public static final int list_item_pressed_color=0x7f0a0010;
         /**   红橙色
          */
-        public static final int orangered_color=0x7f07000b;
-        public static final int poppyview_default_color=0x7f070001;
-        public static final int poppyview_pressed_color=0x7f070000;
-        public static final int red_color=0x7f070004;
+        public static final int orangered_color=0x7f0a000b;
+        public static final int poppyview_default_color=0x7f0a0001;
+        public static final int poppyview_pressed_color=0x7f0a0000;
+        public static final int red_color=0x7f0a0004;
         /**  天空蓝色 
          */
-        public static final int sky_blue_color=0x7f070008;
+        public static final int sky_blue_color=0x7f0a0008;
         /**   青绿色
          */
-        public static final int turquoise_color=0x7f07000c;
-        public static final int underline_default_color=0x7f070002;
+        public static final int turquoise_color=0x7f0a000c;
+        public static final int underline_default_color=0x7f0a0002;
         /**  紫罗兰色 
          */
-        public static final int violet_color=0x7f07000d;
+        public static final int violet_color=0x7f0a000d;
         /**  白色 
          */
-        public static final int white_color=0x7f070006;
+        public static final int white_color=0x7f0a0006;
+    }
+    public static final class dimen {
+        /**  Default screen margins, per the Android Design guidelines. 
+
+         Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
+    
+         */
+        public static final int activity_horizontal_margin=0x7f050000;
+        public static final int activity_vertical_margin=0x7f050001;
     }
     public static final class drawable {
         public static final int checked_textview_selector=0x7f020000;
@@ -261,94 +274,97 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int list_item_default=0x7f020030;
         public static final int list_item_pressed=0x7f020031;
         public static final int list_item_selector=0x7f020032;
-        public static final int poppyview_selector=0x7f020033;
-        public static final int progressbar=0x7f020034;
-        public static final int ptr_progress_horizontal_holo_center=0x7f020035;
-        public static final int ptr_progress_indeterminate_horizontal_holo=0x7f020036;
-        public static final int ptr_progress_primary_holo=0x7f020037;
-        public static final int ptr_progressbar_indeterminate_holo1=0x7f020038;
-        public static final int ptr_progressbar_indeterminate_holo2=0x7f020039;
-        public static final int ptr_progressbar_indeterminate_holo3=0x7f02003a;
-        public static final int ptr_progressbar_indeterminate_holo4=0x7f02003b;
-        public static final int ptr_progressbar_indeterminate_holo5=0x7f02003c;
-        public static final int ptr_progressbar_indeterminate_holo6=0x7f02003d;
-        public static final int ptr_progressbar_indeterminate_holo7=0x7f02003e;
-        public static final int ptr_progressbar_indeterminate_holo8=0x7f02003f;
-        public static final int shadow_bottom=0x7f020040;
-        public static final int shadow_left=0x7f020041;
-        public static final int shadow_right=0x7f020042;
-        public static final int text_color_selector=0x7f020043;
+        public static final int listshadow=0x7f020033;
+        public static final int poppyview_selector=0x7f020034;
+        public static final int progressbar=0x7f020035;
+        public static final int ptr_progress_horizontal_holo_center=0x7f020036;
+        public static final int ptr_progress_indeterminate_horizontal_holo=0x7f020037;
+        public static final int ptr_progress_primary_holo=0x7f020038;
+        public static final int ptr_progressbar_indeterminate_holo1=0x7f020039;
+        public static final int ptr_progressbar_indeterminate_holo2=0x7f02003a;
+        public static final int ptr_progressbar_indeterminate_holo3=0x7f02003b;
+        public static final int ptr_progressbar_indeterminate_holo4=0x7f02003c;
+        public static final int ptr_progressbar_indeterminate_holo5=0x7f02003d;
+        public static final int ptr_progressbar_indeterminate_holo6=0x7f02003e;
+        public static final int ptr_progressbar_indeterminate_holo7=0x7f02003f;
+        public static final int ptr_progressbar_indeterminate_holo8=0x7f020040;
+        public static final int pulltorefresh_arrow=0x7f020041;
+        public static final int shadow_bottom=0x7f020042;
+        public static final int shadow_left=0x7f020043;
+        public static final int shadow_right=0x7f020044;
+        public static final int text_color_selector=0x7f020045;
     }
     public static final class id {
-        public static final int all=0x7f060003;
-        public static final int bottom=0x7f060002;
-        public static final int btn_comment=0x7f060005;
-        public static final int btn_drawer=0x7f060027;
-        public static final int btn_load_next=0x7f06002a;
-        public static final int btn_loading_or_retry=0x7f06002b;
-        public static final int btn_location=0x7f06002e;
-        public static final int btn_mood=0x7f06002f;
-        public static final int btn_notification=0x7f060028;
-        public static final int btn_open=0x7f06000d;
-        public static final int btn_picture=0x7f06002d;
-        public static final int btn_text=0x7f060030;
-        public static final int btn_username=0x7f060021;
-        public static final int card_container=0x7f060007;
-        public static final int content=0x7f060011;
-        public static final int cpi_indicator=0x7f06000f;
-        public static final int ctv_text=0x7f06001c;
-        public static final int drawer_container=0x7f060006;
-        public static final int frame_container=0x7f060008;
-        public static final int frame_left_container=0x7f06000b;
-        public static final int frame_right_container=0x7f06000c;
-        public static final int image=0x7f060013;
-        public static final int iv_image=0x7f060004;
-        public static final int left=0x7f060000;
-        public static final int linear_container=0x7f060024;
-        public static final int lv_list=0x7f06001f;
-        public static final int menu_download=0x7f060038;
-        public static final int menu_feedback=0x7f06003c;
-        public static final int menu_group=0x7f060037;
-        public static final int menu_help=0x7f06003d;
-        public static final int menu_notification=0x7f060039;
-        public static final int menu_refresh=0x7f06003a;
-        public static final int menu_settings=0x7f06003b;
-        public static final int mv_mapview=0x7f06000a;
-        public static final int npb_progress=0x7f060029;
-        public static final int pb_progress=0x7f060009;
-        public static final int ptr_content=0x7f060031;
-        public static final int ptr_progress=0x7f060034;
-        public static final int ptr_text=0x7f060033;
-        public static final int ptr_text_opaque_bg=0x7f060032;
-        public static final int pv_image=0x7f06001e;
-        public static final int right=0x7f060001;
-        public static final int scroll=0x7f060010;
-        public static final int sgh_gridview=0x7f060025;
-        public static final int slhlv_list=0x7f060020;
-        public static final int sliding_drawer=0x7f060026;
-        public static final int sv_scrollview=0x7f060023;
-        public static final int text=0x7f060012;
-        public static final int tv_address=0x7f060017;
-        public static final int tv_agree=0x7f06001a;
-        public static final int tv_content=0x7f060019;
-        public static final int tv_disAgree=0x7f06001b;
-        public static final int tv_floor=0x7f060014;
-        public static final int tv_nick=0x7f060015;
-        public static final int tv_phone_type=0x7f060016;
-        public static final int tv_sub_title=0x7f06002c;
-        public static final int tv_text=0x7f06001d;
-        public static final int tv_time=0x7f060018;
-        public static final int tv_title=0x7f060022;
-        public static final int tv_toast_textview=0x7f060036;
-        public static final int tv_today_news_count=0x7f060035;
-        public static final int vp_pager=0x7f06000e;
+        public static final int all=0x7f090003;
+        public static final int bottom=0x7f090002;
+        public static final int btn_comment=0x7f090005;
+        public static final int btn_drawer=0x7f090028;
+        public static final int btn_load_next=0x7f09002b;
+        public static final int btn_loading_or_retry=0x7f09002c;
+        public static final int btn_location=0x7f09002f;
+        public static final int btn_mood=0x7f090030;
+        public static final int btn_notification=0x7f090029;
+        public static final int btn_open=0x7f09000d;
+        public static final int btn_picture=0x7f09002e;
+        public static final int btn_text=0x7f090031;
+        public static final int btn_username=0x7f090021;
+        public static final int card_container=0x7f090007;
+        public static final int content=0x7f090011;
+        public static final int cpi_indicator=0x7f09000f;
+        public static final int ctv_text=0x7f09001c;
+        public static final int dlv_list=0x7f09001f;
+        public static final int drawer_container=0x7f090006;
+        public static final int dsv_scrollview=0x7f090024;
+        public static final int frame_container=0x7f090008;
+        public static final int frame_left_container=0x7f09000b;
+        public static final int frame_right_container=0x7f09000c;
+        public static final int image=0x7f090013;
+        public static final int iv_image=0x7f090004;
+        public static final int left=0x7f090000;
+        public static final int linear_container=0x7f090025;
+        public static final int lv_list=0x7f090022;
+        public static final int menu_download=0x7f090039;
+        public static final int menu_feedback=0x7f09003d;
+        public static final int menu_group=0x7f090038;
+        public static final int menu_help=0x7f09003e;
+        public static final int menu_notification=0x7f09003a;
+        public static final int menu_refresh=0x7f09003b;
+        public static final int menu_settings=0x7f09003c;
+        public static final int mv_mapview=0x7f09000a;
+        public static final int npb_progress=0x7f09002a;
+        public static final int pb_progress=0x7f090009;
+        public static final int ptr_content=0x7f090032;
+        public static final int ptr_progress=0x7f090035;
+        public static final int ptr_text=0x7f090034;
+        public static final int ptr_text_opaque_bg=0x7f090033;
+        public static final int pv_image=0x7f09001e;
+        public static final int right=0x7f090001;
+        public static final int scroll=0x7f090010;
+        public static final int sgh_gridview=0x7f090026;
+        public static final int slhlv_list=0x7f090020;
+        public static final int sliding_drawer=0x7f090027;
+        public static final int text=0x7f090012;
+        public static final int tv_address=0x7f090017;
+        public static final int tv_agree=0x7f09001a;
+        public static final int tv_content=0x7f090019;
+        public static final int tv_disAgree=0x7f09001b;
+        public static final int tv_floor=0x7f090014;
+        public static final int tv_nick=0x7f090015;
+        public static final int tv_phone_type=0x7f090016;
+        public static final int tv_sub_title=0x7f09002d;
+        public static final int tv_text=0x7f09001d;
+        public static final int tv_time=0x7f090018;
+        public static final int tv_title=0x7f090023;
+        public static final int tv_toast_textview=0x7f090037;
+        public static final int tv_today_news_count=0x7f090036;
+        public static final int vp_pager=0x7f09000e;
     }
     public static final class integer {
-        public static final int card_flip_time_full=0x7f080003;
-        public static final int card_flip_time_half=0x7f080004;
-        public static final int fade_animation_duration=0x7f080001;
-        public static final int polymeric_slide_left_out_duration=0x7f080002;
-        public static final int slide_animation_duration=0x7f080000;
+        public static final int card_flip_time_full=0x7f0b0003;
+        public static final int card_flip_time_half=0x7f0b0004;
+        public static final int fade_animation_duration=0x7f0b0001;
+        public static final int polymeric_slide_left_out_duration=0x7f0b0002;
+        public static final int slide_animation_duration=0x7f0b0000;
     }
     public static final class layout {
         public static final int activity_base=0x7f030000;
@@ -384,23 +400,47 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int toast_view=0x7f03001e;
     }
     public static final class menu {
-        public static final int activity_main=0x7f0b0000;
+        public static final int activity_main=0x7f0c0000;
     }
     public static final class string {
-        public static final int app_name=0x7f090000;
-        public static final int lorem_ipsum=0x7f090001;
+        public static final int app_name=0x7f060000;
+        public static final int lorem_ipsum=0x7f060001;
+        public static final int tv_empty_data=0x7f060002;
     }
     public static final class style {
-        public static final int Animation_Activity_Style=0x7f0a0002;
-        public static final int Animation_Activity_Translucent_Style=0x7f0a0003;
-        public static final int AppBaseTheme=0x7f0a0000;
-        /**  <item name="android:fastScrollPreviewBackgroundRight">@drawable/ic_fast_scroll_label_right</item> 
+        public static final int Animation_Activity_Style=0x7f080002;
+        public static final int Animation_Activity_Translucent_Style=0x7f080003;
+        /** 
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    
+
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        
+
+        Base application theme for API 11+. This theme completely replaces
+        AppBaseTheme from res/values/styles.xml on API 11+ devices.
+    
+ API 11 theme customizations can go here. 
+
+        Base application theme for API 14+. This theme completely replaces
+        AppBaseTheme from BOTH res/values/styles.xml and
+        res/values-v11/styles.xml on API 14+ devices.
+    
+ API 14 theme customizations can go here. 
+         */
+        public static final int AppBaseTheme=0x7f080000;
+        /**  Application theme. 
+ All customizations that are NOT specific to a particular API-level can go here. 
+ <item name="android:fastScrollPreviewBackgroundRight">@drawable/ic_fast_scroll_label_right</item> 
  <item name="android:fastScrollOverlayPosition">?android:attr/fastScrollOverlayPosition</item> 
          */
-        public static final int AppTheme=0x7f0a0001;
-        public static final int Comment_List_Item_TextView_Style=0x7f0a0006;
-        public static final int SwipeBackFrameLayout=0x7f0a0005;
-        public static final int Widget_PullToRefresh_ProgressBar_Horizontal_Center=0x7f0a0004;
+        public static final int AppTheme=0x7f080001;
+        public static final int Comment_List_Item_TextView_Style=0x7f080006;
+        public static final int SwipeBackFrameLayout=0x7f080005;
+        public static final int Widget_PullToRefresh_ProgressBar_Horizontal_Center=0x7f080004;
     }
     public static final class styleable {
         /** Attributes that can be used with a CirclePageIndicator.

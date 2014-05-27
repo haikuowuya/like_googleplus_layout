@@ -60,6 +60,6 @@ public class NewsActivity extends BaseActivity
 	public void onUserInteraction()
 	{
 		super.onUserInteraction();
-		Toast.makeText(this, "用户触摸屏幕", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, "用户触摸屏幕", Toast.LENGTH_SHORT).show();
 	}
 }

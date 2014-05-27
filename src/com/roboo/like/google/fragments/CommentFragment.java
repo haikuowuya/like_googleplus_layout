@@ -2,6 +2,8 @@ package com.roboo.like.google.fragments;
 
 import java.util.LinkedList;
 
+import net.dynamicandroid.listview.DynamicListView;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.Keyframe;
@@ -43,7 +45,7 @@ public class CommentFragment extends BaseFragment implements LoaderCallbacks<Lin
 	private LayoutTransition mTransitioner;
 	private CommentAdapter mAdapter;
 	private LinkedList<CommentItem> mData;
-	private ListView mListView;
+	private DynamicListView mListView;
 	private View mFooterView;
 	private Button mBtnLoadNext;
 	private ProgressBar mFooterProgressBar;
@@ -62,7 +64,7 @@ public class CommentFragment extends BaseFragment implements LoaderCallbacks<Lin
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_comment, null);//TODO
-		mListView = (ListView) view.findViewById(R.id.lv_list);
+		mListView = (DynamicListView) view.findViewById(R.id.dlv_list);
 		mFooterView = inflater.inflate(R.layout.listview_footer_view, null);
 		mFooterProgressBar = (ProgressBar) mFooterView.findViewById(R.id.pb_progress);
 		mBtnLoadNext = (Button) mFooterView.findViewById(R.id.btn_load_next);
