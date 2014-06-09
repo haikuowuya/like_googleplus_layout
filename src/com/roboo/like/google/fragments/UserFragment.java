@@ -66,7 +66,7 @@ public class UserFragment extends BaseFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_user, null);// TODO
-		mViewPager = (ViewPager) view.findViewById(R.id.vp_pager);
+		mViewPager = (ViewPager) view.findViewById(R.id.vp_viewpager);
 		mImageView = (ImageView) view.findViewById(R.id.iv_image);
 		mIndicator = (CirclePageIndicator) view.findViewById(R.id.cpi_indicator);
 		mNumberProgressBar = (NumberProgressBar) view.findViewById(R.id.npb_progress);

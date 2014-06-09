@@ -35,6 +35,7 @@ import com.roboo.like.google.R;
 import com.roboo.like.google.TextActivity;
 import com.roboo.like.google.adapters.NewsListAdapter;
 import com.roboo.like.google.async.NewsListAsyncTaskLoader;
+import com.roboo.like.google.infinite.InfiniteViewPager;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.progressbutton.ProcessButton;
 import com.roboo.like.google.progressbutton.ProgressGenerator;
@@ -42,6 +43,7 @@ import com.roboo.like.google.progressbutton.ProgressGenerator.OnCompleteListener
 import com.roboo.like.google.utils.CardToastUtils;
 import com.roboo.like.google.utils.NetWorkUtils;
 import com.roboo.like.google.views.FooterView;
+import com.roboo.like.google.views.HeaderView;
 import com.roboo.like.google.views.StickyListHeadersListView;
 import com.roboo.like.google.views.helper.PoppyListViewHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper;
@@ -86,12 +88,16 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	public boolean mLastItemVisible;
 	/** ListView 的 FooterView */
 	private FooterView mFooterView;
+	/** ListView 的 HeaderView */
+	private HeaderView mHeaderView;
 	/** 新闻列表适配器的数据源 */
 	private LinkedList<NewsItem> mData;
 	/** 当点击FooterView时显示加载数据标识 */
 	private ProgressBar mProgressBar;
 	/** 正在加载数据中…… */
 	private Button mBtnLoadNext;
+	/** HeaderView中的ViewPager */
+	private InfiniteViewPager mAdViewPager;
 
 	/** 创建一个 ContentFragment 实例 */
 	public static MainFragment newInstance(String newsUrl)
@@ -107,6 +113,8 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	{
 		View view = inflater.inflate(R.layout.fragment_main, null);// TODO
 		mFooterView = new FooterView(getActivity(), FooterView.TYPE_PROGRESS_BUTTON);
+		mHeaderView = new HeaderView(getActivity());
+		mAdViewPager = mHeaderView.getViewPager();
 		mProgressBar = mFooterView.getProgressBar();
 		mBtnLoadNext = mFooterView.getButton();
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
@@ -123,16 +131,21 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mBtnLocation = (Button) mPoppyView.findViewById(R.id.btn_location);
 		mBtnMood = (Button) mPoppyView.findViewById(R.id.btn_mood);
 		mBtnText = (Button) mPoppyView.findViewById(R.id.btn_text);
-		mPullToRefreshAttacher.addRefreshableView(mListView, new OnRefreshListener()
+		mPullToRefreshAttacher.addRefreshableView(mListView, getOnRefreshListener());
+		loadFirstData();
+		modifyDefaultListViewFieldValue();
+	}
+
+	private OnRefreshListener getOnRefreshListener()
+	{
+		return new OnRefreshListener()
 		{
 			public void onRefreshStarted(View view)
 			{
 				loadFirstData();
 			}
 
-		});
-		loadFirstData();
-		modifyDefaultListViewFieldValue();
+		};
 	}
 
 	/** 修改ListView一些默认属性值 */
@@ -174,25 +187,6 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		}
 	}
 
-	private void loadFirstData()
-	{
-		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
-		{
-			DefaultHeaderTransformer transformer = (DefaultHeaderTransformer) mPullToRefreshAttacher.getHeaderTransformer();
-			transformer.setRefreshingText("正在获取离线数据");
-		}
-		Bundle bundle = getArguments();
-		mCurrentPageNo = 1;
-		bundle.putInt(ARG_CURRENT_PAGENO, mCurrentPageNo);
-		mPullToRefreshAttacher.setRefreshing(true);
-		getActivity().getSupportLoaderManager().restartLoader(0, bundle, MainFragment.this);
-	}
-
-	public void onSaveInstanceState(Bundle outState)
-	{
-		super.onSaveInstanceState(outState);
-	}
-
 	public void onResume()
 	{
 		super.onResume();
@@ -207,7 +201,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mBtnMood.setOnClickListener(onClickListenerImpl);
 		mBtnPicture.setOnClickListener(onClickListenerImpl);
 		mBtnText.setOnClickListener(onClickListenerImpl);
-		 
+
 	}
 
 	private class OnListItemClickListenerImpl implements OnItemClickListener
@@ -219,7 +213,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 				if (mFooterView.getType() == FooterView.TYPE_PROGRESS_BUTTON)
 				{
 					loadNextData();
-				}		 
+				}
 			}
 			else
 			{
@@ -245,7 +239,20 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 				}
 			};
 		}
+	}
 
+	private void loadFirstData()
+	{
+		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
+		{
+			DefaultHeaderTransformer transformer = (DefaultHeaderTransformer) mPullToRefreshAttacher.getHeaderTransformer();
+			transformer.setRefreshingText("正在获取离线数据");
+		}
+		Bundle bundle = getArguments();
+		mCurrentPageNo = 1;
+		bundle.putInt(ARG_CURRENT_PAGENO, mCurrentPageNo);
+		mPullToRefreshAttacher.setRefreshing(true);
+		getActivity().getSupportLoaderManager().restartLoader(0, bundle, MainFragment.this);
 	}
 
 	/** initLoader/reStartLoader方法被调用时会执行onCreateLoader */
@@ -331,6 +338,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 				updateCount = mData.size();
 				mAdapter = new NewsListAdapter(getActivity(), mData, mSectionIndex);
 				mListView.addFooterView(mFooterView);
+				mListView.addHeaderView(mHeaderView);
 				mListView.setAdapter(mAdapter);
 				mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
 			}

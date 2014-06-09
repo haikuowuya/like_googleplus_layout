@@ -2,5 +2,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
  <item  type="id" name="iv_image"></item>
  <item  type="id" name="btn_comment"></item>
+ <item type="id" name="vp_viewpager"/>
 
 </resources>
