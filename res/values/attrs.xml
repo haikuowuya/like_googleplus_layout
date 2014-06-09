@@ -16,4 +16,33 @@
 
     <attr name="SwipeBackLayoutStyle" format="reference" />
 
+    <declare-styleable name="ProgressButton">
+        <attr name="textProgress" format="string" />
+        <attr name="textComplete" format="string" />
+        <attr name="textError" format="string" />
+        <attr name="colorProgress" format="color" />
+        <attr name="colorComplete" format="color" />
+        <attr name="colorError" format="color" />
+        <attr name="colorPressed" format="color" />
+        <attr name="colorNormal" format="color" />
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="drawType">
+            <!-- 不确定进度条，只花一条线 -->
+           	<enum name="progress_default" value="0"></enum>
+           	<!--  进度条长度确定-->
+            <enum name="progress_progress" value="1" />
+            <!-- 不确定水平进度条，高度为button高度-->
+            <enum name="progress_horizonal" value="2" />
+            <!-- 不确定垂直进度条，高度为button高度-->
+            <enum name="progress_vertical" value="3" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="FooterView">
+        <attr name="type">
+            <enum name="progressbar_button" value="0"></enum>
+            <enum name="button" value="1"></enum>
+        </attr>
+        
+    </declare-styleable>
+
 </resources>

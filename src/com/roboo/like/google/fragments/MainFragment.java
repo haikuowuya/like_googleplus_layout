@@ -21,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -35,8 +36,12 @@ import com.roboo.like.google.TextActivity;
 import com.roboo.like.google.adapters.NewsListAdapter;
 import com.roboo.like.google.async.NewsListAsyncTaskLoader;
 import com.roboo.like.google.models.NewsItem;
+import com.roboo.like.google.progressbutton.ProcessButton;
+import com.roboo.like.google.progressbutton.ProgressGenerator;
+import com.roboo.like.google.progressbutton.ProgressGenerator.OnCompleteListener;
 import com.roboo.like.google.utils.CardToastUtils;
 import com.roboo.like.google.utils.NetWorkUtils;
+import com.roboo.like.google.views.FooterView;
 import com.roboo.like.google.views.StickyListHeadersListView;
 import com.roboo.like.google.views.helper.PoppyListViewHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper;
@@ -46,7 +51,7 @@ import com.roboo.like.google.views.helper.PullToRefreshHelper.OnRefreshListener;
 public class MainFragment extends BaseFragment implements LoaderCallbacks<LinkedList<NewsItem>>
 {
 	private static final String DECLARED_OPERA_FAST_SCROLLER_FIELD = "mFastScroller";// FastScroller
-	private static final String DECLARED_OVERLAY_SIZE = "mOverlaySize";// int 
+	private static final String DECLARED_OVERLAY_SIZE = "mOverlaySize";// int
 	private static final String DECLARED_OVERLAY_POS = "mOverlayPos"; // RectF
 	private static final String DECLARED_PAINT = "mPaint"; // Paint
 	/** Bundle当前加载数据的页数Key */
@@ -58,7 +63,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private int mStubCurrentPageNo = mCurrentPageNo;
 	/** 用于记录兩條新聞日期不相同时，该比较字符串所在List集合的索引位置，在生成HeaderId时进行获取 */
 	private LinkedList<Integer> mSectionIndex = new LinkedList<Integer>();
-	
+
 	/** ListView */
 	private StickyListHeadersListView mListView;
 	/** 当ListView向上滚动时会出现的View的辅助类 */
@@ -80,7 +85,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	/** ListView最后一列是否可见的标志 */
 	public boolean mLastItemVisible;
 	/** ListView 的 FooterView */
-	private View mFooterView;
+	private FooterView mFooterView;
 	/** 新闻列表适配器的数据源 */
 	private LinkedList<NewsItem> mData;
 	/** 当点击FooterView时显示加载数据标识 */
@@ -101,9 +106,9 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_main, null);// TODO
-		mFooterView = inflater.inflate(R.layout.listview_footer_view, null);
-		mProgressBar = (ProgressBar) mFooterView.findViewById(R.id.pb_progress);
-		mBtnLoadNext = (Button) mFooterView.findViewById(R.id.btn_load_next);
+		mFooterView = new FooterView(getActivity(), FooterView.TYPE_PROGRESS_BUTTON);
+		mProgressBar = mFooterView.getProgressBar();
+		mBtnLoadNext = mFooterView.getButton();
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
@@ -138,8 +143,6 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			Field field = AbsListView.class.getDeclaredField(DECLARED_OPERA_FAST_SCROLLER_FIELD);
 			field.setAccessible(true);
 			Object object = field.get(mListView);
-
-
 			field = field.getType().getDeclaredField(DECLARED_PAINT);// 获取绘制文字的画笔
 			field.setAccessible(true);
 			Paint paint = new Paint();
@@ -149,14 +152,11 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			paint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18, getResources().getDisplayMetrics()));
 			paint.setStyle(Paint.Style.FILL_AND_STROKE);
 			field.set(object, paint);
-			
-			 
 
 			field = field.getType().getDeclaredField(DECLARED_OVERLAY_SIZE);
 			field.setAccessible(true);
 			field.set(object, 50);
-			
-			
+
 			field = field.getType().getDeclaredField(DECLARED_OVERLAY_POS);
 			field.setAccessible(true);
 			RectF rectF = (RectF) field.get(object);
@@ -166,7 +166,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			newRectF.right = rectF.left + 150;
 			newRectF.bottom = rectF.top + 50;
 			field.set(object, newRectF);
-			System.out.println("修改滑动时现在字体大小成功  "+ field.getInt(object));
+			System.out.println("修改滑动时现在字体大小成功  " + field.getInt(object));
 		}
 		catch (Exception e)
 		{
@@ -207,6 +207,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mBtnMood.setOnClickListener(onClickListenerImpl);
 		mBtnPicture.setOnClickListener(onClickListenerImpl);
 		mBtnText.setOnClickListener(onClickListenerImpl);
+		 
 	}
 
 	private class OnListItemClickListenerImpl implements OnItemClickListener
@@ -215,13 +216,36 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		{
 			if (parent.getAdapter().getItemViewType(position) == AbsListView.ITEM_VIEW_TYPE_HEADER_OR_FOOTER)
 			{
-				loadNextData();
+				if (mFooterView.getType() == FooterView.TYPE_PROGRESS_BUTTON)
+				{
+					loadNextData();
+				}		 
 			}
 			else
 			{
 				NewsActivity.actionNews(getActivity(), (NewsItem) parent.getAdapter().getItem(position));
 			}
 		}
+
+		private OnCompleteListener<Object> getOnCompleteListener()
+		{
+			return new OnCompleteListener<Object>()
+			{
+				public Object onComplete()
+				{
+					mBtnLoadNext.setEnabled(true);
+					return null;
+				}
+
+				@Override
+				public Object doInBackgroundProcess()
+				{
+					loadNextData();
+					return null;
+				}
+			};
+		}
+
 	}
 
 	/** initLoader/reStartLoader方法被调用时会执行onCreateLoader */
@@ -331,12 +355,15 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			{
 				messageText = " 更新  " + updateCount + " 条新数据";
 			}
-			new CardToastUtils(getActivity()).showAndAutoDismiss(messageText);
+			new CardToastUtils(getActivity()).setShowToastStyle(CardToastUtils.SHOW_ANIMATION_TOP_TO_DOWN_STYLE).showAndAutoDismiss(messageText);
 			mBtnLoadNext.setText("点击加载下一页");
 		}
 		else
 		{
-			getActivity().findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
+			if (mData == null)
+			{
+				getActivity().findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
+			}
 			mBtnLoadNext.setText("所有数据加载完毕");
 		}
 		if (!NetWorkUtils.isNetworkAvailable(getActivity()))

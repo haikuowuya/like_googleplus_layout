@@ -15,7 +15,6 @@ import com.roboo.like.google.listener.SwipeBackListener;
 import com.roboo.like.google.views.SwipeBackFrameLayout;
 import com.roboo.like.google.views.SwipeBackFrameLayout.SwipeListener;
 import com.roboo.like.google.views.helper.SwipeBackActivityHelper;
- 
 
 public abstract class BaseActivity extends FragmentActivity implements SwipeBackListener
 { 
