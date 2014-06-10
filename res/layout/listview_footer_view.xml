@@ -1,16 +1,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:addStatesFromChildren="true"
     android:background="@color/ivorg_color"
-    android:descendantFocusability="blocksDescendants" >
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical" >
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:addStatesFromChildren="true"
         android:layout_marginTop="10dp"
+        android:id="@+id/relative_container"
+        android:addStatesFromChildren="true"
         android:background="@drawable/list_item_selector"
         android:descendantFocusability="blocksDescendants" >
 
@@ -37,5 +40,13 @@
             android:textColor="@drawable/text_color_selector"
             android:textSize="16sp" />
     </RelativeLayout>
+
+    <com.roboo.like.google.progressbutton.ProcessButton
+        android:id="@+id/pbtn_load_next"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:text="点击加载下一页"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

@@ -2,9 +2,11 @@ package com.roboo.like.google.adapters;
 
 import java.util.LinkedList;
 
+import com.roboo.like.google.R;
 import com.roboo.like.google.models.NewsTypeItem;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -6,12 +6,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.roboo.like.google.adapters.ImagePagerAdapter;
+import com.roboo.like.google.infinite.InfinitePagerAdapter;
+import com.roboo.like.google.infinite.InfiniteViewPager;
+import com.roboo.like.google.infinite.ViewPagerEx.OnPageChangeListener;
 import com.roboo.like.google.views.CirclePageIndicator;
 
 /** 图片详情界面 */
@@ -21,7 +23,7 @@ public class PictureDetailActivity extends BaseActivity
 	private static final boolean IS_AUTO_SWITCH_PIC = false;
 	private int mCurrentPosition = 0;
 	private String mImagePath;
-	private ViewPager mViewPager;
+	private InfiniteViewPager mViewPager;
 	private CirclePageIndicator mIndicator;
 	private static final String EXTRA_IMAGE_PATH = "image_path";
 	private static final String EXTRA_IMAGE_LIST = "image_list";
@@ -72,11 +74,16 @@ public class PictureDetailActivity extends BaseActivity
 		{
 			mImageUrls = getIntent().getStringArrayListExtra(EXTRA_IMAGE_LIST);
 		}
-		mViewPager.setAdapter(new ImagePagerAdapter(this, mImageUrls));
+		mViewPager.setAdapter(getPagerAdapter());
 		mIndicator.setViewPager(mViewPager);
 		mIndicator.setCurrentItem(mCurrentPosition);
 		mViewPager.setCurrentItem(mCurrentPosition);
 		mViewPager.setOnPageChangeListener(new OnPageChangeListenerImpl());
+	}
+
+	private PagerAdapter getPagerAdapter()
+	{
+		return new InfinitePagerAdapter(new ImagePagerAdapter(this, mImageUrls));
 	}
 
 	protected void onPause()
@@ -111,7 +118,7 @@ public class PictureDetailActivity extends BaseActivity
 
 	public void initView()
 	{
-		mViewPager = (ViewPager) findViewById(R.id.vp_pager);
+		mViewPager =   (InfiniteViewPager) findViewById(R.id.vp_viewpager);
 		mIndicator = (CirclePageIndicator) findViewById(R.id.cpi_indicator);
 	}
 

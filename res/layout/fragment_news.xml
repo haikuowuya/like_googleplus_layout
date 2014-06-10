@@ -37,6 +37,15 @@
             android:textSize="20sp" />
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@color/white_color"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:scaleType="fitXY" />
+
     <net.dynamicandroid.listview.DynamicScrollView
         android:id="@+id/dsv_scrollview"
         android:layout_width="match_parent"

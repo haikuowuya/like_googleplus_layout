@@ -82,6 +82,10 @@
         <activity android:name=".NewsActivity" android:launchMode="singleTop" />
         <activity android:name=".CameraActivity" />
         <activity android:name=".CommentActivity" />
+        <activity android:name=".DidiActivity" 
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            
+            />
 
         <service android:name=".NetworkService" />
         <service android:name=".WIFIDownloadService" />

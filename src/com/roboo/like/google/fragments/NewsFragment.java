@@ -1,5 +1,7 @@
 package com.roboo.like.google.fragments;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
@@ -13,6 +15,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Binder;
@@ -20,6 +23,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -51,6 +55,7 @@ import com.roboo.like.google.PictureDetailActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.async.NewsContentAsyncTaskLoader;
 import com.roboo.like.google.models.NewsItem;
+import com.roboo.like.google.utils.GifDecoder;
 
 public class NewsFragment extends BaseFragment implements LoaderCallbacks<LinkedList<String>>
 {
@@ -75,6 +80,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private Handler mHandler = new Handler();
 	private DynamicScrollView mScrollView;
 	private boolean mHasAddedFrontView = false;
+	private ImageView mIvImageView;
 	/** 动画结束后执行隐藏进度圈和显示标题 */
 	private Runnable mHideProgressBarRunnable = new Runnable()
 	{
@@ -101,6 +107,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		View view = inflater.inflate(R.layout.fragment_news, null);// TODO
 		mLinearContainer = (LinearLayout) view.findViewById(R.id.linear_container);
 		mScrollView = (DynamicScrollView) view.findViewById(R.id.dsv_scrollview);
+		mIvImageView = (ImageView) view.findViewById(R.id.iv_image);
 		mTvTitle = (TextView) view.findViewById(R.id.tv_title);
 		mTvTime = (TextView) view.findViewById(R.id.tv_time);
 		// Typeface typeface =
@@ -133,6 +140,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 	@Override
 	public void onPause()
 	{
+		stopRendering();
 		super.onPause();
 		if (mHasAddedFrontView)
 		{
@@ -155,7 +163,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 
 	private void setListener()
 	{
-//		mScrollView.setOnTouchListener(new OnTouchListenerImpl());
+		// mScrollView.setOnTouchListener(new OnTouchListenerImpl());
 	}
 
 	public Loader<LinkedList<String>> onCreateLoader(int id, Bundle args)
@@ -189,7 +197,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 					imageView.setId(R.id.iv_image);
 					imageView.setLayoutParams(params);
 					imageView.setBackgroundResource(R.drawable.list_item_selector);
-					if (str.startsWith("file"))//只有在离线下载时才会发生
+					if (str.startsWith("file"))// 只有在离线下载时才会发生
 					{
 						System.out.println("替换后的图片文件路径   = " + mImageLoader.getDiscCache().get(str));
 					}
@@ -224,13 +232,15 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 				}
 			}
 			addCommentButton(params, lr);
-//			mHasAddedFrontView = addFrontView();
+			// mHasAddedFrontView = addFrontView();
 		}
 		int nextIndex = mRandom.nextInt(COLORS_COLLECTION.length);
 		mTvTitle.setBackgroundColor(getResources().getColor(COLORS_COLLECTION[nextIndex]));
 		mTvTitle.setText(mItem.getTitle());
 		mTvTime.setText(mItem.getTime());
 		mHandler.postDelayed(mHideProgressBarRunnable, durationTime);
+
+		playGif();
 
 	}
 
@@ -437,4 +447,105 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 			return false;
 		}
 	}
+
+	// ===============================GIF PLAY=================================
+	private boolean mIsPlayingGif = false;
+	private GifDecoder mGifDecoder;
+	private Bitmap mTmpBitmap;
+	private Runnable mUpdateResults = new Runnable()
+	{
+		public void run()
+		{
+			if (mTmpBitmap != null && !mTmpBitmap.isRecycled())
+			{
+				mIvImageView.setImageBitmap(mTmpBitmap);
+			}
+		}
+	};
+
+	private void playGif(InputStream stream)
+	{
+
+		mGifDecoder = new GifDecoder();
+		int resultCode = mGifDecoder.read(stream);
+		if (resultCode > 0)
+		{
+			Bitmap bitmap = BitmapFactory.decodeStream(stream);
+			if (null == bitmap)
+			{
+				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+			}
+			mIvImageView.setImageBitmap(bitmap);
+		}
+		else
+		{
+			mIsPlayingGif = true;
+			new Thread(new Runnable()
+			{
+				public void run()
+				{
+					final int n = mGifDecoder.getFrameCount();
+					final int ntimes = mGifDecoder.getLoopCount();
+					int repetitionCounter = 0;
+					do
+					{
+						for (int i = 0; i < n; i++)
+						{
+							mTmpBitmap = mGifDecoder.getFrame(i);
+							int t = mGifDecoder.getDelay(i);
+							mHandler.post(mUpdateResults);
+							try
+							{
+								Thread.sleep(t);
+							}
+							catch (InterruptedException e)
+							{
+								e.printStackTrace();
+							}
+						}
+						if (ntimes != 0)
+						{
+							repetitionCounter++;
+						}
+					}
+					while (mIsPlayingGif && (repetitionCounter <= ntimes));
+				}
+			}).start();
+		}
+	}
+
+	public void stopRendering()
+	{
+		mIsPlayingGif = false;
+	}
+
+	private InputStream playGif()
+	{
+		InputStream inputStream = null;
+		try
+		{
+			inputStream = getActivity().getAssets().open("animation.gif");
+			playGif(inputStream);
+		}
+		catch (IOException e)
+		{
+
+		}
+		finally
+		{
+			if (inputStream != null)
+			{
+				try
+				{
+					inputStream.close();
+				}
+				catch (Exception e)
+				{
+				}
+			}
+		}
+		return inputStream;
+	}
+
+	// ===============================GIF PLAY=================================
 }

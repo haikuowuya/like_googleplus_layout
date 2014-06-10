@@ -1,27 +1,24 @@
 package com.roboo.like.google.fragments;
 
-import com.roboo.like.google.R;
-
-import android.R.anim;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 import android.widget.SlidingDrawer.OnDrawerScrollListener;
-import android.widget.TextView;
+
+import com.roboo.like.google.R;
+import com.roboo.like.google.views.PullToZoomListView;
 
 public class RightFragment extends BaseFragment
 {
-	private ListView mListView;
+	private PullToZoomListView mListView;
 	private SlidingDrawer mSlidingDrawer;
 	private Button mBtnNotification;
 	public static RightFragment newInstance()
@@ -34,7 +31,7 @@ public class RightFragment extends BaseFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_right, null);
-		mListView = (ListView) view.findViewById(R.id.lv_list);
+		mListView = (PullToZoomListView) view.findViewById(R.id.ptzlv_list);
 		mSlidingDrawer = (SlidingDrawer) view.findViewById(R.id.sliding_drawer);
 		mBtnNotification = (Button) view.findViewById(R.id.btn_notification);
 		return view;
@@ -49,7 +46,8 @@ public class RightFragment extends BaseFragment
 		 mSlidingDrawer.setOnDrawerCloseListener(onDrawerListenerImpl);
 		 mSlidingDrawer.setOnDrawerOpenListener(onDrawerListenerImpl);
 		 mSlidingDrawer.setOnDrawerScrollListener(onDrawerListenerImpl);
-		 
+		 mListView.getHeaderView().setImageResource(R.drawable.ic_test);
+		 mListView.getHeaderView().setScaleType(ImageView.ScaleType.CENTER_CROP);
 	}
 
 	private ListAdapter getAdapter()

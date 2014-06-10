@@ -6,8 +6,6 @@ import java.util.Random;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +15,8 @@ import android.widget.Toast;
 
 import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.ImageFragmentAdapter;
+import com.roboo.like.google.infinite.InfiniteViewPager;
+import com.roboo.like.google.infinite.ViewPagerEx.OnPageChangeListener;
 import com.roboo.like.google.progressbutton.ProcessButton;
 import com.roboo.like.google.progressbutton.ProgressGenerator;
 import com.roboo.like.google.progressbutton.ProgressGenerator.OnCompleteListener;
@@ -25,7 +25,8 @@ import com.roboo.like.google.views.NumberProgressBar;
 
 public class UserFragment extends BaseFragment
 {
-	private ViewPager mViewPager;
+	private InfiniteViewPager mViewPager;
+	
 	private NumberProgressBar mNumberProgressBar;
 	private ProcessButton mProcessButton;
 	private CirclePageIndicator mIndicator;
@@ -59,6 +60,7 @@ public class UserFragment extends BaseFragment
 	public static UserFragment newInstance()
 	{
 		UserFragment fragment = new UserFragment();
+		
 		return fragment;
 	}
 
@@ -66,7 +68,7 @@ public class UserFragment extends BaseFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_user, null);// TODO
-		mViewPager = (ViewPager) view.findViewById(R.id.vp_viewpager);
+		mViewPager = (InfiniteViewPager) view.findViewById(R.id.vp_viewpager);
 		mImageView = (ImageView) view.findViewById(R.id.iv_image);
 		mIndicator = (CirclePageIndicator) view.findViewById(R.id.cpi_indicator);
 		mNumberProgressBar = (NumberProgressBar) view.findViewById(R.id.npb_progress);
@@ -76,6 +78,7 @@ public class UserFragment extends BaseFragment
 
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
+	
 		super.onActivityCreated(savedInstanceState);
 		LinkedList<Object> data = new LinkedList<Object>();
 		data.add(new Object());
@@ -159,7 +162,7 @@ public class UserFragment extends BaseFragment
 		};
 	}
 
-	private class OnPageChangeListenerImpl implements OnPageChangeListener
+	private class OnPageChangeListenerImpl implements  OnPageChangeListener
 	{
 		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
 		{}

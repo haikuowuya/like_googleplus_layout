@@ -19,6 +19,7 @@ import android.widget.SimpleAdapter;
 
 import com.roboo.like.google.CameraActivity;
 import com.roboo.like.google.ContacterActivity;
+import com.roboo.like.google.DidiActivity;
 import com.roboo.like.google.LocationActivity;
 import com.roboo.like.google.MainActivity;
 import com.roboo.like.google.PictureActivity;
@@ -111,6 +112,9 @@ public class LeftFragment extends BaseFragment
 				break;
 			case 4:// 位置信息
 				LocationActivity.actionLocation(getActivity());
+				break;
+			case 8://嘀嘀打车
+				DidiActivity.actionDidi(getActivity());
 				break;
 			}
 			mainActivity.closeLeftDrawer();

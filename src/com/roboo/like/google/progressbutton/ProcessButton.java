@@ -263,7 +263,7 @@ public class ProcessButton extends Button
 		setBackgroundDrawable(getNormalDrawable());
 	}
 
-	protected void onCompleteState()
+	public  void onCompleteState()
 	{
 		if (getCompleteText() != null)
 		{
@@ -272,7 +272,7 @@ public class ProcessButton extends Button
 		setBackgroundDrawable(getCompleteDrawable());
 	}
 
-	protected void onNormalState()
+	public  void onNormalState()
 	{
 		if (getNormalText() != null)
 		{

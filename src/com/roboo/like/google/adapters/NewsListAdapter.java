@@ -25,7 +25,7 @@ import com.roboo.like.google.models.NewsItem;
 
 public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter, SectionIndexer
 {
-	private static final boolean IS_CUSTOM_FAST_SCROLL_LABEL= false;
+	private static final boolean IS_CUSTOM_FAST_SCROLL_LABEL = false;
 	private Context context;
 	private LinkedList<NewsItem> mData;
 	private ImageLoader mImageLoader;
@@ -33,6 +33,7 @@ public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter
 	/** 用于记录兩條新聞日期不相同时，该比较字符串所在List集合的索引位置，在生成HeaderId时进行获取 */
 	private LinkedList<Integer> mSectionIndex = new LinkedList<Integer>();
 	private HashMap<String, Integer> mNewsCountInDay = new HashMap<String, Integer>();
+
 	public NewsListAdapter(Context context, LinkedList<NewsItem> data)
 	{
 		super();
@@ -41,8 +42,9 @@ public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter
 		this.mImageLoader = ImageLoader.getInstance();
 		mInflater = LayoutInflater.from(context);
 		mImageLoader.init(ImageLoaderConfiguration.createDefault(context));
-		
+
 	}
+
 	public NewsListAdapter(Context context, LinkedList<NewsItem> data, LinkedList<Integer> sectionIndex)
 	{
 		super();
@@ -52,26 +54,26 @@ public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter
 		mInflater = LayoutInflater.from(context);
 		mImageLoader.init(ImageLoaderConfiguration.createDefault(context));
 		this.mSectionIndex = sectionIndex;
-		
+
 	}
-	
+
 	public int getCount()
 	{
 		return null == mData ? 0 : mData.size();
 	}
-	
+
 	@Override
 	public Object getItem(int position)
 	{
 		return null == mData ? null : mData.get(position);
 	}
-	
+
 	@Override
 	public long getItemId(int position)
 	{
 		return position;
 	}
-	
+
 	public View getView(int position, View convertView, ViewGroup parent)// TODO
 	{
 		NewsItem item = mData.get(position);
@@ -81,22 +83,20 @@ public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter
 			ImageView imageView = ViewHolder.getView(convertView, R.id.iv_image);
 			TextView tvTitle = ViewHolder.getView(convertView, R.id.tv_title);
 			TextView tvSubTitle = ViewHolder.getView(convertView, R.id.tv_sub_title);
-			
+
 			tvTitle.setText(item.getTitle());
 			tvSubTitle.setText(item.getSubTitle());
-			DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.ic_default_image)
-					.showImageForEmptyUri(R.drawable.ic_default_image).showImageOnFail(R.drawable.ic_default_image)
-					.cacheInMemory().cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
+			DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image).showImageOnFail(R.drawable.ic_default_image).cacheInMemory().cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
 			mImageLoader.displayImage(item.getSrc(), imageView, options);
 			// addAnimation(convertView);
 		}
 		return convertView;
-		
+
 	}
-	
+
 	protected void addAnimation(View convertView)
 	{
-		
+
 		// ObjectAnimator translateX = ObjectAnimator.ofFloat(convertView,
 		// "translationX",screenWidth/3, screenWidth );
 		// AnimatorSet set = new AnimatorSet();
@@ -111,7 +111,7 @@ public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter
 		// set.setStartDelay(100);
 		// set.setDuration(300);
 		// set.start();
-		
+
 		int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
 		ObjectAnimator scaleX = ObjectAnimator.ofFloat(convertView, "scaleX", 0f, 1f);
 		ObjectAnimator scaleY = ObjectAnimator.ofFloat(convertView, "alpha", 0f, 1f);
@@ -124,23 +124,24 @@ public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter
 		set.setDuration(300);
 		set.start();
 	}
-	
+
 	public long getHeaderId(int position)
 	{
 		return mData.get(position).getHeaderId();
 	}
+
 	public View getHeaderView(int position, View convertView, ViewGroup parent)
 	{
 		convertView = mInflater.inflate(R.layout.sticky_header_view, parent, false);
 		TextView textView = (TextView) convertView.findViewById(R.id.tv_text);
-		TextView tvTodayNewsCount   = (TextView) convertView.findViewById(R.id.tv_today_news_count);
-		String  time = mData.get(position).getTime();
-		int count =  null == mNewsCountInDay.get(time)?0:mNewsCountInDay.get(time).intValue();
-		textView.setText(time );
-		tvTodayNewsCount.setText("总共 "+count+" 条");
+		TextView tvTodayNewsCount = (TextView) convertView.findViewById(R.id.tv_today_news_count);
+		String time = mData.get(position).getTime();
+		int count = null == mNewsCountInDay.get(time) ? 0 : mNewsCountInDay.get(time).intValue();
+		textView.setText(time);
+		tvTodayNewsCount.setText("总共 " + count + " 条");
 		return convertView;
 	}
-	
+
 	@Override
 	public Object[] getSections()
 	{
@@ -151,35 +152,37 @@ public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter
 		}
 		return sections;
 	}
-	/**获取快速滑动时显示的文字*/
+
+	/** 获取快速滑动时显示的文字 */
 	private String getFastScrollLabel(String time)
 	{
-		if(IS_CUSTOM_FAST_SCROLL_LABEL)
+		if (IS_CUSTOM_FAST_SCROLL_LABEL)
 		{
-		 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM月");
-		 String currentMonth = simpleDateFormat.format(new Date(System.currentTimeMillis()));
-		 String newsPublishMonth = null;
-		 String newsPublishDay = null;
-		 if(time.contains("月") &&time.contains("日"))
-		 {
-			 newsPublishMonth = time.split("月")[0]+"月";
-			 newsPublishDay = time.split("月")[1].split("日")[0];
-		 }
-		 System.out.println( "currentMonth = "+currentMonth + " newsPublishMonth = "+newsPublishMonth);
-		 if(currentMonth.equals(newsPublishMonth))
-		 {
-			 return newsPublishDay ;
-		 }
-		 else 
-		 {
-			 return newsPublishMonth;
-		 }
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM月");
+			String currentMonth = simpleDateFormat.format(new Date(System.currentTimeMillis()));
+			String newsPublishMonth = null;
+			String newsPublishDay = null;
+			if (time.contains("月") && time.contains("日"))
+			{
+				newsPublishMonth = time.split("月")[0] + "月";
+				newsPublishDay = time.split("月")[1].split("日")[0];
+			}
+			System.out.println("currentMonth = " + currentMonth + " newsPublishMonth = " + newsPublishMonth);
+			if (currentMonth.equals(newsPublishMonth))
+			{
+				return newsPublishDay;
+			}
+			else
+			{
+				return newsPublishMonth;
+			}
 		}
 		else
 		{
 			return time;
 		}
 	}
+
 	public int getPositionForSection(int section)
 	{
 		if (section >= mSectionIndex.size())
@@ -192,7 +195,7 @@ public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter
 		}
 		return mSectionIndex.get(section);
 	}
- 
+
 	public int getSectionForPosition(int position)
 	{
 		for (int i = 0; i < mSectionIndex.size(); i++)
@@ -204,26 +207,27 @@ public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter
 		}
 		return mSectionIndex.size() - 1;
 	}
- 
+
 	public void setSectionIndex(LinkedList<Integer> sectionIndex)
 	{
 		mSectionIndex = sectionIndex;
 		String currentNewsTime = mData.get(0).getTime();
 		int count = 0;
-		for(int i = 0;i < mData.size();i++)
+		for (int i = 0; i < mData.size(); i++)
 		{
 			NewsItem item = mData.get(i);
-			if(currentNewsTime.equals(item.getTime()))
+			if (currentNewsTime.equals(item.getTime()))
 			{
 				count++;
 			}
-			else {
+			else
+			{
 				mNewsCountInDay.put(currentNewsTime, count);
 				currentNewsTime = item.getTime();
 				count = 1;
 			}
 		}
-		mNewsCountInDay.put(currentNewsTime, count);//最后一个日期
+		mNewsCountInDay.put(currentNewsTime, count);// 最后一个日期
 	}
-	 
+
 }

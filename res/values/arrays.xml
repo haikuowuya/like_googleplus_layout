@@ -10,16 +10,24 @@
         <item>ic_hangout#环聊</item>
         <item>ic_events#活动</item>
         <item>ic_search#搜索</item>
+        <item>ic_didi#嘀嘀打车</item>
     </string-array>
     <string-array name="actionbar_navigation_list_text_arrays">
-        <item>Android之家#http://it.ithome.com/category/10_</item>
-        <item>IPhone之家#http://it.ithome.com/category/5_</item>
-        <item>主题之家#http://it.ithome.com/category/13_</item>
-        <item>游戏之家#http://it.ithome.com/category/14_</item>
         <item>IT之家#http://it.ithome.com/category/1_</item>
+        <item>IE之家#http://it.ithome.com/category/7_</item>
+        <item>IT之外#http://it.ithome.com/category/17_</item>
+        <item>壁纸之家#http://it.ithome.com/category/12_</item>
+        <item>主题之家#http://it.ithome.com/category/13_</item>
+        <item>数码之家#http://it.ithome.com/category/15_</item>
+        <item>游戏之家#http://it.ithome.com/category/14_</item>
+        <item>WIN9之家#http://it.ithome.com/category/19_</item>
         <item>WIN8之家#http://it.ithome.com/category/2_</item>
         <item>WIN7之家#http://it.ithome.com/category/3_</item>
-        <item>IT之外#http://it.ithome.com/category/17_</item>
+        <item>VISTA之家#http://it.ithome.com/category/4_</item>
+        <item>IPHONE之家#http://it.ithome.com/category/5_</item>
+        <item>OFFICE之家#http://it.ithome.com/category/8_</item>
+        <item>ANDROID之家#http://it.ithome.com/category/10_</item>
+       
     </string-array>
     <string-array name="dummy_text_arrays">
         <item>全部</item>

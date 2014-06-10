@@ -31,10 +31,10 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		
 		super.onCreate(savedInstanceState);
 		if(isActionBarEnable())
 		{
-		 
 			mActionBar = getActionBar();
 		}
 		mActivityHelper = new SwipeBackActivityHelper(this);
@@ -90,6 +90,7 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 	public void scrollToFinishActivity()
 	{
 		getSwipeBackLayout().scrollToFinishActivity();
+		
 	}
 	
 	@Override

@@ -6,26 +6,40 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Random;
 
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
+import android.support.v4.view.PagerAdapter;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.nineoldandroids.view.ViewHelper;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.LocationActivity;
 import com.roboo.like.google.MoodActivity;
@@ -35,7 +49,11 @@ import com.roboo.like.google.R;
 import com.roboo.like.google.TextActivity;
 import com.roboo.like.google.adapters.NewsListAdapter;
 import com.roboo.like.google.async.NewsListAsyncTaskLoader;
+import com.roboo.like.google.infinite.FixedSpeedScroller;
+import com.roboo.like.google.infinite.InfinitePagerAdapter;
 import com.roboo.like.google.infinite.InfiniteViewPager;
+import com.roboo.like.google.infinite.ViewPagerEx.OnPageChangeListener;
+import com.roboo.like.google.infinite.ViewPagerEx.PageTransformer;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.progressbutton.ProcessButton;
 import com.roboo.like.google.progressbutton.ProgressGenerator;
@@ -94,10 +112,26 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private LinkedList<NewsItem> mData;
 	/** 当点击FooterView时显示加载数据标识 */
 	private ProgressBar mProgressBar;
+	private int mProgress = 0;
 	/** 正在加载数据中…… */
 	private Button mBtnLoadNext;
-	/** HeaderView中的ViewPager */
+	/** HeaderView 中的ViewPager */
 	private InfiniteViewPager mAdViewPager;
+	protected int mPosition = 0;
+	protected Handler mHandler = new Handler();
+	private boolean mSwapRunnableHasStart = false;
+	private static final long SWAP_INTERVAL_TIME = 3000L;
+	private Runnable mSwapRunnable = new Runnable()
+	{
+		public void run()
+		{
+			mSwapRunnableHasStart = true;
+			mHeaderView.getIndicator().setCurrentItem(mPosition % getRealPagerCount());
+			mPosition++;
+			mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
+			mHandler.sendEmptyMessage(mPosition);
+		}
+	};
 
 	/** 创建一个 ContentFragment 实例 */
 	public static MainFragment newInstance(String newsUrl)
@@ -116,6 +150,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mHeaderView = new HeaderView(getActivity());
 		mAdViewPager = mHeaderView.getViewPager();
 		mProgressBar = mFooterView.getProgressBar();
+
 		mBtnLoadNext = mFooterView.getButton();
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
@@ -201,7 +236,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mBtnMood.setOnClickListener(onClickListenerImpl);
 		mBtnPicture.setOnClickListener(onClickListenerImpl);
 		mBtnText.setOnClickListener(onClickListenerImpl);
-
+		mFooterView.getButton().setOnClickListener(onClickListenerImpl);
 	}
 
 	private class OnListItemClickListenerImpl implements OnItemClickListener
@@ -210,10 +245,11 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		{
 			if (parent.getAdapter().getItemViewType(position) == AbsListView.ITEM_VIEW_TYPE_HEADER_OR_FOOTER)
 			{
-				if (mFooterView.getType() == FooterView.TYPE_PROGRESS_BUTTON)
+				if (mFooterView.getType() == FooterView.TYPE_BUTTON)
 				{
 					loadNextData();
 				}
+
 			}
 			else
 			{
@@ -221,24 +257,50 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			}
 		}
 
-		private OnCompleteListener<Object> getOnCompleteListener()
-		{
-			return new OnCompleteListener<Object>()
-			{
-				public Object onComplete()
-				{
-					mBtnLoadNext.setEnabled(true);
-					return null;
-				}
+	}
 
-				@Override
-				public Object doInBackgroundProcess()
+	private OnCompleteListener<Object> getOnCompleteListener()
+	{
+		return new OnCompleteListener<Object>()
+		{
+			public Object onComplete()
+			{
+				mBtnLoadNext.setEnabled(true);
+				((ProcessButton) mBtnLoadNext).onNormalState();
+				return null;
+			}
+
+			@Override
+			public Object doInBackgroundProcess()
+			{
+				loadNextData();
+				mBtnLoadNext.setEnabled(false);
+				final Handler handler = new Handler();
+				handler.postDelayed(new Runnable()
 				{
-					loadNextData();
-					return null;
-				}
-			};
-		}
+					public void run()
+					{
+						((ProcessButton) mBtnLoadNext).setProgress(mProgress);
+						if (mProgress < 100)
+						{
+							handler.postDelayed(this, generateDelay());
+						}
+						else
+						{
+							onComplete();
+						}
+						mProgress = new Random().nextInt(100);
+					}
+				}, generateDelay());
+
+				return null;
+			}
+
+			private long generateDelay()
+			{
+				return new Random().nextInt(1000);
+			}
+		};
 	}
 
 	private void loadFirstData()
@@ -289,7 +351,16 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			case R.id.btn_load_next:// 加载下一页
 				loadNextData();
 				break;
+			case R.id.pbtn_load_next:
+				doSomething();
+				break;
 			}
+		}
+
+		private void doSomething()
+		{
+			mProgress = 50;
+			new ProgressGenerator(getOnCompleteListener()).start((ProcessButton) mBtnLoadNext);
 		}
 
 		/** 图片 */
@@ -328,6 +399,9 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	@Override
 	public void onLoadFinished(Loader<LinkedList<NewsItem>> loader, LinkedList<NewsItem> data)
 	{
+		mBtnLoadNext.setEnabled(true);
+		mProgress = 100;
+		((ProcessButton) mBtnLoadNext).onNormalState();
 		if (data != null)
 		{
 			int updateCount = 0;
@@ -349,7 +423,6 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			Collections.sort(generateHeaderId(mData), new YMDComparator());
 			mAdapter.setSectionIndex(mSectionIndex);
 			mAdapter.notifyDataSetChanged();
-
 			for (NewsItem item : data)
 			{
 				GoogleApplication.TEST = false;
@@ -374,12 +447,110 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			}
 			mBtnLoadNext.setText("所有数据加载完毕");
 		}
+		if (null != mData && !mSwapRunnableHasStart)
+		{
+			mAdViewPager.setAdapter(getPagerAdapter());
+			mAdViewPager.setOffscreenPageLimit(getRealPagerCount());
+			FixedSpeedScroller fixedSpeedScroller = new FixedSpeedScroller(getActivity(), new BounceInterpolator());
+			mAdViewPager.setFixedScroller(fixedSpeedScroller);
+			mHeaderView.getIndicator().setViewPager(mAdViewPager);
+			mAdViewPager.setOnPageChangeListener(getOnPageChangeListener());
+			mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
+			mAdViewPager.setPageTransformer(true, getTransformer());
+		}
 		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
 		{
 			mBtnLoadNext.setText("设置网络");
 		}
 		mProgressBar.setVisibility(View.INVISIBLE);
 		mPullToRefreshAttacher.setRefreshComplete();
+	}
+
+	private OnPageChangeListener getOnPageChangeListener()
+	{
+		return new OnPageChangeListener()
+		{
+			public void onPageSelected(int position)
+			{
+				mPosition = position;
+				mHeaderView.getIndicator().setCurrentItem(position % getRealPagerCount());
+
+			}
+
+			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+			{
+
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int state)
+			{
+
+			}
+		};
+	}
+
+	private int getRealPagerCount()
+	{
+		PagerAdapter adapter = mAdViewPager.getAdapter();
+		if (adapter instanceof InfinitePagerAdapter)
+		{
+			return ((InfinitePagerAdapter) adapter).getRealCount();
+		}
+		else
+		{
+			return adapter.getCount();
+		}
+	}
+
+	private PageTransformer getTransformer()
+	{
+		PageTransformer pageTransformer = new PageTransformer()
+		{
+			public void transformPage(View page, float position)
+			{
+				ViewHelper.setTranslationX(page, position < 0 ? 0f : -page.getWidth() * position);
+			}
+		};
+
+		return pageTransformer;
+	}
+
+	private PagerAdapter getPagerAdapter()
+	{
+		PagerAdapter pagerAdapter = new PagerAdapter()
+		{
+			public boolean isViewFromObject(View view, Object object)
+			{
+				return view == object;
+			}
+
+			@Override
+			public int getCount()
+			{
+				return 3;
+			}
+
+			@Override
+			public Object instantiateItem(ViewGroup container, int position)
+			{
+				ImageView imageView = new ImageView(getActivity());
+				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+				imageView.setScaleType(ScaleType.FIT_XY);
+				imageView.setImageResource(getResources().getIdentifier("ic_test" + (1 + position), "drawable", getActivity().getPackageName()));
+				imageView.setLayoutParams(params);
+				container.addView(imageView);
+				return imageView;
+			}
+
+			@Override
+			public void destroyItem(ViewGroup container, int position, Object object)
+			{
+				container.removeView((View) object);
+			}
+		};
+		InfinitePagerAdapter wrappedAdapter = new InfinitePagerAdapter(pagerAdapter);
+		return wrappedAdapter;
 	}
 
 	/** 处理数据重复问题,以及将最新的数据放在最上面 */

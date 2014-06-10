@@ -33,6 +33,7 @@ import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.CommentAdapter;
 import com.roboo.like.google.async.CommentAsyncTaskLoader;
 import com.roboo.like.google.models.CommentItem;
+import com.roboo.like.google.views.FooterView;
 
 public class CommentFragment extends BaseFragment implements LoaderCallbacks<LinkedList<CommentItem>>
 {
@@ -46,7 +47,7 @@ public class CommentFragment extends BaseFragment implements LoaderCallbacks<Lin
 	private CommentAdapter mAdapter;
 	private LinkedList<CommentItem> mData;
 	private DynamicListView mListView;
-	private View mFooterView;
+	private FooterView mFooterView;
 	private Button mBtnLoadNext;
 	private ProgressBar mFooterProgressBar;
 	private int  mCurrentCommentPageNo = 1;
@@ -65,9 +66,9 @@ public class CommentFragment extends BaseFragment implements LoaderCallbacks<Lin
 	{
 		View view = inflater.inflate(R.layout.fragment_comment, null);//TODO
 		mListView = (DynamicListView) view.findViewById(R.id.dlv_list);
-		mFooterView = inflater.inflate(R.layout.listview_footer_view, null);
-		mFooterProgressBar = (ProgressBar) mFooterView.findViewById(R.id.pb_progress);
-		mBtnLoadNext = (Button) mFooterView.findViewById(R.id.btn_load_next);
+		mFooterView = new FooterView(getActivity(), FooterView.TYPE_BUTTON);
+		mFooterProgressBar = mFooterView.getProgressBar();
+		mBtnLoadNext = mFooterView.getButton();
 		addProgressBar();
 		return view;
 	}

@@ -27,8 +27,8 @@ import com.roboo.like.google.utils.DataUtils;
 
 public class MainActivity extends FragmentActivity
 {
-	/** 默认是Android之家 */
-	public static final String IT_ANDROID = "http://it.ithome.com/category/10_";
+	/** 默认是IT之家 */
+	public static final String IT_HOME = "http://it.ithome.com/category/1_";
 	private static final String WIFI = "WIFI";
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -51,7 +51,7 @@ public class MainActivity extends FragmentActivity
 		}
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_container) == null)
 		{
-			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, MainFragment.newInstance(IT_ANDROID)).commit();
+			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, MainFragment.newInstance(IT_HOME)).commit();
 		}
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name);

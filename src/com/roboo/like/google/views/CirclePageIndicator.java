@@ -22,6 +22,8 @@ import android.view.ViewConfiguration;
 
 import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.ImageFragmentAdapter;
+import com.roboo.like.google.infinite.InfinitePagerAdapter;
+import com.roboo.like.google.infinite.ViewPagerEx;
 
 /**
  * Draws circles (one for each view). The current view position is filled and
@@ -34,13 +36,13 @@ public class CirclePageIndicator extends View
 	private float mRadius;
 	/** 圆的默认填充颜色 */
 	private final Paint mPaintPageFill = new Paint(ANTI_ALIAS_FLAG);
-	/** 圆边框填充颜色*/
+	/** 圆边框填充颜色 */
 	private final Paint mPaintStroke = new Paint(ANTI_ALIAS_FLAG);
-	/** 圆的填充颜色*/
+	/** 圆的填充颜色 */
 	private final Paint mPaintFill = new Paint(ANTI_ALIAS_FLAG);
-	/**与之关联的 ViewPager*/
-	private ViewPager mViewPager;
-	private ViewPager.OnPageChangeListener mListener;
+	/** 与之关联的 ViewPager */
+	private ViewPagerEx mViewPager;
+	private ViewPagerEx.OnPageChangeListener mListener;
 	private int mCurrentPage;
 	private int mSnapPage;
 	private float mPageOffset;
@@ -81,26 +83,30 @@ public class CirclePageIndicator extends View
 
 		// Retrieve styles attributes
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CirclePageIndicator, defStyle, 0);
-
-		mCentered = a.getBoolean(R.styleable.CirclePageIndicator_centered, defaultCentered);
-		mOrientation = a.getInt(R.styleable.CirclePageIndicator_android_orientation, defaultOrientation);
-		mPaintPageFill.setStyle(Style.FILL);
-		mPaintPageFill.setColor(a.getColor(R.styleable.CirclePageIndicator_pageColor, defaultPageColor));
-		mPaintStroke.setStyle(Style.STROKE);
-		mPaintStroke.setColor(a.getColor(R.styleable.CirclePageIndicator_strokeColor, defaultStrokeColor));
-		mPaintStroke.setStrokeWidth(a.getDimension(R.styleable.CirclePageIndicator_strokeWidth, defaultStrokeWidth));
-		mPaintFill.setStyle(Style.FILL);
-		mPaintFill.setColor(a.getColor(R.styleable.CirclePageIndicator_fillColor, defaultFillColor));
-		mRadius = a.getDimension(R.styleable.CirclePageIndicator_radius, defaultRadius);
-		mSnap = a.getBoolean(R.styleable.CirclePageIndicator_snap, defaultSnap);
-
-		Drawable background = a.getDrawable(R.styleable.CirclePageIndicator_android_background);
-		if (background != null)
+		try
 		{
-			setBackgroundDrawable(background);
-		}
+			mCentered = a.getBoolean(R.styleable.CirclePageIndicator_centered, defaultCentered);
+			mOrientation = a.getInt(R.styleable.CirclePageIndicator_android_orientation, defaultOrientation);
+			mPaintPageFill.setStyle(Style.FILL);
+			mPaintPageFill.setColor(a.getColor(R.styleable.CirclePageIndicator_pageColor, defaultPageColor));
+			mPaintStroke.setStyle(Style.STROKE);
+			mPaintStroke.setColor(a.getColor(R.styleable.CirclePageIndicator_strokeColor, defaultStrokeColor));
+			mPaintStroke.setStrokeWidth(a.getDimension(R.styleable.CirclePageIndicator_strokeWidth, defaultStrokeWidth));
+			mPaintFill.setStyle(Style.FILL);
+			mPaintFill.setColor(a.getColor(R.styleable.CirclePageIndicator_fillColor, defaultFillColor));
+			mRadius = a.getDimension(R.styleable.CirclePageIndicator_radius, defaultRadius);
+			mSnap = a.getBoolean(R.styleable.CirclePageIndicator_snap, defaultSnap);
 
-		a.recycle();
+			Drawable background = a.getDrawable(R.styleable.CirclePageIndicator_android_background);
+			if (background != null)
+			{
+				setBackgroundDrawable(background);
+			}
+		}
+		finally
+		{
+			a.recycle();
+		}
 
 		final ViewConfiguration configuration = ViewConfiguration.get(context);
 		mTouchSlop = ViewConfigurationCompat.getScaledPagingTouchSlop(configuration);
@@ -223,7 +229,11 @@ public class CirclePageIndicator extends View
 			ImageFragmentAdapter adapter = (ImageFragmentAdapter) mViewPager.getAdapter();
 			count = adapter.getReadlCount();
 		}
-		 
+		if(mViewPager.getAdapter() instanceof InfinitePagerAdapter)
+		{
+			InfinitePagerAdapter infinitePagerAdapter = (InfinitePagerAdapter) mViewPager.getAdapter();
+			count = infinitePagerAdapter.getRealCount();
+		}
 		// ==================================================================
 		if (count == 0)
 		{
@@ -419,7 +429,7 @@ public class CirclePageIndicator extends View
 		return true;
 	}
 
-	public void setViewPager(ViewPager view)
+	public void setViewPager(ViewPagerEx view)
 	{
 		if (mViewPager == view)
 		{
@@ -438,7 +448,7 @@ public class CirclePageIndicator extends View
 		invalidate();
 	}
 
-	public void setViewPager(ViewPager view, int initialPosition)
+	public void setViewPager(ViewPagerEx view, int initialPosition)
 	{
 		setViewPager(view);
 		setCurrentItem(initialPosition);
@@ -475,7 +485,6 @@ public class CirclePageIndicator extends View
 		mCurrentPage = position;
 		mPageOffset = positionOffset;
 		invalidate();
-
 		if (mListener != null)
 		{
 			mListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
@@ -490,21 +499,19 @@ public class CirclePageIndicator extends View
 			mSnapPage = position;
 			invalidate();
 		}
-
 		if (mListener != null)
 		{
 			mListener.onPageSelected(position);
 		}
 	}
 
-	public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener)
+	public void setOnPageChangeListener(ViewPagerEx.OnPageChangeListener listener)
 	{
 		mListener = listener;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see android.view.View#onMeasure(int, int)
 	 */
 	@Override

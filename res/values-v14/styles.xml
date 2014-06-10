@@ -1,6 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
- 
+
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
+        <item name="android:dividerHorizontal">@drawable/drawable_listview_divider</item>
     </style>
 
 </resources>

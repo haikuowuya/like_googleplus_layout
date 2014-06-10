@@ -42,6 +42,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.accessibility.AccessibilityEvent;
+import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
@@ -2890,5 +2891,9 @@ public class ViewPagerEx extends ViewGroup{
             }
             return llp.position - rlp.position;
         }
+    }
+    public void setFixedScroller(FixedSpeedScroller fixedSpeedScroller)
+    {
+    	mScroller = fixedSpeedScroller;
     }
 }

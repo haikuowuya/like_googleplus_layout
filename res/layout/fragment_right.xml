@@ -7,16 +7,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
-        android:content="@+id/lv_list"
+        android:content="@+id/ptzlv_list"
         android:handle="@+id/btn_drawer"
         android:orientation="vertical" >
 
-        <ListView
-            android:id="@+id/lv_list"
+        <com.roboo.like.google.views.PullToZoomListView
+            android:id="@+id/ptzlv_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FFF000" >
-        </ListView>
+            android:background="#FFF000" />
+         
 
         <Button
             android:id="@+id/btn_drawer"
