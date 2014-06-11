@@ -14,9 +14,9 @@
         <com.roboo.like.google.views.PullToZoomListView
             android:id="@+id/ptzlv_list"
             android:layout_width="match_parent"
+            style="@style/Custom.ListView.Style"
             android:layout_height="match_parent"
-            android:background="#FFF000" />
-         
+             />
 
         <Button
             android:id="@+id/btn_drawer"
@@ -37,12 +37,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:drawablePadding="10dp"
         android:layout_marginBottom="30dp"
-        android:paddingTop="160dp"
         android:background="@null"
+        android:drawablePadding="10dp"
         android:drawableTop="@drawable/ic_no_notification"
         android:gravity="center_horizontal"
+        android:paddingTop="160dp"
         android:text="没有未读通知!"
         android:textSize="20sp" />
 

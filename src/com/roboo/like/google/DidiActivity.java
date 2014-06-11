@@ -4,18 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.Window;
+import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.webkit.WebView;
-import android.widget.Toast;
-
-import com.roboo.like.google.fragments.NewsFragment;
-import com.roboo.like.google.models.NewsItem;
 
 /** 新闻详情 */
 public class DidiActivity extends BaseActivity
 {
 	public static final String EXTRA_NEWS = "news";
-	private static final String URL = "http://pay.xiaojukeji.com/api/v2/webapp";
+	private static final String URL = "http://pay.xiaojukeji.com/api/v2/webapp?city=%E5%8C%97%E4%BA%AC%20&maptype=wgs84&fromlat=39.98096907577634&fro%20mlng=%20116.30000865410719&fromaddr=%E9%93%B6%E7%A7%91%E5%A4%A7%E5%8E%A6%20&toaddr=%E8%A5%BF%E4%BA%8C%E6%97%97&toshop=%E5%BE%97%E5%AE%9E%E5%A4%A7%E5%8E%A6%20&channel=1210&d=130002030203";
 	private WebView mWebView;
 
 	public static void actionDidi(Activity activity)
@@ -32,6 +29,13 @@ public class DidiActivity extends BaseActivity
 		initView();
 		mWebView.loadUrl(URL);
 		mWebView.cancelLongPress();
+		mWebView.setOnLongClickListener(new OnLongClickListener()
+		{
+			public boolean onLongClick(View v)
+			{
+				return true;
+			}
+		});
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item)

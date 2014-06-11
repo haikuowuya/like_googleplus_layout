@@ -50,7 +50,10 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 		mContainer.addView(childView);
 		 
 	}
- 
+	public void setContentView(View view)
+	{
+		mContainer.addView(view);
+	}
 	protected void onPostCreate(Bundle savedInstanceState)
 	{
 		super.onPostCreate(savedInstanceState);

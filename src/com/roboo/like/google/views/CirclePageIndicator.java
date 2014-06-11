@@ -464,6 +464,19 @@ public class CirclePageIndicator extends View
 		mCurrentPage = item;
 		invalidate();
 	}
+	public void setCurrentItem(int item , boolean isInfinite)
+	{
+		if (mViewPager == null)
+		{
+			throw new IllegalStateException("ViewPager has not been bound.");
+		}
+		if(!isInfinite)
+		{
+			mViewPager.setCurrentItem(item);
+		}
+		mCurrentPage = item;
+		invalidate();
+	}
 
 	public void notifyDataSetChanged()
 	{

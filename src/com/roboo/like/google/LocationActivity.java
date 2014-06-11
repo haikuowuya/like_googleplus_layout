@@ -7,11 +7,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -33,10 +37,10 @@ public class LocationActivity extends BaseActivity
 {
 	/** 在显示定位结果时等待时间 */
 	private static final long DELAY_IN_MILLIS_SHOW_LOCATION_RESULT = 2000L;
-	
+
 	private static final int LOCATION_BY_GPS_CODE = 61;// BDLocation.TypeGpsLocation
 	private static final int LOCATION_BY_NETWORK_CODE = 161;// BDLocation.TypeNetWorkLocation
-	private static final double LOCATION_FAILURED_LONGITUDE_LATITUDE= 4.9E-324;
+	private static final double LOCATION_FAILURED_LONGITUDE_LATITUDE = 4.9E-324;
 	private static final double SUZHOU_LONGITUDE = 120.676459;
 	private static final double SUZHOU_LATITUDE = 31.300916;
 	public LocationClient mLocationClient = null;
@@ -48,6 +52,7 @@ public class LocationActivity extends BaseActivity
 	// /** 定位成功后获取的纬度 */
 	// private double mLocationLatitude;
 	private boolean mFlag = true;
+	private boolean mPopupShowingFlag = false;
 	private LocationData mLocationData = new LocationData();
 	private LocationOverlay mLocationOverlay;
 	private TextView mPopupTextView;
@@ -56,7 +61,11 @@ public class LocationActivity extends BaseActivity
 	{
 		public void handleMessage(Message msg)
 		{
-			new CardToastUtils(LocationActivity.this).showAndAutoDismiss("定位成功");
+			if (mFlag)
+			{
+				mFlag = !mFlag;
+				new CardToastUtils(LocationActivity.this).setMessageTextColor(Color.RED).showAndAutoDismiss("定位成功");
+			}
 			GeoPoint point = new GeoPoint((int) (mLocationData.latitude * 1E6), (int) (mLocationData.longitude * 1E6));
 			// 用给定的经纬度构造一个GeoPoint，单位是微度 (度 * 1E6)
 			mMapView.getController().setCenter(point);// 设置地图中心点
@@ -65,20 +74,6 @@ public class LocationActivity extends BaseActivity
 			mMapView.refresh();
 			mLocationClient.stop();
 		};
-	};
-	private Runnable mLocationSuccessRunnable = new Runnable()
-	{
-		public void run()
-		{
-			GeoPoint point = new GeoPoint((int) (mLocationData.latitude * 1E6), (int) (mLocationData.longitude * 1E6));
-			// 用给定的经纬度构造一个GeoPoint，单位是微度 (度 * 1E6)
-			mMapView.getController().setCenter(point);// 设置地图中心点
-			mLocationOverlay.setData(mLocationData);// 设置我的位置信息
-			// 更新图层数据执行刷新后生效
-			mMapView.refresh();
-			mLocationClient.stop();
-
-		}
 	};
 
 	/** 跳转到我的位置界面 */
@@ -162,6 +157,7 @@ public class LocationActivity extends BaseActivity
 	public void initView()
 	{
 		mMapView = (MapView) findViewById(R.id.mv_mapview);
+		mMapView.setOnTouchListener(getOnTouchListener());
 		mPopupTextView = new TextView(this);
 		mPopupTextView.setTextColor(Color.RED);
 		mPopupTextView.setPadding(50, 50, 50, 50);
@@ -216,7 +212,6 @@ public class LocationActivity extends BaseActivity
 		{
 			if (null != location)
 			{
-				mFlag = !mFlag;
 				StringBuffer stringBuffer = new StringBuffer(256);
 				String locationTime = location.getTime();// 定位时间
 				// 定位方式[61:GPS 161:NETWORK]
@@ -227,7 +222,7 @@ public class LocationActivity extends BaseActivity
 				String address = location.getAddrStr();// 网络定位时才有数据，地址信息
 				float speed = location.getSpeed();// GPS定位时才有数据
 				int satellite = location.getSatelliteNumber();// GPS定位时才有数据
-				if(longitude == LOCATION_FAILURED_LONGITUDE_LATITUDE)
+				if (longitude == LOCATION_FAILURED_LONGITUDE_LATITUDE)
 				{
 					longitude = SUZHOU_LONGITUDE;
 					latitude = SUZHOU_LATITUDE;
@@ -253,12 +248,11 @@ public class LocationActivity extends BaseActivity
 				}
 
 				System.out.println("定位结果   = " + stringBuffer.toString());
-				if (mFlag)
+				mHandler.sendEmptyMessageDelayed(0, DELAY_IN_MILLIS_SHOW_LOCATION_RESULT);
+				if (!TextUtils.isEmpty(address))
 				{
-					new CardToastUtils(LocationActivity.this).setMessageTextColor(Color.RED).showAndAutoDismiss("定位成功");
+					Toast.makeText(getApplicationContext(), address, Toast.LENGTH_SHORT).show();
 				}
-				mHandler.postDelayed(mLocationSuccessRunnable, DELAY_IN_MILLIS_SHOW_LOCATION_RESULT);
-
 			}
 
 		}
@@ -298,6 +292,7 @@ public class LocationActivity extends BaseActivity
 			{
 				mPopupTextView.setBackgroundResource(R.drawable.ic_popup);
 				mPopupTextView.setText("我的位置");
+				mPopupShowingFlag = true;
 				mPopupOverlay.showPopup(getBitmapFromView(mPopupTextView), new GeoPoint((int) (mLocationData.latitude * 1e6), (int) (mLocationData.longitude * 1e6)), 8);
 			}
 			return true;
@@ -312,6 +307,24 @@ public class LocationActivity extends BaseActivity
 			Bitmap bitmap = view.getDrawingCache(true);
 			return bitmap;
 		}
+	}
+
+	private OnTouchListener getOnTouchListener()
+	{
+		return new OnTouchListener()
+		{
+			public boolean onTouch(View v, MotionEvent event)
+			{
+				// 消隐泡泡
+				if (mPopupOverlay != null && mPopupShowingFlag && event.getAction() == MotionEvent.ACTION_UP)
+				{
+					mPopupOverlay.hidePop();
+					mPopupShowingFlag = false;
+					return true;
+				}
+				return false;
+			}
+		};
 	}
 }
 // ====================================================================================

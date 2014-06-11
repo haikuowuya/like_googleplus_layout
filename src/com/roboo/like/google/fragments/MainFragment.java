@@ -19,25 +19,18 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.PagerAdapter;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.BounceInterpolator;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.nineoldandroids.view.ViewHelper;
 import com.roboo.like.google.GoogleApplication;
@@ -126,7 +119,8 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		public void run()
 		{
 			mSwapRunnableHasStart = true;
-			mHeaderView.getIndicator().setCurrentItem(mPosition % getRealPagerCount());
+			mHeaderView.getIndicator().setCurrentItem(mPosition % getRealPagerCount(),true);
+			mAdViewPager.nextItem();
 			mPosition++;
 			mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
 			mHandler.sendEmptyMessage(mPosition);
@@ -473,16 +467,14 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			public void onPageSelected(int position)
 			{
 				mPosition = position;
-				mHeaderView.getIndicator().setCurrentItem(position % getRealPagerCount());
-
+				mHeaderView.getIndicator().setCurrentItem(position % getRealPagerCount(),true);
 			}
 
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
 			{
 
 			}
-
-			@Override
+ 
 			public void onPageScrollStateChanged(int state)
 			{
 
@@ -524,14 +516,16 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			{
 				return view == object;
 			}
-
-			@Override
 			public int getCount()
 			{
 				return 3;
 			}
-
-			@Override
+		 
+			 @Override
+			public int getItemPosition(Object object)
+			{
+				return POSITION_NONE;
+			}
 			public Object instantiateItem(ViewGroup container, int position)
 			{
 				ImageView imageView = new ImageView(getActivity());

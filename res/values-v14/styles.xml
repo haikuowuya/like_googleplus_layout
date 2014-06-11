@@ -1,7 +1,36 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
-        <item name="android:dividerHorizontal">@drawable/drawable_listview_divider</item>
+        <item name="android:actionBarSize">48dp</item>
+        <item name="android:actionDropDownStyle">@style/Custom.ActionBar.DropDown.Style</item>
+        <item name="android:spinnerDropDownItemStyle">@style/Custom.ActionBar.Spinner.DropDownItem.Style</item>
+        <item name="android:actionBarStyle">@style/Custom.ActionBar.Style</item>
+        <item name="android:dropDownListViewStyle">@style/Custom.ActionBar.DropDownListView.Style</item>
+        
+    </style>
+
+    <style name="Custom.ActionBar.DropDown.Style" parent="@android:style/Widget.Holo.Light.Spinner">
+        <item name="android:dropDownWidth">150dp</item>
+        <item name="android:dropDownHeight">48dp</item>
+        <item name="android:dropDownSelector">@color/red_color</item>
+    </style>
+
+    <style name="Custom.ActionBar.Style" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+      <item name="android:background">@color/white_color</item>
+    </style>
+
+    <style name="Custom.ActionBar.DropDownListView.Style" parent="@android:style/Widget.Holo.ListView.DropDown">
+        <item name="android:listSelector">@drawable/list_item_selector</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:divider">@drawable/ic_divider</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:fadingEdge">none</item>
+    </style>
+
+    <style name="Custom.ActionBar.Spinner.DropDownItem.Style" parent="@android:style/Widget.Holo.Light.DropDownItem.Spinner">
+        <item name="android:textColor">@color/red_color</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
     </style>
 
 </resources>

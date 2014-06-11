@@ -6,8 +6,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
@@ -116,7 +114,6 @@ public class MainActivity extends FragmentActivity
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mActionBar.setHomeButtonEnabled(true);
 		mActionBar.setDisplayShowTitleEnabled(false);
-		mActionBar.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		mActionBar.setListNavigationCallbacks(getAdapter(), new OnNavigationListener()
 		{

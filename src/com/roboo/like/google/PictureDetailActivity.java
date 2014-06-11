@@ -83,7 +83,8 @@ public class PictureDetailActivity extends BaseActivity
 
 	private PagerAdapter getPagerAdapter()
 	{
-		return new InfinitePagerAdapter(new ImagePagerAdapter(this, mImageUrls));
+	return	new ImagePagerAdapter(this, mImageUrls);
+//		return new InfinitePagerAdapter(new ImagePagerAdapter(this, mImageUrls));
 	}
 
 	protected void onPause()
@@ -118,7 +119,7 @@ public class PictureDetailActivity extends BaseActivity
 
 	public void initView()
 	{
-		mViewPager =   (InfiniteViewPager) findViewById(R.id.vp_viewpager);
+		mViewPager = (InfiniteViewPager) findViewById(R.id.vp_viewpager);
 		mIndicator = (CirclePageIndicator) findViewById(R.id.cpi_indicator);
 	}
 

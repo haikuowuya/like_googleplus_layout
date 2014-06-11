@@ -58,4 +58,14 @@
         <item name="android:ellipsize">middle</item>
     </style>
 
+    <style name="Custom.ListView.Style" parent="@android:style/Widget.ListView">
+        <item name="android:listSelector">@drawable/list_item_selector</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:divider">@drawable/ic_divider</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:scrollbars">none</item>
+        
+        <item name="android:fadingEdge">none</item>
+    </style>
+
 </resources>

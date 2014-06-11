@@ -239,8 +239,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mTvTitle.setText(mItem.getTitle());
 		mTvTime.setText(mItem.getTime());
 		mHandler.postDelayed(mHideProgressBarRunnable, durationTime);
-
-		playGif();
+//		playGif();
 
 	}
 
