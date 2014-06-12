@@ -6,17 +6,22 @@
         <item name="android:spinnerDropDownItemStyle">@style/Custom.ActionBar.Spinner.DropDownItem.Style</item>
         <item name="android:actionBarStyle">@style/Custom.ActionBar.Style</item>
         <item name="android:dropDownListViewStyle">@style/Custom.ActionBar.DropDownListView.Style</item>
-        
+        <item name="android:selectableItemBackground">@drawable/actionbar_item_selector</item>
+        <item name="android:buttonStyle">@style/Custom.Button.Style</item>
+        <item name="android:alertDialogTheme">@style/Custom.AlertDialog.Theme.Style</item>
+        <!--  还不启用-->
+        <!-- <item name="android:alertDialogStyle">@style/Custom.AlertDialog.Style</item> -->
     </style>
 
     <style name="Custom.ActionBar.DropDown.Style" parent="@android:style/Widget.Holo.Light.Spinner">
-        <item name="android:dropDownWidth">150dp</item>
+        <item name="android:background">@drawable/actionbar_spinner_selector</item>
+        <item name="android:dropDownWidth">220dp</item>
         <item name="android:dropDownHeight">48dp</item>
         <item name="android:dropDownSelector">@color/red_color</item>
     </style>
 
     <style name="Custom.ActionBar.Style" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
-      <item name="android:background">@color/white_color</item>
+        <item name="android:background">@color/white_color</item>
     </style>
 
     <style name="Custom.ActionBar.DropDownListView.Style" parent="@android:style/Widget.Holo.ListView.DropDown">
@@ -31,6 +36,45 @@
         <item name="android:textColor">@color/red_color</item>
         <item name="android:paddingStart">8dp</item>
         <item name="android:paddingEnd">8dp</item>
+    </style>
+    <!-- Button Style -->
+    <style name="Custom.Button.Style" parent="@android:style/Widget.Holo.Light.Button">
+        <item name="android:background">@drawable/actionbar_item_selector</item>
+        <item name="android:textColor">@drawable/text_color_selector</item>
+    </style>
+    <!-- AlertDialog Theme Style -->
+    <style name="Custom.AlertDialog.Theme.Style" parent="@android:style/Theme.Holo.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowTitleStyle">@style/Custom.WindowTitle.Style</item>
+        <item name="android:buttonBarStyle">@style/Custom.AlertDiaog.Button.Divider.Style</item>
+        <item name="android:borderlessButtonStyle">@style/Custom.AlertDiaog.Button.Style</item>
+        <item name="android:windowMinWidthMajor">80%</item>
+        <item name="android:windowMinWidthMinor">72%</item>
+    </style>
+    <!-- AlertDialog  Style -->
+    <style name="Custom.AlertDialog.Style" parent="@android:style/Theme.Holo.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowTitleStyle">@style/Custom.WindowTitle.Style</item>
+        <item name="android:buttonBarStyle">@style/Custom.AlertDiaog.Button.Divider.Style</item>
+        <item name="android:borderlessButtonStyle">@style/Custom.AlertDiaog.Button.Style</item>
+        <item name="android:windowMinWidthMajor">80%</item>
+        <item name="android:windowMinWidthMinor">72%</item>
+    </style>
+    <!-- AlertDialog Title Style -->
+    <style name="Custom.WindowTitle.Style" parent="@android:style/TextAppearance.Holo.DialogWindowTitle">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/red_color</item>
+    </style>
+    <!-- AlertDialog  Between Button Divider  Style -->
+    <style name="Custom.AlertDiaog.Button.Divider.Style" parent="@android:style/Holo.Light.ButtonBar.AlertDialog">
+        <item name="android:background">@drawable/actionbar_item_selector</item>
+        <item name="android:divider">@drawable/drawable_listview_divider</item>
+        <item name="android:dividerPadding">10dp</item>
+    </style>
+    <!-- AlertDialog   Button   Style -->
+    <style name="Custom.AlertDiaog.Button.Style" parent="@android:style/Widget.Holo.Light.Button.Borderless.Small">
+        <item name="android:background">@drawable/actionbar_item_selector</item>
+        <item name="android:textColor">@drawable/text_color_selector</item>
     </style>
 
 </resources>

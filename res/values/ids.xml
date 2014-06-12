@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
- <item  type="id" name="iv_image"></item>
- <item  type="id" name="btn_comment"></item>
- <item type="id" name="vp_viewpager"/>
+
+    <item name="iv_image" type="id"></item>
+    <item name="btn_comment" type="id"></item>
+    <item name="vp_viewpager" type="id"/>
+    <item name="titleDivider" type="id"/>
 
 </resources>

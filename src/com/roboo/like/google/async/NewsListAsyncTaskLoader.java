@@ -52,7 +52,7 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 			}
 			else
 			{
-				data = NewsUtils.getITHomeNewsList(mChannelUrl, mPageNo);
+				data = NewsUtils.getNewsList(mChannelUrl, mPageNo);
 				if (null != data)
 				{
 					if (mPageNo == 1)

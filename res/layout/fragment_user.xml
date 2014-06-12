@@ -40,9 +40,15 @@
         android:text="发送"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        custom:textComplete="完成"
         custom:drawType="progress_default"
+        custom:textComplete="完成"
         custom:textProgress="加载中……" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnSend"
+        android:text="测试" />
 
     <com.roboo.like.google.views.NumberProgressBar
         android:id="@+id/npb_progress"

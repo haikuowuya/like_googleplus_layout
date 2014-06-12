@@ -111,7 +111,7 @@ public class WIFIDownloadService extends Service
 		{
 			long startTime1 = System.currentTimeMillis();
 			System.out.println("开始下载 " + mTypeItem.name);
-			LinkedList<NewsItem> newsListData = NewsUtils.getITHomeNewsList(mTypeItem.url, 1);
+			LinkedList<NewsItem> newsListData = NewsUtils.getNewsList(mTypeItem.url, 1);
 			saveNewsListData(newsListData, mTypeItem);
 			if (null != newsListData)
 			{

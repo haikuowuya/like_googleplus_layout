@@ -20,6 +20,7 @@ public class PoppyListViewHelper
 	{
 		TOP, BOTTOM
 	};
+
 	private static final int SCROLL_TO_TOP = -1;
 
 	private static final int SCROLL_TO_BOTTOM = 1;
@@ -73,8 +74,6 @@ public class PoppyListViewHelper
 		return createPoppyViewOnListView(listViewId, poppyViewResId, null);
 	}
 
-	// common
-
 	private void setPoppyViewOnView(View view)
 	{
 		LayoutParams lp = view.getLayoutParams();
@@ -117,15 +116,12 @@ public class PoppyListViewHelper
 	{
 		mPoppyView.post(new Runnable()
 		{
-
-			@Override
 			public void run()
 			{
 				if (mPoppyViewHeight <= 0)
 				{
 					mPoppyViewHeight = mPoppyView.getHeight();
 				}
-
 				int translationY = 0;
 				switch (mPoppyViewPosition)
 				{
@@ -140,15 +136,14 @@ public class PoppyListViewHelper
 			}
 		});
 	}
+
 	private void initPoppyViewOnListView(ListView listView, final OnScrollListener onScrollListener)
 	{
 		setPoppyViewOnView(listView);
 		listView.setOnScrollListener(new OnScrollListener()
 		{
-
 			int mScrollPosition;
 
-			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
 			{
 				if (onScrollListener != null)
@@ -175,7 +170,6 @@ public class PoppyListViewHelper
 				mScrollPosition = newScrollPosition;
 			}
 
-			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState)
 			{
 				if (onScrollListener != null)

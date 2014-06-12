@@ -9,7 +9,9 @@ import android.util.Log;
 
 public class GoogleApplication extends Application
 {
-	
+	public static final String TYPE_ITHOME = "ithome";
+	public static final String TYPE_CSDN="csdn";
+	public static String mCurrentType = TYPE_ITHOME;
 	public static final String BASE_COMMENT_URL= "http://www.ithome.com/ithome/GetAjaxData.aspx?type=commentpage";
 	/**获取评论的URL*/
 	public static final String DUMMY_COMMENT_URL= "http://www.ithome.com/ithome/GetAjaxData.aspx?newsid=78507&type=commentpage&page=1";
