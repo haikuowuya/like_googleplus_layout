@@ -113,6 +113,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	protected int mPosition = 0;
 	protected Handler mHandler = new Handler();
 	private boolean mSwapRunnableHasStart = false;
+	/**模拟广告图片轮转间隔时间*/
 	private static final long SWAP_INTERVAL_TIME = 3000L;
 	private Runnable mSwapRunnable = new Runnable()
 	{

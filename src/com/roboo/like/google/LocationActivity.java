@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +38,6 @@ public class LocationActivity extends BaseActivity
 {
 	/** 在显示定位结果时等待时间 */
 	private static final long DELAY_IN_MILLIS_SHOW_LOCATION_RESULT = 2000L;
-
 	private static final int LOCATION_BY_GPS_CODE = 61;// BDLocation.TypeGpsLocation
 	private static final int LOCATION_BY_NETWORK_CODE = 161;// BDLocation.TypeNetWorkLocation
 	private static final double LOCATION_FAILURED_LONGITUDE_LATITUDE = 4.9E-324;

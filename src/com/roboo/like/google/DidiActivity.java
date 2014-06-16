@@ -1,14 +1,19 @@
 package com.roboo.like.google;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.webkit.WebView;
+import android.webkit.WebSettings.PluginState;
+import android.webkit.WebViewClient;
 
 /** 新闻详情 */
+@SuppressLint("SetJavaScriptEnabled")
 public class DidiActivity extends BaseActivity
 {
 
@@ -27,6 +32,7 @@ public class DidiActivity extends BaseActivity
 		setContentView(R.layout.activity_didi);
 		customActionBar();
 		initView();
+		initWebView();
 		mWebView.loadUrl(URL);
 		mWebView.cancelLongPress();
 		mWebView.setOnLongClickListener(new OnLongClickListener()
@@ -36,6 +42,38 @@ public class DidiActivity extends BaseActivity
 				return true;
 			}
 		});
+	}
+
+	private void initWebView()
+	{
+		mWebView.clearHistory();
+		mWebView.requestFocus();
+		mWebView.setClickable(true);
+		mWebView.getSettings().setJavaScriptEnabled(true);// 可用JS
+		mWebView.getSettings().setPluginState(PluginState.ON);
+		mWebView.getSettings().setUseWideViewPort(true);
+		mWebView.getSettings().setSupportZoom(true);
+		mWebView.getSettings().setBuiltInZoomControls(true);
+		 
+		mWebView.setInitialScale(100);
+		mWebView.getSettings().setPluginState(PluginState.ON);
+		mWebView.getSettings().setGeolocationEnabled(true);
+		mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+		mWebView.getSettings().setAppCacheEnabled(true);
+		mWebView.getSettings().setDatabaseEnabled(true);
+		mWebView.getSettings().setDomStorageEnabled(true);
+		mWebView.cancelLongPress();
+		mWebView.getSettings().setSavePassword(false);// 设置不需要 弹出“是否保存密码” 对话框
+		mWebView.setWebViewClient(getWebViewClient());
+		
+	}
+
+	private WebViewClient getWebViewClient()
+	{
+		return new WebViewClient()
+		{
+			
+		};
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item)

@@ -14,7 +14,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.BaseAdapter;
 
 import com.roboo.like.google.adapters.NewsTypeListAdapter;

@@ -173,7 +173,8 @@ public class NewsItem implements Serializable
 	{
 		if (null != o && o instanceof NewsItem)
 		{
-			return this.md5.equals(((NewsItem) o).getMd5());
+			NewsItem item = (NewsItem) o;
+			return this.md5.equals(item.getMd5()) && title.equals(item.title);
 		}
 		return false;
 	}
