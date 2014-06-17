@@ -17,7 +17,7 @@ import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.models.NewsItem;
 
 @SuppressLint("SimpleDateFormat")
-public class NewsUtils
+public class NewsListUtils
 {
 	private static final int TIME_OUT = 20000;
 	private static final String TODAY = "今日";
@@ -92,7 +92,7 @@ public class NewsUtils
 	public static LinkedList<NewsItem> getNewsList(String baseUrl, int pageNo) throws IOException
 	{
 
-		if (GoogleApplication.mCurrentType.equals(GoogleApplication.TYPE_CSDN) && baseUrl.equals(GoogleApplication.BASE_OFFICE_URL))
+		if (GoogleApplication.mCurrentType.equals(GoogleApplication.TYPE_CSDN) && baseUrl.equals( GoogleApplication.TEST_CSDN_BASE_URL ))
 		{
 			return getCSDNNewsList(baseUrl, pageNo);
 		}
@@ -166,7 +166,7 @@ public class NewsUtils
 				{
 					minorElement = elements.get(0);
 					newsUrl = minorElement.attr("href");
-					System.out.println("newsUrl = " + newsUrl);
+//					System.out.println("newsUrl = " + newsUrl);
 				}
 				elements = majorElement.getElementsByTag("img");
 				if (!elements.isEmpty())
@@ -188,7 +188,7 @@ public class NewsUtils
 				item.setSrc(src);
 				item.setTime(time);
 				item.setMd5(md5);
-				item.setUrl(url);
+				item.setUrl(newsUrl);
 				item.setTitle(title);
 				item.setSubTitle(subTitle);
 				data.add(item);

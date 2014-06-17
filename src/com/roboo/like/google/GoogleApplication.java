@@ -12,8 +12,14 @@ public class GoogleApplication extends Application
 	public static final String TYPE_ITHOME = "ithome";
 	public static final String TYPE_CSDN="csdn";
 	public static String mCurrentType = TYPE_CSDN;
+	/**IT之家的图片地址前缀*/
+	public  static final String PREFIX_ITHOME_IMG_URL = "http://img.ithome.com";
+	/**CSDN的图片地址前缀*/
+	public  static final String PREFIX_CSDN_IMG_URL = "http://cms.csdnimg.cn";
 	/**用于测试切换ITHOME和CSDN的一个条件*/
 	public static final String BASE_OFFICE_URL="http://it.ithome.com/category/8_";
+	public static final String TEST_CSDN_BASE_URL= "http://mobile.csdn.net/mobile/";
+	
 	public static final String BASE_COMMENT_URL= "http://www.ithome.com/ithome/GetAjaxData.aspx?type=commentpage";
 	/**获取评论的URL*/
 	public static final String DUMMY_COMMENT_URL= "http://www.ithome.com/ithome/GetAjaxData.aspx?newsid=78507&type=commentpage&page=1";

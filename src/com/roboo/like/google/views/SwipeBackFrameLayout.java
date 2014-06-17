@@ -411,8 +411,7 @@ public class SwipeBackFrameLayout extends FrameLayout
 		}
 		catch (ArrayIndexOutOfBoundsException e)
 		{
-			// FIXME: handle exception
-			// issues #9
+			// FIXME: handle exception issues #9
 			return false;
 		}
 	}

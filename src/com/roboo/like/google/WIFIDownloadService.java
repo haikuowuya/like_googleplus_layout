@@ -31,7 +31,7 @@ import com.roboo.like.google.utils.CommentUtils;
 import com.roboo.like.google.utils.DataUtils;
 import com.roboo.like.google.utils.FileUtils;
 import com.roboo.like.google.utils.MD5Utils;
-import com.roboo.like.google.utils.NewsUtils;
+import com.roboo.like.google.utils.NewsListUtils;
 
 public class WIFIDownloadService extends Service
 {
@@ -111,14 +111,14 @@ public class WIFIDownloadService extends Service
 		{
 			long startTime1 = System.currentTimeMillis();
 			System.out.println("开始下载 " + mTypeItem.name);
-			LinkedList<NewsItem> newsListData = NewsUtils.getNewsList(mTypeItem.url, 1);
+			LinkedList<NewsItem> newsListData = NewsListUtils.getNewsList(mTypeItem.url, 1);
 			saveNewsListData(newsListData, mTypeItem);
 			if (null != newsListData)
 			{
 				for (NewsItem item : newsListData)
 				{
 					long startTime2 = System.currentTimeMillis();
-					LinkedList<String> newsContentData = NewsUtils.getITHomeNewsDataList(item.getUrl());
+					LinkedList<String> newsContentData = NewsListUtils.getITHomeNewsDataList(item.getUrl());
 					LinkedList<String> tmpNewsContentData = new LinkedList<String>();
 					for (String str : newsContentData)
 					{

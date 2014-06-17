@@ -189,7 +189,7 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 			for (int i = 0; i < data.size(); i++)
 			{
 				String str = data.get(i);
-				if (str.startsWith(BaseActivity.PREFIX_IMG_URL) || str.startsWith("file"))
+				if (isImg(str))
 				{
 					position++;
 					imageUrls.add(str);
@@ -241,6 +241,11 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mHandler.postDelayed(mHideProgressBarRunnable, durationTime);
 //		playGif();
 
+	}
+
+	private boolean isImg(String str)
+	{
+		return  str.startsWith(GoogleApplication.PREFIX_CSDN_IMG_URL)||str.startsWith(GoogleApplication.PREFIX_ITHOME_IMG_URL) || str.startsWith("file");
 	}
 
 	private void addCommentButton(android.widget.LinearLayout.LayoutParams params, int ltrb)

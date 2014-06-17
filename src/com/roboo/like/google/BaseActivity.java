@@ -1,7 +1,5 @@
 package com.roboo.like.google;
 
-import java.util.Stack;
-
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -18,8 +16,7 @@ import com.roboo.like.google.views.helper.SwipeBackActivityHelper;
 
 public abstract class BaseActivity extends FragmentActivity implements SwipeBackListener
 { 
-	/**IT之家的图片地址前缀*/
-	public  static final String PREFIX_IMG_URL = "http://img.ithome.com";
+
 	/**滑动关闭Activity的帮助工具类对象*/
 	protected SwipeBackActivityHelper mActivityHelper;
 	/**ActionBar对象*/

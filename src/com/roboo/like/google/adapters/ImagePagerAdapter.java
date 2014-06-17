@@ -2,6 +2,7 @@ package com.roboo.like.google.adapters;
 
 import java.util.List;
 
+import android.R.bool;
 import android.content.Context;
 import android.graphics.Bitmap.Config;
 import android.support.v4.view.PagerAdapter;
@@ -14,6 +15,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.roboo.like.google.BaseActivity;
+import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.utils.BitmapUtils;
 import com.roboo.like.google.views.PhotoView;
 
@@ -52,7 +54,7 @@ public class ImagePagerAdapter extends PagerAdapter
 		PhotoView photoView = new PhotoView(context);
 		container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		String mImagePath = mImageUrls.get(position);
-		if (mImagePath.startsWith(BaseActivity.PREFIX_IMG_URL))
+		if (isNetworkImg(mImagePath))
 		{
 			DisplayImageOptions options = new DisplayImageOptions.Builder().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).bitmapConfig(Config.RGB_565).build();
 			mImageLoader.displayImage(mImagePath, photoView, options);
@@ -62,5 +64,10 @@ public class ImagePagerAdapter extends PagerAdapter
 			photoView.setImageBitmap(BitmapUtils.getBitmap(mImagePath, context.getResources().getDisplayMetrics().widthPixels, context.getResources().getDisplayMetrics().heightPixels));
 		}
 		return photoView;
+	}
+
+	private boolean isNetworkImg(String mImagePath)
+	{
+		return mImagePath.startsWith(GoogleApplication.PREFIX_CSDN_IMG_URL)||mImagePath.startsWith(GoogleApplication.PREFIX_ITHOME_IMG_URL);
 	}
 }

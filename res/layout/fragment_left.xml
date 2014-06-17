@@ -15,8 +15,8 @@
         android:textColor="@android:color/white"
         android:textSize="16sp" />
 
-    <ListView
-        android:id="@+id/lv_list"
+    <com.roboo.like.google.views.AnimationListView
+        android:id="@+id/alv_list"
         style="@style/Custom.ListView.Style"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

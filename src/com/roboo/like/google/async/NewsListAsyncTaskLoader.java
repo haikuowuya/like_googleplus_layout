@@ -18,11 +18,11 @@ import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.FileUtils;
 import com.roboo.like.google.utils.MD5Utils;
 import com.roboo.like.google.utils.NetWorkUtils;
-import com.roboo.like.google.utils.NewsUtils;
+import com.roboo.like.google.utils.NewsListUtils;
 
 public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<NewsItem>>
 {
-	private static final String TEST_CSDN_BASE_URL= "http://mobile.csdn.net/mobile/";
+	
 	private String mChannelUrl;
 	private int mPageNo;
 	private Context mContext;
@@ -40,7 +40,7 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 		mPageNo = pageNo;
 		if(GoogleApplication.mCurrentType.equals(GoogleApplication.TYPE_CSDN) && mChannelUrl.equals(GoogleApplication.BASE_OFFICE_URL))
 		{
-			mChannelUrl = TEST_CSDN_BASE_URL ;
+			mChannelUrl = GoogleApplication.TEST_CSDN_BASE_URL ;
 		}
 	}
 
@@ -57,7 +57,7 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 			}
 			else
 			{
-				data = NewsUtils.getNewsList(mChannelUrl, mPageNo);
+				data = NewsListUtils.getNewsList(mChannelUrl, mPageNo);
 				if (null != data)
 				{
 					if (mPageNo == 1)

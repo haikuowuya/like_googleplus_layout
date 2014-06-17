@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
+import java.io.StreamCorruptedException;
 import java.util.LinkedList;
 
 import android.content.Context;
@@ -14,7 +16,9 @@ import android.content.Context;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.utils.FileUtils;
 import com.roboo.like.google.utils.MD5Utils;
-import com.roboo.like.google.utils.NewsUtils;
+import com.roboo.like.google.utils.NetWorkUtils;
+import com.roboo.like.google.utils.NewsContentUtils;
+import com.roboo.like.google.utils.NewsListUtils;
 
 public class NewsContentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<String>>
 {
@@ -27,8 +31,7 @@ public class NewsContentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<S
 		super(context);
 		mContext = context;
 		mNewsUrl = newsUrl;
-		
-		
+		System.out.println(" mNewsUrl = "+mNewsUrl);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -38,23 +41,15 @@ public class NewsContentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<S
 		try
 		{
 			File file = new File(FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_NEWS_CONTENT), MD5Utils.generate(mNewsUrl));
-			if (file.exists())
+			if (!NetWorkUtils.isNetworkAvailable(mContext) && file.exists() )
 			{
-				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
-				data = (LinkedList<String>) objectInputStream.readObject();
-				objectInputStream.close();
-				GoogleApplication.TEST = true;
-				if(GoogleApplication.TEST)
-				{
-					System.out.println("从本地文件读取对象成功");
-				}
+				data = getOfflineData(file);
 			}
 			else
 			{
-				data = NewsUtils.getITHomeNewsDataList(mNewsUrl);
+				data = NewsContentUtils.getNewsDataList(mNewsUrl);
 				saveNewsContentData(data);
 			}
-			
 			mEndTime = System.currentTimeMillis();
 			if (mEndTime - mStartTime < THREAD_LEAST_DURATION_TIME)
 			{
@@ -72,6 +67,20 @@ public class NewsContentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<S
 		catch (InterruptedException e)
 		{
 			e.printStackTrace();
+		}
+		return data;
+	}
+
+	private LinkedList<String> getOfflineData(File file) throws StreamCorruptedException, IOException, FileNotFoundException, OptionalDataException, ClassNotFoundException
+	{
+		LinkedList<String> data;
+		ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
+		data = (LinkedList<String>) objectInputStream.readObject();
+		objectInputStream.close();
+		GoogleApplication.TEST = true;
+		if(GoogleApplication.TEST)
+		{
+			System.out.println("从本地文件读取对象成功");
 		}
 		return data;
 	}

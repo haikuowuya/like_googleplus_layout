@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.roboo.like.google.CameraActivity;
@@ -25,12 +24,13 @@ import com.roboo.like.google.MainActivity;
 import com.roboo.like.google.PictureActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.UserActivity;
+import com.roboo.like.google.views.AnimationListView;
 
 public class LeftFragment extends BaseFragment
 {
 	private static final String DUMMY_USERNAME = "haikuo wuya \r\nhaikuowuya@gmail.com";
 	private static final int REQUEST_CAMERA_CODE = 1334;
-	private ListView mListView;
+	private AnimationListView mListView;
 	private Button mBtnUsername;
 
 	public static LeftFragment newInstance()
@@ -43,7 +43,7 @@ public class LeftFragment extends BaseFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_left, null);
-		mListView = (ListView) view.findViewById(R.id.lv_list);
+		mListView = (AnimationListView) view.findViewById(R.id.alv_list);
 		mBtnUsername = (Button) view.findViewById(R.id.btn_username);
 		return view;
 	}
@@ -53,6 +53,7 @@ public class LeftFragment extends BaseFragment
 	{
 		super.onActivityCreated(savedInstanceState);
 		mListView.setAdapter(getAdapter());
+		mListView.setAnimationDurationFactor(20f);
 		mBtnUsername.setText(DUMMY_USERNAME);
 		setListener();
 	}

@@ -1,12 +1,9 @@
 /*
  * Copyright 2013 Chris Banes
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,21 +36,24 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.roboo.like.google.R;
 import com.roboo.like.google.abs.ptr.InstanceCreationUtils;
+
 public class PullToRefreshHelper implements View.OnTouchListener
 {
+	/** 是否DEFAULT_REFRESH_MINIMIZED_DELAY后，自动隐藏header,即使任务没有完成 */
+	private static final boolean DEFAULT_HIDE_HEADER_IN_FIXED_TIME = false;
+	private static final int DEFAULT_REFRESH_MINIMIZED_DELAY = 5000;
 	private static final int DEFAULT_HEADER_LAYOUT = R.layout.ptr_default_header;
 	private static final int DEFAULT_ANIM_HEADER_IN = R.anim.ptr_fade_in;
 	private static final int DEFAULT_ANIM_HEADER_OUT = R.anim.ptr_fade_out;
 	private static final float DEFAULT_REFRESH_SCROLL_DISTANCE = 0.5f;
 	private static final boolean DEFAULT_REFRESH_ON_UP = false;
-	private static final int DEFAULT_REFRESH_MINIMIZED_DELAY = 5000;
-
 	private static final boolean DEBUG = false;
 	private static final String LOG_TAG = "PullToRefreshAttacher";
 
@@ -83,6 +83,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 	/**
 	 * 获取一个与当前Activity有关联的 PullToRefreshAttacher 实例， 如果已经存在，就返回存在的实例， 否则重新创建一个
 	 * 创建完成后界面中已经在Actionbar的位置添加了刷新标识器布局
+	 * 
 	 * @param activity
 	 *            Activity to attach to.
 	 * @return PullToRefresh attached to the Activity.
@@ -123,17 +124,13 @@ public class PullToRefreshHelper implements View.OnTouchListener
 		}
 
 		mActivity = activity;
-
 		mRefreshableViews = new WeakHashMap<View, ViewParams>();
-
 		// Copy necessary values from options
 		mRefreshScrollDistance = options.refreshScrollDistance;
 		mRefreshOnUp = options.refreshOnUp;
 		mRefreshMinimizeDelay = options.refreshMinimizeDelay;
-
 		// EnvironmentDelegate
 		mEnvironmentDelegate = options.environmentDelegate != null ? options.environmentDelegate : createDefaultEnvironmentDelegate();
-
 		// Header Transformer
 		mHeaderTransformer = options.headerTransformer != null ? options.headerTransformer : createDefaultHeaderTransformer();
 
@@ -170,7 +167,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 		// Header View to itself. See DecorChildLayout for more info.
 		DecorChildLayout decorContents = new DecorChildLayout(activity, decorView, mHeaderView);
 
-		/*把封装有HeaderView刷新指示器的View添加到系统的DeCorView(android.R.id.content【FramegLayout】)中去**/
+		/* 把封装有HeaderView刷新指示器的View添加到系统的DeCorView(android.R.id.content【FramegLayout】)中去* */
 		decorView.addView(decorContents, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
 		// Notify transformer
@@ -221,8 +218,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 	 * @param refreshListener
 	 *            Listener to be invoked when a refresh is started.
 	 * @param setTouchListener
-	 *            Whether to set this as the
-	 *            {@link android.view.View.OnTouchListener}.
+	 *            Whether to set this as the {@link android.view.View.OnTouchListener}.
 	 */
 	public void addRefreshableView(View view, ViewDelegate viewDelegate, OnRefreshListener refreshListener, final boolean setTouchListener)
 	{
@@ -304,8 +300,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 	}
 
 	/**
-	 * @return true if this PullToRefresh is currently enabled (defaults to
-	 *         <code>true</code>)
+	 * @return true if this PullToRefresh is currently enabled (defaults to <code>true</code>)
 	 */
 	public boolean isEnabled()
 	{
@@ -339,12 +334,15 @@ public class PullToRefreshHelper implements View.OnTouchListener
 	/**
 	 * Call this when your refresh is complete and this view should reset itself
 	 * (header view will be hidden).
-	 * 
 	 * This is the equivalent of calling <code>setRefreshing(false)</code>.
 	 */
 	public final void setRefreshComplete()
 	{
 		setRefreshingInt(null, false, false);
+		if (!DEFAULT_HIDE_HEADER_IN_FIXED_TIME)
+		{
+			mHandler.post(mRefreshMinimizeRunnable);
+		}
 	}
 
 	/**
@@ -703,9 +701,11 @@ public class PullToRefreshHelper implements View.OnTouchListener
 			}
 			mHeaderView.setVisibility(View.VISIBLE);
 		}
-
 		// Post a delay runnable to minimize the refresh header
-		mHandler.postDelayed(mRefreshMinimizeRunnable, mRefreshMinimizeDelay);
+		if (DEFAULT_HIDE_HEADER_IN_FIXED_TIME)
+		{
+			mHandler.postDelayed(mRefreshMinimizeRunnable, mRefreshMinimizeDelay);
+		}
 	}
 
 	/**
@@ -737,8 +737,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 		 * Called when the header should be reset. You should update any child
 		 * views to reflect this.
 		 * <p/>
-		 * You should <strong>not</strong> change the visibility of the header
-		 * view.
+		 * You should <strong>not</strong> change the visibility of the header view.
 		 */
 		public abstract void onReset();
 
@@ -894,6 +893,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 	{
 		private ViewGroup mContentLayout;
 		private TextView mHeaderTextView;
+		private Button mHeaderButton;
 		private ProgressBar mHeaderProgressBar;
 
 		private CharSequence mPullRefreshLabel, mRefreshingLabel, mReleaseLabel;
@@ -906,8 +906,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 			// Get ProgressBar and TextView. Also set initial text on TextView
 			mHeaderProgressBar = (ProgressBar) headerView.findViewById(R.id.ptr_progress);
 			mHeaderTextView = (TextView) headerView.findViewById(R.id.ptr_text);
-
-			// Labels to display
+			mHeaderButton = (Button) headerView.findViewById(R.id.ptr_btn);
 			mPullRefreshLabel = "下拉刷新…";
 			mRefreshingLabel = "正在更新数据…";
 			mReleaseLabel = "放开以刷新…";
@@ -956,6 +955,11 @@ public class PullToRefreshHelper implements View.OnTouchListener
 				mHeaderTextView.setVisibility(View.VISIBLE);
 				mHeaderTextView.setText(mPullRefreshLabel);
 			}
+			if(mHeaderButton != null)
+			{
+				mHeaderButton.setVisibility(View.VISIBLE);
+				mHeaderButton.setText(mPullRefreshLabel);
+			}
 
 			// Reset the Content Layout
 			if (mContentLayout != null)
@@ -982,6 +986,10 @@ public class PullToRefreshHelper implements View.OnTouchListener
 			{
 				mHeaderTextView.setText(mRefreshingLabel);
 			}
+			if (mHeaderButton != null)
+			{
+				mHeaderButton.setText(mRefreshingLabel);
+			}
 			if (mHeaderProgressBar != null)
 			{
 				mHeaderProgressBar.setVisibility(View.VISIBLE);
@@ -996,6 +1004,10 @@ public class PullToRefreshHelper implements View.OnTouchListener
 			{
 				mHeaderTextView.setText(mReleaseLabel);
 			}
+			if (mHeaderButton != null)
+			{
+				mHeaderButton.setText(mReleaseLabel);
+			}
 			if (mHeaderProgressBar != null)
 			{
 				mHeaderProgressBar.setProgress(mHeaderProgressBar.getMax());
@@ -1005,8 +1017,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 		@Override
 		public void onRefreshMinimized()
 		{
-			// Here we fade out most of the header, leaving just the progress
-			// bar
+			// Here we fade out most of the header, leaving just the progress bar
 			if (mContentLayout != null)
 			{
 				mContentLayout.startAnimation(AnimationUtils.loadAnimation(mContentLayout.getContext(), R.anim.ptr_fade_out));
@@ -1026,6 +1037,10 @@ public class PullToRefreshHelper implements View.OnTouchListener
 			if (mHeaderTextView != null)
 			{
 				mHeaderTextView.setText(mPullRefreshLabel);
+			}
+			if (mHeaderButton != null)
+			{
+				mHeaderButton.setText(mPullRefreshLabel);
 			}
 		}
 
@@ -1063,7 +1078,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 			TypedArray abStyle = context.getTheme().obtainStyledAttributes(outValue.resourceId, android_styleable_ActionBar);
 			try
 			{
-				 
+
 				return abStyle.getDrawable(0);
 			}
 			finally
@@ -1071,14 +1086,15 @@ public class PullToRefreshHelper implements View.OnTouchListener
 				abStyle.recycle();
 			}
 		}
-		/**获取ActionBar的高度*/
+
+		/** 获取ActionBar的高度 */
 		protected int getActionBarSize(Context context)
 		{
 			int[] attrs = { android.R.attr.actionBarSize };
 			TypedArray values = context.getTheme().obtainStyledAttributes(attrs);
 			try
 			{
-				return values.getDimensionPixelSize(0, 0);//第一个参数数组索引，第二个参数 默认值
+				return values.getDimensionPixelSize(0, 0);// 第一个参数数组索引，第二个参数 默认值
 			}
 			finally
 			{

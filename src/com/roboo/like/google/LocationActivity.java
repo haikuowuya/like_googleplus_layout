@@ -57,6 +57,8 @@ public class LocationActivity extends BaseActivity
 	private LocationOverlay mLocationOverlay;
 	private TextView mPopupTextView;
 	private PopupOverlay mPopupOverlay;
+	private GeoPoint mGeoPoint;
+	private MapController mMapController ;
 	private Handler mHandler = new Handler()
 	{
 		public void handleMessage(Message msg)
@@ -66,9 +68,11 @@ public class LocationActivity extends BaseActivity
 				mFlag = !mFlag;
 				new CardToastUtils(LocationActivity.this).setMessageTextColor(Color.RED).showAndAutoDismiss("定位成功");
 			}
-			GeoPoint point = new GeoPoint((int) (mLocationData.latitude * 1E6), (int) (mLocationData.longitude * 1E6));
+			mGeoPoint = new GeoPoint((int) (mLocationData.latitude * 1E6), (int) (mLocationData.longitude * 1E6));
 			// 用给定的经纬度构造一个GeoPoint，单位是微度 (度 * 1E6)
-			mMapView.getController().setCenter(point);// 设置地图中心点
+			mMapController.setCenter(mGeoPoint);// 设置地图中心点
+			mMapController.animateTo(mGeoPoint);
+			mMapController.setZoom(19);
 			mLocationOverlay.setData(mLocationData);// 设置我的位置信息
 			// 更新图层数据执行刷新后生效
 			mMapView.refresh();
@@ -89,7 +93,10 @@ public class LocationActivity extends BaseActivity
 		mLocationClient = new LocationClient(getApplicationContext());
 		mLocationClient.registerLocationListener(new BDLocationListenerImpl());
 		mBMapManager.init(new MKGeneralListenerImpl());
-
+		//默认经纬度为苏州
+		mLocationData.latitude = SUZHOU_LATITUDE;
+		mLocationData.longitude = SUZHOU_LONGITUDE;
+		mGeoPoint =  new GeoPoint((int) (mLocationData.latitude * 1E6), (int) (mLocationData.longitude * 1E6));
 		super.onCreate(savedInstanceState);
 		customActionBar();
 		setContentView(R.layout.activity_location);// TODO
@@ -97,6 +104,7 @@ public class LocationActivity extends BaseActivity
 		initMapView();
 		initLocationClient();
 		startRequestLocation();
+		mMapController.animateTo(mGeoPoint);
 	}
 
 	@Override
@@ -113,6 +121,7 @@ public class LocationActivity extends BaseActivity
 		{
 		case R.id.menu_location:
 			Toast.makeText(this, "定位", Toast.LENGTH_SHORT).show();
+			startRequestLocation();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -131,12 +140,12 @@ public class LocationActivity extends BaseActivity
 		option.setOpenGps(true);
 		option.setAddrType("all");// 返回的定位结果包含地址信息
 		option.setCoorType("bd09ll");// 返回的定位结果是百度经纬度,默认值gcj02
-		option.setScanSpan(5000);// 设置发起定位请求的间隔时间为5000ms
-		option.disableCache(true);// 禁止启用缓存定位
+//		option.setScanSpan(5000);// 设置发起定位请求的间隔时间为5000ms
 		option.setPoiNumber(5); // 最多返回POI个数
 		option.setPoiDistance(1000); // poi查询距离
 		option.setPoiExtraInfo(true); // 是否需要POI的电话和地址等详细信息
 		mLocationClient.setLocOption(option);
+		
 	}
 
 	@Override
@@ -149,8 +158,6 @@ public class LocationActivity extends BaseActivity
 			mBMapManager.start();
 		}
 	}
-
-	@Override
 	protected void onPause()
 	{
 		super.onPause();
@@ -160,8 +167,6 @@ public class LocationActivity extends BaseActivity
 			mBMapManager.stop();
 		}
 	}
-
-	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
@@ -189,22 +194,26 @@ public class LocationActivity extends BaseActivity
 	{
 		mMapView.setBuiltInZoomControls(true);
 		// 设置启用内置的缩放控件
-		MapController mMapController = mMapView.getController();
+		  mMapController = mMapView.getController();
 		mMapController.enableClick(true);// 设置可点击
 		// 得到mMapView的控制权,可以用它控制和驱动平移和缩放
 		// GeoPoint point = new GeoPoint((int) (39.915 * 1E6), (int) (116.404 *
 		// 1E6));
 		// // 用给定的经纬度构造一个GeoPoint，单位是微度 (度 * 1E6)
 		// mMapController.setCenter(point);// 设置地图中心点
-		mMapController.setZoom(19);// 设置地图zoom级别
+		mMapController.setZoom(19);// 设置地图zoom级别最高级别
+		mMapController.enableClick(true);
+		
 		mLocationOverlay = new LocationOverlay(mMapView);// 创建定位图层
 		mLocationOverlay.enableCompass(); // 打开指南针
 		mLocationOverlay.setData(mLocationData);// 设置我的位置信息
 		mMapView.getOverlays().add(mLocationOverlay);// 添加定位图层
+		mMapView.setTraffic(true);
+		mMapView.setBuiltInZoomControls(false);
+		mMapView.showScaleControl(true);
 		// 修改定位数据后刷新图层生效
 		mMapView.refresh();
 	}
-
 	private void customActionBar()
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -233,8 +242,7 @@ public class LocationActivity extends BaseActivity
 			{
 				StringBuffer stringBuffer = new StringBuffer(256);
 				String locationTime = location.getTime();// 定位时间
-				// 定位方式[61:GPS 161:NETWORK]
-				int statusCode = location.getLocType();
+				int statusCode = location.getLocType();// 定位方式[61:GPS 161:NETWORK]
 				double longitude = location.getLongitude();// 经度
 				double latitude = location.getLatitude();// 纬度
 				float radius = location.getRadius();// 精度半径

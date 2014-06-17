@@ -3,6 +3,7 @@
     <item
         android:id="@+id/menu_location"
         android:icon="@drawable/menu_item_location_selector"
+        android:title="定位"
         android:showAsAction="always"/>
 
 </menu>

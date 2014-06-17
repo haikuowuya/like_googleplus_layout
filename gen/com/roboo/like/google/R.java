@@ -417,6 +417,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class id {
         public static final int all=0x7f090003;
+        public static final int alv_list=0x7f09002a;
         public static final int bottom=0x7f090002;
         public static final int btnSend=0x7f090033;
         public static final int btn_comment=0x7f09000b;
@@ -444,15 +445,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int iv_image=0x7f09000a;
         public static final int left=0x7f090000;
         public static final int linear_container=0x7f09002d;
-        public static final int lv_list=0x7f09002a;
-        public static final int menu_download=0x7f090045;
-        public static final int menu_feedback=0x7f090049;
-        public static final int menu_group=0x7f090044;
-        public static final int menu_help=0x7f09004a;
-        public static final int menu_location=0x7f090043;
-        public static final int menu_notification=0x7f090046;
-        public static final int menu_refresh=0x7f090047;
-        public static final int menu_settings=0x7f090048;
+        public static final int menu_download=0x7f090046;
+        public static final int menu_feedback=0x7f09004a;
+        public static final int menu_group=0x7f090045;
+        public static final int menu_help=0x7f09004b;
+        public static final int menu_location=0x7f090044;
+        public static final int menu_notification=0x7f090047;
+        public static final int menu_refresh=0x7f090048;
+        public static final int menu_settings=0x7f090049;
         public static final int mv_mapview=0x7f090013;
         public static final int npb_progress=0x7f090034;
         public static final int pb_progress=0x7f090011;
@@ -462,8 +462,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int progress_progress=0x7f090005;
         public static final int progress_vertical=0x7f090007;
         public static final int progressbar_button=0x7f090008;
+        public static final int ptr_btn=0x7f090040;
         public static final int ptr_content=0x7f09003d;
-        public static final int ptr_progress=0x7f090040;
+        public static final int ptr_progress=0x7f090041;
         public static final int ptr_text=0x7f09003f;
         public static final int ptr_text_opaque_bg=0x7f09003e;
         public static final int ptzlv_list=0x7f090030;
@@ -487,8 +488,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int tv_text=0x7f090025;
         public static final int tv_time=0x7f090020;
         public static final int tv_title=0x7f09002b;
-        public static final int tv_toast_textview=0x7f090042;
-        public static final int tv_today_news_count=0x7f090041;
+        public static final int tv_toast_textview=0x7f090043;
+        public static final int tv_today_news_count=0x7f090042;
         public static final int vp_viewpager=0x7f09000c;
         public static final int wv_webview=0x7f090012;
     }
