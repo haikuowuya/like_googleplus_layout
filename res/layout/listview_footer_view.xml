@@ -18,7 +18,7 @@
         android:descendantFocusability="blocksDescendants" >
 
         <ProgressBar
-            android:id="@+id/pb_progress"
+            android:id="@+id/pb_footer_progress"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginLeft="40dp"

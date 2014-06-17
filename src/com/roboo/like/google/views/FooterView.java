@@ -27,7 +27,7 @@ public class FooterView extends LinearLayout
 		super(context);
 		mType = type;
 		View child = inflate(context, R.layout.listview_footer_view, null);
-		mProgressBar = (ProgressBar) child.findViewById(R.id.pb_progress);
+		mProgressBar = (ProgressBar) child.findViewById(R.id.pb_footer_progress);
 		mButton = (Button) child.findViewById(R.id.btn_load_next);
 		mProcessButton = (ProcessButton) child.findViewById(R.id.pbtn_load_next);
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);

@@ -61,7 +61,7 @@ import com.roboo.like.google.views.helper.PullToRefreshHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.DefaultHeaderTransformer;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.OnRefreshListener;
 
-public class MainFragment extends BaseFragment implements LoaderCallbacks<LinkedList<NewsItem>>
+public class MainFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<NewsItem>>
 {
 	private static final String DECLARED_OPERA_FAST_SCROLLER_FIELD = "mFastScroller";// FastScroller
 	private static final String DECLARED_OVERLAY_SIZE = "mOverlaySize";// int
@@ -104,7 +104,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	/** 新闻列表适配器的数据源 */
 	private LinkedList<NewsItem> mData;
 	/** 当点击FooterView时显示加载数据标识 */
-	private ProgressBar mProgressBar;
+	private ProgressBar mFooterProgressBar;
 	private int mProgress = 0;
 	/** 正在加载数据中…… */
 	private Button mBtnLoadNext;
@@ -144,7 +144,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mFooterView = new FooterView(getActivity(), FooterView.TYPE_PROGRESS_BUTTON);
 		mHeaderView = new HeaderView(getActivity());
 		mAdViewPager = mHeaderView.getViewPager();
-		mProgressBar = mFooterView.getProgressBar();
+		mFooterProgressBar = mFooterView.getProgressBar();
 
 		mBtnLoadNext = mFooterView.getButton();
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
@@ -281,7 +281,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		{
 			System.out.println("当前加载的是第   " + args.getInt(ARG_CURRENT_PAGENO, 1) + " 页数据");
 		}
-		mProgressBar.setVisibility(View.VISIBLE);
+		mFooterProgressBar.setVisibility(View.VISIBLE);
 		mBtnLoadNext.setText("正在加载数据中……");
 		return new NewsListAsyncTaskLoader(getActivity(), args.getString(ARG_NEWS_URL), args.getInt(ARG_CURRENT_PAGENO, 1));
 	}
@@ -418,7 +418,8 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		{
 			mBtnLoadNext.setText("设置网络");
 		}
-		mProgressBar.setVisibility(View.INVISIBLE);
+		mFooterProgressBar.setVisibility(View.INVISIBLE);
+		mProgressBar.setVisibility(View.GONE);
 		mPullToRefreshAttacher.setRefreshComplete();
 	}
 
