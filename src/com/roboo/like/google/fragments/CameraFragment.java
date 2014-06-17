@@ -19,10 +19,9 @@ import com.roboo.like.google.R;
 import com.roboo.like.google.async.BitmapAsyncTaskLoader;
 import com.roboo.like.google.views.PhotoView;
 
-public class CameraFragment extends BaseFragment implements LoaderCallbacks<Bitmap>
+public class CameraFragment extends BaseWithProgressFragment implements LoaderCallbacks<Bitmap>
 {
 	private static final String INCLUDE_IMAGE_PATH_URI="image_uri";
-	private ProgressBar mProgressBar;
 	private PhotoView mPhotoView;
 
 	public static CameraFragment newInstance(Uri uri)
@@ -39,21 +38,11 @@ public class CameraFragment extends BaseFragment implements LoaderCallbacks<Bitm
 	{
 		View view = inflater.inflate(R.layout.fragment_camera, null);
 		mPhotoView = (PhotoView) view.findViewById(R.id.pv_image);
-		addProgressBar();
 		return view;
 
 	}
 
-	private void addProgressBar()
-	{
-		mProgressBar = new ProgressBar(getActivity());
-		mProgressBar.setIndeterminateDrawable(getActivity().getResources().getDrawable(R.drawable.progressbar));
-		FrameLayout frameLayout = (FrameLayout) getActivity().findViewById(Window.ID_ANDROID_CONTENT);
-		FrameLayout.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		params.gravity = Gravity.CENTER;
-		frameLayout.addView(mProgressBar, params);
-	}
-
+ 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
 	{

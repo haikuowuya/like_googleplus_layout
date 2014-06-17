@@ -6,13 +6,9 @@ import java.util.LinkedList;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
 import android.widget.ProgressBar;
 
 import com.roboo.like.google.R;
@@ -21,9 +17,8 @@ import com.roboo.like.google.async.ContacterAsyncTaskLoader;
 import com.roboo.like.google.models.ContacterItem;
 import com.roboo.like.google.views.StickyListHeadersListView;
 /**读取手机联系人信息*/
-public class ContacterFragment extends BaseFragment implements LoaderCallbacks<LinkedList<ContacterItem>>
+public class ContacterFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<ContacterItem>>
 {
-	private ProgressBar mProgressBar;
 	private StickyListHeadersListView mListView;
 
 	public static ContacterFragment newInstance()
@@ -37,18 +32,10 @@ public class ContacterFragment extends BaseFragment implements LoaderCallbacks<L
 	{
 		View view = inflater.inflate(R.layout.fragment_contacter, null);//TODO 
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
-		addProgressBar();
 		return view;
 	}
 
-	private void addProgressBar()
-	{
-		mProgressBar = new ProgressBar(getActivity());
-		FrameLayout frameLayout = (FrameLayout) getActivity().findViewById(Window.ID_ANDROID_CONTENT);
-		FrameLayout.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		params.gravity = Gravity.CENTER;
-		frameLayout.addView(mProgressBar, params);
-	}
+ 
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)

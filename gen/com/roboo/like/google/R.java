@@ -566,7 +566,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         res/values-v11/styles.xml on API 14+ devices.
     
  API 14 theme customizations can go here. 
-  还不启用
+ 还不启用 
  <item name="android:alertDialogStyle">@style/Custom.AlertDialog.Style</item> 
          */
         public static final int AppBaseTheme=0x7f080000;
@@ -597,6 +597,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
          */
         public static final int Custom_Button_Style=0x7f08000c;
         public static final int Custom_ListView_Style=0x7f080007;
+        public static final int Custom_ProgressBar_Style=0x7f080012;
         /**  AlertDialog Title Style 
          */
         public static final int Custom_WindowTitle_Style=0x7f08000f;

@@ -25,10 +25,9 @@ import com.roboo.like.google.async.PictureAsyncTaskLoader;
 import com.roboo.like.google.models.PictureItem;
 import com.roboo.like.google.views.StickyGridHeadersGridView;
 
-public class PictureFragment extends BaseFragment implements LoaderCallbacks<LinkedList<PictureItem>>
+public class PictureFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<PictureItem>>
 {
 	private StickyGridHeadersGridView mSGHGridView;
-	private ProgressBar mProgressBar;
 
 	public static PictureFragment newInstance()
 	{
@@ -41,21 +40,8 @@ public class PictureFragment extends BaseFragment implements LoaderCallbacks<Lin
 	{
 		View view = inflater.inflate(R.layout.fragment_picture, null);
 		mSGHGridView = (StickyGridHeadersGridView) view.findViewById(R.id.sgh_gridview);
-		addProgressBar();
 		return view;
-
 	}
-
-	private void addProgressBar()
-	{
-		mProgressBar = new ProgressBar(getActivity());
-		mProgressBar.setIndeterminateDrawable(getActivity().getResources().getDrawable(R.drawable.progressbar));
-		FrameLayout frameLayout = (FrameLayout) getActivity().findViewById(Window.ID_ANDROID_CONTENT);
-		FrameLayout.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		params.gravity = Gravity.CENTER;
-		frameLayout.addView(mProgressBar, params);
-	}
-
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
 	{

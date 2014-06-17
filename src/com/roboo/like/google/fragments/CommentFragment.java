@@ -35,11 +35,9 @@ import com.roboo.like.google.async.CommentAsyncTaskLoader;
 import com.roboo.like.google.models.CommentItem;
 import com.roboo.like.google.views.FooterView;
 
-public class CommentFragment extends BaseFragment implements LoaderCallbacks<LinkedList<CommentItem>>
+public class CommentFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<CommentItem>>
 {
 	private static final String ARG_NEWS_ID = "news_id";
-	/** 显示获取新闻内容进度条 */
-	private ProgressBar mProgressBar;
 	/** 异步图片加载器 */
 	private ImageLoader mImageLoader;
 	/** ViewGroup中添加View时的动画操作对象 */
@@ -69,20 +67,9 @@ public class CommentFragment extends BaseFragment implements LoaderCallbacks<Lin
 		mFooterView = new FooterView(getActivity(), FooterView.TYPE_BUTTON);
 		mFooterProgressBar = mFooterView.getProgressBar();
 		mBtnLoadNext = mFooterView.getButton();
-		addProgressBar();
 		return view;
 	}
 
-	private void addProgressBar()
-	{
-		mProgressBar = new ProgressBar(getActivity());
-		mProgressBar.setIndeterminateDrawable(getActivity().getResources().getDrawable(R.drawable.progressbar));
-		FrameLayout frameLayout = (FrameLayout) getActivity().findViewById(Window.ID_ANDROID_CONTENT);
-
-		FrameLayout.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		params.gravity = Gravity.CENTER;
-		frameLayout.addView(mProgressBar, params);
-	}
 
 	public void onActivityCreated(Bundle savedInstanceState)
 	{

@@ -9,7 +9,8 @@
         <item name="android:selectableItemBackground">@drawable/actionbar_item_selector</item>
         <item name="android:buttonStyle">@style/Custom.Button.Style</item>
         <item name="android:alertDialogTheme">@style/Custom.AlertDialog.Theme.Style</item>
-        <!--  还不启用-->
+        <item name="android:progressBarStyle">@style/Custom.ProgressBar.Style</item>
+        <!-- 还不启用 -->
         <!-- <item name="android:alertDialogStyle">@style/Custom.AlertDialog.Style</item> -->
     </style>
 
@@ -75,6 +76,10 @@
     <style name="Custom.AlertDiaog.Button.Style" parent="@android:style/Widget.Holo.Light.Button.Borderless.Small">
         <item name="android:background">@drawable/actionbar_item_selector</item>
         <item name="android:textColor">@drawable/text_color_selector</item>
+    </style>
+
+    <style name="Custom.ProgressBar.Style" parent="@android:style/Widget.Holo.ProgressBar">
+        <item name="android:indeterminateDrawable">@drawable/progressbar</item>
     </style>
 
 </resources>

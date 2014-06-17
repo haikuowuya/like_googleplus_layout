@@ -57,15 +57,14 @@ import com.roboo.like.google.async.NewsContentAsyncTaskLoader;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.GifDecoder;
 
-public class NewsFragment extends BaseFragment implements LoaderCallbacks<LinkedList<String>>
+public class NewsFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<String>>
 {
 	/** 向 ViewGroup 中添加view时动画持续时间 */
 	private static final int ANIMATION_DURATION_TIME = 100;
 	private static final String ARG_NEWS = "news";
 	private static final int[] COLORS_COLLECTION = new int[] { R.color.red_color, R.color.sky_blue_color, R.color.hotpink_color, R.color.lightseagreen_color, R.color.orangered_color, R.color.turquoise_color };
 	private NewsItem mItem;
-	/** 显示获取新闻内容进度条 */
-	private ProgressBar mProgressBar;
+ 
 	/** 线性布局用于存放新闻内容 */
 	private LinearLayout mLinearContainer;
 	/** 显示新闻标题 */
@@ -113,20 +112,8 @@ public class NewsFragment extends BaseFragment implements LoaderCallbacks<Linked
 		// Typeface typeface =
 		// Typeface.createFromAsset(getActivity().getAssets(), "custom.ttf");
 		// mTvTitle.setTypeface(typeface);
-		addProgressBar();
 		return view;
 	}
-
-	private void addProgressBar()
-	{
-		mProgressBar = new ProgressBar(getActivity());
-		mProgressBar.setIndeterminateDrawable(getActivity().getResources().getDrawable(R.drawable.progressbar));
-		FrameLayout frameLayout = (FrameLayout) getActivity().findViewById(Window.ID_ANDROID_CONTENT);
-		FrameLayout.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		params.gravity = Gravity.CENTER;
-		frameLayout.addView(mProgressBar, params);
-	}
-
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
