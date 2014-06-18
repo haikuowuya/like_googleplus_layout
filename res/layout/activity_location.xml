@@ -1,12 +1,22 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@android:color/white" >
 
     <com.baidu.mapapi.map.MapView
+        android:layout_weight="1"
         android:id="@+id/mv_mapview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:clickable="true" />
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/btn_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+      
+        android:text="查看详情"
+      />
+
+</LinearLayout>

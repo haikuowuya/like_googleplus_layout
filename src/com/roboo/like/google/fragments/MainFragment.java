@@ -11,6 +11,7 @@ import java.util.Random;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -61,11 +62,12 @@ import com.roboo.like.google.views.helper.PullToRefreshHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.DefaultHeaderTransformer;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.OnRefreshListener;
 
-public class MainFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<NewsItem>>
+public class MainFragment extends BaseFragment implements LoaderCallbacks<LinkedList<NewsItem>>
 {
 	private static final String DECLARED_OPERA_FAST_SCROLLER_FIELD = "mFastScroller";// FastScroller
 	private static final String DECLARED_OVERLAY_SIZE = "mOverlaySize";// int
 	private static final String DECLARED_OVERLAY_POS = "mOverlayPos"; // RectF
+	private static final String DECLARED_OVERLAY_DRAWABLE = "mOverlayDrawable"; // Drawable
 	private static final String DECLARED_PAINT = "mPaint"; // Paint
 	/** Bundle当前加载数据的页数Key */
 	private static final String ARG_CURRENT_PAGENO = "current_pageno";
@@ -112,6 +114,7 @@ public class MainFragment extends BaseWithProgressFragment implements LoaderCall
 	private InfiniteViewPager mAdViewPager;
 	protected int mPosition = 0;
 	protected Handler mHandler = new Handler();
+
 	private boolean mSwapRunnableHasStart = false;
 	/**模拟广告图片轮转间隔时间*/
 	private static final long SWAP_INTERVAL_TIME = 3000L;
@@ -144,7 +147,7 @@ public class MainFragment extends BaseWithProgressFragment implements LoaderCall
 		mFooterView = new FooterView(getActivity(), FooterView.TYPE_PROGRESS_BUTTON);
 		mHeaderView = new HeaderView(getActivity());
 		mAdViewPager = mHeaderView.getViewPager();
-		mFooterProgressBar = mFooterView.getProgressBar();
+		mFooterProgressBar = mFooterView.getFooterProgressBar();
 
 		mBtnLoadNext = mFooterView.getButton();
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
@@ -163,7 +166,9 @@ public class MainFragment extends BaseWithProgressFragment implements LoaderCall
 		mBtnText = (Button) mPoppyView.findViewById(R.id.btn_text);
 		mPullToRefreshAttacher.addRefreshableView(mListView, getOnRefreshListener());
 		loadFirstData();
+ 
 		modifyDefaultListViewFieldValue();
+		
 	}
 
 	private OnRefreshListener getOnRefreshListener()
@@ -195,6 +200,7 @@ public class MainFragment extends BaseWithProgressFragment implements LoaderCall
 		mFooterView.getButton().setOnClickListener(onClickListenerImpl);
 	}
 
+	 
 	private class OnListItemClickListenerImpl implements OnItemClickListener
 	{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -419,7 +425,7 @@ public class MainFragment extends BaseWithProgressFragment implements LoaderCall
 			mBtnLoadNext.setText("设置网络");
 		}
 		mFooterProgressBar.setVisibility(View.INVISIBLE);
-		mProgressBar.setVisibility(View.GONE);
+
 		mPullToRefreshAttacher.setRefreshComplete();
 	}
 
@@ -613,19 +619,28 @@ public class MainFragment extends BaseWithProgressFragment implements LoaderCall
 			paint.setStyle(Paint.Style.FILL_AND_STROKE);
 			field.set(object, paint);
 
-			field = field.getType().getDeclaredField(DECLARED_OVERLAY_SIZE);
-			field.setAccessible(true);
-			field.set(object, 50);
-
+			
 			field = field.getType().getDeclaredField(DECLARED_OVERLAY_POS);
 			field.setAccessible(true);
 			RectF rectF = (RectF) field.get(object);
 			RectF newRectF = new RectF();
 			newRectF.left = rectF.left;
 			newRectF.top = rectF.top;
-			newRectF.right = rectF.left + 150;
-			newRectF.bottom = rectF.top + 50;
+			newRectF.right = rectF.left + 200;
+			newRectF.bottom = rectF.top + 20;
 			field.set(object, newRectF);
+			
+			
+			
+			field = field.getType().getDeclaredField(DECLARED_OVERLAY_SIZE);
+			field.setAccessible(true);
+			field.set(object, 50);
+			field = field.getType().getDeclaredField(DECLARED_OVERLAY_DRAWABLE	);
+			Drawable overDrawable = getResources().getDrawable(R.drawable.ic_fast_scroll_label_right);
+			overDrawable.setBounds(0, 0, 100, 40);
+			field.setAccessible(true);
+			field.set(object, overDrawable);
+
 			System.out.println("修改滑动时现在字体大小成功  " + field.getInt(object));
 		}
 		catch (Exception e)

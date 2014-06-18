@@ -2,16 +2,23 @@ package com.roboo.like.google;
 
 import android.app.Application;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.baidu.mapapi.BMapManager;
+import com.baidu.mapapi.MKGeneralListener;
+import com.baidu.mapapi.map.MKEvent;
 
 public class GoogleApplication extends Application
 {
 	public static final String TYPE_ITHOME = "ithome";
 	public static final String TYPE_CSDN="csdn";
 	public static String mCurrentType = TYPE_CSDN;
+	private static GoogleApplication mInstance;
 	/**IT之家的图片地址前缀*/
 	public  static final String PREFIX_ITHOME_IMG_URL = "http://img.ithome.com";
 	/**CSDN的图片地址前缀*/
@@ -52,6 +59,7 @@ public class GoogleApplication extends Application
 	public void onCreate()
 	{
 		super.onCreate();
+		mInstance = this;
 		bindNetworkService();
 	}
 
@@ -67,6 +75,64 @@ public class GoogleApplication extends Application
 	{
 		// unbindService(mServiceConnection);
 		stopService(mIntent);
+	}
+
+	
+	public BMapManager mBMapManager;
+	public boolean m_bKeyRight = true;
+
+	public void initEngineManager(Context context)
+	{
+		if (mBMapManager == null)
+		{
+			mBMapManager = new BMapManager(context);
+		}
+
+		if (!mBMapManager.init(new MyGeneralListener()))
+		{
+			Toast.makeText(GoogleApplication.getInstance().getApplicationContext(), "BMapManager  初始化错误!", Toast.LENGTH_LONG).show();
+		}
+	}
+
+	// 常用事件监听，用来处理通常的网络错误，授权验证错误等
+	static class MyGeneralListener implements MKGeneralListener
+	{
+		@Override
+		public void onGetNetworkState(int iError)
+		{
+			if (iError == MKEvent.ERROR_NETWORK_CONNECT)
+			{
+				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(), "您的网络出错啦！", Toast.LENGTH_LONG).show();
+			}
+			else if (iError == MKEvent.ERROR_NETWORK_DATA)
+			{
+				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(), "输入正确的检索条件！", Toast.LENGTH_LONG).show();
+			}
+
+		}
+
+		@Override
+		public void onGetPermissionState(int iError)
+		{
+			// 非零值表示key验证未通过
+			if (iError != 0)
+			{
+				// 授权Key错误：
+				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(), "请 输入正确的授权Key,并检查您的网络连接是否正常！error: " + iError, Toast.LENGTH_LONG).show();
+				GoogleApplication.getInstance().m_bKeyRight = false;
+			}
+			else
+			{
+				GoogleApplication.getInstance().m_bKeyRight = true;
+				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(), "key认证成功", Toast.LENGTH_LONG).show();
+			}
+		}
+	}
+
+	public static GoogleApplication getInstance()
+	{
+		 
+		return mInstance;
 	}
 
 }

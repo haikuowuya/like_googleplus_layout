@@ -15,7 +15,7 @@ import com.roboo.like.google.progressbutton.ProcessButton;
 public class FooterView extends LinearLayout
 {
 
-	private ProgressBar mProgressBar;
+	private ProgressBar mFooterProgressBar;
 	private Button mButton;
 	private ProcessButton mProcessButton;
 	public static final int TYPE_PROGRESS_BUTTON = 0;
@@ -27,7 +27,7 @@ public class FooterView extends LinearLayout
 		super(context);
 		mType = type;
 		View child = inflate(context, R.layout.listview_footer_view, null);
-		mProgressBar = (ProgressBar) child.findViewById(R.id.pb_footer_progress);
+		mFooterProgressBar = (ProgressBar) child.findViewById(R.id.pb_footer_progress);
 		mButton = (Button) child.findViewById(R.id.btn_load_next);
 		mProcessButton = (ProcessButton) child.findViewById(R.id.pbtn_load_next);
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -37,7 +37,7 @@ public class FooterView extends LinearLayout
 		}
 		else
 		{
-			((ViewGroup) mProgressBar.getParent()).setVisibility(View.GONE);
+			((ViewGroup) mFooterProgressBar.getParent()).setVisibility(View.GONE);
 		}
 		addView(child, params);
 	}
@@ -59,7 +59,7 @@ public class FooterView extends LinearLayout
 			typedArray.recycle();
 		}
 		View child = inflate(context, R.layout.listview_footer_view, null);
-		mProgressBar = (ProgressBar) child.findViewById(R.id.pb_progress);
+		mFooterProgressBar = (ProgressBar) child.findViewById(R.id.pb_progress);
 		mButton = (Button) child.findViewById(R.id.btn_load_next);
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		if (mType == TYPE_BUTTON)
@@ -70,9 +70,9 @@ public class FooterView extends LinearLayout
 		addView(child, params);
 	}
 
-	public ProgressBar getProgressBar()
+	public ProgressBar getFooterProgressBar()
 	{
-		return mProgressBar;
+		return mFooterProgressBar;
 	}
 
 	public Button getButton()

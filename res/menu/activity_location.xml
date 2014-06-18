@@ -1,9 +1,37 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_menu_search"
+        android:title="搜索"
+        android:actionViewClass="android.widget.SearchView"
+        android:showAsAction="always"/>
+    <item
         android:id="@+id/menu_location"
         android:icon="@drawable/menu_item_location_selector"
         android:title="定位"
         android:showAsAction="always"/>
+    <item
+        android:icon="@drawable/ic_menu_overflow"
+        android:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/menu_food"
+                android:icon="@drawable/ic_abs_picture_up"
+                android:title="美食"/>
+            <item
+                android:id="@+id/menu_market"
+                android:icon="@drawable/ic_abs_picture_up"
+                android:title="超市"/>
+            <item
+                android:id="@+id/menu_hotel"
+                android:icon="@drawable/ic_abs_picture_up"
+                android:title="酒店"/>
+            <item
+                android:id="@+id/menu_cinema"
+                android:icon="@drawable/ic_abs_picture_up"
+                android:title="影院"/>
+        </menu>
+    </item>
 
 </menu>

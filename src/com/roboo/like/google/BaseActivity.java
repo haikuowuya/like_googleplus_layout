@@ -1,6 +1,8 @@
 package com.roboo.like.google;
 
 import android.app.ActionBar;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -15,49 +17,58 @@ import com.roboo.like.google.views.SwipeBackFrameLayout.SwipeListener;
 import com.roboo.like.google.views.helper.SwipeBackActivityHelper;
 
 public abstract class BaseActivity extends FragmentActivity implements SwipeBackListener
-{ 
-
-	/**滑动关闭Activity的帮助工具类对象*/
+{
+	public static final String PREF_LOACTION_CITY="city";
+	public static final String PREF_LOACTION_ADDRESS="address";
+	public static final String PREF_LOACTION_LATITUDE="latitude";
+	public static final String PREF_LOACTION_LONGITUDE="longitude";
+	public static final String DEFAULT_CITY="苏州市";
+	public static final String DEFAULT_ADDRESS="国际科技园";
+	
+	protected SharedPreferences mPreferences;
+	/** 滑动关闭Activity的帮助工具类对象 */
 	protected SwipeBackActivityHelper mActivityHelper;
-	/**ActionBar对象*/
+	/** ActionBar对象 */
 	protected ActionBar mActionBar;
-	/**主要的窗口容器*/
+	/** 主要的窗口容器 */
 	private FrameLayout mContainer;
 
 	public abstract void initView();
 
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		
 		super.onCreate(savedInstanceState);
-		if(isActionBarEnable())
+		if (isActionBarEnable())
 		{
 			mActionBar = getActionBar();
 		}
 		mActivityHelper = new SwipeBackActivityHelper(this);
+		mPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
 		mActivityHelper.onActivityCreate();
-		super.setContentView(R.layout.activity_base);//TODO
+		super.setContentView(R.layout.activity_base);// TODO
 		mContainer = (FrameLayout) findViewById(R.id.frame_container);
-		
+
 	}
 
 	public void setContentView(int layoutResID)
 	{
 		View childView = LayoutInflater.from(this).inflate(layoutResID, null);
 		mContainer.addView(childView);
-		 
+
 	}
+
 	public void setContentView(View view)
 	{
 		mContainer.addView(view);
 	}
+
 	protected void onPostCreate(Bundle savedInstanceState)
 	{
 		super.onPostCreate(savedInstanceState);
 		mActivityHelper.onPostCreate();
-	 
+
 	}
-	
+
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId())
@@ -66,17 +77,20 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 			finish();
 			break;
 		}
-		 
+
 		return super.onOptionsItemSelected(item);
 	}
+
 	public SwipeBackFrameLayout getSwipeBackLayout()
 	{
 		return mActivityHelper.getSwipeBackLayout();
 	}
+
 	private boolean isActionBarEnable()
 	{
 		return !getWindow().hasFeature(Window.FEATURE_NO_TITLE);
 	}
+
 	@Override
 	public void setSwipeBackEnable(boolean enable)
 	{
@@ -90,33 +104,33 @@ public abstract class BaseActivity extends FragmentActivity implements SwipeBack
 	public void scrollToFinishActivity()
 	{
 		getSwipeBackLayout().scrollToFinishActivity();
-		
+
 	}
-	
+
 	@Override
 	public void scrollToNextActivity()
 	{
-		
+
 	}
 
 	private class SwipeListenerImpl implements SwipeListener
 	{
 		public void onScrollStateChange(int state, float scrollPercent)
 		{
-			 System.out.println("onScrollStateChange");
+			System.out.println("onScrollStateChange");
 		}
 
 		@Override
 		public void onEdgeTouch(int edgeFlag)
 		{
-			 System.out.println("onEdgeTouch");
+			System.out.println("onEdgeTouch");
 		}
 
 		@Override
 		public void onScrollOverThreshold()
 		{
-			 System.out.println("onScrollOverThreshold");
+			System.out.println("onScrollOverThreshold");
 		}
-		
+
 	}
 }

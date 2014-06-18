@@ -60,7 +60,6 @@ public class ContacterFragment extends BaseWithProgressFragment implements Loade
 				System.out.println(" item = " + item);
 			}
 		}
-
 		mProgressBar.setVisibility(View.GONE);
 	}
 

@@ -3,7 +3,6 @@ package com.roboo.like.google.fragments;
 import java.util.LinkedList;
 
 import net.dynamicandroid.listview.DynamicListView;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.Keyframe;
@@ -13,17 +12,13 @@ import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -65,7 +60,7 @@ public class CommentFragment extends BaseWithProgressFragment implements LoaderC
 		View view = inflater.inflate(R.layout.fragment_comment, null);//TODO
 		mListView = (DynamicListView) view.findViewById(R.id.dlv_list);
 		mFooterView = new FooterView(getActivity(), FooterView.TYPE_BUTTON);
-		mFooterProgressBar = mFooterView.getProgressBar();
+		mFooterProgressBar = mFooterView.getFooterProgressBar();
 		mBtnLoadNext = mFooterView.getButton();
 		return view;
 	}
