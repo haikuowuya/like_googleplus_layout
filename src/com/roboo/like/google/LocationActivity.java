@@ -470,9 +470,9 @@ public class LocationActivity extends BaseActivity
 				Toast.makeText(LocationActivity.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
 				return;
 			}
-			getRouteInfo(res);
 			// 将路线数据保存给全局变量
 			mRoute = res.getPlan(0).getRoute(0);
+			getRouteInfo(res);
 			mRouteOverlay = new RouteOverlay(LocationActivity.this, mMapView);
 			// 此处仅展示一个方案作为示例
 			mRouteOverlay.setData(mRoute);
@@ -630,6 +630,16 @@ public class LocationActivity extends BaseActivity
 	private void getRouteInfo(MKDrivingRouteResult res)
 	{
 		 MKRouteAddrResult addressResult = res.getAddrResult();
+		  int steps = mRoute.getNumSteps();
+		  for(int i = 0;i < steps;i++)
+		  {
+			  System.out.println(mRoute.getStep(i).getContent());
+		  }
+		 System.out.println("taxi价格  = "+ res.getTaxiPrice());
+		 System.out.println("目的地 = "+res.getEnd().name);
+		 System.out.println("起始地 = "+res.getStart().name);
+		 if(null != addressResult)
+		 {
 		 ArrayList<ArrayList<MKPoiInfo>> poiList = addressResult.mWpPoiList;
 		 for(ArrayList<MKPoiInfo> poi1 : poiList)
 		 {
@@ -637,7 +647,7 @@ public class LocationActivity extends BaseActivity
 			 {
 				 System.out.println("poi2.name = "+poi2.name);
 			 }
-			 
+		 }
 		 }
 	}
 
