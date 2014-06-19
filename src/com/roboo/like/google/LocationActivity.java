@@ -811,7 +811,7 @@ public class LocationActivity extends BaseLayoutActivity
 		}
 
 		@Override
-		public boolean onSuggestionSelect(int position)
+		public boolean onSuggestionSelect(int position)   
 		{
 			return false;
 		}
