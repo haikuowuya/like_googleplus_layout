@@ -1,5 +1,10 @@
 package com.roboo.like.google;
 
+import java.util.LinkedList;
+
+import javax.crypto.Mac;
+
+import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
@@ -18,6 +23,7 @@ public class GoogleApplication extends Application
 	public static final String TYPE_ITHOME = "ithome";
 	public static final String TYPE_CSDN="csdn";
 	public static String mCurrentType = TYPE_CSDN;
+	private LinkedList<Activity> mActivities = new LinkedList<Activity>();
 	private static GoogleApplication mInstance;
 	/**IT之家的图片地址前缀*/
 	public  static final String PREFIX_ITHOME_IMG_URL = "http://img.ithome.com";
@@ -134,5 +140,22 @@ public class GoogleApplication extends Application
 		 
 		return mInstance;
 	}
-
+	public void recordActivity(Activity activity)
+	{
+		mActivities.add(activity);
+	}
+	public void exitClient()
+	{
+		if (mActivities.size() > 0)
+		{
+			for (int i = 0; i < mActivities.size(); i++)
+			{
+				Activity activity = mActivities.get(i);
+				if (null != activity)
+				{
+					activity.finish();
+				}
+			}
+		}
+	}
 }

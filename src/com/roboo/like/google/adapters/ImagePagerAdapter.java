@@ -14,7 +14,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.roboo.like.google.BaseActivity;
+import com.roboo.like.google.BaseLayoutActivity;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.utils.BitmapUtils;
 import com.roboo.like.google.views.PhotoView;

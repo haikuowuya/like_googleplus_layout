@@ -14,7 +14,7 @@ import android.webkit.WebViewClient;
 
 /** 新闻详情 */
 @SuppressLint("SetJavaScriptEnabled")
-public class DidiActivity extends BaseActivity
+public class DidiActivity extends BaseLayoutActivity
 {
 
 	private static final String URL = "http://pay.xiaojukeji.com/api/v2/webapp?city=%E5%8C%97%E4%BA%AC&maptype=wgs84&fromlat=39.98096907577634&fromlng=116.30000865410719&fromaddr=%E9%93%B6%E7%A7%91%E5%A4%A7%E5%8E%A6&toaddr=%E8%A5%BF%E4%BA%8C%E6%97%97&toshop=%E5%BE%97%E5%AE%9E%E5%A4%A7%E5%8E%A6&channel=1224&d=130002030203";

@@ -1,28 +1,41 @@
 package com.roboo.like.google;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnCloseListener;
+import android.widget.SearchView.OnQueryTextListener;
+import android.widget.SearchView.OnSuggestionListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +46,9 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.map.LocationData;
 import com.baidu.mapapi.map.MKEvent;
+import com.baidu.mapapi.map.MKMapViewListener;
 import com.baidu.mapapi.map.MapController;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationOverlay;
 import com.baidu.mapapi.map.PoiOverlay;
@@ -51,6 +66,7 @@ import com.baidu.mapapi.search.MKRouteAddrResult;
 import com.baidu.mapapi.search.MKSearch;
 import com.baidu.mapapi.search.MKSearchListener;
 import com.baidu.mapapi.search.MKShareUrlResult;
+import com.baidu.mapapi.search.MKSuggestionInfo;
 import com.baidu.mapapi.search.MKSuggestionResult;
 import com.baidu.mapapi.search.MKTransitRouteResult;
 import com.baidu.mapapi.search.MKWalkingRouteResult;
@@ -58,13 +74,15 @@ import com.baidu.platform.comapi.basestruct.GeoPoint;
 import com.roboo.like.google.utils.CardToastUtils;
 
 /** 我的位置 */
-public class LocationActivity extends BaseActivity
+public class LocationActivity extends BaseLayoutActivity
 {
 	/** 在显示定位结果时等待时间 */
-	private static final long DELAY_IN_MILLIS_SHOW_LOCATION_RESULT = 2000L;
+	private static final long DELAY_IN_MILLIS_SHOW_LOCATION_RESULT = 500L;
 	private static final int LOCATION_BY_GPS_CODE = 61;// BDLocation.TypeGpsLocation
 	private static final int LOCATION_BY_NETWORK_CODE = 161;// BDLocation.TypeNetWorkLocation
 	private static final double LOCATION_FAILURED_LONGITUDE_LATITUDE = 4.9E-324;
+	private static final String[] COLUMNS = { BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1, };
+
 	private static final double SUZHOU_LONGITUDE = 120.676459;
 	private static final double SUZHOU_LATITUDE = 31.300916;
 	public LocationClient mLocationClient = null;
@@ -75,30 +93,36 @@ public class LocationActivity extends BaseActivity
 	// private double mLocationLongitude;
 	// /** 定位成功后获取的纬度 */
 	// private double mLocationLatitude;
-	private boolean mFlag = true;
 	private Button mBtnDetail;
 	private boolean mPopupShowingFlag = false;
 	private LocationData mLocationData = new LocationData();
-	private LocationOverlay mLocationOverlay;
 	private TextView mPopupTextView;
 	private PopupOverlay mPopupOverlay;
 	private GeoPoint mGeoPoint;
 	private MapController mMapController;
 	/** 线路图层 */
 	private RouteOverlay mRouteOverlay;
+	/** 我的位置图层 */
+	private LocationOverlay mLocationOverlay;
+	/** 点击位置图层 */
+	private LocationOverlay mClickLocationOverlay;
+	/** 目的地信息 */
+	private MKPoiInfo mMKInfo;
 	private MKSearch mMKSearch;
 	// 将路线数据保存给全局变量
 	private MKRoute mRoute;
-
+	private SearchView mSearchView;
+	private SuggestionsAdapter mSuggestAdapter = null;
+	private MatrixCursor mCursorData;
 	private Handler mHandler = new Handler()
 	{
 		public void handleMessage(Message msg)
 		{
-			if (mFlag)
+			if (null == mBMapManager)
 			{
-				mFlag = !mFlag;
-				new CardToastUtils(LocationActivity.this).setMessageTextColor(Color.RED).showAndAutoDismiss("定位成功");
+				return;
 			}
+			new CardToastUtils(LocationActivity.this).setMessageTextColor(Color.RED).showAndAutoDismiss("定位成功   " + msg.obj);
 			mGeoPoint = new GeoPoint((int) (mLocationData.latitude * 1E6), (int) (mLocationData.longitude * 1E6));
 			// 用给定的经纬度构造一个GeoPoint，单位是微度 (度 * 1E6)
 			mMapController.setCenter(mGeoPoint);// 设置地图中心点
@@ -161,6 +185,15 @@ public class LocationActivity extends BaseActivity
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.activity_location, menu);
+		MenuItem searchItem = menu.findItem(R.id.menu_search);
+		mSearchView = (SearchView) searchItem.getActionView();
+		mSearchView.setQueryHint("输入关键字");
+		mSearchView.setSubmitButtonEnabled(false);//不显示搜索提交按钮
+		modifySearchView();
+		SearchViewListenerImpl searchViewListenerImpl = new SearchViewListenerImpl();
+		mSearchView.setOnQueryTextListener(searchViewListenerImpl);
+		mSearchView.setOnCloseListener(searchViewListenerImpl);
+		mSearchView.setOnSuggestionListener(searchViewListenerImpl);
 
 		return true;
 	}
@@ -169,20 +202,18 @@ public class LocationActivity extends BaseActivity
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		String searchKey = "美食";
-
 		switch (item.getItemId())
 		{
 		case android.R.id.home:
 			finish();
 			return true;
 		case R.id.menu_search:// 搜索
-			SearchView searchView = (SearchView) item.getActionView();
-			search(searchView);
 			return true;
 		case R.id.menu_location:
 			Toast.makeText(this, "定位", Toast.LENGTH_SHORT).show();
 			startRequestLocation();
 			return true;
+			// return true;
 		case R.id.menu_food:// 美食
 		case R.id.menu_hotel:// 酒店
 		case R.id.menu_market:// 超市
@@ -194,17 +225,6 @@ public class LocationActivity extends BaseActivity
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	private void search(SearchView searchView)
-	{
-		searchView.setOnCloseListener(new OnCloseListener()
-		{
-			public boolean onClose()
-			{
-				return false;
-			}
-		});
 	}
 
 	/** 请求定位 */
@@ -257,6 +277,8 @@ public class LocationActivity extends BaseActivity
 		{
 			mBMapManager.destroy();
 			mBMapManager = null;
+			GoogleApplication app = (GoogleApplication) this.getApplication();
+			app.mBMapManager = null;
 		}
 	}
 
@@ -283,6 +305,7 @@ public class LocationActivity extends BaseActivity
 		mMapController.enableClick(true);
 
 		mLocationOverlay = new LocationOverlay(mMapView);// 创建定位图层
+		mClickLocationOverlay = new LocationOverlay(mMapView);// 创建用户点击位置图层
 		mLocationOverlay.enableCompass(); // 打开指南针
 		mLocationOverlay.setData(mLocationData);// 设置我的位置信息
 		mMapView.getOverlays().add(mLocationOverlay);// 添加定位图层
@@ -291,6 +314,7 @@ public class LocationActivity extends BaseActivity
 		mMapView.showScaleControl(true);
 		// 修改定位数据后刷新图层生效
 		mMapView.refresh();
+		mMapView.regMapViewListener(mBMapManager, new MKMapViewListenerImpl());
 	}
 
 	private void customActionBar()
@@ -298,6 +322,58 @@ public class LocationActivity extends BaseActivity
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mActionBar.setTitle("我的位置");
 		mActionBar.setLogo(R.drawable.ic_abs_location_up);
+	}
+
+	/** 规划线路 */
+	public void routeDrive(MKPoiInfo info)
+	{
+		String city = mPreferences.getString(PREF_LOACTION_CITY, DEFAULT_CITY);
+		String address = mPreferences.getString(PREF_LOACTION_ADDRESS, DEFAULT_ADDRESS);
+		if (null != mRouteOverlay)
+		{
+			// 移除上次规划的线路
+			mMapView.getOverlays().remove(mRouteOverlay);
+		}
+		// 对起点终点的name进行赋值，也可以直接对坐标赋值，赋值坐标则将根据坐标进行搜索
+		MKPlanNode startNode = new MKPlanNode();
+		startNode.pt = mGeoPoint;
+		startNode.name = address;
+		MKPlanNode endNode = new MKPlanNode();
+		endNode.name = info.address;
+		endNode.pt = info.pt;
+		mMKSearch.drivingSearch(city, startNode, city, endNode);
+	}
+
+	/** TODO 修改SearchView属性 */
+	private void modifySearchView()
+	{
+		try
+		{
+			Field field = SearchView.class.getDeclaredField("mSubmitButton");
+			field.setAccessible(true);
+			Object object = field.get(mSearchView);
+			if (object instanceof ImageView)
+			{
+				ImageView tmpImageView = (ImageView) object;
+				tmpImageView.setImageResource(R.drawable.ic_menu_search);
+				field.set(object, tmpImageView);
+			}
+
+			field = SearchView.class.getDeclaredField("mSearchButton");
+			field.setAccessible(true);
+			object = field.get(mSearchView);
+			if (object instanceof ImageView)
+			{
+				ImageView tmpImageView = (ImageView) object;
+				tmpImageView.setImageResource(R.drawable.ic_menu_search);
+				field.set(object, tmpImageView);
+			}
+
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private class BDLocationListenerImpl implements BDLocationListener
@@ -341,10 +417,11 @@ public class LocationActivity extends BaseActivity
 					stringBuffer.append("\naddress[地址信息] = " + address);
 				}
 				System.out.println("定位结果   = " + stringBuffer.toString());
-				mHandler.sendEmptyMessageDelayed(0, DELAY_IN_MILLIS_SHOW_LOCATION_RESULT);
 				if (!TextUtils.isEmpty(address))
 				{
-					Toast.makeText(getApplicationContext(), address, Toast.LENGTH_SHORT).show();
+					Message message = mHandler.obtainMessage();
+					message.obj = address;
+					mHandler.sendMessageDelayed(message, DELAY_IN_MILLIS_SHOW_LOCATION_RESULT);
 					mPreferences.edit().putString(PREF_LOACTION_ADDRESS, address).commit();
 				}
 				if (!TextUtils.isEmpty(city))
@@ -425,26 +502,7 @@ public class LocationActivity extends BaseActivity
 		};
 	}
 
-	/** 规划线路 */
-	public void routeDrive(MKPoiInfo info)
-	{
-		String city = mPreferences.getString(PREF_LOACTION_CITY, DEFAULT_CITY);
-		String address = mPreferences.getString(PREF_LOACTION_ADDRESS, DEFAULT_ADDRESS);
-		if (null != mRouteOverlay)
-		{
-			// 移除上次规划的线路
-			mMapView.getOverlays().remove(mRouteOverlay);
-		}
-		// 对起点终点的name进行赋值，也可以直接对坐标赋值，赋值坐标则将根据坐标进行搜索
-		MKPlanNode startNode = new MKPlanNode();
-		startNode.pt = mGeoPoint;
-		startNode.name = address;
-		MKPlanNode endNode = new MKPlanNode();
-		endNode.name = info.address;
-		endNode.pt = info.pt;
-		mMKSearch.drivingSearch(city, startNode, city, endNode);
-	}
-
+	/** TODO 百度搜索 处理回调事件 */
 	class MKSearchListenerImpl implements MKSearchListener
 	{
 		public void onGetAddrResult(MKAddrInfo arg0, int arg1)
@@ -491,7 +549,6 @@ public class LocationActivity extends BaseActivity
 			// 重置路线节点索引，节点浏览时使用
 		}
 
-		
 		@Override
 		public void onGetPoiDetailSearchResult(int arg0, int arg1)
 		{
@@ -549,9 +606,27 @@ public class LocationActivity extends BaseActivity
 		}
 
 		@Override
-		public void onGetSuggestionResult(MKSuggestionResult arg0, int arg1)
+		public void onGetSuggestionResult(MKSuggestionResult res, int arg1)
 		{
-
+			if (res == null || res.getAllSuggestions() == null)
+			{
+				return;
+			}
+			mCursorData = new MatrixCursor(COLUMNS);
+			for (int i = 0; i < res.getAllSuggestions().size(); i++)
+			{
+				MKSuggestionInfo info = res.getAllSuggestions().get(i);
+				if (info.key != null)
+				{
+					System.out.println("key = " + info.key);
+					if (i > 5)
+						continue;
+					mCursorData.addRow(new String[] { (1 + i) + "", info.key });
+				}
+			}
+			mSuggestAdapter = new SuggestionsAdapter(LocationActivity.this, mCursorData);
+			mSearchView.setSuggestionsAdapter(mSuggestAdapter);
+			mSuggestAdapter.notifyDataSetChanged();
 		}
 
 		@Override
@@ -585,13 +660,13 @@ public class LocationActivity extends BaseActivity
 		protected boolean onTap(int i)
 		{
 			super.onTap(i);
-			final MKPoiInfo info = getPoi(i);
+			mMKInfo = getPoi(i);
 			StringBuffer message = new StringBuffer();
-			message.append("城市：" + info.city);
-			message.append("\n名称：" + info.name);
-			message.append("\n地址：" + info.address);
-			message.append("\n电话号码：" + info.phoneNum);
-			final AlertDialog alertDialog = new AlertDialog.Builder(mActivity).setMessage(message).setTitle("位置详情").setPositiveButton("查看线路", getOnClickListener(info)).setNegativeButton("取消", null).create();
+			message.append("城市：" + mMKInfo.city);
+			message.append("\n名称：" + mMKInfo.name);
+			message.append("\n地址：" + mMKInfo.address);
+			message.append("\n电话号码：" + mMKInfo.phoneNum);
+			final AlertDialog alertDialog = new AlertDialog.Builder(mActivity).setMessage(message).setTitle("位置详情").setPositiveButton("查看线路", getOnClickListener(mMKInfo)).setNegativeButton("取消", null).create();
 			alertDialog.show();
 			return true;
 		}
@@ -609,46 +684,174 @@ public class LocationActivity extends BaseActivity
 		}
 	}
 
+	private class MKMapViewListenerImpl implements MKMapViewListener
+	{
+		public void onClickMapPoi(MapPoi poi)
+		{
+			if (null != poi)
+			{
+				mGeoPoint = new GeoPoint(poi.geoPt.getLatitudeE6(), poi.geoPt.getLongitudeE6());
+				LocationData clickLocationData = new LocationData();
+				clickLocationData.latitude = poi.geoPt.getLatitudeE6() / 1000000.0;
+				clickLocationData.longitude = poi.geoPt.getLongitudeE6() / 1000000.0;
+				mClickLocationOverlay.setData(clickLocationData);
+
+				mClickLocationOverlay.setMarker(getResources().getDrawable(R.drawable.ic_nav_turn_start_s));
+				mMapView.getOverlays().remove(mClickLocationOverlay);
+				mMapView.getOverlays().add(mClickLocationOverlay);
+				mMapView.refresh();
+				Toast.makeText(LocationActivity.this, poi.strText, Toast.LENGTH_SHORT).show();
+			}
+		}
+
+		@Override
+		public void onGetCurrentMap(Bitmap arg0)
+		{
+
+		}
+
+		@Override
+		public void onMapAnimationFinish()
+		{
+
+		}
+
+		@Override
+		public void onMapLoadFinish()
+		{
+
+		}
+
+		@Override
+		public void onMapMoveFinish()
+		{
+
+		}
+
+	}
+
 	private class OnClickListenerImpl implements android.view.View.OnClickListener
 	{
- 
+
 		public void onClick(View v)
 		{
 			switch (v.getId())
 			{
 			case R.id.btn_detail:
-				RouteActivity.actionRoute(LocationActivity.this);
+				if (null != mRoute)
+				{
+					String startAddress = mPreferences.getString(PREF_LOACTION_ADDRESS, DEFAULT_ADDRESS);
+					String endAddress = mMKInfo.address;
+					ArrayList<String> routeList = new ArrayList<String>();
+					routeList.add(startAddress);
+					int steps = mRoute.getNumSteps();
+					for (int i = 0; i < steps; i++)
+					{
+						routeList.add(mRoute.getStep(i).getContent());
+						System.out.println(mRoute.getStep(i).getContent());
+					}
+					routeList.add(endAddress);
+					RouteActivity.actionRoute(LocationActivity.this, routeList);
+				}
+				else
+				{
+
+				}
 				break;
 			default:
 				break;
 			}
 		}
 	}
-	
-	
-	/**查看路线信息*/
+
+	/** TODO 查看路线信息 */
 	private void getRouteInfo(MKDrivingRouteResult res)
 	{
-		 MKRouteAddrResult addressResult = res.getAddrResult();
-		  int steps = mRoute.getNumSteps();
-		  for(int i = 0;i < steps;i++)
-		  {
-			  System.out.println(mRoute.getStep(i).getContent());
-		  }
-		 System.out.println("taxi价格  = "+ res.getTaxiPrice());
-		 System.out.println("目的地 = "+res.getEnd().name);
-		 System.out.println("起始地 = "+res.getStart().name);
-		 if(null != addressResult)
-		 {
-		 ArrayList<ArrayList<MKPoiInfo>> poiList = addressResult.mWpPoiList;
-		 for(ArrayList<MKPoiInfo> poi1 : poiList)
-		 {
-			 for(MKPoiInfo poi2 : poi1)
-			 {
-				 System.out.println("poi2.name = "+poi2.name);
-			 }
-		 }
-		 }
+		MKRouteAddrResult addressResult = res.getAddrResult();
+		int steps = mRoute.getNumSteps();
+		for (int i = 0; i < steps; i++)
+		{
+			System.out.println(mRoute.getStep(i).getContent());
+		}
+		System.out.println("taxi价格  = " + res.getTaxiPrice());
+		System.out.println("目的地 = " + res.getEnd().name);
+		System.out.println("起始地 = " + res.getStart().name);
+		if (null != addressResult)
+		{
+			ArrayList<ArrayList<MKPoiInfo>> poiList = addressResult.mWpPoiList;
+			for (ArrayList<MKPoiInfo> poi1 : poiList)
+			{
+				for (MKPoiInfo poi2 : poi1)
+				{
+					System.out.println("poi2.name = " + poi2.name);
+				}
+			}
+		}
+	}
+
+	/** TODO SearchView 点击事件 */
+	private class SearchViewListenerImpl implements OnQueryTextListener, OnCloseListener, OnSuggestionListener
+	{
+		public boolean onQueryTextSubmit(String query)
+		{
+			return true;
+		}
+
+		public boolean onQueryTextChange(String newText)
+		{
+			String city = mPreferences.getString(PREF_LOACTION_CITY, DEFAULT_CITY);
+			mMKSearch.suggestionSearch(newText, city);
+			mCursorData = new MatrixCursor(COLUMNS);
+			return true;
+		}
+
+		@Override
+		public boolean onSuggestionSelect(int position)
+		{
+			return false;
+		}
+
+		@Override
+		public boolean onSuggestionClick(int position)
+		{
+			MatrixCursor cursor = (MatrixCursor) mSuggestAdapter.getItem(position);
+			String searchKey = cursor.getString(1);
+			String city = mPreferences.getString(PREF_LOACTION_CITY, DEFAULT_CITY);
+			mMKSearch.poiSearchInCity(city, searchKey);
+			mSearchView.setQuery(searchKey, false);
+			return false;
+		}
+
+		@Override
+		public boolean onClose()
+		{
+			return false;
+		}
+
+	}
+
+	private class SuggestionsAdapter extends CursorAdapter
+	{
+		public SuggestionsAdapter(Context context, Cursor c)
+		{
+			super(context, c, 0);
+		}
+
+		@Override
+		public View newView(Context context, Cursor cursor, ViewGroup parent)
+		{
+			LayoutInflater inflater = LayoutInflater.from(context);
+			View v = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+			return v;
+		}
+
+		@Override
+		public void bindView(View view, Context context, Cursor cursor)
+		{
+			TextView tv = (TextView) view;
+			final int textIndex = cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1);
+			tv.setText(cursor.getString(textIndex));
+		}
 	}
 
 }

@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 /** 心情界面 */
-public class MoodActivity extends BaseActivity
+public class MoodActivity extends BaseLayoutActivity
 {
 	private Button mBtnOpen;
 	/** 跳转到心情界面 */

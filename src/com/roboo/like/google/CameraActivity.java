@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.roboo.like.google.fragments.CameraFragment;
 
 /** 拍照界面 */
-public class CameraActivity extends BaseActivity
+public class CameraActivity extends BaseLayoutActivity
 {
 	/** 跳转到拍照处理界面 */
 	public static void actionCamera(Activity activity, Uri data)

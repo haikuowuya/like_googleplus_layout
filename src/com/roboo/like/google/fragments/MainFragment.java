@@ -8,7 +8,9 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
@@ -34,8 +36,10 @@ import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
 
 import com.nineoldandroids.view.ViewHelper;
+import com.roboo.like.google.BaseLayoutActivity;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.LocationActivity;
+import com.roboo.like.google.MainActivity;
 import com.roboo.like.google.MoodActivity;
 import com.roboo.like.google.NewsActivity;
 import com.roboo.like.google.PictureActivity;
@@ -116,14 +120,22 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	protected Handler mHandler = new Handler();
 
 	private boolean mSwapRunnableHasStart = false;
-	/**模拟广告图片轮转间隔时间*/
+	/** 模拟广告图片轮转间隔时间 */
 	private static final long SWAP_INTERVAL_TIME = 3000L;
+	private Runnable mCreateDesktopRunnable = new Runnable()
+	{
+		public void run()
+		{
+			MainActivity activity = (MainActivity) getActivity();
+			activity.showCreateDesktopDialog();
+		}
+	};
 	private Runnable mSwapRunnable = new Runnable()
 	{
 		public void run()
 		{
 			mSwapRunnableHasStart = true;
-			mHeaderView.getIndicator().setCurrentItem(mPosition % getRealPagerCount(),true);
+			mHeaderView.getIndicator().setCurrentItem(mPosition % getRealPagerCount(), true);
 			mAdViewPager.nextItem();
 			mPosition++;
 			mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
@@ -166,9 +178,8 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mBtnText = (Button) mPoppyView.findViewById(R.id.btn_text);
 		mPullToRefreshAttacher.addRefreshableView(mListView, getOnRefreshListener());
 		loadFirstData();
- 
 		modifyDefaultListViewFieldValue();
-		
+
 	}
 
 	private OnRefreshListener getOnRefreshListener()
@@ -181,7 +192,6 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			}
 		};
 	}
-
 
 	public void onResume()
 	{
@@ -200,7 +210,6 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mFooterView.getButton().setOnClickListener(onClickListenerImpl);
 	}
 
-	 
 	private class OnListItemClickListenerImpl implements OnItemClickListener
 	{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -218,7 +227,6 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 				NewsActivity.actionNews(getActivity(), (NewsItem) parent.getAdapter().getItem(position));
 			}
 		}
-
 	}
 
 	private OnCompleteListener<Object> getOnCompleteListener()
@@ -425,8 +433,23 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			mBtnLoadNext.setText("设置网络");
 		}
 		mFooterProgressBar.setVisibility(View.INVISIBLE);
-
 		mPullToRefreshAttacher.setRefreshComplete();
+		if (isNeedShowCreateDesktopDialog())
+		{
+			mHandler.postDelayed(mCreateDesktopRunnable, 500L);
+		}
+	}
+
+	private boolean isNeedShowCreateDesktopDialog()
+	{
+		boolean flag = false;
+		SharedPreferences preferences = getActivity().getSharedPreferences(getActivity().getPackageName(), Context.MODE_PRIVATE);
+		flag = preferences.contains(BaseLayoutActivity.PREF_APP_FIRST_START);
+		if (!flag)
+		{
+			preferences.edit().putBoolean(BaseLayoutActivity.PREF_APP_FIRST_START, true).commit();
+		}
+		return !flag;
 	}
 
 	private OnPageChangeListener getOnPageChangeListener()
@@ -436,14 +459,14 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			public void onPageSelected(int position)
 			{
 				mPosition = position;
-				mHeaderView.getIndicator().setCurrentItem(position % getRealPagerCount(),true);
+				mHeaderView.getIndicator().setCurrentItem(position % getRealPagerCount(), true);
 			}
 
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
 			{
 
 			}
- 
+
 			public void onPageScrollStateChanged(int state)
 			{
 
@@ -485,16 +508,18 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			{
 				return view == object;
 			}
+
 			public int getCount()
 			{
 				return 3;
 			}
-		 
-			 @Override
+
+			@Override
 			public int getItemPosition(Object object)
 			{
 				return POSITION_NONE;
 			}
+
 			public Object instantiateItem(ViewGroup container, int position)
 			{
 				ImageView imageView = new ImageView(getActivity());
@@ -601,6 +626,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			return 0;
 		}
 	}
+
 	/** 修改ListView一些默认属性值 */
 	private void modifyDefaultListViewFieldValue()
 	{
@@ -619,7 +645,6 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			paint.setStyle(Paint.Style.FILL_AND_STROKE);
 			field.set(object, paint);
 
-			
 			field = field.getType().getDeclaredField(DECLARED_OVERLAY_POS);
 			field.setAccessible(true);
 			RectF rectF = (RectF) field.get(object);
@@ -629,13 +654,11 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			newRectF.right = rectF.left + 200;
 			newRectF.bottom = rectF.top + 20;
 			field.set(object, newRectF);
-			
-			
-			
+
 			field = field.getType().getDeclaredField(DECLARED_OVERLAY_SIZE);
 			field.setAccessible(true);
 			field.set(object, 50);
-			field = field.getType().getDeclaredField(DECLARED_OVERLAY_DRAWABLE	);
+			field = field.getType().getDeclaredField(DECLARED_OVERLAY_DRAWABLE);
 			Drawable overDrawable = getResources().getDrawable(R.drawable.ic_fast_scroll_label_right);
 			overDrawable.setBounds(0, 0, 100, 40);
 			field.setAccessible(true);

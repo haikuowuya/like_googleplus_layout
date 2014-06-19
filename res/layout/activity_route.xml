@@ -20,6 +20,9 @@
             android:id="@+id/linear_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:showDividers="end"
+            android:divider="@color/white_color"
+            android:dividerPadding="2dp"
             android:orientation="vertical" >
         </LinearLayout>
     </ScrollView>

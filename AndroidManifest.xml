@@ -54,6 +54,11 @@
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
+    <!-- 创建快捷方式需要的权限 -->
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" /> 
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" /> 
+    
     <!-- //================================================================ -->
 
     <uses-sdk

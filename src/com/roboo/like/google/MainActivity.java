@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.Intent.ShortcutIconResource;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
@@ -23,7 +24,7 @@ import com.roboo.like.google.fragments.RightFragment;
 import com.roboo.like.google.models.NewsTypeItem;
 import com.roboo.like.google.utils.DataUtils;
 
-public class MainActivity extends FragmentActivity
+public class MainActivity extends BaseActivity
 {
 	/** 默认是IT之家 */
 	public static final String IT_HOME = "http://it.ithome.com/category/1_";
@@ -174,7 +175,39 @@ public class MainActivity extends FragmentActivity
 				wifiDownload();
 			}
 		}).create();
-		 
 		dialog.show();
+	}
+	public void showCreateDesktopDialog()
+	{
+		AlertDialog dialog = new AlertDialog.Builder(this).setIcon(getApplicationInfo().icon).setTitle("创建快捷方式").setMessage("是否在桌面上创建一个快捷方式图标").setNegativeButton("取消", null).setPositiveButton("确定", new OnClickListener()
+		{
+			public void onClick(DialogInterface dialog, int which)
+			{
+				 createDesktop();
+			}
+		}).create();
+		dialog.show();
+	}
+
+	private void createDesktop()
+	{
+		// 安装的Intent
+		Intent shortcut = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+		// 快捷名称
+		shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, "IT之家");
+		// 快捷图标是允许重复
+		shortcut.putExtra("duplicate", false);
+		Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
+		shortcutIntent.setClassName(getPackageName(), getPackageName() + ".MainActivity");
+		shortcutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+
+		// 快捷图标
+		ShortcutIconResource iconRes = Intent.ShortcutIconResource.fromContext(this, R.drawable.ic_launcher);
+		shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconRes);
+
+		// 发送广播
+		sendBroadcast(shortcut);
+		// Toast.makeText(mActivity, "发送到桌面", Toast.LENGTH_SHORT).show();
 	}
 }

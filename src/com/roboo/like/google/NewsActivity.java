@@ -11,7 +11,7 @@ import com.roboo.like.google.fragments.NewsFragment;
 import com.roboo.like.google.models.NewsItem;
 
 /** 新闻详情 */
-public class NewsActivity extends BaseActivity
+public class NewsActivity extends BaseLayoutActivity
 {
 	public static final String EXTRA_NEWS = "news";
 	private NewsItem mItem;
