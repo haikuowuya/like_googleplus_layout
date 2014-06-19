@@ -188,7 +188,7 @@ public class LocationActivity extends BaseLayoutActivity
 		MenuItem searchItem = menu.findItem(R.id.menu_search);
 		mSearchView = (SearchView) searchItem.getActionView();
 		mSearchView.setQueryHint("输入关键字");
-		mSearchView.setSubmitButtonEnabled(false);// 不显示搜索提交按钮
+		mSearchView.setSubmitButtonEnabled(true);//  显示搜索提交按钮
 		modifySearchView();
 		SearchViewListenerImpl searchViewListenerImpl = new SearchViewListenerImpl();
 		mSearchView.setOnQueryTextListener(searchViewListenerImpl);
@@ -792,15 +792,11 @@ public class LocationActivity extends BaseLayoutActivity
 	/** TODO SearchView 点击事件 */
 	private class SearchViewListenerImpl implements OnQueryTextListener, OnCloseListener, OnSuggestionListener
 	{
+
 		public boolean onQueryTextSubmit(String query)
 		{
-			return true;
-		}
-
-		public boolean onQueryTextChange(String newText)
-		{
 			String city = mPreferences.getString(PREF_LOACTION_CITY, DEFAULT_CITY);
-			mMKSearch.suggestionSearch(newText, city);
+			mMKSearch.suggestionSearch(query, city);
 			mCursorData = new MatrixCursor(COLUMNS);
 			if (null != mSuggestAdapter)
 			{
@@ -810,8 +806,16 @@ public class LocationActivity extends BaseLayoutActivity
 			return true;
 		}
 
+		public boolean onQueryTextChange(String newText)
+		{
+
+			
+
+			return true;
+		}
+
 		@Override
-		public boolean onSuggestionSelect(int position)   
+		public boolean onSuggestionSelect(int position)
 		{
 			return false;
 		}
