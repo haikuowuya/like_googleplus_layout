@@ -808,8 +808,14 @@ public class LocationActivity extends BaseLayoutActivity
 
 		public boolean onQueryTextChange(String newText)
 		{
-
-			
+			String city = mPreferences.getString(PREF_LOACTION_CITY, DEFAULT_CITY);
+			mMKSearch.suggestionSearch(newText, city);
+			mCursorData = new MatrixCursor(COLUMNS);
+			if (null != mSuggestAdapter)
+			{
+				mSuggestAdapter.changeCursor(mCursorData);
+				mSuggestAdapter.notifyDataSetChanged();
+			}
 
 			return true;
 		}
