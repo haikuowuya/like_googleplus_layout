@@ -12,7 +12,7 @@
         <item>ic_search#搜索</item>
         <item>ic_didi#嘀嘀打车</item>
     </string-array>
-    <string-array name="actionbar_navigation_list_text_arrays">
+    <string-array name="actionbar_navigation_ithome_arrays">
         <item>IT之家#http://it.ithome.com/category/1_</item>
         <item>IE之家#http://it.ithome.com/category/7_</item>
         <item>IT之外#http://it.ithome.com/category/17_</item>
@@ -27,7 +27,16 @@
         <item>IPHONE之家#http://it.ithome.com/category/5_</item>
         <item>OFFICE之家#http://it.ithome.com/category/8_</item>
         <item>ANDROID之家#http://it.ithome.com/category/10_</item>
-       
+    </string-array>
+    <string-array name="actionbar_navigation_csdn_arrays">
+        <item>移动开发#http://mobile.csdn.net/mobile/</item>
+        <item>业界新闻#http://news.csdn.net/news/</item>
+        <item>云计算#http://cloud.csdn.net/cloud/</item>
+        <item>软件研发#http://sd.csdn.net/sd/</item>
+        <item>程序员杂志#http://programmer.csdn.net/programmer/</item>
+    </string-array>
+    <string-array name="actionbar_navigation_phonekr_arrays">
+        <item>科技锋芒#http://www.phonekr.com/page/</item>
     </string-array>
     <string-array name="dummy_text_arrays">
         <item>全部</item>
@@ -103,6 +112,10 @@
         <item>Android</item>
         <item>附近信息</item>
     </string-array>
+    <string-array name="start_news_type_arrays">
+        <item>IT之家#0</item>
+        <item>CSDN#1</item>
+        <item>科技锋芒#2</item>
+    </string-array>
 
-  
 </resources>

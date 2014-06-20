@@ -24,13 +24,13 @@ public class NewsContentUtils
 	public static LinkedList<String> getNewsDataList(String newsUrl) throws IOException
 	{
 		LinkedList<String> data = null;
-		if (GoogleApplication.mCurrentType.equals(GoogleApplication.TYPE_CSDN))
-		{
-			data = getCsdnNewsDataList(newsUrl);
-		}
-		if (null == data)
+		if (GoogleApplication.mCurrentType==GoogleApplication.TYPE_ITHOME)
 		{
 			data = getITHomeNewsDataList(newsUrl);
+		}
+		if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_CSDN)
+		{
+			data = getCsdnNewsDataList(newsUrl);
 		}
 		return data;
 

@@ -23,6 +23,9 @@ public abstract class BaseLayoutActivity extends BaseActivity implements SwipeBa
 	public static final String PREF_LOACTION_ADDRESS="address";
 	public static final String PREF_LOACTION_LATITUDE="latitude";
 	public static final String PREF_LOACTION_LONGITUDE="longitude";
+
+	public static final double SUZHOU_LONGITUDE = 120.676459;
+	public static final double SUZHOU_LATITUDE = 31.300916;
 	public static final String DEFAULT_CITY="苏州市";
 	public static final String DEFAULT_ADDRESS="国际科技园";
 	

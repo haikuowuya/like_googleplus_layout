@@ -38,10 +38,6 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 		mChannelUrl = channelUrl;
 		mContext = context;
 		mPageNo = pageNo;
-		if(GoogleApplication.mCurrentType.equals(GoogleApplication.TYPE_CSDN) && mChannelUrl.equals(GoogleApplication.BASE_OFFICE_URL))
-		{
-			mChannelUrl = GoogleApplication.TEST_CSDN_BASE_URL ;
-		}
 	}
 
 	@Override

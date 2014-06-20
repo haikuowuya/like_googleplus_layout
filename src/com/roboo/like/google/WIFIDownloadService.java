@@ -27,10 +27,12 @@ import com.roboo.like.google.listener.ImageLoadingListenerImpl;
 import com.roboo.like.google.models.CommentItem;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.models.NewsTypeItem;
+import com.roboo.like.google.news.utils.ITHomeUtils;
 import com.roboo.like.google.utils.CommentUtils;
 import com.roboo.like.google.utils.DataUtils;
 import com.roboo.like.google.utils.FileUtils;
 import com.roboo.like.google.utils.MD5Utils;
+import com.roboo.like.google.utils.NewsContentUtils;
 import com.roboo.like.google.utils.NewsListUtils;
 
 public class WIFIDownloadService extends Service
@@ -118,15 +120,15 @@ public class WIFIDownloadService extends Service
 				for (NewsItem item : newsListData)
 				{
 					long startTime2 = System.currentTimeMillis();
-					LinkedList<String> newsContentData = NewsListUtils.getITHomeNewsDataList(item.getUrl());
+					LinkedList<String> newsContentData = NewsContentUtils.getITHomeNewsDataList(item.getUrl());
 					LinkedList<String> tmpNewsContentData = new LinkedList<String>();
 					for (String str : newsContentData)
 					{
-//						if (str.startsWith(BaseActivity.PREFIX_IMG_URL))
-//						{
-//							mImageLoader.loadImage(str, new SimpleImageLoadingListener());
-//							str ="file://"+ mImageLoader.getDiscCache().get(str).getAbsolutePath();
-//						}
+						// if (str.startsWith(BaseActivity.PREFIX_IMG_URL))
+						// {
+						// mImageLoader.loadImage(str, new SimpleImageLoadingListener());
+						// str ="file://"+ mImageLoader.getDiscCache().get(str).getAbsolutePath();
+						// }
 						tmpNewsContentData.add(str);
 					}
 					saveNewsContentData(tmpNewsContentData, item.getUrl());

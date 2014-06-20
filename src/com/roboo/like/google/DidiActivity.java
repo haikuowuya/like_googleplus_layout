@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -16,13 +17,21 @@ import android.webkit.WebViewClient;
 @SuppressLint("SetJavaScriptEnabled")
 public class DidiActivity extends BaseLayoutActivity
 {
-
+	private static final String EXTRA_URL = "url";
 	private static final String URL = "http://pay.xiaojukeji.com/api/v2/webapp?city=%E5%8C%97%E4%BA%AC&maptype=wgs84&fromlat=39.98096907577634&fromlng=116.30000865410719&fromaddr=%E9%93%B6%E7%A7%91%E5%A4%A7%E5%8E%A6&toaddr=%E8%A5%BF%E4%BA%8C%E6%97%97&toshop=%E5%BE%97%E5%AE%9E%E5%A4%A7%E5%8E%A6&channel=1224&d=130002030203";
+	private String mUrl;
 	private WebView mWebView;
 
 	public static void actionDidi(Activity activity)
 	{
 		Intent intent = new Intent(activity, DidiActivity.class);
+		activity.startActivity(intent);
+	}
+
+	public static void actionDidi(Activity activity, String url)
+	{
+		Intent intent = new Intent(activity, DidiActivity.class);
+		intent.putExtra(EXTRA_URL, url);
 		activity.startActivity(intent);
 	}
 
@@ -33,7 +42,12 @@ public class DidiActivity extends BaseLayoutActivity
 		customActionBar();
 		initView();
 		initWebView();
-		mWebView.loadUrl(URL);
+		mUrl = getIntent().getStringExtra(EXTRA_URL);
+		if (TextUtils.isEmpty(mUrl))
+		{
+			mUrl = URL;
+		}
+		mWebView.loadUrl(mUrl);
 		mWebView.cancelLongPress();
 		mWebView.setOnLongClickListener(new OnLongClickListener()
 		{
@@ -54,7 +68,7 @@ public class DidiActivity extends BaseLayoutActivity
 		mWebView.getSettings().setUseWideViewPort(true);
 		mWebView.getSettings().setSupportZoom(true);
 		mWebView.getSettings().setBuiltInZoomControls(true);
-		 
+
 		mWebView.setInitialScale(100);
 		mWebView.getSettings().setPluginState(PluginState.ON);
 		mWebView.getSettings().setGeolocationEnabled(true);
@@ -65,14 +79,14 @@ public class DidiActivity extends BaseLayoutActivity
 		mWebView.cancelLongPress();
 		mWebView.getSettings().setSavePassword(false);// 设置不需要 弹出“是否保存密码” 对话框
 		mWebView.setWebViewClient(getWebViewClient());
-		
+
 	}
 
 	private WebViewClient getWebViewClient()
 	{
 		return new WebViewClient()
 		{
-			
+
 		};
 	}
 

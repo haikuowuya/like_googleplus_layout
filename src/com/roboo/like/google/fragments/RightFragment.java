@@ -53,7 +53,7 @@ public class RightFragment extends BaseFragment
 
 	private ListAdapter getAdapter()
 	{
-		 return ArrayAdapter.createFromResource(getActivity(), R.array.actionbar_navigation_list_text_arrays, android.R.layout.simple_list_item_1);	 
+		 return ArrayAdapter.createFromResource(getActivity(), R.array.actionbar_navigation_ithome_arrays, android.R.layout.simple_list_item_1);	 
 	}
 	private class OnDrawerListenerImpl implements OnDrawerCloseListener,OnDrawerOpenListener,OnDrawerScrollListener
 	{

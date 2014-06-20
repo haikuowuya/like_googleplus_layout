@@ -76,7 +76,7 @@
             android:value="uuFQCOAy7CNeCuFrGnDN09p7" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".StartActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -94,6 +94,7 @@
         <activity android:name=".TextActivity" />
         <activity android:name=".PictureDetailActivity" />
         <activity android:name=".UserActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".ContacterActivity" />
         <activity
             android:name=".NewsActivity"

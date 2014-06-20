@@ -50,10 +50,12 @@
         android:id="@+id/dsv_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="vertical"
         android:background="@color/white_color" >
 
         <LinearLayout
             android:id="@+id/linear_container"
+            android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >

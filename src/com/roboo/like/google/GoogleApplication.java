@@ -2,8 +2,6 @@ package com.roboo.like.google;
 
 import java.util.LinkedList;
 
-import javax.crypto.Mac;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentName;
@@ -20,29 +18,31 @@ import com.baidu.mapapi.map.MKEvent;
 
 public class GoogleApplication extends Application
 {
-	public static final String TYPE_ITHOME = "ithome";
-	public static final String TYPE_CSDN="csdn";
-	public static String mCurrentType = TYPE_CSDN;
+	public static final int  TYPE_ITHOME = 0;
+	public static final int  TYPE_CSDN = 1;
+	public static final int  TYPE_PHONEKR = 2;
+	public static int  mCurrentType = TYPE_CSDN;
 	private LinkedList<Activity> mActivities = new LinkedList<Activity>();
+	public static final String BASE_DIDI_URL = "http://pay.xiaojukeji.com/api/v2/webapp?city=";
 	private static GoogleApplication mInstance;
-	/**IT之家的图片地址前缀*/
-	public  static final String PREFIX_ITHOME_IMG_URL = "http://img.ithome.com";
-	/**CSDN的图片地址前缀*/
-	public  static final String PREFIX_CSDN_IMG_URL = "http://cms.csdnimg.cn";
-	/**用于测试切换ITHOME和CSDN的一个条件*/
-	public static final String BASE_OFFICE_URL="http://it.ithome.com/category/8_";
-	public static final String TEST_CSDN_BASE_URL= "http://mobile.csdn.net/mobile/";
-	
-	public static final String BASE_COMMENT_URL= "http://www.ithome.com/ithome/GetAjaxData.aspx?type=commentpage";
-	/**获取评论的URL*/
-	public static final String DUMMY_COMMENT_URL= "http://www.ithome.com/ithome/GetAjaxData.aspx?newsid=78507&type=commentpage&page=1";
-	/**用于测试*/
+	/** IT之家的图片地址前缀 */
+	public static final String PREFIX_ITHOME_IMG_URL = "http://img.ithome.com";
+	/** CSDN的图片地址前缀 */
+	public static final String PREFIX_CSDN_IMG_URL = "http://cms.csdnimg.cn";
+	/** 用于测试切换ITHOME和CSDN的一个条件 */
+	public static final String BASE_OFFICE_URL = "http://it.ithome.com/category/8_";
+	public static final String TEST_CSDN_BASE_URL = "http://mobile.csdn.net/mobile/";
+
+	public static final String BASE_COMMENT_URL = "http://www.ithome.com/ithome/GetAjaxData.aspx?type=commentpage";
+	/** 获取评论的URL */
+	public static final String DUMMY_COMMENT_URL = "http://www.ithome.com/ithome/GetAjaxData.aspx?newsid=78507&type=commentpage&page=1";
+	/** 用于测试 */
 	public static boolean TEST = true;
-	/**DEBUG TAG*/
+	/** DEBUG TAG */
 	private static final String DEBUG_LOG_TAG = "GoogleApplication";
 	private Intent mIntent;
-	/**当前设备处于的网络类型*/
-	public static  String mNetworkType = "NONE";
+	/** 当前设备处于的网络类型 */
+	public static String mNetworkType = "NONE";
 
 	protected ServiceConnection mServiceConnection = new ServiceConnection()
 	{
@@ -62,6 +62,7 @@ public class GoogleApplication extends Application
 			}
 		}
 	};
+
 	public void onCreate()
 	{
 		super.onCreate();
@@ -83,7 +84,6 @@ public class GoogleApplication extends Application
 		stopService(mIntent);
 	}
 
-	
 	public BMapManager mBMapManager;
 	public boolean m_bKeyRight = true;
 
@@ -137,13 +137,15 @@ public class GoogleApplication extends Application
 
 	public static GoogleApplication getInstance()
 	{
-		 
+
 		return mInstance;
 	}
+
 	public void recordActivity(Activity activity)
 	{
 		mActivities.add(activity);
 	}
+
 	public void exitClient()
 	{
 		if (mActivities.size() > 0)

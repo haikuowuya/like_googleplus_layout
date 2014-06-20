@@ -11,15 +11,15 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.roboo.like.google.R;
-import com.roboo.like.google.models.NewsTypeItem;
+import com.roboo.like.google.models.StartNewsTypeItem;
 
-public class NewsTypeListAdapter extends BaseAdapter implements StickyHeadersAdapter,SectionIndexer
+public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeadersAdapter,SectionIndexer
 {
-	private LinkedList<NewsTypeItem> mData;
+	private LinkedList<StartNewsTypeItem> mData;
 	private Activity activity;
 	private LayoutInflater mInflater;
 
-	public NewsTypeListAdapter(LinkedList<NewsTypeItem> mData, Activity activity)
+	public StartNewsTypeListAdapter(LinkedList<StartNewsTypeItem> mData, Activity activity)
 	{
 		super();
 		this.mData = mData;
@@ -48,11 +48,11 @@ public class NewsTypeListAdapter extends BaseAdapter implements StickyHeadersAda
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-	
-		convertView = LayoutInflater.from(activity).inflate(android.R.layout.simple_list_item_1, null);
-		TextView textView =  ViewHolder.getView(convertView, android.R.id.text1);
+		convertView = LayoutInflater.from(activity).inflate(R.layout.list_news_type_item, null);//TODO
+		TextView textView =  ViewHolder.getView(convertView, R.id.tv_title);
 		textView.setText(mData.get(position).name);
 		return convertView;
+		
 	}
 
 	@Override

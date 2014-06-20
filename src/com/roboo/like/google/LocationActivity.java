@@ -2,6 +2,7 @@ package com.roboo.like.google;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Random;
 
 import android.R.integer;
 import android.app.Activity;
@@ -83,8 +84,6 @@ public class LocationActivity extends BaseLayoutActivity
 	private static final double LOCATION_FAILURED_LONGITUDE_LATITUDE = 4.9E-324;
 	private static final String[] COLUMNS = { BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1, };
 
-	private static final double SUZHOU_LONGITUDE = 120.676459;
-	private static final double SUZHOU_LATITUDE = 31.300916;
 	public LocationClient mLocationClient = null;
 	private MapView mMapView;
 	/** 百度地图管理器，需要在setContentView之前init */
@@ -98,7 +97,8 @@ public class LocationActivity extends BaseLayoutActivity
 	private LocationData mLocationData = new LocationData();
 	private TextView mPopupTextView;
 	private PopupOverlay mPopupOverlay;
-	private GeoPoint mGeoPoint;
+	private GeoPoint mStartGeoPoint;
+	private GeoPoint mEndGeoPoint;
 	private MapController mMapController;
 	/** 线路图层 */
 	private RouteOverlay mRouteOverlay;
@@ -110,10 +110,12 @@ public class LocationActivity extends BaseLayoutActivity
 	private MKPoiInfo mMKInfo;
 	private MKSearch mMKSearch;
 	// 将路线数据保存给全局变量
-	private MKRoute mRoute;
+	private MKRoute mDividerRoute;
+	private MKRoute mWalkRoute;
 	private SearchView mSearchView;
 	private SuggestionsAdapter mSuggestAdapter = null;
 	private MatrixCursor mCursorData;
+	private boolean mSelfRoute = false;
 	private Handler mHandler = new Handler()
 	{
 		public void handleMessage(Message msg)
@@ -123,10 +125,10 @@ public class LocationActivity extends BaseLayoutActivity
 				return;
 			}
 			new CardToastUtils(LocationActivity.this).setMessageTextColor(Color.RED).showAndAutoDismiss("定位成功   " + msg.obj);
-			mGeoPoint = new GeoPoint((int) (mLocationData.latitude * 1E6), (int) (mLocationData.longitude * 1E6));
+			mStartGeoPoint = new GeoPoint((int) (mLocationData.latitude * 1E6), (int) (mLocationData.longitude * 1E6));
 			// 用给定的经纬度构造一个GeoPoint，单位是微度 (度 * 1E6)
-			mMapController.setCenter(mGeoPoint);// 设置地图中心点
-			mMapController.animateTo(mGeoPoint);
+			mMapController.setCenter(mStartGeoPoint);// 设置地图中心点
+			mMapController.animateTo(mStartGeoPoint);
 			mMapController.setZoom(19);
 			mLocationOverlay.setData(mLocationData);// 设置我的位置信息
 			// 更新图层数据执行刷新后生效
@@ -156,7 +158,7 @@ public class LocationActivity extends BaseLayoutActivity
 		// 默认经纬度为苏州
 		mLocationData.latitude = SUZHOU_LATITUDE;
 		mLocationData.longitude = SUZHOU_LONGITUDE;
-		mGeoPoint = new GeoPoint((int) (mLocationData.latitude * 1E6), (int) (mLocationData.longitude * 1E6));
+		mStartGeoPoint = new GeoPoint((int) (mLocationData.latitude * 1E6), (int) (mLocationData.longitude * 1E6));
 		super.onCreate(savedInstanceState);
 		customActionBar();
 		setContentView(R.layout.activity_location);// TODO
@@ -166,7 +168,7 @@ public class LocationActivity extends BaseLayoutActivity
 		initMKSearch();
 		startRequestLocation();
 		setListener();
-		mMapController.animateTo(mGeoPoint);
+		mMapController.animateTo(mStartGeoPoint);
 
 	}
 
@@ -188,7 +190,7 @@ public class LocationActivity extends BaseLayoutActivity
 		MenuItem searchItem = menu.findItem(R.id.menu_search);
 		mSearchView = (SearchView) searchItem.getActionView();
 		mSearchView.setQueryHint("输入关键字");
-		mSearchView.setSubmitButtonEnabled(true);//  显示搜索提交按钮
+		mSearchView.setSubmitButtonEnabled(true);// 显示搜索提交按钮
 		modifySearchView();
 		SearchViewListenerImpl searchViewListenerImpl = new SearchViewListenerImpl();
 		mSearchView.setOnQueryTextListener(searchViewListenerImpl);
@@ -324,9 +326,16 @@ public class LocationActivity extends BaseLayoutActivity
 		mActionBar.setLogo(R.drawable.ic_abs_location_up);
 	}
 
-	/** 规划线路 */
+	/** TODO 规划线路 */
 	public void routeDrive(MKPoiInfo info)
 	{
+		routeDrive(info, false);
+	}
+
+	public void routeWalk(MKPoiInfo info)
+	{
+		mMKInfo = info;
+		mEndGeoPoint = mMKInfo.pt;
 		String city = mPreferences.getString(PREF_LOACTION_CITY, DEFAULT_CITY);
 		String address = mPreferences.getString(PREF_LOACTION_ADDRESS, DEFAULT_ADDRESS);
 		if (null != mRouteOverlay)
@@ -336,11 +345,34 @@ public class LocationActivity extends BaseLayoutActivity
 		}
 		// 对起点终点的name进行赋值，也可以直接对坐标赋值，赋值坐标则将根据坐标进行搜索
 		MKPlanNode startNode = new MKPlanNode();
-		startNode.pt = mGeoPoint;
+		startNode.pt = mStartGeoPoint;
 		startNode.name = address;
 		MKPlanNode endNode = new MKPlanNode();
-		endNode.name = info.address;
-		endNode.pt = info.pt;
+		endNode.name = mMKInfo.address;
+		endNode.pt = mMKInfo.pt;
+		mMKSearch.walkingSearch(city, startNode, city, endNode);
+	}
+
+	/** TODO 规划线路 */
+	public void routeDrive(MKPoiInfo info, boolean selfRoute)
+	{
+		mMKInfo = info;
+		mSelfRoute = selfRoute;
+		mEndGeoPoint = mMKInfo.pt;
+		String city = mPreferences.getString(PREF_LOACTION_CITY, DEFAULT_CITY);
+		String address = mPreferences.getString(PREF_LOACTION_ADDRESS, DEFAULT_ADDRESS);
+		if (null != mRouteOverlay)
+		{
+			// 移除上次规划的线路
+			mMapView.getOverlays().remove(mRouteOverlay);
+		}
+		// 对起点终点的name进行赋值，也可以直接对坐标赋值，赋值坐标则将根据坐标进行搜索
+		MKPlanNode startNode = new MKPlanNode();
+		startNode.pt = mStartGeoPoint;
+		startNode.name = address;
+		MKPlanNode endNode = new MKPlanNode();
+		endNode.name = mMKInfo.address;
+		endNode.pt = mMKInfo.pt;
 		mMKSearch.drivingSearch(city, startNode, city, endNode);
 	}
 
@@ -441,7 +473,6 @@ public class LocationActivity extends BaseLayoutActivity
 
 	private class PopupClickListenerImpl implements PopupClickListener
 	{
-
 		public void onClickedPopup(int arg0)
 		{
 
@@ -502,6 +533,32 @@ public class LocationActivity extends BaseLayoutActivity
 		};
 	}
 
+	public GeoPoint[][] dummyData()
+	{
+		int count = 6;
+		int startLa = mStartGeoPoint.getLatitudeE6();
+		int startLo = mStartGeoPoint.getLongitudeE6();
+		int endLa = mEndGeoPoint.getLatitudeE6();
+		int endLo = mEndGeoPoint.getLongitudeE6();
+		int perDifferLa = (endLa - startLa) / count;
+		int perDifferLo = (endLo - startLo) / count;
+		GeoPoint[] step = new GeoPoint[count + 2];
+		Random random = new Random();
+		step[0] = mStartGeoPoint;
+		for (int i = 0; i < count; i++)
+		{
+			int dummyNextInt = random.nextInt(count);
+			System.out.println("dummyNextInt = " + dummyNextInt);
+			GeoPoint point = new GeoPoint(startLa + perDifferLa * dummyNextInt, startLo + perDifferLo * dummyNextInt);
+			step[i + 1] = point;
+		}
+		step[count + 1] = mEndGeoPoint;
+		// 站点数据保存在一个二维数据中
+		GeoPoint[][] routeData = new GeoPoint[1][];
+		routeData[0] = step;
+		return routeData;
+	}
+
 	/** TODO 百度搜索 处理回调事件 */
 	class MKSearchListenerImpl implements MKSearchListener
 	{
@@ -529,11 +586,15 @@ public class LocationActivity extends BaseLayoutActivity
 				return;
 			}
 			// 将路线数据保存给全局变量
-			mRoute = res.getPlan(0).getRoute(0);
+			mDividerRoute = res.getPlan(0).getRoute(0);
 			getRouteInfo(res);
 			mRouteOverlay = new RouteOverlay(LocationActivity.this, mMapView);
+			if (mSelfRoute)
+			{
+				mDividerRoute.customizeRoute(mStartGeoPoint, mEndGeoPoint, dummyData());
+			}
 			// 此处仅展示一个方案作为示例
-			mRouteOverlay.setData(mRoute);
+			mRouteOverlay.setData(mDividerRoute);
 			// 清除其他图层
 			// mMapView.getOverlays().clear();
 			// 添加定位地点图层
@@ -636,9 +697,42 @@ public class LocationActivity extends BaseLayoutActivity
 		}
 
 		@Override
-		public void onGetWalkingRouteResult(MKWalkingRouteResult arg0, int arg1)
+		public void onGetWalkingRouteResult(MKWalkingRouteResult res, int error)
 		{
-
+			// 起点或终点有歧义，需要选择具体的城市列表或地址列表
+			if (error == MKEvent.ERROR_ROUTE_ADDR)
+			{
+				return;
+			}
+			// 错误号可参考MKEvent中的定义
+			if (error != 0 || res == null)
+			{
+				Toast.makeText(LocationActivity.this, "抱歉，未找到结果", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			// 将路线数据保存给全局变量
+			mWalkRoute = res.getPlan(0).getRoute(0);
+			getWalkInfo(res);
+			 mRouteOverlay = new RouteOverlay(LocationActivity.this, mMapView);
+			 if (mSelfRoute)
+			 {
+			  mWalkRoute.customizeRoute(mStartGeoPoint, mEndGeoPoint, dummyData());
+			 }
+			 // 此处仅展示一个方案作为示例
+			 mRouteOverlay.setData(mWalkRoute);
+			 // 清除其他图层
+			 // mMapView.getOverlays().clear();
+			 // 添加定位地点图层
+			 // mMapView.getOverlays().add(mLocationOverlay);
+			 // 添加路线图层
+			 mMapView.getOverlays().add(mRouteOverlay);
+			 // 执行刷新使生效
+			 mMapView.refresh();
+			 // 使用zoomToSpan()绽放地图，使路线能完全显示在地图上
+			 mMapView.getController().zoomToSpan(mRouteOverlay.getLatSpanE6(), mRouteOverlay.getLonSpanE6());
+			 // 移动地图到起点
+			 mMapView.getController().animateTo(res.getStart().pt);
+			 // 重置路线节点索引，节点浏览时使用
 		}
 
 	}
@@ -660,14 +754,15 @@ public class LocationActivity extends BaseLayoutActivity
 		protected boolean onTap(int i)
 		{
 			super.onTap(i);
-			mMKInfo = getPoi(i);
+			MKPoiInfo info = getPoi(i);
 			StringBuffer message = new StringBuffer();
-			message.append("城市：" + mMKInfo.city);
-			message.append("\n名称：" + mMKInfo.name);
-			message.append("\n地址：" + mMKInfo.address);
-			message.append("\n电话号码：" + mMKInfo.phoneNum);
-			final AlertDialog alertDialog = new AlertDialog.Builder(mActivity).setMessage(message).setTitle("位置详情").setPositiveButton("查看线路", getOnClickListener(mMKInfo)).setNegativeButton("取消", null).create();
+			message.append("城市：" + info.city);
+			message.append("\n名称：" + info.name);
+			message.append("\n地址：" + info.address);
+			message.append("\n电话号码：" + info.phoneNum);
+			final AlertDialog alertDialog = new AlertDialog.Builder(mActivity).setMessage(message).setTitle("位置详情").setPositiveButton("驾车线路", getOnClickListener(info)).setNegativeButton("取消", null).setNeutralButton("步行路线", getOnClickListener(info)).create();
 			alertDialog.show();
+
 			return true;
 		}
 
@@ -675,10 +770,21 @@ public class LocationActivity extends BaseLayoutActivity
 		{
 			return new OnClickListener()
 			{
-
 				public void onClick(DialogInterface dialog, int which)
 				{
-					routeDrive(info);
+					switch (which)
+					{
+					case DialogInterface.BUTTON_POSITIVE:
+						routeDrive(info);
+
+						break;
+					case DialogInterface.BUTTON_NEUTRAL:
+						routeWalk(info);
+						break;
+					case DialogInterface.BUTTON_NEGATIVE:
+						dialog.dismiss();
+						break;
+					}
 				}
 			};
 		}
@@ -690,15 +796,18 @@ public class LocationActivity extends BaseLayoutActivity
 		{
 			if (null != poi)
 			{
-				mGeoPoint = new GeoPoint(poi.geoPt.getLatitudeE6(), poi.geoPt.getLongitudeE6());
+				mEndGeoPoint = new GeoPoint(poi.geoPt.getLatitudeE6(), poi.geoPt.getLongitudeE6());
 				LocationData clickLocationData = new LocationData();
 				clickLocationData.latitude = poi.geoPt.getLatitudeE6() / 1000000.0;
 				clickLocationData.longitude = poi.geoPt.getLongitudeE6() / 1000000.0;
 				mClickLocationOverlay.setData(clickLocationData);
-
 				mClickLocationOverlay.setMarker(getResources().getDrawable(R.drawable.ic_nav_turn_start_s));
 				mMapView.getOverlays().remove(mClickLocationOverlay);
-				mMapView.getOverlays().add(mClickLocationOverlay);
+				// mMapView.getOverlays().add(mClickLocationOverlay);
+				MKPoiInfo info = new MKPoiInfo();
+				info.pt = poi.geoPt;
+				info.address = poi.strText;
+				routeDrive(info, true);
 				mMapView.refresh();
 				Toast.makeText(LocationActivity.this, poi.strText, Toast.LENGTH_SHORT).show();
 			}
@@ -732,30 +841,42 @@ public class LocationActivity extends BaseLayoutActivity
 
 	private class OnClickListenerImpl implements android.view.View.OnClickListener
 	{
-
 		public void onClick(View v)
 		{
 			switch (v.getId())
 			{
 			case R.id.btn_detail:
-				if (null != mRoute)
+				if (null != mDividerRoute)
 				{
 					String startAddress = mPreferences.getString(PREF_LOACTION_ADDRESS, DEFAULT_ADDRESS);
 					String endAddress = mMKInfo.address;
 					ArrayList<String> routeList = new ArrayList<String>();
 					routeList.add(startAddress);
-					int steps = mRoute.getNumSteps();
+					int steps = mDividerRoute.getNumSteps();
 					for (int i = 0; i < steps; i++)
 					{
-						routeList.add(mRoute.getStep(i).getContent());
-						System.out.println(mRoute.getStep(i).getContent());
+						routeList.add(mDividerRoute.getStep(i).getContent());
+						System.out.println(mDividerRoute.getStep(i).getContent());
 					}
 					routeList.add(endAddress);
-					RouteActivity.actionRoute(LocationActivity.this, routeList);
+					RouteActivity.actionRoute(LocationActivity.this, routeList, RouteActivity.TYPE_DIVIDER);
+					mDividerRoute = null;
 				}
-				else
+				else if (null != mWalkRoute)
 				{
-
+					String startAddress = mPreferences.getString(PREF_LOACTION_ADDRESS, DEFAULT_ADDRESS);
+					String endAddress = mMKInfo.address;
+					ArrayList<String> routeList = new ArrayList<String>();
+					routeList.add(startAddress);
+					int steps = mWalkRoute.getNumSteps();
+					for (int i = 0; i < steps; i++)
+					{
+						routeList.add(mWalkRoute.getStep(i).getContent());
+						System.out.println(mWalkRoute.getStep(i).getContent());
+					}
+					routeList.add(endAddress);
+					RouteActivity.actionRoute(LocationActivity.this, routeList, RouteActivity.TYPE_WALKING);
+					mWalkRoute = null;
 				}
 				break;
 			default:
@@ -764,14 +885,15 @@ public class LocationActivity extends BaseLayoutActivity
 		}
 	}
 
-	/** TODO 查看路线信息 */
+	/** TODO 查看驾车路线信息 */
 	private void getRouteInfo(MKDrivingRouteResult res)
 	{
+		System.out.println("======================驾车路线信息==========================");
 		MKRouteAddrResult addressResult = res.getAddrResult();
-		int steps = mRoute.getNumSteps();
+		int steps = mDividerRoute.getNumSteps();
 		for (int i = 0; i < steps; i++)
 		{
-			System.out.println(mRoute.getStep(i).getContent());
+			System.out.println(mDividerRoute.getStep(i).getContent());
 		}
 		System.out.println("taxi价格  = " + res.getTaxiPrice());
 		System.out.println("目的地 = " + res.getEnd().name);
@@ -787,6 +909,34 @@ public class LocationActivity extends BaseLayoutActivity
 				}
 			}
 		}
+		System.out.println("======================驾车路线信息==========================");
+	}
+
+	/** TODO 查看步行路线信息 */
+	private void getWalkInfo(MKWalkingRouteResult res)
+	{
+		System.out.println("======================步行路线信息==========================");
+		MKRouteAddrResult addressResult = res.getAddrResult();
+		int steps = mWalkRoute.getNumSteps();
+		for (int i = 0; i < steps; i++)
+		{
+			System.out.println("|| " + mWalkRoute.getStep(i).getContent());
+		}
+		System.out.println("|| taxi价格  = " + res.getTaxiPrice());
+		System.out.println("|| 目的地 = " + res.getEnd().name);
+		System.out.println("|| 起始地 = " + res.getStart().name);
+		if (null != addressResult)
+		{
+			ArrayList<ArrayList<MKPoiInfo>> poiList = addressResult.mWpPoiList;
+			for (ArrayList<MKPoiInfo> poi1 : poiList)
+			{
+				for (MKPoiInfo poi2 : poi1)
+				{
+					System.out.println("poi2.name = " + poi2.name);
+				}
+			}
+		}
+		System.out.println("======================步行路线信息==========================");
 	}
 
 	/** TODO SearchView 点击事件 */
@@ -826,14 +976,15 @@ public class LocationActivity extends BaseLayoutActivity
 			return false;
 		}
 
-		@Override
 		public boolean onSuggestionClick(int position)
 		{
 			MatrixCursor cursor = (MatrixCursor) mSuggestAdapter.getItem(position);
 			String searchKey = cursor.getString(1);
 			String city = mPreferences.getString(PREF_LOACTION_CITY, DEFAULT_CITY);
 			mMKSearch.poiSearchInCity(city, searchKey);
-			mSearchView.setQuery(searchKey, false);
+			mSearchView.setQuery("", false);
+			mSearchView.clearFocus();
+			mSearchView.setIconified(true);
 			return false;
 		}
 

@@ -2,6 +2,7 @@ package com.roboo.like.google;
 
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -33,6 +34,12 @@ public class MainActivity extends BaseActivity
 	private ActionBarDrawerToggle mDrawerToggle;
 	protected ActionBar mActionBar;
 	private NewsTypeListAdapter mAdapter;
+
+	public static void actionMain(Activity activity)
+	{
+		Intent intent = new Intent(activity, MainActivity.class);
+		activity.startActivity(intent);
+	}
 
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -177,15 +184,17 @@ public class MainActivity extends BaseActivity
 		}).create();
 		dialog.show();
 	}
+
 	public void showCreateDesktopDialog()
 	{
 		AlertDialog dialog = new AlertDialog.Builder(this).setIcon(getApplicationInfo().icon).setTitle("创建快捷方式").setMessage("是否在桌面上创建一个快捷方式图标").setNegativeButton("取消", null).setPositiveButton("确定", new OnClickListener()
 		{
 			public void onClick(DialogInterface dialog, int which)
 			{
-				 createDesktop();
+				createDesktop();
 			}
 		}).create();
+		dialog.setCanceledOnTouchOutside(false);
 		dialog.show();
 	}
 
