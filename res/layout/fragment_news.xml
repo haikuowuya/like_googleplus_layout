@@ -4,22 +4,23 @@
     android:layout_height="match_parent"
     android:background="@color/ivorg_color" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/white_color"
         android:minHeight="80dp"
-        android:background="@color/white_color" >
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:padding="10dp"
             android:background="@color/red_color"
             android:gravity="center_vertical"
             android:lineSpacingExtra="4dp"
             android:maxLines="2"
+            android:padding="10dp"
             android:textColor="@color/white_color"
             android:textScaleX="1.1"
             android:textSize="18sp"
@@ -30,14 +31,11 @@
             android:id="@+id/tv_time"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_below="@+id/tv_title"
-            android:layout_alignParentRight="true"
-            
             android:gravity="right|center_vertical"
             android:padding="8dp"
             android:textColor="@color/white_color"
             android:textSize="16sp" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/iv_image"
@@ -52,15 +50,15 @@
         android:id="@+id/dsv_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:background="@color/white_color" >
+        android:background="@color/white_color"
+        android:scrollbars="vertical" >
 
         <LinearLayout
             android:id="@+id/linear_container"
-            android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:scrollbars="vertical" >
         </LinearLayout>
     </net.dynamicandroid.listview.DynamicScrollView>
 
