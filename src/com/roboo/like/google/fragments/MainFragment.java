@@ -1,5 +1,12 @@
 package com.roboo.like.google.fragments;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.OptionalDataException;
+import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,6 +27,7 @@ import android.provider.Settings;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.support.v4.view.PagerAdapter;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +65,8 @@ import com.roboo.like.google.progressbutton.ProcessButton;
 import com.roboo.like.google.progressbutton.ProgressGenerator;
 import com.roboo.like.google.progressbutton.ProgressGenerator.OnCompleteListener;
 import com.roboo.like.google.utils.CardToastUtils;
+import com.roboo.like.google.utils.FileUtils;
+import com.roboo.like.google.utils.MD5Utils;
 import com.roboo.like.google.utils.NetWorkUtils;
 import com.roboo.like.google.views.FooterView;
 import com.roboo.like.google.views.HeaderView;
@@ -122,6 +132,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private boolean mSwapRunnableHasStart = false;
 	/** 模拟广告图片轮转间隔时间 */
 	private static final long SWAP_INTERVAL_TIME = 3000L;
+	private String mChannelURL;
 	private Runnable mCreateDesktopRunnable = new Runnable()
 	{
 		public void run()
@@ -177,6 +188,16 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mBtnMood = (Button) mPoppyView.findViewById(R.id.btn_mood);
 		mBtnText = (Button) mPoppyView.findViewById(R.id.btn_text);
 		mPullToRefreshAttacher.addRefreshableView(mListView, getOnRefreshListener());
+		mData = getOfflineData(getArguments().getString(ARG_NEWS_URL));
+		if(null != mData)
+		{
+			mAdapter = new NewsListAdapter(getActivity(), mData, mSectionIndex);
+			mListView.addFooterView(mFooterView);
+			mListView.addHeaderView(mHeaderView);
+			mListView.setAdapter(mAdapter);
+			mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
+			mAdapter.notifyDataSetChanged();
+		}
 		loadFirstData();
 		modifyDefaultListViewFieldValue();
 
@@ -621,6 +642,20 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		{
 			if (null != o1 && null != o2)
 			{
+				// String time1 = o1.getTime().replace("月", " ").replace("日", " ");
+				// String time2 = o2.getTime().replace("月", " ").replace("日", " ");
+				// String month1 = time1.split(" ")[0];
+				// String month2 = time2.split(" ")[0];
+				// String day1 = time1.split(" ")[1];
+				// String day2 = time1.split(" ")[1];
+				// if (month1.compareTo(month2) == 0)
+				// {
+				// return day1.compareTo(day2);
+				// }
+				// else
+				// {
+				// return month1.compareTo(month2);
+				// }
 				return o2.getTime().compareTo(o1.getTime());
 			}
 			return 0;
@@ -672,4 +707,52 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		}
 	}
 
+	/** 从文件中获取本地的离线数据 */
+	private LinkedList<NewsItem> getOfflineData(String channelUrl)
+	{
+		LinkedList<NewsItem> data = null;
+		;
+		try
+		{
+			if (!TextUtils.isEmpty(channelUrl))
+			{
+				File dirFile = FileUtils.getFileCacheDir(getActivity(), FileUtils.TYPE_NEWS_LIST);
+				File dataFile = new File(dirFile, MD5Utils.generate(channelUrl));
+				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(dataFile));
+				data = (LinkedList<NewsItem>) objectInputStream.readObject();
+				objectInputStream.close();
+				GoogleApplication.TEST = true;
+				if (GoogleApplication.TEST)
+				{
+					System.out.println("从本地文件读取对象成功");
+				}
+			}
+		}
+		catch (StreamCorruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (OptionalDataException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (FileNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return data;
+	}
 }

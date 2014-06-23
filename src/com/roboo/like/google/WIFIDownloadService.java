@@ -27,7 +27,7 @@ import com.roboo.like.google.listener.ImageLoadingListenerImpl;
 import com.roboo.like.google.models.CommentItem;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.models.NewsTypeItem;
-import com.roboo.like.google.news.utils.ITHomeUtils;
+import com.roboo.like.google.news.utils.ITHomeNewsUtils;
 import com.roboo.like.google.utils.CommentUtils;
 import com.roboo.like.google.utils.DataUtils;
 import com.roboo.like.google.utils.FileUtils;
@@ -120,7 +120,7 @@ public class WIFIDownloadService extends Service
 				for (NewsItem item : newsListData)
 				{
 					long startTime2 = System.currentTimeMillis();
-					LinkedList<String> newsContentData = NewsContentUtils.getITHomeNewsDataList(item.getUrl());
+					LinkedList<String> newsContentData = NewsContentUtils.getNewsDataList(item.getUrl());
 					LinkedList<String> tmpNewsContentData = new LinkedList<String>();
 					for (String str : newsContentData)
 					{

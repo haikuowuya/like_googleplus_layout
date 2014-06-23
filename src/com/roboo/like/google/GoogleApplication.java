@@ -29,6 +29,7 @@ public class GoogleApplication extends Application
 	public static final String PREFIX_ITHOME_IMG_URL = "http://img.ithome.com";
 	/** CSDN的图片地址前缀 */
 	public static final String PREFIX_CSDN_IMG_URL = "http://cms.csdnimg.cn";
+	public static final String PREFIX_PHONEKR_IMG_URL = "http://www.phonekr.com";
 	/** 用于测试切换ITHOME和CSDN的一个条件 */
 	public static final String BASE_OFFICE_URL = "http://it.ithome.com/category/8_";
 	public static final String TEST_CSDN_BASE_URL = "http://mobile.csdn.net/mobile/";

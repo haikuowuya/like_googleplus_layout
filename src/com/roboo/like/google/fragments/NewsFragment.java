@@ -222,7 +222,7 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 			// mHasAddedFrontView = addFrontView();
 		}
 		int nextIndex = mRandom.nextInt(COLORS_COLLECTION.length);
-		mTvTitle.setBackgroundColor(getResources().getColor(COLORS_COLLECTION[nextIndex]));
+		((ViewGroup)mTvTitle.getParent()).setBackgroundColor(getResources().getColor(COLORS_COLLECTION[nextIndex]));
 		mTvTitle.setText(mItem.getTitle());
 		mTvTime.setText(mItem.getTime());
 		mHandler.postDelayed(mHideProgressBarRunnable, durationTime);
@@ -232,7 +232,7 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 
 	private boolean isImg(String str)
 	{
-		return  str.startsWith(GoogleApplication.PREFIX_CSDN_IMG_URL)||str.startsWith(GoogleApplication.PREFIX_ITHOME_IMG_URL) || str.startsWith("file");
+		return   str.startsWith(GoogleApplication.PREFIX_PHONEKR_IMG_URL)||str.startsWith(GoogleApplication.PREFIX_CSDN_IMG_URL)||str.startsWith(GoogleApplication.PREFIX_ITHOME_IMG_URL) || str.startsWith("file");
 	}
 
 	private void addCommentButton(android.widget.LinearLayout.LayoutParams params, int ltrb)

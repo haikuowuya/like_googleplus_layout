@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.View;
 
 import com.roboo.like.google.fragments.StartFragment;
 
@@ -39,9 +38,11 @@ public class StartActivity extends BaseLayoutActivity
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(false);
 		mActionBar.setDisplayShowHomeEnabled(false);
+ 
 		mActionBar.setBackgroundDrawable(new ColorDrawable(Color.RED));
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setCustomView(R.layout.actionbar_custom_view);
+		 
 	 
 	}
 

@@ -15,7 +15,7 @@ import android.text.TextUtils;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.MD5Utils;
 
-public class ITHomeUtils
+public class ITHomeNewsUtils
 {
 	private static final String TODAY = "今日";
 	private static final String IT_HOME_STYLE_CLASS_NAME = "cate_list";

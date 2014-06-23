@@ -32,6 +32,11 @@
 
     <style name="Custom.ActionBar.Style" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
         <item name="android:background">@color/white_color</item>
+        <item name="android:titleTextStyle">@style/Custom.ActionBar.Title.Style</item>
+    </style>
+
+    <style name="Custom.ActionBar.Title.Style" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/red_color</item>
     </style>
 
     <style name="Custom.ActionBar.DropDownListView.Style" parent="@android:style/Widget.Holo.ListView.DropDown">

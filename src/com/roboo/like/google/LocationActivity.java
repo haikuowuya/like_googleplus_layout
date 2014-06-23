@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.SearchView;
 import android.widget.SearchView.OnCloseListener;
 import android.widget.SearchView.OnQueryTextListener;
@@ -747,6 +748,7 @@ public class LocationActivity extends BaseLayoutActivity
 			super(activity, mapView);
 			mSearch = search;
 			mActivity = activity;
+			 
 
 		}
 
@@ -760,6 +762,7 @@ public class LocationActivity extends BaseLayoutActivity
 			message.append("\n名称：" + info.name);
 			message.append("\n地址：" + info.address);
 			message.append("\n电话号码：" + info.phoneNum);
+	 
 			final AlertDialog alertDialog = new AlertDialog.Builder(mActivity).setMessage(message).setTitle("位置详情").setPositiveButton("驾车线路", getOnClickListener(info)).setNegativeButton("取消", null).setNeutralButton("步行路线", getOnClickListener(info)).create();
 			alertDialog.show();
 

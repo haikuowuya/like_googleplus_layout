@@ -8,7 +8,7 @@ import android.annotation.SuppressLint;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.news.utils.CSDNNewsUtils;
-import com.roboo.like.google.news.utils.ITHomeUtils;
+import com.roboo.like.google.news.utils.ITHomeNewsUtils;
 import com.roboo.like.google.news.utils.PhoneKRNewsUtils;
 
 @SuppressLint("SimpleDateFormat")
@@ -19,7 +19,7 @@ public class NewsListUtils
 	{
 		if (GoogleApplication.mCurrentType == GoogleApplication.TYPE_ITHOME)
 		{
-			return ITHomeUtils.getITHomeNewsList(baseUrl, pageNo);
+			return ITHomeNewsUtils.getITHomeNewsList(baseUrl, pageNo);
 		}
 		else if (GoogleApplication.mCurrentType == GoogleApplication.TYPE_CSDN)
 		{
@@ -31,7 +31,7 @@ public class NewsListUtils
 		}
 		else
 		{
-			return ITHomeUtils.getITHomeNewsList(baseUrl, pageNo);
+			return ITHomeNewsUtils.getITHomeNewsList(baseUrl, pageNo);
 		}
 	}
 }

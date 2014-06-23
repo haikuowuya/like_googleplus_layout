@@ -28,6 +28,7 @@
     <color name="fuchsia_color">#FF00FF</color>
     <!-- 幽灵白 -->
     <color name="ghostwhite_color">#F8F8FF</color>
+    <color name="sticky_headerview_background_color">#F4F4F4</color>
     <!-- ListView列表项按下效果-->
     <color name="list_item_pressed_color">#D5D5D5</color>
     <!-- ListView列表项边框默认颜色-->

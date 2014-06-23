@@ -8,6 +8,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import android.text.TextUtils;
+
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.MD5Utils;
 
@@ -20,7 +22,7 @@ public class PhoneKRNewsUtils
 {
 	private static final String KE_JI_FENG_MANG_URL = "http://www.phonekr.com/page/";
 
-	public static LinkedList<NewsItem> getPhoneKRNewsList(String phoneKRUrl, int  pageNo) throws IOException
+	public static LinkedList<NewsItem> getPhoneKRNewsList(String phoneKRUrl, int pageNo) throws IOException
 	{
 		LinkedList<NewsItem> items = null;
 		String url = phoneKRUrl + pageNo + "/";
@@ -50,6 +52,13 @@ public class PhoneKRNewsUtils
 						url += "index.php";
 
 					}
+					Elements timeTags = e.getElementsByClass("xs-entry-meta");
+					if (!timeTags.isEmpty())
+					{
+						time = timeTags.first().textNodes().get(0).text();
+						time = getTime(time);
+					}
+
 					Elements imgTags = e.getElementsByTag("img");
 					if (null != imgTags && imgTags.size() > 0)
 					{
@@ -79,5 +88,74 @@ public class PhoneKRNewsUtils
 		}
 
 		return items;
+	}
+
+	private static String getTime(String time)
+	{
+		String newTime = "今天";
+		if (!TextUtils.isEmpty(time))
+		{
+			if (time.contains("年") && time.contains("月") && time.contains("日"))
+			{
+				String month = time.split("年")[1].split("月")[0];
+				month = getMonth(month);
+				String day = time.split("月")[1].split("日")[0];
+				newTime = month + "月" + day + "日";
+			}
+		}
+		return newTime;
+	}
+
+	private static String getMonth(String month)
+	{
+		if ("一".equals(month))
+		{
+			month = "1";
+		}
+		else if ("二".equals(month))
+		{
+			month = "2";
+		}
+		else if ("三".equals(month))
+		{
+			month = "3";
+		}
+		else if ("四".equals(month))
+		{
+			month = "4";
+		}
+		else if ("五".equals(month))
+		{
+			month = "5";
+		}
+		else if ("六".equals(month))
+		{
+			month = "6";
+		}
+		else if ("七".equals(month))
+		{
+			month = "7";
+		}
+		else if ("八".equals(month))
+		{
+			month = "8";
+		}
+		else if ("九".equals(month))
+		{
+			month = "9";
+		}
+		else if ("十".equals(month))
+		{
+			month = "10";
+		}
+		else if ("十一".equals(month))
+		{
+			month = "11";
+		}
+		else
+		{
+			month = "12";
+		}
+		return month;
 	}
 }
