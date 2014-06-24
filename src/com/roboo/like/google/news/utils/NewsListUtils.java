@@ -1,4 +1,4 @@
-package com.roboo.like.google.utils;
+package com.roboo.like.google.news.utils;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -7,9 +7,10 @@ import android.annotation.SuppressLint;
 
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.models.NewsItem;
-import com.roboo.like.google.news.utils.CSDNNewsUtils;
-import com.roboo.like.google.news.utils.ITHomeNewsUtils;
-import com.roboo.like.google.news.utils.PhoneKRNewsUtils;
+import com.roboo.like.google.news.list.utils.CSDNNewsUtils;
+import com.roboo.like.google.news.list.utils.EOENewsUtils;
+import com.roboo.like.google.news.list.utils.ITHomeNewsUtils;
+import com.roboo.like.google.news.list.utils.PhoneKRNewsUtils;
 
 @SuppressLint("SimpleDateFormat")
 public class NewsListUtils
@@ -28,6 +29,10 @@ public class NewsListUtils
 		else if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_PHONEKR)
 		{
 			 return PhoneKRNewsUtils.getPhoneKRNewsList(baseUrl, pageNo);
+		}
+		else if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_EOE)
+		{
+			return EOENewsUtils.getEOENewsList(baseUrl, pageNo);
 		}
 		else
 		{

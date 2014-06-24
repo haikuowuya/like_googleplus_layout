@@ -25,9 +25,10 @@ public final class R {
     }
     public static final class array {
         public static final int actionbar_navigation_csdn_arrays=0x7f070005;
+        public static final int actionbar_navigation_eoe_arrays=0x7f070007;
         public static final int actionbar_navigation_ithome_arrays=0x7f070004;
         public static final int actionbar_navigation_phonekr_arrays=0x7f070006;
-        public static final int dummy_text_arrays=0x7f070007;
+        public static final int img_arrays=0x7f070009;
         public static final int left_drawer_text_arrays=0x7f070003;
         public static final int sample_eng=0x7f070000;
         public static final int sample_kor=0x7f070001;

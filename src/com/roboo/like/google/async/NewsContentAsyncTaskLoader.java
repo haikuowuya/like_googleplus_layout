@@ -14,11 +14,11 @@ import java.util.LinkedList;
 import android.content.Context;
 
 import com.roboo.like.google.GoogleApplication;
+import com.roboo.like.google.news.utils.NewsContentUtils;
+import com.roboo.like.google.news.utils.NewsListUtils;
 import com.roboo.like.google.utils.FileUtils;
 import com.roboo.like.google.utils.MD5Utils;
 import com.roboo.like.google.utils.NetWorkUtils;
-import com.roboo.like.google.utils.NewsContentUtils;
-import com.roboo.like.google.utils.NewsListUtils;
 
 public class NewsContentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<String>>
 {

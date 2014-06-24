@@ -1,4 +1,4 @@
-package com.roboo.like.google.news.utils;
+package com.roboo.like.google.news.list.utils;
 
 import java.io.IOException;
 import java.util.LinkedList;

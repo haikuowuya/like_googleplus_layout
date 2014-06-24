@@ -15,10 +15,10 @@ import android.content.Context;
 
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.models.NewsItem;
+import com.roboo.like.google.news.utils.NewsListUtils;
 import com.roboo.like.google.utils.FileUtils;
 import com.roboo.like.google.utils.MD5Utils;
 import com.roboo.like.google.utils.NetWorkUtils;
-import com.roboo.like.google.utils.NewsListUtils;
 
 public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<NewsItem>>
 {

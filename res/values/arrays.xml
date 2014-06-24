@@ -38,84 +38,38 @@
     <string-array name="actionbar_navigation_phonekr_arrays">
         <item>科技锋芒#http://www.phonekr.com/page/</item>
     </string-array>
-    <string-array name="dummy_text_arrays">
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
+    <string-array name="actionbar_navigation_eoe_arrays">
+        <item>全部咨询#http://news.eoe.cn/cat-0-</item>
+        <item>行业动态#http://news.eoe.cn/cat-10-</item>
+        <item>创新项目#http://news.eoe.cn/cat-11-</item>
+        <item>人物访谈#http://news.eoe.cn/cat-12-</item>
+        <item>EOE视点#http://news.eoe.cn/cat-13-</item>
+        <item>ANDROID#http://news.eoe.cn/news/tag/Android/pageNum/</item>
+        <item>IOS#http://news.eoe.cn/news/tag/ios/pageNum/</item>
+        <item>移动互联网#http://news.eoe.cn/news/tag/移动互联网/pageNum/</item>
+       <!--  <item>EOE博客#http://www.eoeandroid.com/home.php?catid=0</item>
+        <item>程序人生#http://www.eoeandroid.com/home.php?catid=1</item>
+        <item>环境搭建#http://www.eoeandroid.com/home.php?catid=2</item>
+        <item>基础教程#http://www.eoeandroid.com/home.php?catid=3</item>
+        <item>用户界面#http://www.eoeandroid.com/home.php?catid=4</item>
+        <item>数据存储#http://www.eoeandroid.com/home.php?catid=5</item>
+        <item>网络通信#http://www.eoeandroid.com/home.php?catid=6</item>
+        <item>图形图像#http://www.eoeandroid.com/home.php?catid=7</item>
+        <item>游戏开发#http://www.eoeandroid.com/home.php?catid=8</item>
+        <item>第三方集成#http://www.eoeandroid.com/home.php?catid=10</item>
+        <item>其他#http://www.eoeandroid.com/home.php?catid=11</item> -->
     </string-array>
     <string-array name="start_news_type_arrays">
         <item>IT之家#0</item>
         <item>CSDN#1</item>
         <item>科技锋芒#2</item>
+        <item>EOE#3</item>
     </string-array>
-
+	<string-array name="img_arrays">
+	    <item>file</item>
+	    <item>http://img.ithome.com</item>
+	    <item>http://cms.csdnimg.cn</item>
+	    <item>http://www.phonekr.com</item>
+	    <item>http://a1.eoe.cn/www/home</item>
+	</string-array>
 </resources>

@@ -48,6 +48,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.roboo.like.google.BaseActivity;
 import com.roboo.like.google.BaseLayoutActivity;
 import com.roboo.like.google.CommentActivity;
 import com.roboo.like.google.GoogleApplication;
@@ -232,7 +233,8 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 
 	private boolean isImg(String str)
 	{
-		return   str.startsWith(GoogleApplication.PREFIX_PHONEKR_IMG_URL)||str.startsWith(GoogleApplication.PREFIX_CSDN_IMG_URL)||str.startsWith(GoogleApplication.PREFIX_ITHOME_IMG_URL) || str.startsWith("file");
+		BaseActivity activity = (BaseActivity) getActivity();
+		return activity.isImg(str);
 	}
 
 	private void addCommentButton(android.widget.LinearLayout.LayoutParams params, int ltrb)

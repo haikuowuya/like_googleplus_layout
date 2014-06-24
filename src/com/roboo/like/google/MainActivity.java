@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -207,7 +206,7 @@ public class MainActivity extends BaseActivity
 		// 快捷图标是允许重复
 		shortcut.putExtra("duplicate", false);
 		Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
-		shortcutIntent.setClassName(getPackageName(), getPackageName() + ".MainActivity");
+		shortcutIntent.setClassName(getPackageName(), getPackageName() + ".StartActivity");
 		shortcutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
 

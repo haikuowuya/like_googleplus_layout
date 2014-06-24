@@ -27,13 +27,13 @@ import com.roboo.like.google.listener.ImageLoadingListenerImpl;
 import com.roboo.like.google.models.CommentItem;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.models.NewsTypeItem;
-import com.roboo.like.google.news.utils.ITHomeNewsUtils;
+import com.roboo.like.google.news.list.utils.ITHomeNewsUtils;
+import com.roboo.like.google.news.utils.NewsContentUtils;
+import com.roboo.like.google.news.utils.NewsListUtils;
 import com.roboo.like.google.utils.CommentUtils;
 import com.roboo.like.google.utils.DataUtils;
 import com.roboo.like.google.utils.FileUtils;
 import com.roboo.like.google.utils.MD5Utils;
-import com.roboo.like.google.utils.NewsContentUtils;
-import com.roboo.like.google.utils.NewsListUtils;
 
 public class WIFIDownloadService extends Service
 {

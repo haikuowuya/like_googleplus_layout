@@ -1,4 +1,4 @@
-package com.roboo.like.google.utils;
+package com.roboo.like.google.news.utils;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -10,6 +10,7 @@ import org.jsoup.select.Elements;
 
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.news.content.utils.CSDNNewsContentUtils;
+import com.roboo.like.google.news.content.utils.EOENewsContentUtils;
 import com.roboo.like.google.news.content.utils.ITHomeNewsContentUtils;
 import com.roboo.like.google.news.content.utils.PhoneKRNewsContentUtils;
 
@@ -35,6 +36,11 @@ public class NewsContentUtils
 		{
 			data = PhoneKRNewsContentUtils.getPhoneKRNewsDataList(newsUrl);
 		}
+		if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_EOE)
+		{
+			data = EOENewsContentUtils.getEoeNewsDataList(newsUrl);
+		}
+		
 		return data;
 
 	}

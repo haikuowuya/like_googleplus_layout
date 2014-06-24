@@ -21,18 +21,16 @@ public class GoogleApplication extends Application
 	public static final int  TYPE_ITHOME = 0;
 	public static final int  TYPE_CSDN = 1;
 	public static final int  TYPE_PHONEKR = 2;
+	public static final int  TYPE_EOE = 3;
 	public static int  mCurrentType = TYPE_CSDN;
 	private LinkedList<Activity> mActivities = new LinkedList<Activity>();
 	public static final String BASE_DIDI_URL = "http://pay.xiaojukeji.com/api/v2/webapp?city=";
 	private static GoogleApplication mInstance;
-	/** IT之家的图片地址前缀 */
-	public static final String PREFIX_ITHOME_IMG_URL = "http://img.ithome.com";
-	/** CSDN的图片地址前缀 */
-	public static final String PREFIX_CSDN_IMG_URL = "http://cms.csdnimg.cn";
-	public static final String PREFIX_PHONEKR_IMG_URL = "http://www.phonekr.com";
-	/** 用于测试切换ITHOME和CSDN的一个条件 */
-	public static final String BASE_OFFICE_URL = "http://it.ithome.com/category/8_";
-	public static final String TEST_CSDN_BASE_URL = "http://mobile.csdn.net/mobile/";
+//	/** IT之家的图片地址前缀 */
+//	public static final String PREFIX_ITHOME_IMG_URL = "http://img.ithome.com";
+//	/** CSDN的图片地址前缀 */
+//	public static final String PREFIX_CSDN_IMG_URL = "http://cms.csdnimg.cn";
+//	public static final String PREFIX_PHONEKR_IMG_URL = "http://www.phonekr.com";
 
 	public static final String BASE_COMMENT_URL = "http://www.ithome.com/ithome/GetAjaxData.aspx?type=commentpage";
 	/** 获取评论的URL */

@@ -18,10 +18,12 @@ public class DataUtils
 		{
 			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_csdn_arrays);
 		}
-		if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_PHONEKR)
+		else if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_PHONEKR)
 		{
 			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_phonekr_arrays);
-			
+		}else if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_EOE)
+		{
+			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_eoe_arrays);
 		}
 		LinkedList<NewsTypeItem> data = new LinkedList<NewsTypeItem>();
 		for (String str : arrays)

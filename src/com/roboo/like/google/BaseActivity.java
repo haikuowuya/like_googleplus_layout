@@ -1,18 +1,41 @@
 package com.roboo.like.google;
 
-import com.roboo.like.google.commons.CrashException;
+import java.util.Arrays;
+import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-public  class BaseActivity extends FragmentActivity  
+import com.roboo.like.google.commons.CrashException;
+
+public class BaseActivity extends FragmentActivity
 {
-	 @Override
+	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		GoogleApplication application = (GoogleApplication) getApplication();
 		application.recordActivity(this);
 		Thread.setDefaultUncaughtExceptionHandler(CrashException.getInstance(this));
 		super.onCreate(savedInstanceState);
+	}
+
+	public boolean isImg(String str)
+	{
+		 List<String> imgList =  Arrays.asList(getResources().getStringArray(R.array.img_arrays));
+		boolean flag = false;
+		for (String string : imgList)
+		{
+			 if(str.startsWith(string))
+			 {
+				 flag = true;
+				 break;
+			 }
+			 else if(str.toLowerCase().endsWith(".png")||str.endsWith(".jpg"))
+			 {
+				 flag = true;
+				 break;
+			 }
+		}
+		return flag;
 	}
 }
