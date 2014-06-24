@@ -4,14 +4,12 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
 import com.roboo.like.google.R;
 import com.roboo.like.google.infinite.InfiniteViewPager;
 
-public class HeaderView extends LinearLayout
+public class HeaderView extends LinearLayout//CustomLinearLayout
 {
 	private InfiniteViewPager mInfiniteViewPager;
 	private CirclePageIndicator mIndicator;
@@ -42,7 +40,6 @@ public class HeaderView extends LinearLayout
 		float scaleFactor = (float) (context.getResources().getDisplayMetrics().widthPixels / 640.0);
 		int height = (int) (320 * scaleFactor);
 		android.view.ViewGroup.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, height);
-		;
 		addView(view, params);
 	}
 
@@ -62,7 +59,7 @@ public class HeaderView extends LinearLayout
 		{
 			getParent().requestDisallowInterceptTouchEvent(true);
 		}
-		 
-		return true;
+//		 return false;
+		return true;//满足下拉刷新
 	}
 }
