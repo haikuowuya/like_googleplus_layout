@@ -171,7 +171,6 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mHeaderView = new HeaderView(getActivity());
 		mAdViewPager = mHeaderView.getViewPager();
 		mFooterProgressBar = mFooterView.getFooterProgressBar();
-
 		mBtnLoadNext = mFooterView.getButton();
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
@@ -197,6 +196,18 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			mListView.setAdapter(mAdapter);
 			mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
 			mAdapter.notifyDataSetChanged();
+			if (!mSwapRunnableHasStart)
+			{
+				mAdViewPager.setAdapter(getPagerAdapter());
+				mAdViewPager.setOffscreenPageLimit(getRealPagerCount());
+				FixedSpeedScroller fixedSpeedScroller = new FixedSpeedScroller(getActivity(), new BounceInterpolator());
+				mAdViewPager.setFixedScroller(fixedSpeedScroller);
+				mHeaderView.getIndicator().setViewPager(mAdViewPager);
+				mAdViewPager.setOnPageChangeListener(getOnPageChangeListener());
+				mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
+				mAdViewPager.setPageTransformer(true, getTransformer());
+				mSwapRunnableHasStart = true;
+			}
 		}
 		loadFirstData();
 		modifyDefaultListViewFieldValue();

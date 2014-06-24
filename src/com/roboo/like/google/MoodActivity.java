@@ -144,7 +144,7 @@ class CustomLinearLayout extends LinearLayout
 		switch (event.getAction())
 		{
 		case MotionEvent.ACTION_UP:
-			Log.i(TAG, "get Sy" + getScrollY());
+			Log.i(TAG, " ScorllY = " + getScrollY()+" ScrollX = " + getScrollX());
 			smoothScrollTo(0, 0);
 			break;
 		default:
@@ -160,7 +160,7 @@ class CustomLinearLayout extends LinearLayout
 		{
 			return true;
 		}
- 
+
 		public void onShowPress(MotionEvent e)
 		{
 
@@ -175,13 +175,18 @@ class CustomLinearLayout extends LinearLayout
 		@Override
 		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
 		{
-
 			int disY = (int) ((distanceY - 0.5) / 2);
 			int disX = (int) ((distanceX - 0.5) / 2);
-			Log.i(TAG, "disX =" + disX + " disY = " + disY );
-//			smoothScrollBy(0, disY);
-			smoothScrollBy(disX, 0);
-			
+			Log.i(TAG, "disX =" + disX + " disY = " + disY);
+			if ((Math.abs(disX) - Math.abs(disY)) >= 0)
+			{
+				smoothScrollBy(disX, 0);
+			}
+			else
+			{
+				smoothScrollBy(0, disY);
+			}
+
 			return false;
 		}
 
