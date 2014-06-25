@@ -22,7 +22,7 @@ import com.roboo.like.google.fragments.LeftFragment;
 import com.roboo.like.google.fragments.MainFragment;
 import com.roboo.like.google.fragments.RightFragment;
 import com.roboo.like.google.models.NewsTypeItem;
-import com.roboo.like.google.utils.DataUtils;
+import com.roboo.like.google.news.utils.NewsTypeDataUtils;
 
 public class MainActivity extends BaseActivity
 {
@@ -141,7 +141,7 @@ public class MainActivity extends BaseActivity
 
 	private BaseAdapter getAdapter()
 	{
-		mAdapter = new NewsTypeListAdapter(DataUtils.handleNewsType(this), this);
+		mAdapter = new NewsTypeListAdapter(NewsTypeDataUtils.handleNewsType(this), this);
 		return mAdapter;
 	}
 

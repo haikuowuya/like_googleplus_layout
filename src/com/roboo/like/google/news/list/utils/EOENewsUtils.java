@@ -15,7 +15,7 @@ public class EOENewsUtils
 {
 	private static final String BASE_EOE_BLOG_URL = "http://www.eoeandroid.com/home.php";
 
-	public static LinkedList<NewsItem> getEOENewsList(String eoeUrl, int pageNo) throws IOException
+	public static LinkedList<NewsItem> getEOENewsList(String eoeUrl, int pageNo) throws Exception
 	{
 		// eoeurl = http://news.eoe.cn/news/tag/Android/pageNum/
 		// http://news.eoe.cn/news/tag/Android/pageNum/5.html#end_lb

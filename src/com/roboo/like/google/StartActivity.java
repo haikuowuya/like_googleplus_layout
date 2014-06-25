@@ -1,7 +1,5 @@
 package com.roboo.like.google;
 
-import javax.crypto.Mac;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -38,12 +36,14 @@ public class StartActivity extends BaseLayoutActivity
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(false);
 		mActionBar.setDisplayShowHomeEnabled(false);
- 
 		mActionBar.setBackgroundDrawable(new ColorDrawable(Color.RED));
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setCustomView(R.layout.actionbar_custom_view);
-		 
-	 
 	}
-
+	public void onBackPressed()
+	{
+		 GoogleApplication application = (GoogleApplication) getApplication();
+		 application.exitClient();
+		super.onBackPressed();
+	}
 }	  

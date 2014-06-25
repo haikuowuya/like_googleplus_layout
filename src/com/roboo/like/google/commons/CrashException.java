@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.MainActivity;
 import com.roboo.like.google.R;
+import com.roboo.like.google.StartActivity;
 
 public class CrashException implements UncaughtExceptionHandler
 {
@@ -169,16 +170,21 @@ public class CrashException implements UncaughtExceptionHandler
 						System.exit(10);
 					}
 				})
-//				.setPositiveButton("重新打开", new OnClickListener()
-//				{
-//
-//					public void onClick(DialogInterface dialog, int which)
-//					{
-//						 Intent intent = new Intent(activity, MainActivity.class);
-//						 activity.startActivity(intent );
-//						 dialog.dismiss();
-//					}
-//				})
+				.setPositiveButton("重新打开", new OnClickListener()
+				{
+
+					public void onClick(DialogInterface dialog, int which)
+					{
+						 Intent intent = new Intent();
+						 intent.addCategory(Intent.CATEGORY_LAUNCHER);
+						 intent.setAction(Intent.ACTION_MAIN);
+						 intent.setClassName(activity.getPackageName(), activity.getPackageName()+".StartActivlty");
+						 activity.startActivity(intent );
+						 
+						 dialog.dismiss();
+						 GoogleApplication.getInstance().exitClient();
+					}
+				})
 				.create();
 				dialog.setCanceledOnTouchOutside(false);
 				dialog.show();

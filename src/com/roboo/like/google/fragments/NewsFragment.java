@@ -42,6 +42,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -63,9 +64,9 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 	/** 向 ViewGroup 中添加view时动画持续时间 */
 	private static final int ANIMATION_DURATION_TIME = 100;
 	private static final String ARG_NEWS = "news";
-	private static final int[] COLORS_COLLECTION = new int[] { R.color.red_color, R.color.sky_blue_color, R.color.hotpink_color, R.color.lightseagreen_color, R.color.orangered_color, R.color.turquoise_color };
+	private static final int[] COLORS_COLLECTION = new int[] { R.color.red_color, R.color.sky_blue_color, R.color.hotpink_color, R.color.lightseagreen_color, R.color.orangered_color, R.color.turquoise_color, R.color.fast_scroll_track_color, R.color.alpha_red_color, R.color.poppyview_default_color };
 	private NewsItem mItem;
- 
+
 	/** 线性布局用于存放新闻内容 */
 	private LinearLayout mLinearContainer;
 	/** 显示新闻标题 */
@@ -115,6 +116,7 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 		// mTvTitle.setTypeface(typeface);
 		return view;
 	}
+
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
@@ -164,11 +166,12 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 	public void onLoadFinished(Loader<LinkedList<String>> loader, LinkedList<String> data)
 	{
 		int durationTime = ANIMATION_DURATION_TIME;
-		if (null != data)
+		int lr = (int) (10 * getActivity().getResources().getDisplayMetrics().density);
+		if (null != data && data.size() > 0)
 		{
+			removeRetryButton();
 			durationTime = ANIMATION_DURATION_TIME * data.size();
 			setLinearContainerAnimation();
-			int lr = (int) (10 * getActivity().getResources().getDisplayMetrics().density);
 			int tb = 5;
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			params.bottomMargin = lr;
@@ -211,6 +214,7 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 					textView.setPadding(lr, tb, lr, tb);
 					// textView.setBackgroundResource(R.drawable.list_item_default);
 					mLinearContainer.addView(textView);
+
 				}
 
 				GoogleApplication.TEST = false;
@@ -219,16 +223,31 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 					System.out.println("str = " + str);
 				}
 			}
-			addCommentButton(params, lr);
+			if (GoogleApplication.mCurrentType == GoogleApplication.TYPE_ITHOME)
+			{
+				addCommentButton(params, lr);
+			}
 			// mHasAddedFrontView = addFrontView();
 		}
+		else
+		{
+			addRetryButton(lr);
+		}
 		int nextIndex = mRandom.nextInt(COLORS_COLLECTION.length);
-		((ViewGroup)mTvTitle.getParent()).setBackgroundColor(getResources().getColor(COLORS_COLLECTION[nextIndex]));
+		((ViewGroup) mTvTitle.getParent()).setBackgroundColor(getResources().getColor(COLORS_COLLECTION[nextIndex]));
 		mTvTitle.setText(mItem.getTitle());
 		mTvTime.setText(mItem.getTime());
 		mHandler.postDelayed(mHideProgressBarRunnable, durationTime);
-//		playGif();
+		// playGif();
 
+	}
+
+	private void removeRetryButton()
+	{
+		if (mLinearContainer.findViewById(R.id.btn_retry) != null)
+		{
+			mLinearContainer.removeView(mLinearContainer.findViewById(R.id.btn_retry));
+		}
 	}
 
 	private boolean isImg(String str)
@@ -239,18 +258,48 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 
 	private void addCommentButton(android.widget.LinearLayout.LayoutParams params, int ltrb)
 	{
-		params.leftMargin = ltrb;
-		params.rightMargin = ltrb;
+		if (mLinearContainer.findViewById(R.id.btn_comment) == null)
+		{
+			params.leftMargin = ltrb;
+			params.rightMargin = ltrb;
+			Button button = new Button(getActivity());
+			button.setId(R.id.btn_comment);
+			button.setClickable(true);
+			button.setText("查看评论");
+			button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+			button.setLayoutParams(params);
+			button.setPadding(ltrb, ltrb, ltrb, ltrb);
+			button.setBackgroundResource(R.drawable.list_item_selector);
+			mLinearContainer.addView(button);
+			button.setOnClickListener(new OnClickListenerImpl());
+		}
+	}
+
+	/** 当没有获取到数据时添加重试按钮 */
+	private void addRetryButton(int ltrb)
+	{
 		Button button = new Button(getActivity());
-		button.setId(R.id.btn_comment);
-		button.setClickable(true);
-		button.setText("查看评论");
-		button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-		button.setLayoutParams(params);
-		button.setPadding(ltrb, ltrb, ltrb, ltrb);
-		button.setBackgroundResource(R.drawable.list_item_selector);
-		mLinearContainer.addView(button);
-		button.setOnClickListener(new OnClickListenerImpl());
+		button.setId(R.id.btn_retry);
+		if (button.getParent() == null)
+		{
+			android.widget.LinearLayout.LayoutParams params = new android.widget.LinearLayout.LayoutParams(android.widget.LinearLayout.LayoutParams.MATCH_PARENT, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
+			params.gravity = Gravity.CENTER | Gravity.BOTTOM;
+			params.leftMargin = ltrb;
+			params.rightMargin = ltrb;
+			params.topMargin = ltrb;
+			params.bottomMargin = ltrb;
+			button.setClickable(true);
+			button.setText("点击重新加载");
+			button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+			button.setPadding(ltrb, ltrb, ltrb, ltrb);
+			button.setBackgroundResource(R.drawable.list_item_selector);
+			mLinearContainer.addView(button, params);
+			button.setOnClickListener(new OnClickListenerImpl());
+		}
+		else
+		{
+			button.setVisibility(View.VISIBLE);
+		}
 	}
 
 	public void onLoaderReset(Loader<LinkedList<String>> loader)
@@ -284,6 +333,11 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 
 			case R.id.btn_comment:
 				CommentActivity.actionComment(getActivity(), mItem.getNewsId());
+				break;
+			case R.id.btn_retry:// 重试
+				v.setVisibility(View.GONE);
+				getActivity().getSupportLoaderManager().restartLoader(0, getArguments(), NewsFragment.this);
+				Toast.makeText(getActivity(), "重试", Toast.LENGTH_SHORT).show();
 				break;
 			}
 		}
@@ -533,8 +587,7 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 					inputStream.close();
 				}
 				catch (Exception e)
-				{
-				}
+				{}
 			}
 		}
 		return inputStream;

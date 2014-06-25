@@ -18,7 +18,7 @@ import com.roboo.like.google.MainActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.StartNewsTypeListAdapter;
 import com.roboo.like.google.models.StartNewsTypeItem;
-import com.roboo.like.google.utils.DataUtils;
+import com.roboo.like.google.news.utils.NewsTypeDataUtils;
 import com.roboo.like.google.views.StickyListHeadersListView;
 
 public class StartFragment extends BaseFragment
@@ -56,7 +56,7 @@ public class StartFragment extends BaseFragment
 
 	private ListAdapter getAdapter()
 	{
-		LinkedList<StartNewsTypeItem> mData = DataUtils.handleStartNewsType(getActivity());
+		LinkedList<StartNewsTypeItem> mData = NewsTypeDataUtils.handleStartNewsType(getActivity());
 		mAdapter = new StartNewsTypeListAdapter(mData, getActivity());
 		return mAdapter;
 	}

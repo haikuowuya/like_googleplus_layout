@@ -88,6 +88,10 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 		{
 			e.printStackTrace();
 		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		return data;
 	}
 

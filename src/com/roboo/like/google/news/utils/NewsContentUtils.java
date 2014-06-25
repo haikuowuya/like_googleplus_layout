@@ -3,24 +3,16 @@ package com.roboo.like.google.news.utils;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.news.content.utils.CSDNNewsContentUtils;
 import com.roboo.like.google.news.content.utils.EOENewsContentUtils;
+import com.roboo.like.google.news.content.utils.GeekParkNewsContentUtils;
 import com.roboo.like.google.news.content.utils.ITHomeNewsContentUtils;
 import com.roboo.like.google.news.content.utils.PhoneKRNewsContentUtils;
 
-import android.annotation.SuppressLint;
-import android.text.TextUtils;
 
-@SuppressLint("SimpleDateFormat")
 public class NewsContentUtils
 {
-	
 	public static LinkedList<String> getNewsDataList(String newsUrl) throws IOException
 	{
 		LinkedList<String> data = null;
@@ -40,9 +32,10 @@ public class NewsContentUtils
 		{
 			data = EOENewsContentUtils.getEoeNewsDataList(newsUrl);
 		}
-		
+		if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_GEEKPARK)
+		{
+			data = GeekParkNewsContentUtils.getGeekParkNewsDataList(newsUrl);
+		}
 		return data;
-
 	}
-
 }

@@ -17,6 +17,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.roboo.like.google.BaseActivity;
 import com.roboo.like.google.BaseLayoutActivity;
 import com.roboo.like.google.GoogleApplication;
+import com.roboo.like.google.R;
 import com.roboo.like.google.utils.BitmapUtils;
 import com.roboo.like.google.views.PhotoView;
 
@@ -57,7 +58,7 @@ public class ImagePagerAdapter extends PagerAdapter
 		String mImagePath = mImageUrls.get(position);
 		if (isNetworkImg(mImagePath))
 		{
-			DisplayImageOptions options = new DisplayImageOptions.Builder().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).bitmapConfig(Config.RGB_565).build();
+			DisplayImageOptions options = new DisplayImageOptions.Builder().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image).bitmapConfig(Config.RGB_565).build();
 			mImageLoader.displayImage(mImagePath, photoView, options);
 		}
 		else

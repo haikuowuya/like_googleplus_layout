@@ -1,6 +1,5 @@
 package com.roboo.like.google.news.list.utils;
 
-import java.io.IOException;
 import java.util.LinkedList;
 
 import org.jsoup.Jsoup;
@@ -22,7 +21,7 @@ public class PhoneKRNewsUtils
 {
 	private static final String KE_JI_FENG_MANG_URL = "http://www.phonekr.com/page/";
 
-	public static LinkedList<NewsItem> getPhoneKRNewsList(String phoneKRUrl, int pageNo) throws IOException
+	public static LinkedList<NewsItem> getPhoneKRNewsList(String phoneKRUrl, int pageNo) throws Exception
 	{
 		LinkedList<NewsItem> items = null;
 		String url = phoneKRUrl + pageNo + "/";

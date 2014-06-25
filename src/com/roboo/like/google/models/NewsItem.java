@@ -18,7 +18,8 @@ public class NewsItem implements Serializable
 	private long date = System.currentTimeMillis();
 	private String newsCategoryMd5;
 	public int headerId;
-
+	/**极客公园*/
+	public String  t = "0";
 	public NewsItem()
 	{
 		super();
@@ -56,6 +57,16 @@ public class NewsItem implements Serializable
 		this.note = note;
 		this.source = source;
 		this.date = date;
+	}
+
+	public String getT()
+	{
+		return t;
+	}
+
+	public void setT(String t)
+	{
+		this.t = t;
 	}
 
 	public int getHeaderId()

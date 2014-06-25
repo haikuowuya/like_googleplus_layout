@@ -193,7 +193,11 @@ public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter
 		{
 			section = 0;
 		}
-		return mSectionIndex.get(section);
+		if(section < mSectionIndex.size() && mSectionIndex.size() > 0)
+		{
+			return mSectionIndex.get(section);
+		}
+		return 0;
 	}
 
 	public int getSectionForPosition(int position)

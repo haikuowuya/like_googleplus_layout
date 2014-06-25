@@ -28,10 +28,10 @@ import com.roboo.like.google.models.CommentItem;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.models.NewsTypeItem;
 import com.roboo.like.google.news.list.utils.ITHomeNewsUtils;
+import com.roboo.like.google.news.utils.NewsTypeDataUtils;
 import com.roboo.like.google.news.utils.NewsContentUtils;
 import com.roboo.like.google.news.utils.NewsListUtils;
 import com.roboo.like.google.utils.CommentUtils;
-import com.roboo.like.google.utils.DataUtils;
 import com.roboo.like.google.utils.FileUtils;
 import com.roboo.like.google.utils.MD5Utils;
 
@@ -63,7 +63,7 @@ public class WIFIDownloadService extends Service
 	public void onCreate()
 	{
 		super.onCreate();
-		mData = DataUtils.handleNewsType(this);
+		mData = NewsTypeDataUtils.handleNewsType(this);
 		mCyclicBarrier = new CyclicBarrier(mData.size(), mDownloadFinishRunnable);
 		mStartTime = System.currentTimeMillis();
 		for (int i = 0; i < mData.size(); i++)
@@ -106,10 +106,14 @@ public class WIFIDownloadService extends Service
 			{
 				e.printStackTrace();
 			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 
 		/** 保存与新闻有关的数据到本地 */
-		private void persistentData() throws IOException, InterruptedException, BrokenBarrierException
+		private void persistentData() throws Exception, InterruptedException, BrokenBarrierException
 		{
 			long startTime1 = System.currentTimeMillis();
 			System.out.println("开始下载 " + mTypeItem.name);

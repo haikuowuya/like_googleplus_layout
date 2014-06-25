@@ -24,7 +24,7 @@ public class ITHomeNewsUtils
 	private static final String FOUR_BLANK = "    ";
 	private static final String IT_HOME_LAZY_IMG_URL = "http://img.ithome.com/images/v2/grey.gif";
 
-	public static LinkedList<NewsItem> getITHomeNewsList(String ithomeUrl, int pageNo) throws IOException
+	public static LinkedList<NewsItem> getITHomeNewsList(String ithomeUrl, int pageNo) throws Exception
 	{
 		LinkedList<NewsItem> data = null;
 		// ithomeurl = http://it.ithome.com/category/10_1.html

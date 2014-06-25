@@ -188,7 +188,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mBtnText = (Button) mPoppyView.findViewById(R.id.btn_text);
 		mPullToRefreshAttacher.addRefreshableView(mListView, getOnRefreshListener());
 		mData = getOfflineData(getArguments().getString(ARG_NEWS_URL));
-		if(null != mData)
+		if (null != mData)
 		{
 			mAdapter = new NewsListAdapter(getActivity(), mData, mSectionIndex);
 			mListView.addFooterView(mFooterView);
@@ -315,6 +315,11 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		Bundle bundle = getArguments();
 		mCurrentPageNo = 1;
 		bundle.putInt(ARG_CURRENT_PAGENO, mCurrentPageNo);
+		if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_GEEKPARK)
+		{
+			int pageNo =  Integer.MAX_VALUE;
+			bundle.putInt(ARG_CURRENT_PAGENO, pageNo);
+		}
 		mPullToRefreshAttacher.setRefreshing(true);
 		getActivity().getSupportLoaderManager().restartLoader(0, bundle, MainFragment.this);
 	}
@@ -617,6 +622,11 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			mStubCurrentPageNo += 1;
 			mCurrentPageNo = mStubCurrentPageNo;
 			bundle.putInt(ARG_CURRENT_PAGENO, mStubCurrentPageNo);
+			if (GoogleApplication.mCurrentType == GoogleApplication.TYPE_GEEKPARK)// 极客公园要对currentpageno进行特殊处理
+			{
+				int pageNo = Integer.parseInt(mData.getLast().t);
+				bundle.putInt(ARG_CURRENT_PAGENO, pageNo-1);
+			}
 			getActivity().getSupportLoaderManager().restartLoader(0, bundle, this);
 		}
 	}

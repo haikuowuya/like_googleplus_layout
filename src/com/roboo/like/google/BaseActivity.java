@@ -2,6 +2,7 @@ package com.roboo.like.google;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -30,7 +31,7 @@ public class BaseActivity extends FragmentActivity
 				 flag = true;
 				 break;
 			 }
-			 else if(str.toLowerCase().endsWith(".png")||str.endsWith(".jpg"))
+			 else if(str.toLowerCase(Locale.getDefault()).endsWith(".png")||str.toLowerCase(Locale.getDefault()).endsWith(".jpg")||str.toLowerCase(Locale.getDefault()).endsWith("gif"))
 			 {
 				 flag = true;
 				 break;

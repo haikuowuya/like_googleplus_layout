@@ -1,4 +1,4 @@
-package com.roboo.like.google.utils;
+package com.roboo.like.google.news.utils;
 
 import java.util.LinkedList;
 
@@ -9,7 +9,7 @@ import com.roboo.like.google.R;
 import com.roboo.like.google.models.NewsTypeItem;
 import com.roboo.like.google.models.StartNewsTypeItem;
 
-public class DataUtils
+public class NewsTypeDataUtils
 {
 	public static LinkedList<NewsTypeItem> handleNewsType(Context context)
 	{
@@ -24,6 +24,10 @@ public class DataUtils
 		}else if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_EOE)
 		{
 			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_eoe_arrays);
+		}
+		else if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_GEEKPARK)
+		{
+			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_geekpark_arrays);
 		}
 		LinkedList<NewsTypeItem> data = new LinkedList<NewsTypeItem>();
 		for (String str : arrays)

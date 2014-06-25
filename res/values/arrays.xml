@@ -38,6 +38,17 @@
     <string-array name="actionbar_navigation_phonekr_arrays">
         <item>科技锋芒#http://www.phonekr.com/page/</item>
     </string-array>
+    <string-array name="actionbar_navigation_geekpark_arrays">
+        <item>谷歌#http://www.geekpark.net/ajax/load_seeds/?tag_id=150188</item>
+        <item>微信#http://www.geekpark.net/ajax/load_seeds/?tag_id=160388</item>
+        <item>行业趋势#http://www.geekpark.net/ajax/load_seeds/?tag_id=155553</item>
+        <item>社交网络#http://www.geekpark.net/ajax/load_seeds/?tag_id=150045</item>
+        <item>产品观察#http://www.geekpark.net/ajax/load_seeds/?tag_id=155597</item>
+        <item>ANDROID#http://www.geekpark.net/ajax/load_seeds/?tag_id=150027</item>
+        <item>移动互联网#http://www.geekpark.net/ajax/load_seeds/?tag_id=150016</item>
+        <item>极客早知道#http://www.geekpark.net/ajax/load_seeds/?tag_id=160388</item>
+        <item>Facebook#http://www.geekpark.net/ajax/load_seeds/?tag_id=150048</item>
+    </string-array>
     <string-array name="actionbar_navigation_eoe_arrays">
         <item>全部咨询#http://news.eoe.cn/cat-0-</item>
         <item>行业动态#http://news.eoe.cn/cat-10-</item>
@@ -64,6 +75,7 @@
         <item>CSDN#1</item>
         <item>科技锋芒#2</item>
         <item>EOE#3</item>
+        <item>极客公园#4</item>
     </string-array>
 	<string-array name="img_arrays">
 	    <item>file</item>
