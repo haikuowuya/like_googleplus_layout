@@ -13,7 +13,7 @@ import android.text.TextUtils;
 
 public class GeekParkNewsContentUtils
 {
-	private static final String FOUR_BLANK_SPACE = "      ";
+	private static final String FOUR_BLANK_SPACE = "         ";
 
 	public static LinkedList<String> getGeekParkNewsDataList(String newsUrl) throws IOException
 	{
