@@ -13,7 +13,7 @@ import android.text.TextUtils;
 
 public class GeekParkNewsContentUtils
 {
-	private static final String FOUR_BLANK_SPACE = "         ";
+	private static final String FOUR_BLANK_SPACE = "        ";
 
 	public static LinkedList<String> getGeekParkNewsDataList(String newsUrl) throws IOException
 	{
@@ -22,7 +22,6 @@ public class GeekParkNewsContentUtils
 		Element majorElement = null;
 		Document document = Jsoup.connect(newsUrl).get();
 		// System.out.println(document);
-
 		majorElements = document.getElementsByClass("tips");
 		StringBuffer stringBuffer = new StringBuffer();
 		if (!majorElements.isEmpty())
