@@ -195,6 +195,8 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			mListView.addHeaderView(mHeaderView);
 			mListView.setAdapter(mAdapter);
 			mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
+			Collections.sort(generateHeaderId(mData), new YMDComparator());
+			mAdapter.setSectionIndex(mSectionIndex);
 			mAdapter.notifyDataSetChanged();
 			if (!mSwapRunnableHasStart)
 			{
@@ -759,7 +761,6 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		}
 		catch (FileNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (IOException e)

@@ -76,6 +76,9 @@
         <item>科技锋芒#2</item>
         <item>EOE#3</item>
         <item>极客公园#4</item>
+        <item>199IT#5</item>
+        <item>36KR#6</item>
+        <item>虎嗅网#7</item>
     </string-array>
 	<string-array name="img_arrays">
 	    <item>file</item>
