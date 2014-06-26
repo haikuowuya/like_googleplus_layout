@@ -178,7 +178,7 @@ public class CrashException implements UncaughtExceptionHandler
 						 Intent intent = new Intent();
 						 intent.addCategory(Intent.CATEGORY_LAUNCHER);
 						 intent.setAction(Intent.ACTION_MAIN);
-						 intent.setClassName(activity.getPackageName(), activity.getPackageName()+".StartActivlty");
+						 intent.setClassName(activity.getPackageName(), activity.getPackageName()+".StartActivity");
 						 activity.startActivity(intent );
 						 
 						 dialog.dismiss();

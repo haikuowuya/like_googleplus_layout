@@ -145,12 +145,15 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	{
 		public void run()
 		{
-			mSwapRunnableHasStart = true;
-			mHeaderView.getIndicator().setCurrentItem(mPosition % getRealPagerCount(), true);
-			mAdViewPager.nextItem();
-			mPosition++;
-			mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
-			mHandler.sendEmptyMessage(mPosition);
+			if (mAdViewPager != null)
+			{
+				mSwapRunnableHasStart = true;
+				mHeaderView.getIndicator().setCurrentItem(mPosition % getRealPagerCount(), true);
+				mAdViewPager.nextItem();
+				mPosition++;
+				mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
+				mHandler.sendEmptyMessage(mPosition);
+			}
 		}
 	};
 
@@ -175,6 +178,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
+
 		return view;
 	}
 
@@ -317,9 +321,9 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		Bundle bundle = getArguments();
 		mCurrentPageNo = 1;
 		bundle.putInt(ARG_CURRENT_PAGENO, mCurrentPageNo);
-		if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_GEEKPARK)
+		if (GoogleApplication.mCurrentType == GoogleApplication.TYPE_GEEKPARK)
 		{
-			int pageNo =  Integer.MAX_VALUE;
+			int pageNo = Integer.MAX_VALUE;
 			bundle.putInt(ARG_CURRENT_PAGENO, pageNo);
 		}
 		mPullToRefreshAttacher.setRefreshing(true);
@@ -627,7 +631,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			if (GoogleApplication.mCurrentType == GoogleApplication.TYPE_GEEKPARK)// 极客公园要对currentpageno进行特殊处理
 			{
 				int pageNo = Integer.parseInt(mData.getLast().t);
-				bundle.putInt(ARG_CURRENT_PAGENO, pageNo-1);
+				bundle.putInt(ARG_CURRENT_PAGENO, pageNo - 1);
 			}
 			getActivity().getSupportLoaderManager().restartLoader(0, bundle, this);
 		}

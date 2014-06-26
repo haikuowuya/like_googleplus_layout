@@ -17,6 +17,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
+import cn.jpush.android.api.JPushInterface;
 
 import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.MKGeneralListener;
@@ -78,6 +79,7 @@ public class GoogleApplication extends Application
 		mInstance = this;
 		bindNetworkService();
 		startYunBaService();
+		initJPush();
 	}
 
 	private void bindNetworkService()
@@ -175,7 +177,12 @@ public class GoogleApplication extends Application
 		System.exit(10);
 		
 	}
-
+	/** 初始化JPush */
+	private void initJPush()
+	{
+		JPushInterface.setDebugMode(true);
+		JPushInterface.init(this);
+	}
 	private void startYunBaService()
 	{
 		YunBaManager.start(getApplicationContext());

@@ -7,6 +7,8 @@ import java.util.Locale;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.roboo.like.google.commons.CrashException;
 
 public class BaseActivity extends FragmentActivity
@@ -18,6 +20,17 @@ public class BaseActivity extends FragmentActivity
 		application.recordActivity(this);
 		Thread.setDefaultUncaughtExceptionHandler(CrashException.getInstance(this));
 		super.onCreate(savedInstanceState);
+	}
+	protected void onResume()
+	{
+		super.onResume();
+		JPushInterface.onResume(this);
+	}
+	protected void onPause()
+	{
+		super.onPause();
+		JPushInterface.onPause(this);
+	 
 	}
 
 	public boolean isImg(String str)
