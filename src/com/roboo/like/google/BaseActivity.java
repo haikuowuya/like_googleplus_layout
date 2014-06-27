@@ -18,6 +18,7 @@ public class BaseActivity extends FragmentActivity
 	{
 		GoogleApplication application = (GoogleApplication) getApplication();
 		application.recordActivity(this);
+		 
 		Thread.setDefaultUncaughtExceptionHandler(CrashException.getInstance(this));
 		super.onCreate(savedInstanceState);
 	}

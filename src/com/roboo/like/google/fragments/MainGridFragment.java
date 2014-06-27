@@ -53,6 +53,7 @@ import com.roboo.like.google.NewsActivity;
 import com.roboo.like.google.PictureActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.TextActivity;
+import com.roboo.like.google.adapters.NewsGridAdapter;
 import com.roboo.like.google.adapters.NewsListAdapter;
 import com.roboo.like.google.async.NewsListAsyncTaskLoader;
 import com.roboo.like.google.infinite.FixedSpeedScroller;
@@ -70,13 +71,14 @@ import com.roboo.like.google.utils.MD5Utils;
 import com.roboo.like.google.utils.NetWorkUtils;
 import com.roboo.like.google.views.FooterView;
 import com.roboo.like.google.views.HeaderView;
+import com.roboo.like.google.views.StickyGridHeadersGridView;
 import com.roboo.like.google.views.StickyListHeadersListView;
 import com.roboo.like.google.views.helper.PoppyListViewHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.DefaultHeaderTransformer;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.OnRefreshListener;
 
-public class MainFragment extends BaseFragment implements LoaderCallbacks<LinkedList<NewsItem>>
+public class MainGridFragment extends BaseFragment implements LoaderCallbacks<LinkedList<NewsItem>>
 {
 	private static final String DECLARED_OPERA_FAST_SCROLLER_FIELD = "mFastScroller";// FastScroller
 	private static final String DECLARED_OVERLAY_SIZE = "mOverlaySize";// int
@@ -94,7 +96,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	private LinkedList<Integer> mSectionIndex = new LinkedList<Integer>();
 
 	/** ListView */
-	private StickyListHeadersListView mListView;
+	private StickyGridHeadersGridView mGridView;
 	/** 当ListView向上滚动时会出现的View的辅助类 */
 	private PoppyListViewHelper mPoppyListViewHelper;
 	/** ActionBar下拉刷新的辅助类 */
@@ -110,22 +112,22 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	/** 文字 */
 	private Button mBtnText;
 	/** 新闻列表适配器 */
-	private NewsListAdapter mAdapter;
+	private NewsGridAdapter mAdapter;
 	/** ListView最后一列是否可见的标志 */
 	public boolean mLastItemVisible;
 	/** ListView 的 FooterView */
-	private FooterView mFooterView;
+	// private FooterView mFooterView;
 	/** ListView 的 HeaderView */
-	private HeaderView mHeaderView;
+	// private HeaderView mHeaderView;
 	/** 新闻列表适配器的数据源 */
 	private LinkedList<NewsItem> mData;
 	/** 当点击FooterView时显示加载数据标识 */
-	private ProgressBar mFooterProgressBar;
+	// private ProgressBar mFooterProgressBar;
 	private int mProgress = 0;
 	/** 正在加载数据中…… */
-	private Button mBtnLoadNext;
+	// private Button mBtnLoadNext;
 	/** HeaderView 中的ViewPager */
-	private InfiniteViewPager mAdViewPager;
+	// private InfiniteViewPager mAdViewPager;
 	protected int mPosition = 0;
 	protected Handler mHandler = new Handler();
 
@@ -145,22 +147,22 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	{
 		public void run()
 		{
-			if (mAdViewPager != null)
-			{
-				mSwapRunnableHasStart = true;
-				mHeaderView.getIndicator().setCurrentItem(mPosition % getRealPagerCount(), true);
-				mAdViewPager.nextItem();
-				mPosition++;
-				mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
-				mHandler.sendEmptyMessage(mPosition);
-			}
+			// if (mAdViewPager != null)
+			// {
+			// mSwapRunnableHasStart = true;
+			// mHeaderView.getIndicator().setCurrentItem(mPosition % getRealPagerCount(), true);
+			// mAdViewPager.nextItem();
+			// mPosition++;
+			// mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
+			// mHandler.sendEmptyMessage(mPosition);
+			// }
 		}
 	};
 
 	/** 创建一个 ContentFragment 实例 */
-	public static MainFragment newInstance(String newsUrl)
+	public static MainGridFragment newInstance(String newsUrl)
 	{
-		MainFragment fragment = new MainFragment();
+		MainGridFragment fragment = new MainGridFragment();
 		Bundle bundle = new Bundle();
 		bundle.putString(ARG_NEWS_URL, newsUrl);
 		fragment.setArguments(bundle);
@@ -169,13 +171,13 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.fragment_main, null);// TODO
-		mFooterView = new FooterView(getActivity(), FooterView.TYPE_PROGRESS_BUTTON);
-		mHeaderView = new HeaderView(getActivity());
-		mAdViewPager = mHeaderView.getViewPager();
-		mFooterProgressBar = mFooterView.getFooterProgressBar();
-		mBtnLoadNext = mFooterView.getButton();
-		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
+		View view = inflater.inflate(R.layout.fragment_main_grid, null);// TODO
+		// mFooterView = new FooterView(getActivity(), FooterView.TYPE_PROGRESS_BUTTON);
+		// mHeaderView = new HeaderView(getActivity());
+		// mAdViewPager = mHeaderView.getViewPager();
+		// mFooterProgressBar = mFooterView.getFooterProgressBar();
+		// mBtnLoadNext = mFooterView.getButton();
+		mGridView = (StickyGridHeadersGridView) view.findViewById(R.id.sghgv_gridview);
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
 
@@ -185,34 +187,34 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
-		mPoppyView = mPoppyListViewHelper.createPoppyViewOnListView(R.id.slhlv_list, R.layout.poppyview);
+		mPoppyView = mPoppyListViewHelper.createPoppyViewOnListView(R.id.sghgv_gridview, R.layout.poppyview);
 		mBtnPicture = (Button) mPoppyView.findViewById(R.id.btn_picture);
 		mBtnLocation = (Button) mPoppyView.findViewById(R.id.btn_location);
 		mBtnMood = (Button) mPoppyView.findViewById(R.id.btn_mood);
 		mBtnText = (Button) mPoppyView.findViewById(R.id.btn_text);
-		mPullToRefreshAttacher.addRefreshableView(mListView, getOnRefreshListener());
+		mPullToRefreshAttacher.addRefreshableView(mGridView, getOnRefreshListener());
 		mData = getOfflineData(getArguments().getString(ARG_NEWS_URL));
 		if (null != mData)
 		{
-			mAdapter = new NewsListAdapter(getActivity(), mData, mSectionIndex);
-			mListView.addFooterView(mFooterView);
-			mListView.addHeaderView(mHeaderView);
-			mListView.setAdapter(mAdapter);
-			mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
+			mAdapter = new NewsGridAdapter(getActivity(), mData, mSectionIndex);
+			// mListView.addFooterView(mFooterView);
+			// mListView.addHeaderView(mHeaderView);
+			mGridView.setAdapter(mAdapter);
+			// mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
 			Collections.sort(generateHeaderId(mData), new YMDComparator());
 			mAdapter.setSectionIndex(mSectionIndex);
 			mAdapter.notifyDataSetChanged();
 			if (!mSwapRunnableHasStart)
 			{
-				mAdViewPager.setAdapter(getPagerAdapter());
-				mAdViewPager.setOffscreenPageLimit(getRealPagerCount());
-				FixedSpeedScroller fixedSpeedScroller = new FixedSpeedScroller(getActivity(), new BounceInterpolator());
-				mAdViewPager.setFixedScroller(fixedSpeedScroller);
-				mHeaderView.getIndicator().setViewPager(mAdViewPager);
-				mAdViewPager.setOnPageChangeListener(getOnPageChangeListener());
-				mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
-				mAdViewPager.setPageTransformer(true, getTransformer());
-				mSwapRunnableHasStart = true;
+				// mAdViewPager.setAdapter(getPagerAdapter());
+				// mAdViewPager.setOffscreenPageLimit(getRealPagerCount());
+				// FixedSpeedScroller fixedSpeedScroller = new FixedSpeedScroller(getActivity(), new BounceInterpolator());
+				// mAdViewPager.setFixedScroller(fixedSpeedScroller);
+				// mHeaderView.getIndicator().setViewPager(mAdViewPager);
+				// mAdViewPager.setOnPageChangeListener(getOnPageChangeListener());
+				// mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
+				// mAdViewPager.setPageTransformer(true, getTransformer());
+				// mSwapRunnableHasStart = true;
 			}
 		}
 		loadFirstData();
@@ -239,31 +241,30 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 
 	private void setListener()
 	{
-		mListView.setOnItemClickListener(new OnListItemClickListenerImpl());
+		mGridView.setOnItemClickListener(new OnListItemClickListenerImpl());
 		OnClickListenerImpl onClickListenerImpl = new OnClickListenerImpl();
 		mBtnLocation.setOnClickListener(onClickListenerImpl);
 		mBtnMood.setOnClickListener(onClickListenerImpl);
 		mBtnPicture.setOnClickListener(onClickListenerImpl);
 		mBtnText.setOnClickListener(onClickListenerImpl);
-		mFooterView.getButton().setOnClickListener(onClickListenerImpl);
+		// mFooterView.getButton().setOnClickListener(onClickListenerImpl);
 	}
 
 	private class OnListItemClickListenerImpl implements OnItemClickListener
 	{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		{
-			if (parent.getAdapter().getItemViewType(position) == AbsListView.ITEM_VIEW_TYPE_HEADER_OR_FOOTER)
-			{
-				if (mFooterView.getType() == FooterView.TYPE_BUTTON)
-				{
-					loadNextData();
-				}
-
-			}
-			else
-			{
-				NewsActivity.actionNews(getActivity(), (NewsItem) parent.getAdapter().getItem(position));
-			}
+			// if (parent.getAdapter().getItemViewType(position) == AbsListView.ITEM_VIEW_TYPE_HEADER_OR_FOOTER)
+			// {
+			// // if (mFooterView.getType() == FooterView.TYPE_BUTTON)
+			// // {
+			// // loadNextData();
+			// // }
+			// }
+			// else
+			// {
+			NewsActivity.actionNews(getActivity(), (NewsItem) mAdapter.getItem(position));
+			// }
 		}
 	}
 
@@ -273,8 +274,8 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		{
 			public Object onComplete()
 			{
-				mBtnLoadNext.setEnabled(true);
-				((ProcessButton) mBtnLoadNext).onNormalState();
+				// mBtnLoadNext.setEnabled(true);
+				// ((ProcessButton) mBtnLoadNext).onNormalState();
 				return null;
 			}
 
@@ -282,21 +283,21 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			public Object doInBackgroundProcess()
 			{
 				loadNextData();
-				mBtnLoadNext.setEnabled(false);
+				// mBtnLoadNext.setEnabled(false);
 				final Handler handler = new Handler();
 				handler.postDelayed(new Runnable()
 				{
 					public void run()
 					{
-						((ProcessButton) mBtnLoadNext).setProgress(mProgress);
-						if (mProgress < 100)
-						{
-							handler.postDelayed(this, generateDelay());
-						}
-						else
-						{
-							onComplete();
-						}
+						// ((ProcessButton) mBtnLoadNext).setProgress(mProgress);
+						// if (mProgress < 100)
+						// {
+						// handler.postDelayed(this, generateDelay());
+						// }
+						// else
+						// {
+						// onComplete();
+						// }
 						mProgress = new Random().nextInt(100);
 					}
 				}, generateDelay());
@@ -327,7 +328,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			bundle.putInt(ARG_CURRENT_PAGENO, pageNo);
 		}
 		mPullToRefreshAttacher.setRefreshing(true);
-		getActivity().getSupportLoaderManager().restartLoader(0, bundle, MainFragment.this);
+		getActivity().getSupportLoaderManager().restartLoader(0, bundle, MainGridFragment.this);
 	}
 
 	/** initLoader/reStartLoader方法被调用时会执行onCreateLoader */
@@ -338,8 +339,8 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		{
 			System.out.println("当前加载的是第   " + args.getInt(ARG_CURRENT_PAGENO, 1) + " 页数据");
 		}
-		mFooterProgressBar.setVisibility(View.VISIBLE);
-		mBtnLoadNext.setText("正在加载数据中……");
+		// mFooterProgressBar.setVisibility(View.VISIBLE);
+		// mBtnLoadNext.setText("正在加载数据中……");
 		return new NewsListAsyncTaskLoader(getActivity(), args.getString(ARG_NEWS_URL), args.getInt(ARG_CURRENT_PAGENO, 1));
 	}
 
@@ -373,7 +374,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		private void doSomething()
 		{
 			mProgress = 50;
-			new ProgressGenerator(getOnCompleteListener()).start((ProcessButton) mBtnLoadNext);
+			// new ProgressGenerator(getOnCompleteListener()).start((ProcessButton) mBtnLoadNext);
 		}
 
 		/** 图片 */
@@ -412,9 +413,9 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 	@Override
 	public void onLoadFinished(Loader<LinkedList<NewsItem>> loader, LinkedList<NewsItem> data)
 	{
-		mBtnLoadNext.setEnabled(true);
+		// mBtnLoadNext.setEnabled(true);
 		mProgress = 100;
-		((ProcessButton) mBtnLoadNext).onNormalState();
+		// ((ProcessButton) mBtnLoadNext).onNormalState();
 		if (data != null)
 		{
 			int updateCount = 0;
@@ -423,11 +424,11 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			{
 				mData = data;
 				updateCount = mData.size();
-				mAdapter = new NewsListAdapter(getActivity(), mData, mSectionIndex);
-				mListView.addFooterView(mFooterView);
-				mListView.addHeaderView(mHeaderView);
-				mListView.setAdapter(mAdapter);
-				mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
+				mAdapter = new NewsGridAdapter(getActivity(), mData, mSectionIndex);
+				// mListView.addFooterView(mFooterView);
+				// mListView.addHeaderView(mHeaderView);
+				mGridView.setAdapter(mAdapter);
+				// mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
 			}
 			else
 			{
@@ -450,7 +451,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 				messageText = " 更新  " + updateCount + " 条新数据";
 			}
 			new CardToastUtils(getActivity()).setShowToastStyle(CardToastUtils.SHOW_ANIMATION_TOP_TO_DOWN_STYLE).showAndAutoDismiss(messageText);
-			mBtnLoadNext.setText("点击加载下一页");
+			// mBtnLoadNext.setText("点击加载下一页");
 		}
 		else
 		{
@@ -458,24 +459,24 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			{
 				getActivity().findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
 			}
-			mBtnLoadNext.setText("所有数据加载完毕");
+			// mBtnLoadNext.setText("所有数据加载完毕");
 		}
 		if (null != mData && !mSwapRunnableHasStart)
 		{
-			mAdViewPager.setAdapter(getPagerAdapter());
-			mAdViewPager.setOffscreenPageLimit(getRealPagerCount());
-			FixedSpeedScroller fixedSpeedScroller = new FixedSpeedScroller(getActivity(), new BounceInterpolator());
-			mAdViewPager.setFixedScroller(fixedSpeedScroller);
-			mHeaderView.getIndicator().setViewPager(mAdViewPager);
-			mAdViewPager.setOnPageChangeListener(getOnPageChangeListener());
-			mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
-			mAdViewPager.setPageTransformer(true, getTransformer());
+			// mAdViewPager.setAdapter(getPagerAdapter());
+			// mAdViewPager.setOffscreenPageLimit(getRealPagerCount());
+			// FixedSpeedScroller fixedSpeedScroller = new FixedSpeedScroller(getActivity(), new BounceInterpolator());
+			// mAdViewPager.setFixedScroller(fixedSpeedScroller);
+			// mHeaderView.getIndicator().setViewPager(mAdViewPager);
+			// mAdViewPager.setOnPageChangeListener(getOnPageChangeListener());
+			// mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
+			// mAdViewPager.setPageTransformer(true, getTransformer());
 		}
 		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
 		{
-			mBtnLoadNext.setText("设置网络");
+			// mBtnLoadNext.setText("设置网络");
 		}
-		mFooterProgressBar.setVisibility(View.INVISIBLE);
+		// mFooterProgressBar.setVisibility(View.INVISIBLE);
 		mPullToRefreshAttacher.setRefreshComplete();
 		if (isNeedShowCreateDesktopDialog())
 		{
@@ -502,7 +503,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 			public void onPageSelected(int position)
 			{
 				mPosition = position;
-				mHeaderView.getIndicator().setCurrentItem(position % getRealPagerCount(), true);
+				// mHeaderView.getIndicator().setCurrentItem(position % getRealPagerCount(), true);
 			}
 
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
@@ -519,15 +520,16 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 
 	private int getRealPagerCount()
 	{
-		PagerAdapter adapter = mAdViewPager.getAdapter();
-		if (adapter instanceof InfinitePagerAdapter)
-		{
-			return ((InfinitePagerAdapter) adapter).getRealCount();
-		}
-		else
-		{
-			return adapter.getCount();
-		}
+		// PagerAdapter adapter = mAdViewPager.getAdapter();
+		// if (adapter instanceof InfinitePagerAdapter)
+		// {
+		// return ((InfinitePagerAdapter) adapter).getRealCount();
+		// }
+		// else
+		// {
+		// return adapter.getCount();
+		// }
+		return 0;
 	}
 
 	private PageTransformer getTransformer()
@@ -696,7 +698,7 @@ public class MainFragment extends BaseFragment implements LoaderCallbacks<Linked
 		{
 			Field field = AbsListView.class.getDeclaredField(DECLARED_OPERA_FAST_SCROLLER_FIELD);
 			field.setAccessible(true);
-			Object object = field.get(mListView);
+			Object object = field.get(mGridView);
 			field = field.getType().getDeclaredField(DECLARED_PAINT);// 获取绘制文字的画笔
 			field.setAccessible(true);
 			Paint paint = new Paint();

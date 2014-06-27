@@ -50,6 +50,7 @@
         <item>Facebook#http://www.geekpark.net/ajax/load_seeds/?tag_id=150048</item>
     </string-array>
     <string-array name="actionbar_navigation_eoe_arrays">
+        <item>EOE首页#http://www.eoe.cn/index/index/pageNum/</item>
         <item>全部咨询#http://news.eoe.cn/cat-0-</item>
         <item>行业动态#http://news.eoe.cn/cat-10-</item>
         <item>创新项目#http://news.eoe.cn/cat-11-</item>

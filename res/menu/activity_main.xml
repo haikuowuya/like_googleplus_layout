@@ -3,34 +3,43 @@
     <item
         android:id="@+id/menu_group"
         android:icon="@drawable/ic_menu_group"
-        android:visible="false"
-        android:showAsAction="always"/>
+        android:showAsAction="always"
+        android:visible="false"/>
     <item
         android:id="@+id/menu_download"
         android:icon="@drawable/ic_menu_download"
-        android:title="下载"
-        android:showAsAction="always"/>
+        android:showAsAction="always"
+        android:title="下载"/>
     <item
         android:id="@+id/menu_notification"
         android:icon="@drawable/ic_menu_notification"
-        android:title="展开右菜单"
-        android:showAsAction="always"/>
+        android:showAsAction="always"
+        android:title="展开右菜单"/>
     <item
         android:icon="@drawable/ic_menu_overflow"
-        android:showAsAction="never"
-        android:visible="false">
+        android:showAsAction="always"
+        android:title="更多"
+        android:visible="true">
         <menu>
             <item
-                android:id="@+id/menu_refresh"
-                android:title="刷新"/>
+                android:id="@+id/menu_list"
+                android:showAsAction="always"
+                android:checkable="true"
+                android:checked="true"
+                android:title="列表"/>
             <item
-                android:id="@+id/menu_settings"
-                android:title="设置"/>
+                android:id="@+id/menu_grid"
+                android:showAsAction="always"
+                android:checkable="true"
+                android:checked="false"
+                android:title="网格"/>
             <item
                 android:id="@+id/menu_feedback"
-                android:title="反馈"/>
+                android:showAsAction="always"
+                android:title="瀑布流"/>
             <item
                 android:id="@+id/menu_help"
+                android:showAsAction="always"
                 android:title="帮助"/>
         </menu>
     </item>

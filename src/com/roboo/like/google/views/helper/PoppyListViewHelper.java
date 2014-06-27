@@ -10,6 +10,7 @@ import android.view.ViewParent;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.nineoldandroids.view.ViewPropertyAnimator;
@@ -53,9 +54,21 @@ public class PoppyListViewHelper
 
 	// for ListView
 
-	public View createPoppyViewOnListView(int listViewId, int poppyViewResId, OnScrollListener onScrollListener)
+	public View createPoppyViewOnAbsListView(int listViewId, int poppyViewResId, OnScrollListener onScrollListener)
 	{
-		final ListView listView = (ListView) mActivity.findViewById(listViewId);
+		ListView listView =  null;
+		GridView gridView =  null;
+		AbsListView view =    (AbsListView) mActivity.findViewById(listViewId);
+		if(view instanceof ListView)
+		{
+			listView = (ListView) view;
+		}
+		else  if(view instanceof GridView)
+		{
+			gridView = (GridView) view;
+		}
+		if(null != listView)
+		{
 		if (listView.getHeaderViewsCount() != 0)
 		{
 			throw new IllegalArgumentException("use createPoppyViewOnListView with headerResId parameter");
@@ -64,14 +77,15 @@ public class PoppyListViewHelper
 		{
 			throw new IllegalArgumentException("poppyview library doesn't support listview with footer");
 		}
+		}
 		mPoppyView = mLayoutInflater.inflate(poppyViewResId, null);
-		initPoppyViewOnListView(listView, onScrollListener);
+		initPoppyViewOnAbsListView(view, onScrollListener);
 		return mPoppyView;
 	}
 
 	public View createPoppyViewOnListView(int listViewId, int poppyViewResId)
 	{
-		return createPoppyViewOnListView(listViewId, poppyViewResId, null);
+		return createPoppyViewOnAbsListView(listViewId, poppyViewResId, null);
 	}
 
 	private void setPoppyViewOnView(View view)
@@ -137,9 +151,10 @@ public class PoppyListViewHelper
 		});
 	}
 
-	private void initPoppyViewOnListView(ListView listView, final OnScrollListener onScrollListener)
+	private void initPoppyViewOnAbsListView(AbsListView listView, final OnScrollListener onScrollListener)
 	{
 		setPoppyViewOnView(listView);
+		 
 		listView.setOnScrollListener(new OnScrollListener()
 		{
 			int mScrollPosition;

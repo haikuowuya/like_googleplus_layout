@@ -1,6 +1,5 @@
 package com.roboo.like.google.news.list.utils;
 
-import java.io.IOException;
 import java.util.LinkedList;
 
 import org.jsoup.Jsoup;

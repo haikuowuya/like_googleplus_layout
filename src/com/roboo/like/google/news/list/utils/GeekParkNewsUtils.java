@@ -94,7 +94,7 @@ public class GeekParkNewsUtils
 				newTime = year + "年" + month + "月";
 				if (year.equals("2014"))
 				{
-					newTime = newTime + day + "日";
+//					newTime = newTime + day + "日";
 				}
 			}
 		}
