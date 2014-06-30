@@ -34,7 +34,7 @@
                 android:checked="false"
                 android:title="网格"/>
             <item
-                android:id="@+id/menu_feedback"
+                android:id="@+id/menu_pinterest"
                 android:showAsAction="always"
                 android:title="瀑布流"/>
             <item

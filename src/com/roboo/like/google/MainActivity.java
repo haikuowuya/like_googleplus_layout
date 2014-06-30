@@ -140,6 +140,9 @@ public class MainActivity extends BaseActivity
 			item.setChecked(true);
 
 			return true;
+		case R.id.menu_pinterest:
+			PinterestActivity.actionPinterest(this);
+			return true;
 		case R.id.menu_download:
 			showDownloadDialog();
 			return true;

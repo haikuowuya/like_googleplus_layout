@@ -116,6 +116,7 @@
         <activity android:name=".TextActivity" />
         <activity android:name=".PictureDetailActivity" />
         <activity android:name=".UserActivity" />
+        <activity android:name=".PinterestActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".JPushActivity" 
             android:theme="@style/Dialog.Theme"
