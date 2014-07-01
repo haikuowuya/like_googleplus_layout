@@ -22,6 +22,7 @@ import cn.jpush.android.api.JPushInterface;
 import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.MKGeneralListener;
 import com.baidu.mapapi.map.MKEvent;
+import com.droidux.components.DroidUxLib;
 
 public class GoogleApplication extends Application
 {
@@ -80,6 +81,7 @@ public class GoogleApplication extends Application
 		bindNetworkService();
 		startYunBaService();
 		initJPush();
+		DroidUxLib.register("enter-your-api-key-here", this);
 	}
 
 	private void bindNetworkService()

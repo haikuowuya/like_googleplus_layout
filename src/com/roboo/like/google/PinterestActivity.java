@@ -6,31 +6,43 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.effect.Effect;
+import android.media.effect.EffectFactory;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView.ScaleType;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.droidux.anim.FloorBounceAnimation;
+import com.droidux.interfaces.GalleryFlowInterfaces.Adapters.AdapterLooper;
 import com.droidux.interfaces.GalleryFlowInterfaces.GalleryFlowViewInterface;
 import com.droidux.widget.adapters.UrlImageAdapter;
+import com.droidux.widget.gallery.GalleryFlowCarousel;
+import com.droidux.widget.gallery.GalleryFlowZoom;
 
 /** 文字界面 */
 public class PinterestActivity extends BaseLayoutActivity implements AnimationListener
 {
-	private Gallery mGalleryFlow;
+	private GalleryFlowCarousel mGalleryFlowCarousel;
+	private GalleryFlowZoom mGalleryFlowZoom;
 
 	DemoImage[] mImages;
+
+	private AdapterLooper mAdapterLooper;
 
 	public static void actionPinterest(Activity activity)
 	{
@@ -60,32 +72,55 @@ public class PinterestActivity extends BaseLayoutActivity implements AnimationLi
 
 	public void initView()
 	{
-		mGalleryFlow = (Gallery) findViewById(R.id.gfc_gallery);
+		initGFC();
+		initGFZ();
+	}
 
-		mGalleryFlow.setClipChildren(false);
-		final Gallery galleryFlow = mGalleryFlow;
-		mImages = createItems();
-		SpinnerAdapter adapter = createAdapter();
-		galleryFlow.setAdapter(adapter);
-		galleryFlow.setSelection(0, true);
-		galleryFlow.setCallbackDuringFling(false);
+	@SuppressWarnings("deprecation")
+	private void initGFZ()
+	{
+		mGalleryFlowZoom = (GalleryFlowZoom) findViewById(R.id.gfz_gallery);
+		mGalleryFlowZoom.setReflected(false);
+		mAdapterLooper = createAdapter();
+		mGalleryFlowZoom.setAdapter(mAdapterLooper);
+		mGalleryFlowZoom.setSelection(0, true);
+		mGalleryFlowZoom.setCallbackDuringFling(false);
+		mGalleryFlowZoom.setMaxFlingVelocity(1500);
+		mGalleryFlowZoom.setSelection(mAdapterLooper.getCenterPosition());
+	}
+
+	@SuppressWarnings("deprecation")
+	private void initGFC()
+	{
+		mGalleryFlowCarousel = (GalleryFlowCarousel) findViewById(R.id.gfc_gallery);
+		mGalleryFlowCarousel.setClipChildren(false);
+
+		mAdapterLooper = createAdapter();
+		mGalleryFlowCarousel.setAdapter(mAdapterLooper);
+		mGalleryFlowCarousel.setSelection(0, true);
+		mGalleryFlowCarousel.setCallbackDuringFling(false);
+		mGalleryFlowCarousel.setSpacing(-40);
+		mGalleryFlowCarousel.setMaxFlingVelocity(1500);
+		mGalleryFlowCarousel.setSelection(mAdapterLooper.getCenterPosition());
+		mGalleryFlowCarousel.setViewPoint(GalleryFlowCarousel.VIEW_POINT_OUTSIDE);
+		mGalleryFlowCarousel.setEdgeAngle(90);
+		mGalleryFlowCarousel.setReflected(false);
 		setGalleryFlowListeners();
-
 	}
 
 	void setGalleryFlowListeners()
 	{
-		mGalleryFlow.setOnItemClickListener(new OnItemClickListener()
+		mGalleryFlowCarousel.setOnItemClickListener(new OnItemClickListener()
 		{
-
 			public void onItemClick(AdapterView<?> parent, View view, int position, long arg3)
 			{
+				Toast.makeText(PinterestActivity.this, (1 + position) + "", Toast.LENGTH_SHORT).show();
 				// ignore when the clicked item is not the same as the selected item
 				if (position != parent.getSelectedItemPosition())
 				{
 					return;
 				}
-				view.startAnimation(createMediumAnimation(true));
+				// view.startAnimation(createMediumAnimation(true));
 			}
 		});
 	}
@@ -93,7 +128,7 @@ public class PinterestActivity extends BaseLayoutActivity implements AnimationLi
 	private Animation createMediumAnimation(boolean setListener)
 	{
 		Animation anim = new FloorBounceAnimation(0.30f, Animation.RELATIVE_TO_SELF);
-		anim.setDuration(getResources().getInteger(400));
+		anim.setDuration(2000);
 		if (setListener)
 		{
 			anim.setAnimationListener(this);
@@ -102,15 +137,17 @@ public class PinterestActivity extends BaseLayoutActivity implements AnimationLi
 
 	}
 
-	SpinnerAdapter createAdapter()
+	AdapterLooper createAdapter()
 	{
-		return new ImageAdapter(this, mImages);
+		mImages = createItems();
+		return new AdapterLooper(new ImageAdapter(this, mImages));
 	}
 
 	private void customActionBar()
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(true);
-		mActionBar.setTitle("瀑布流");
+		// mActionBar.setTitle("瀑布流");
+		mActionBar.setTitle("测试");
 		mActionBar.setLogo(R.drawable.ic_abs_mood_up);
 	}
 
@@ -180,17 +217,11 @@ public class PinterestActivity extends BaseLayoutActivity implements AnimationLi
 
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
-
-			LinearLayout linearLayout;
-
-			linearLayout = new LinearLayout(mContext);
-
-			TextView tv = new TextView(mContext);
-			ImageView iv = new ImageView(mContext);
-			linearLayout.addView(tv);
-			linearLayout.addView(iv);
+			LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.layout_galleryflow_item, null);// TODO
+			TextView tv = (TextView) linearLayout.findViewById(R.id.tv_title);
+			ImageView iv = (ImageView) linearLayout.findViewById(R.id.iv_image);
 			tv.setText(mItems[position].getTitle());
-			iv.setImageResource(R.drawable.ic_default_image);
+			iv.setImageResource(R.drawable.ic_image);
 			return linearLayout;
 		}
 
@@ -209,9 +240,9 @@ public class PinterestActivity extends BaseLayoutActivity implements AnimationLi
 		@Override
 		public void onImageReady(int position, View itemView, String url, int refId, Bitmap bitmap)
 		{
-			if(itemView instanceof ImageView)
+			if (itemView instanceof ImageView)
 			{
-				((ImageView)itemView).setImageBitmap(bitmap);
+				((ImageView) itemView).setImageBitmap(bitmap);
 			}
 		}
 
@@ -240,7 +271,8 @@ public class PinterestActivity extends BaseLayoutActivity implements AnimationLi
 
 		String getImageUrl()
 		{
-			return String.format("http://www.droidux.com/images/droidux/apidemos_v2/port/%s.jpg", image);
+			return "http://e.hiphotos.baidu.com/image/w%3D230/sign=9d5b668dd31373f0f53f689c940e4b8b/267f9e2f07082838532822e2ba99a9014c08f11b.jpg";
+			// return String.format("http://www.droidux.com/images/droidux/apidemos_v2/port/%s.jpg", image);
 		}
 
 		@Override
@@ -253,20 +285,17 @@ public class PinterestActivity extends BaseLayoutActivity implements AnimationLi
 	@Override
 	public void onAnimationStart(Animation animation)
 	{
-		((GalleryFlowViewInterface) mGalleryFlow).setScrollingEnabled(false);
+		((GalleryFlowViewInterface) mGalleryFlowCarousel).setScrollingEnabled(false);
 
 	}
 
 	@Override
 	public void onAnimationEnd(Animation animation)
 	{
-		((GalleryFlowViewInterface) mGalleryFlow).setScrollingEnabled(true);
+		((GalleryFlowViewInterface) mGalleryFlowCarousel).setScrollingEnabled(true);
 	}
 
 	@Override
 	public void onAnimationRepeat(Animation animation)
-	{
-		// TODO Auto-generated method stub
-
-	}
+	{}
 }

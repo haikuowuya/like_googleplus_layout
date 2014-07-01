@@ -68,7 +68,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int centered=0x7f010012;
+        public static final int centered=0x7f010021;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -137,6 +137,140 @@ containing a value of this type.
 </table>
          */
         public static final int drawType=0x7f01000f;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int dux_cameraZ=0x7f01001a;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int dux_cellSpacing=0x7f01001f;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int dux_edgeAngle=0x7f01001c;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int dux_effectDistanceFactor=0x7f010018;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int dux_effectStrength=0x7f010016;
+        /** <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>none</code></td><td>0</td><td></td></tr>
+<tr><td><code>dim</code></td><td>1</td><td></td></tr>
+<tr><td><code>fade</code></td><td>2</td><td></td></tr>
+</table>
+         */
+        public static final int dux_effectType=0x7f010015;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int dux_floorGap=0x7f010012;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int dux_maxRotationAngle=0x7f010017;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int dux_reflected=0x7f010011;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int dux_reflectionHeight=0x7f010014;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int dux_reflectionStrength=0x7f010013;
+        /** <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>center</code></td><td>0</td><td></td></tr>
+<tr><td><code>edge</code></td><td>1</td><td></td></tr>
+</table>
+         */
+        public static final int dux_rotationAxisMode=0x7f010019;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int dux_scale=0x7f01001b;
+        /** <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>inside</code></td><td>0</td><td></td></tr>
+<tr><td><code>outside</code></td><td>1</td><td></td></tr>
+</table>
+         */
+        public static final int dux_viewPoint=0x7f01001d;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int dux_wallHeight=0x7f01001e;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -169,7 +303,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int fillColor=0x7f010016;
+        public static final int fillColor=0x7f010025;
         /**  Color of the filled circles that represents pages. 
          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
@@ -179,7 +313,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int pageColor=0x7f010017;
+        public static final int pageColor=0x7f010026;
         /**  Radius of the circles. This is also the spacing between circles. 
          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
@@ -190,7 +324,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int radius=0x7f010018;
+        public static final int radius=0x7f010027;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -199,7 +333,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int selectedColor=0x7f010013;
+        public static final int selectedColor=0x7f010022;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -220,7 +354,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int snap=0x7f010019;
+        public static final int snap=0x7f010028;
         /**  Color of the open circles. 
          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
@@ -230,7 +364,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int strokeColor=0x7f01001a;
+        public static final int strokeColor=0x7f010029;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -240,7 +374,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int strokeWidth=0x7f010014;
+        public static final int strokeWidth=0x7f010023;
         /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -284,12 +418,12 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int unselectedColor=0x7f010015;
+        public static final int unselectedColor=0x7f010024;
         /**  Style of the circle indicator. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int vpiCirclePageIndicatorStyle=0x7f010011;
+        public static final int vpiCirclePageIndicatorStyle=0x7f010020;
     }
     public static final class color {
         public static final int alpha_red_color=0x7f0a0005;
@@ -360,7 +494,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int actionbar_spinner_selector=0x7f020001;
         public static final int actionbar_title_text_color_selector=0x7f020002;
         public static final int checked_textview_selector=0x7f020003;
-        public static final int drawable_listview_divider=0x7f02006a;
+        public static final int drawable_listview_divider=0x7f020065;
         public static final int fastscroll_thumb_selector=0x7f020004;
         public static final int ic_abs_camera_up=0x7f020005;
         public static final int ic_abs_didi_up=0x7f020006;
@@ -392,167 +526,170 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ic_geo=0x7f020020;
         public static final int ic_hangout=0x7f020021;
         public static final int ic_home=0x7f020022;
-        public static final int ic_image1=0x7f020023;
-        public static final int ic_launcher=0x7f020024;
-        public static final int ic_location=0x7f020025;
-        public static final int ic_location_active=0x7f020026;
-        public static final int ic_menu_download=0x7f020027;
-        public static final int ic_menu_group=0x7f020028;
-        public static final int ic_menu_location_default=0x7f020029;
-        public static final int ic_menu_location_pressed=0x7f02002a;
-        public static final int ic_menu_notification=0x7f02002b;
-        public static final int ic_menu_overflow=0x7f02002c;
-        public static final int ic_menu_search=0x7f02002d;
-        public static final int ic_mood_active=0x7f02002e;
-        public static final int ic_nav_turn_back_s=0x7f02002f;
-        public static final int ic_nav_turn_branch_center_s=0x7f020030;
-        public static final int ic_nav_turn_branch_left_s=0x7f020031;
-        public static final int ic_nav_turn_branch_right_s=0x7f020032;
-        public static final int ic_nav_turn_end_s=0x7f020033;
-        public static final int ic_nav_turn_front_s=0x7f020034;
-        public static final int ic_nav_turn_left_back_s=0x7f020035;
-        public static final int ic_nav_turn_left_front_s=0x7f020036;
-        public static final int ic_nav_turn_left_s=0x7f020037;
-        public static final int ic_nav_turn_left_side_s=0x7f020038;
-        public static final int ic_nav_turn_right_back_s=0x7f020039;
-        public static final int ic_nav_turn_right_front_s=0x7f02003a;
-        public static final int ic_nav_turn_right_s=0x7f02003b;
-        public static final int ic_nav_turn_right_side_s=0x7f02003c;
-        public static final int ic_nav_turn_ring_s=0x7f02003d;
-        public static final int ic_nav_turn_start_s=0x7f02003e;
-        public static final int ic_no_notification=0x7f02003f;
-        public static final int ic_picture=0x7f020040;
-        public static final int ic_picture1=0x7f020041;
-        public static final int ic_picture2=0x7f020042;
-        public static final int ic_picture3=0x7f020043;
-        public static final int ic_picture4=0x7f020044;
-        public static final int ic_picture5=0x7f020045;
-        public static final int ic_picture6=0x7f020046;
-        public static final int ic_popup=0x7f020047;
-        public static final int ic_route_popup_background=0x7f020048;
-        public static final int ic_search=0x7f020049;
-        public static final int ic_test=0x7f02004a;
-        public static final int ic_test1=0x7f02004b;
-        public static final int ic_test2=0x7f02004c;
-        public static final int ic_test3=0x7f02004d;
-        public static final int ic_text_active=0x7f02004e;
-        public static final int ic_up=0x7f02004f;
-        public static final int ic_user_background=0x7f020050;
-        public static final int image_view_level_drawable=0x7f020051;
-        public static final int line=0x7f020052;
-        public static final int list_item_default=0x7f020053;
-        public static final int list_item_pressed=0x7f020054;
-        public static final int list_item_selector=0x7f020055;
-        public static final int listshadow=0x7f020056;
-        public static final int menu_item_location_selector=0x7f020057;
-        public static final int poppyview_selector=0x7f020058;
-        public static final int progressbar=0x7f020059;
-        public static final int ptr_progress_horizontal_holo_center=0x7f02005a;
-        public static final int ptr_progress_indeterminate_horizontal_holo=0x7f02005b;
-        public static final int ptr_progress_primary_holo=0x7f02005c;
-        public static final int ptr_progressbar_indeterminate_holo1=0x7f02005d;
-        public static final int ptr_progressbar_indeterminate_holo2=0x7f02005e;
-        public static final int ptr_progressbar_indeterminate_holo3=0x7f02005f;
-        public static final int ptr_progressbar_indeterminate_holo4=0x7f020060;
-        public static final int ptr_progressbar_indeterminate_holo5=0x7f020061;
-        public static final int ptr_progressbar_indeterminate_holo6=0x7f020062;
-        public static final int ptr_progressbar_indeterminate_holo7=0x7f020063;
-        public static final int ptr_progressbar_indeterminate_holo8=0x7f020064;
-        public static final int pulltorefresh_arrow=0x7f020065;
-        public static final int shadow_bottom=0x7f020066;
-        public static final int shadow_left=0x7f020067;
-        public static final int shadow_right=0x7f020068;
-        public static final int text_color_selector=0x7f020069;
+        public static final int ic_image=0x7f020023;
+        public static final int ic_image1=0x7f020024;
+        public static final int ic_launcher=0x7f020025;
+        public static final int ic_location=0x7f020026;
+        public static final int ic_location_active=0x7f020027;
+        public static final int ic_menu_download=0x7f020028;
+        public static final int ic_menu_group=0x7f020029;
+        public static final int ic_menu_location_default=0x7f02002a;
+        public static final int ic_menu_location_pressed=0x7f02002b;
+        public static final int ic_menu_notification=0x7f02002c;
+        public static final int ic_menu_overflow=0x7f02002d;
+        public static final int ic_menu_search=0x7f02002e;
+        public static final int ic_mood_active=0x7f02002f;
+        public static final int ic_nav_turn_back_s=0x7f020030;
+        public static final int ic_nav_turn_branch_center_s=0x7f020031;
+        public static final int ic_nav_turn_branch_left_s=0x7f020032;
+        public static final int ic_nav_turn_branch_right_s=0x7f020033;
+        public static final int ic_nav_turn_end_s=0x7f020034;
+        public static final int ic_nav_turn_front_s=0x7f020035;
+        public static final int ic_nav_turn_left_back_s=0x7f020036;
+        public static final int ic_nav_turn_left_front_s=0x7f020037;
+        public static final int ic_nav_turn_left_s=0x7f020038;
+        public static final int ic_nav_turn_left_side_s=0x7f020039;
+        public static final int ic_nav_turn_right_back_s=0x7f02003a;
+        public static final int ic_nav_turn_right_front_s=0x7f02003b;
+        public static final int ic_nav_turn_right_s=0x7f02003c;
+        public static final int ic_nav_turn_right_side_s=0x7f02003d;
+        public static final int ic_nav_turn_ring_s=0x7f02003e;
+        public static final int ic_nav_turn_start_s=0x7f02003f;
+        public static final int ic_no_notification=0x7f020040;
+        public static final int ic_picture=0x7f020041;
+        public static final int ic_popup=0x7f020042;
+        public static final int ic_route_popup_background=0x7f020043;
+        public static final int ic_search=0x7f020044;
+        public static final int ic_test=0x7f020045;
+        public static final int ic_test1=0x7f020046;
+        public static final int ic_test2=0x7f020047;
+        public static final int ic_test3=0x7f020048;
+        public static final int ic_text_active=0x7f020049;
+        public static final int ic_up=0x7f02004a;
+        public static final int ic_user_background=0x7f02004b;
+        public static final int image_view_level_drawable=0x7f02004c;
+        public static final int line=0x7f02004d;
+        public static final int list_item_default=0x7f02004e;
+        public static final int list_item_pressed=0x7f02004f;
+        public static final int list_item_selector=0x7f020050;
+        public static final int listshadow=0x7f020051;
+        public static final int menu_item_location_selector=0x7f020052;
+        public static final int poppyview_selector=0x7f020053;
+        public static final int progressbar=0x7f020054;
+        public static final int ptr_progress_horizontal_holo_center=0x7f020055;
+        public static final int ptr_progress_indeterminate_horizontal_holo=0x7f020056;
+        public static final int ptr_progress_primary_holo=0x7f020057;
+        public static final int ptr_progressbar_indeterminate_holo1=0x7f020058;
+        public static final int ptr_progressbar_indeterminate_holo2=0x7f020059;
+        public static final int ptr_progressbar_indeterminate_holo3=0x7f02005a;
+        public static final int ptr_progressbar_indeterminate_holo4=0x7f02005b;
+        public static final int ptr_progressbar_indeterminate_holo5=0x7f02005c;
+        public static final int ptr_progressbar_indeterminate_holo6=0x7f02005d;
+        public static final int ptr_progressbar_indeterminate_holo7=0x7f02005e;
+        public static final int ptr_progressbar_indeterminate_holo8=0x7f02005f;
+        public static final int pulltorefresh_arrow=0x7f020060;
+        public static final int shadow_bottom=0x7f020061;
+        public static final int shadow_left=0x7f020062;
+        public static final int shadow_right=0x7f020063;
+        public static final int text_color_selector=0x7f020064;
     }
     public static final class id {
         public static final int all=0x7f090003;
-        public static final int alv_list=0x7f090030;
+        public static final int alv_list=0x7f090038;
         public static final int bottom=0x7f090002;
-        public static final int btnSend=0x7f090039;
-        public static final int btn_comment=0x7f09000b;
-        public static final int btn_detail=0x7f090017;
-        public static final int btn_drawer=0x7f090037;
-        public static final int btn_load_next=0x7f09003e;
-        public static final int btn_location=0x7f090041;
-        public static final int btn_mood=0x7f090042;
-        public static final int btn_notification=0x7f090038;
-        public static final int btn_open=0x7f09001a;
-        public static final int btn_picture=0x7f090040;
-        public static final int btn_retry=0x7f09000c;
-        public static final int btn_text=0x7f090043;
-        public static final int btn_username=0x7f09002f;
+        public static final int btnSend=0x7f090041;
+        public static final int btn_comment=0x7f090012;
+        public static final int btn_detail=0x7f09001e;
+        public static final int btn_drawer=0x7f09003f;
+        public static final int btn_load_next=0x7f090046;
+        public static final int btn_location=0x7f090049;
+        public static final int btn_mood=0x7f09004a;
+        public static final int btn_notification=0x7f090040;
+        public static final int btn_open=0x7f090021;
+        public static final int btn_picture=0x7f090048;
+        public static final int btn_retry=0x7f090013;
+        public static final int btn_text=0x7f09004b;
+        public static final int btn_username=0x7f090037;
         public static final int button=0x7f090009;
-        public static final int card_container=0x7f090011;
-        public static final int content=0x7f09001f;
-        public static final int cpi_indicator=0x7f09001b;
-        public static final int ctv_text=0x7f09002a;
-        public static final int dlv_list=0x7f09002d;
-        public static final int drawer_container=0x7f09000f;
-        public static final int dsv_scrollview=0x7f090033;
-        public static final int frame_container=0x7f090010;
-        public static final int frame_left_container=0x7f090018;
-        public static final int frame_right_container=0x7f090019;
-        public static final int gfc_gallery=0x7f09001c;
-        public static final int image=0x7f090021;
-        public static final int iv_image=0x7f09000a;
+        public static final int card_container=0x7f090018;
+        public static final int center=0x7f09000d;
+        public static final int content=0x7f090027;
+        public static final int cpi_indicator=0x7f090022;
+        public static final int ctv_text=0x7f090032;
+        public static final int dim=0x7f09000b;
+        public static final int dlv_list=0x7f090035;
+        public static final int drawer_container=0x7f090016;
+        public static final int dsv_scrollview=0x7f09003b;
+        public static final int edge=0x7f09000e;
+        public static final int fade=0x7f09000c;
+        public static final int frame_container=0x7f090017;
+        public static final int frame_left_container=0x7f09001f;
+        public static final int frame_right_container=0x7f090020;
+        public static final int gfc_gallery=0x7f090023;
+        public static final int gfz_gallery=0x7f090024;
+        public static final int image=0x7f090029;
+        public static final int inside=0x7f09000f;
+        public static final int iv_image=0x7f090011;
         public static final int left=0x7f090000;
-        public static final int linear_container=0x7f090014;
-        public static final int menu_cinema=0x7f090050;
-        public static final int menu_download=0x7f090052;
-        public static final int menu_food=0x7f09004d;
-        public static final int menu_grid=0x7f090055;
-        public static final int menu_group=0x7f090051;
-        public static final int menu_help=0x7f090057;
-        public static final int menu_hotel=0x7f09004f;
-        public static final int menu_list=0x7f090054;
-        public static final int menu_location=0x7f09004c;
-        public static final int menu_market=0x7f09004e;
-        public static final int menu_notification=0x7f090053;
-        public static final int menu_pinterest=0x7f090056;
-        public static final int menu_search=0x7f09004b;
-        public static final int mv_mapview=0x7f090016;
-        public static final int npb_progress=0x7f09003a;
-        public static final int pb_footer_progress=0x7f09003d;
-        public static final int pb_progress=0x7f090012;
-        public static final int pbtn_load_next=0x7f09003f;
+        public static final int linear_container=0x7f09001b;
+        public static final int menu_cinema=0x7f090058;
+        public static final int menu_download=0x7f09005a;
+        public static final int menu_food=0x7f090055;
+        public static final int menu_grid=0x7f09005d;
+        public static final int menu_group=0x7f090059;
+        public static final int menu_help=0x7f09005f;
+        public static final int menu_hotel=0x7f090057;
+        public static final int menu_list=0x7f09005c;
+        public static final int menu_location=0x7f090054;
+        public static final int menu_market=0x7f090056;
+        public static final int menu_notification=0x7f09005b;
+        public static final int menu_pinterest=0x7f09005e;
+        public static final int menu_search=0x7f090053;
+        public static final int mv_mapview=0x7f09001d;
+        public static final int none=0x7f09000a;
+        public static final int npb_progress=0x7f090042;
+        public static final int outside=0x7f090010;
+        public static final int pb_footer_progress=0x7f090045;
+        public static final int pb_progress=0x7f090019;
+        public static final int pbtn_load_next=0x7f090047;
         public static final int progress_default=0x7f090004;
         public static final int progress_horizonal=0x7f090006;
         public static final int progress_progress=0x7f090005;
         public static final int progress_vertical=0x7f090007;
         public static final int progressbar_button=0x7f090008;
-        public static final int ptr_btn=0x7f090047;
-        public static final int ptr_content=0x7f090044;
-        public static final int ptr_progress=0x7f090048;
-        public static final int ptr_text=0x7f090046;
-        public static final int ptr_text_opaque_bg=0x7f090045;
-        public static final int ptzlv_list=0x7f090036;
-        public static final int pv_image=0x7f09002c;
-        public static final int relative_container=0x7f09003c;
+        public static final int ptr_btn=0x7f09004f;
+        public static final int ptr_content=0x7f09004c;
+        public static final int ptr_progress=0x7f090050;
+        public static final int ptr_text=0x7f09004e;
+        public static final int ptr_text_opaque_bg=0x7f09004d;
+        public static final int ptzlv_list=0x7f09003e;
+        public static final int pv_image=0x7f090034;
+        public static final int relative_container=0x7f090044;
         public static final int right=0x7f090001;
-        public static final int scroll=0x7f09001e;
-        public static final int sgh_gridview=0x7f090034;
-        public static final int sghgv_gridview=0x7f090031;
-        public static final int slhlv_list=0x7f09002e;
-        public static final int sliding_drawer=0x7f090035;
-        public static final int text=0x7f090020;
-        public static final int titleDivider=0x7f09000e;
-        public static final int tv_address=0x7f090025;
-        public static final int tv_agree=0x7f090028;
-        public static final int tv_content=0x7f090027;
-        public static final int tv_disAgree=0x7f090029;
-        public static final int tv_floor=0x7f090022;
-        public static final int tv_message=0x7f090015;
-        public static final int tv_nick=0x7f090023;
-        public static final int tv_phone_type=0x7f090024;
-        public static final int tv_route_type=0x7f09001d;
-        public static final int tv_sub_title=0x7f09003b;
-        public static final int tv_text=0x7f09002b;
-        public static final int tv_time=0x7f090026;
-        public static final int tv_title=0x7f090032;
-        public static final int tv_toast_textview=0x7f09004a;
-        public static final int tv_today_news_count=0x7f090049;
-        public static final int vp_viewpager=0x7f09000d;
-        public static final int wv_webview=0x7f090013;
+        public static final int scroll=0x7f090026;
+        public static final int sgh_gridview=0x7f09003c;
+        public static final int sghgv_gridview=0x7f090039;
+        public static final int slhlv_list=0x7f090036;
+        public static final int sliding_drawer=0x7f09003d;
+        public static final int text=0x7f090028;
+        public static final int titleDivider=0x7f090015;
+        public static final int tv_address=0x7f09002d;
+        public static final int tv_agree=0x7f090030;
+        public static final int tv_content=0x7f09002f;
+        public static final int tv_disAgree=0x7f090031;
+        public static final int tv_floor=0x7f09002a;
+        public static final int tv_message=0x7f09001c;
+        public static final int tv_nick=0x7f09002b;
+        public static final int tv_phone_type=0x7f09002c;
+        public static final int tv_route_type=0x7f090025;
+        public static final int tv_sub_title=0x7f090043;
+        public static final int tv_text=0x7f090033;
+        public static final int tv_time=0x7f09002e;
+        public static final int tv_title=0x7f09003a;
+        public static final int tv_toast_textview=0x7f090052;
+        public static final int tv_today_news_count=0x7f090051;
+        public static final int vp_viewpager=0x7f090014;
+        public static final int wv_webview=0x7f09001a;
     }
     public static final class integer {
         public static final int card_flip_time_full=0x7f0b0003;
@@ -594,15 +731,16 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int fragment_start=0x7f03001d;
         public static final int fragment_user=0x7f03001e;
         public static final int grid_news_item=0x7f03001f;
-        public static final int list_news_item=0x7f030020;
-        public static final int list_news_type_item=0x7f030021;
-        public static final int listview_footer_view=0x7f030022;
-        public static final int listview_header_view=0x7f030023;
-        public static final int picture_grid_item=0x7f030024;
-        public static final int poppyview=0x7f030025;
-        public static final int ptr_default_header=0x7f030026;
-        public static final int sticky_header_view=0x7f030027;
-        public static final int toast_view=0x7f030028;
+        public static final int layout_galleryflow_item=0x7f030020;
+        public static final int list_news_item=0x7f030021;
+        public static final int list_news_type_item=0x7f030022;
+        public static final int listview_footer_view=0x7f030023;
+        public static final int listview_header_view=0x7f030024;
+        public static final int picture_grid_item=0x7f030025;
+        public static final int poppyview=0x7f030026;
+        public static final int ptr_default_header=0x7f030027;
+        public static final int sticky_header_view=0x7f030028;
+        public static final int toast_view=0x7f030029;
     }
     public static final class menu {
         public static final int activity_location=0x7f0c0000;
@@ -686,6 +824,23 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
          */
         public static final int Custom_WindowTitle_Style=0x7f080011;
         public static final int Dialog_Theme=0x7f080008;
+        /**  GalleryFlow styles 
+         */
+        public static final int DroidUX=0x7f080019;
+        public static final int DroidUX_GalleryFlow=0x7f08001a;
+        public static final int DroidUX_GalleryFlow_Linear=0x7f08001b;
+        public static final int DroidUX_GalleryFlow_Linear_Coverflow=0x7f08001c;
+        public static final int DroidUX_GalleryFlow_Linear_Scaleflow=0x7f08001f;
+        public static final int DroidUX_GalleryFlow_Linear_Trainflow=0x7f08001e;
+        public static final int DroidUX_GalleryFlow_Linear_Zoomflow=0x7f08001d;
+        public static final int DroidUX_GalleryFlow_Radial=0x7f080020;
+        public static final int DroidUX_GalleryFlow_Radial_In=0x7f080022;
+        public static final int DroidUX_GalleryFlow_Radial_Out=0x7f080021;
+        /**      <item name="dux_selectorDrawable">@drawable/dux_glrflwwl_cl_bg</item> 
+         */
+        public static final int DroidUX_GalleryFlow_Radial_Wall=0x7f080023;
+        public static final int DroidUX_GalleryFlow_Radial_Wall_In=0x7f080025;
+        public static final int DroidUX_GalleryFlow_Radial_Wall_Out=0x7f080024;
         public static final int SwipeBackFrameLayout=0x7f080005;
         public static final int Widget_PullToRefresh_ProgressBar_Horizontal_Center=0x7f080004;
     }
@@ -717,9 +872,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #CirclePageIndicator_strokeWidth
          */
         public static final int[] CirclePageIndicator = {
-            0x010100c4, 0x010100d4, 0x7f010012, 0x7f010014,
-            0x7f010016, 0x7f010017, 0x7f010018, 0x7f010019,
-            0x7f01001a
+            0x010100c4, 0x010100d4, 0x7f010021, 0x7f010023,
+            0x7f010025, 0x7f010026, 0x7f010027, 0x7f010028,
+            0x7f010029
         };
         /**
           <p>
@@ -886,6 +1041,218 @@ containing a value of this type.
           @attr name android:type
         */
         public static final int FooterView_type = 0;
+        /**  GalleryFlow 
+         */
+        public static final int[] GalleryFlowView = {
+            
+        };
+        /** Attributes that can be used with a GalleryFlowView_Linear.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #GalleryFlowView_Linear_dux_effectDistanceFactor com.roboo.like.google:dux_effectDistanceFactor}</code></td><td></td></tr>
+           <tr><td><code>{@link #GalleryFlowView_Linear_dux_maxRotationAngle com.roboo.like.google:dux_maxRotationAngle}</code></td><td></td></tr>
+           <tr><td><code>{@link #GalleryFlowView_Linear_dux_rotationAxisMode com.roboo.like.google:dux_rotationAxisMode}</code></td><td></td></tr>
+           </table>
+           @see #GalleryFlowView_Linear_dux_effectDistanceFactor
+           @see #GalleryFlowView_Linear_dux_maxRotationAngle
+           @see #GalleryFlowView_Linear_dux_rotationAxisMode
+         */
+        public static final int[] GalleryFlowView_Linear = {
+            0x7f010017, 0x7f010018, 0x7f010019
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.roboo.like.google.R.attr#dux_effectDistanceFactor}
+          attribute's value can be found in the {@link #GalleryFlowView_Linear} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:dux_effectDistanceFactor
+        */
+        public static final int GalleryFlowView_Linear_dux_effectDistanceFactor = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.roboo.like.google.R.attr#dux_maxRotationAngle}
+          attribute's value can be found in the {@link #GalleryFlowView_Linear} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:dux_maxRotationAngle
+        */
+        public static final int GalleryFlowView_Linear_dux_maxRotationAngle = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.roboo.like.google.R.attr#dux_rotationAxisMode}
+          attribute's value can be found in the {@link #GalleryFlowView_Linear} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>center</code></td><td>0</td><td></td></tr>
+<tr><td><code>edge</code></td><td>1</td><td></td></tr>
+</table>
+          @attr name android:dux_rotationAxisMode
+        */
+        public static final int GalleryFlowView_Linear_dux_rotationAxisMode = 2;
+        /** Attributes that can be used with a GalleryFlowView_Linear_Scale.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #GalleryFlowView_Linear_Scale_dux_scale com.roboo.like.google:dux_scale}</code></td><td></td></tr>
+           </table>
+           @see #GalleryFlowView_Linear_Scale_dux_scale
+         */
+        public static final int[] GalleryFlowView_Linear_Scale = {
+            0x7f01001b
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.roboo.like.google.R.attr#dux_scale}
+          attribute's value can be found in the {@link #GalleryFlowView_Linear_Scale} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:dux_scale
+        */
+        public static final int GalleryFlowView_Linear_Scale_dux_scale = 0;
+        /** Attributes that can be used with a GalleryFlowView_Linear_Zoom.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #GalleryFlowView_Linear_Zoom_dux_cameraZ com.roboo.like.google:dux_cameraZ}</code></td><td></td></tr>
+           </table>
+           @see #GalleryFlowView_Linear_Zoom_dux_cameraZ
+         */
+        public static final int[] GalleryFlowView_Linear_Zoom = {
+            0x7f01001a
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.roboo.like.google.R.attr#dux_cameraZ}
+          attribute's value can be found in the {@link #GalleryFlowView_Linear_Zoom} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:dux_cameraZ
+        */
+        public static final int GalleryFlowView_Linear_Zoom_dux_cameraZ = 0;
+        /** Attributes that can be used with a GalleryFlowView_Radial.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #GalleryFlowView_Radial_dux_edgeAngle com.roboo.like.google:dux_edgeAngle}</code></td><td></td></tr>
+           <tr><td><code>{@link #GalleryFlowView_Radial_dux_viewPoint com.roboo.like.google:dux_viewPoint}</code></td><td></td></tr>
+           </table>
+           @see #GalleryFlowView_Radial_dux_edgeAngle
+           @see #GalleryFlowView_Radial_dux_viewPoint
+         */
+        public static final int[] GalleryFlowView_Radial = {
+            0x7f01001c, 0x7f01001d
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.roboo.like.google.R.attr#dux_edgeAngle}
+          attribute's value can be found in the {@link #GalleryFlowView_Radial} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:dux_edgeAngle
+        */
+        public static final int GalleryFlowView_Radial_dux_edgeAngle = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.roboo.like.google.R.attr#dux_viewPoint}
+          attribute's value can be found in the {@link #GalleryFlowView_Radial} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>inside</code></td><td>0</td><td></td></tr>
+<tr><td><code>outside</code></td><td>1</td><td></td></tr>
+</table>
+          @attr name android:dux_viewPoint
+        */
+        public static final int GalleryFlowView_Radial_dux_viewPoint = 1;
+        /** Attributes that can be used with a GalleryFlowView_Radial_Wall.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #GalleryFlowView_Radial_Wall_dux_cellSpacing com.roboo.like.google:dux_cellSpacing}</code></td><td></td></tr>
+           <tr><td><code>{@link #GalleryFlowView_Radial_Wall_dux_wallHeight com.roboo.like.google:dux_wallHeight}</code></td><td></td></tr>
+           </table>
+           @see #GalleryFlowView_Radial_Wall_dux_cellSpacing
+           @see #GalleryFlowView_Radial_Wall_dux_wallHeight
+         */
+        public static final int[] GalleryFlowView_Radial_Wall = {
+            0x7f01001e, 0x7f01001f
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.roboo.like.google.R.attr#dux_cellSpacing}
+          attribute's value can be found in the {@link #GalleryFlowView_Radial_Wall} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:dux_cellSpacing
+        */
+        public static final int GalleryFlowView_Radial_Wall_dux_cellSpacing = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.roboo.like.google.R.attr#dux_wallHeight}
+          attribute's value can be found in the {@link #GalleryFlowView_Radial_Wall} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:dux_wallHeight
+        */
+        public static final int GalleryFlowView_Radial_Wall_dux_wallHeight = 0;
         /** Attributes that can be used with a ProgressButton.
            <p>Includes the following attributes:</p>
            <table>
@@ -1071,6 +1438,120 @@ containing a value of this type.
           @attr name android:textProgress
         */
         public static final int ProgressButton_textProgress = 0;
+        /** Attributes that can be used with a Reflection.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #Reflection_dux_effectStrength com.roboo.like.google:dux_effectStrength}</code></td><td></td></tr>
+           <tr><td><code>{@link #Reflection_dux_effectType com.roboo.like.google:dux_effectType}</code></td><td></td></tr>
+           <tr><td><code>{@link #Reflection_dux_floorGap com.roboo.like.google:dux_floorGap}</code></td><td></td></tr>
+           <tr><td><code>{@link #Reflection_dux_reflected com.roboo.like.google:dux_reflected}</code></td><td></td></tr>
+           <tr><td><code>{@link #Reflection_dux_reflectionHeight com.roboo.like.google:dux_reflectionHeight}</code></td><td></td></tr>
+           <tr><td><code>{@link #Reflection_dux_reflectionStrength com.roboo.like.google:dux_reflectionStrength}</code></td><td></td></tr>
+           </table>
+           @see #Reflection_dux_effectStrength
+           @see #Reflection_dux_effectType
+           @see #Reflection_dux_floorGap
+           @see #Reflection_dux_reflected
+           @see #Reflection_dux_reflectionHeight
+           @see #Reflection_dux_reflectionStrength
+         */
+        public static final int[] Reflection = {
+            0x7f010011, 0x7f010012, 0x7f010013, 0x7f010014,
+            0x7f010015, 0x7f010016
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.roboo.like.google.R.attr#dux_effectStrength}
+          attribute's value can be found in the {@link #Reflection} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:dux_effectStrength
+        */
+        public static final int Reflection_dux_effectStrength = 5;
+        /**
+          <p>This symbol is the offset where the {@link com.roboo.like.google.R.attr#dux_effectType}
+          attribute's value can be found in the {@link #Reflection} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>none</code></td><td>0</td><td></td></tr>
+<tr><td><code>dim</code></td><td>1</td><td></td></tr>
+<tr><td><code>fade</code></td><td>2</td><td></td></tr>
+</table>
+          @attr name android:dux_effectType
+        */
+        public static final int Reflection_dux_effectType = 4;
+        /**
+          <p>This symbol is the offset where the {@link com.roboo.like.google.R.attr#dux_floorGap}
+          attribute's value can be found in the {@link #Reflection} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:dux_floorGap
+        */
+        public static final int Reflection_dux_floorGap = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.roboo.like.google.R.attr#dux_reflected}
+          attribute's value can be found in the {@link #Reflection} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:dux_reflected
+        */
+        public static final int Reflection_dux_reflected = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.roboo.like.google.R.attr#dux_reflectionHeight}
+          attribute's value can be found in the {@link #Reflection} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:dux_reflectionHeight
+        */
+        public static final int Reflection_dux_reflectionHeight = 3;
+        /**
+          <p>This symbol is the offset where the {@link com.roboo.like.google.R.attr#dux_reflectionStrength}
+          attribute's value can be found in the {@link #Reflection} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:dux_reflectionStrength
+        */
+        public static final int Reflection_dux_reflectionStrength = 2;
         /** Attributes that can be used with a SwipeBackFrameLayout.
            <p>Includes the following attributes:</p>
            <table>
@@ -1169,7 +1650,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #ViewPagerIndicator_vpiCirclePageIndicatorStyle
          */
         public static final int[] ViewPagerIndicator = {
-            0x7f010011
+            0x7f010020
         };
         /**
           <p>
