@@ -129,6 +129,7 @@
         <activity android:name=".CameraActivity" />
         <activity android:name=".CommentActivity" />
         <activity android:name=".RouteActivity" />
+        <activity android:name=".GalleryFlowActivity" />
         <activity
             android:name=".DidiActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
