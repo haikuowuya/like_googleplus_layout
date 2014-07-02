@@ -42,7 +42,7 @@ public class GalleryFlowActivity extends BaseLayoutActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_gallery_flow);
+		setContentView(R.layout.activity_gallery_flow);//TODO
 		customActionBar();
 		initView();
 	}
@@ -64,6 +64,8 @@ public class GalleryFlowActivity extends BaseLayoutActivity
 		mGallery.setFadingEdgeLength(0);
 		mGallery.setGravity(Gravity.CENTER_VERTICAL);
 		mGallery.setAdapter(new GalleryAdapter());
+		mGallery.setAnimationDuration(150);
+		mGallery.setSelection(mBitmaps.size()/2, true);
 		OnClickListenerImpl onClickListenerImpl = new OnClickListenerImpl();
 		findViewById(R.id.space_confirm_btn).setOnClickListener(onClickListenerImpl);
 		findViewById(R.id.max_zoom_confirm_btn).setOnClickListener(onClickListenerImpl);
@@ -73,17 +75,23 @@ public class GalleryFlowActivity extends BaseLayoutActivity
 
 	private void generateBitmaps()
 	{
-		int[] ids = { R.drawable.ic_test, R.drawable.ic_test2, R.drawable.ic_test1, R.drawable.ic_test3, R.drawable.ic_test1, R.drawable.ic_test2, R.drawable.ic_test1, R.drawable.ic_test3, R.drawable.ic_test1, R.drawable.ic_test2, R.drawable.ic_test1, R.drawable.ic_test3, R.drawable.ic_test1 };
+		int[] ids = { R.drawable.ic_test, R.drawable.ic_test2, R.drawable.ic_test1, R.drawable.ic_test3, R.drawable.ic_test1, R.drawable.ic_test2, R.drawable.ic_test1, R.drawable.ic_test3, R.drawable.ic_test1, R.drawable.ic_test2, R.drawable.ic_test1 };
 
+		// for (int id : ids)
+		// {
+		// Bitmap bitmap = createReflectedBitmapById(id);
+		// if (null != bitmap)
+		// {
+		// BitmapDrawable drawable = new BitmapDrawable(bitmap);
+		// drawable.setAntiAlias(true);
+		// mBitmaps.add(drawable);
+		// }
+		// }
 		for (int id : ids)
 		{
-			Bitmap bitmap = createReflectedBitmapById(id);
-			if (null != bitmap)
-			{
-				BitmapDrawable drawable = new BitmapDrawable(bitmap);
-				drawable.setAntiAlias(true);
-				mBitmaps.add(drawable);
-			}
+			BitmapDrawable drawable = (BitmapDrawable) getResources().getDrawable(id);
+			drawable.setAntiAlias(true);
+			mBitmaps.add(drawable);
 		}
 	}
 
@@ -94,16 +102,13 @@ public class GalleryFlowActivity extends BaseLayoutActivity
 		{
 			Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 			Bitmap reflectedBitmap = BitmapUtils.createReflectedBitmap(bitmap);
-
 			return reflectedBitmap;
 		}
-
 		return null;
 	}
 
 	private class OnClickListenerImpl implements OnClickListener
 	{
-
 		public void onClick(View v)
 		{
 			switch (v.getId())
@@ -111,7 +116,6 @@ public class GalleryFlowActivity extends BaseLayoutActivity
 			case R.id.space_confirm_btn:
 				onSpaceBtnClick(v);
 				break;
-
 			case R.id.max_zoom_confirm_btn:
 				onMaxZoomBtnClick(v);
 				break;
@@ -125,7 +129,6 @@ public class GalleryFlowActivity extends BaseLayoutActivity
 		{
 			EditText editText = (EditText) findViewById(R.id.space_edittext);
 			String text = editText.getText().toString();
-
 			try
 			{
 				int spacing = Integer.parseInt(text);
@@ -147,7 +150,6 @@ public class GalleryFlowActivity extends BaseLayoutActivity
 		{
 			EditText editText = (EditText) findViewById(R.id.max_zoom_edittext);
 			String text = editText.getText().toString();
-
 			try
 			{
 				int maxZoom = Integer.parseInt(text);
@@ -197,7 +199,8 @@ public class GalleryFlowActivity extends BaseLayoutActivity
 		@Override
 		public int getCount()
 		{
-			return mBitmaps.size();
+			return Integer.MAX_VALUE;
+//			return mBitmaps.size();
 		}
 
 		@Override
@@ -218,11 +221,13 @@ public class GalleryFlowActivity extends BaseLayoutActivity
 			if (null == convertView)
 			{
 				convertView = new MyImageView(GalleryFlowActivity.this);
-				convertView.setLayoutParams(new Gallery.LayoutParams(110, 184));
+				int width = (int) (80* getResources().getDisplayMetrics().density);
+				int height = (int) (120* getResources().getDisplayMetrics().density);
+				convertView.setLayoutParams(new Gallery.LayoutParams(width, height));
 			}
 
 			ImageView imageView = (ImageView) convertView;
-			imageView.setImageDrawable(mBitmaps.get(position));
+			imageView.setImageDrawable(mBitmaps.get(position%mBitmaps.size()));
 			imageView.setScaleType(ScaleType.FIT_XY);
 
 			return imageView;

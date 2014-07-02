@@ -5,97 +5,99 @@
     android:background="@android:color/white"
     android:orientation="vertical" >
 
-    <LinearLayout 
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" 
+        android:layout_marginTop="15dp"
         android:gravity="center_vertical"
-        android:layout_marginTop="15dp">
-        
-        <TextView 
-            android:layout_width="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="132dp"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="间距"/>
-        
-        <EditText 
+            android:text="间距[-60,60]"
+            android:textSize="20sp" />
+
+        <EditText
             android:id="@+id/space_edittext"
-            android:layout_marginLeft="20dp"
             android:layout_width="100dp"
             android:layout_height="45dp"
+            android:focusable="true"
+            android:layout_marginLeft="10dp"
             android:inputType="numberSigned"
-            android:text="50"/>
-        
-        <Button 
+            android:text="50" />
+
+        <Button
             android:id="@+id/space_confirm_btn"
-            android:layout_marginLeft="20dp"
-            android:layout_width="100dp"
-            android:layout_height="48dp"
-            android:text="确定"/>
-    </LinearLayout>
-
-    <LinearLayout 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" 
-        android:gravity="center_vertical"
-        android:layout_marginTop="15px">
-        
-        <TextView 
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="缩放"/>
-        
-        <EditText 
-            android:id="@+id/max_zoom_edittext"
-            android:layout_marginLeft="20dp"
-            android:layout_width="100dp"
-            android:layout_height="45dp"
-            android:inputType="numberSigned"
-            android:text="-100"/>
-        
-        <Button 
-            android:id="@+id/max_zoom_confirm_btn"
-            android:layout_marginLeft="20dp"
-            android:layout_width="100dp"
-            android:layout_height="45dp"
-            android:text="确定"/>
+            android:layout_height="48dp"
+            android:layout_marginLeft="10dp"
+            android:text="确定" />
     </LinearLayout>
 
-    <LinearLayout 
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" 
+        android:layout_marginTop="15dp"
         android:gravity="center_vertical"
-        android:layout_marginTop="15dp">
-        
-        <TextView 
-            android:layout_width="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="132dp"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="倾斜"/>
-        
-        <EditText 
-            android:id="@+id/max_rotate_angle_edittext"
-            android:layout_marginLeft="20dp"
+            android:text="缩放[-120,120]"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/max_zoom_edittext"
             android:layout_width="100dp"
             android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
             android:inputType="numberSigned"
-            android:text="60"/>
-        
-        <Button 
-            android:id="@+id/max_rotate_angle_confirm_btn"
-            android:layout_marginLeft="20dp"
+            android:text="-100" />
+
+        <Button
+            android:id="@+id/max_zoom_confirm_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:text="确定" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="132dp"
+            android:layout_height="wrap_content"
+            android:text="倾斜[-60,60]"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/max_rotate_angle_edittext"
             android:layout_width="100dp"
             android:layout_height="45dp"
-            android:text="确定"/>
+            android:layout_marginLeft="10dp"
+            android:inputType="numberSigned"
+            android:text="60" />
+
+        <Button
+            android:id="@+id/max_rotate_angle_confirm_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:text="确定" />
     </LinearLayout>
-    
+
     <com.roboo.like.google.GalleryFlow
         android:id="@+id/gallery_flow"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:layout_weight="1" />
+
 </LinearLayout>

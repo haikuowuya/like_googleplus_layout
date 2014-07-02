@@ -6,24 +6,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.effect.Effect;
-import android.media.effect.EffectFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView.ScaleType;
 import android.widget.BaseAdapter;
-import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +29,6 @@ import com.droidux.widget.adapters.UrlImageAdapter;
 import com.droidux.widget.gallery.GalleryFlowCarousel;
 import com.droidux.widget.gallery.GalleryFlowZoom;
 
-/** 文字界面 */
 public class PinterestActivity extends BaseLayoutActivity implements AnimationListener
 {
 	private GalleryFlowCarousel mGalleryFlowCarousel;
@@ -53,7 +47,7 @@ public class PinterestActivity extends BaseLayoutActivity implements AnimationLi
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_pinterest);
+		setContentView(R.layout.activity_pinterest);//TODO
 		customActionBar();
 		initView();
 	}
@@ -74,6 +68,13 @@ public class PinterestActivity extends BaseLayoutActivity implements AnimationLi
 	{
 		initGFC();
 		initGFZ();
+		findViewById(R.id.btn_gallery_flow).setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				 GalleryFlowActivity.actionGalleryFlow(PinterestActivity.this);
+			}
+		});
 	}
 
 	@SuppressWarnings("deprecation")

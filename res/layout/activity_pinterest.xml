@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@android:color/white"
     android:layout_height="match_parent" >
 
     <com.droidux.widget.gallery.GalleryFlowCarousel
@@ -8,6 +9,7 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:padding="0dip"
+        android:layout_marginBottom="48dp"
         android:visibility="gone" />
 
     <com.droidux.widget.gallery.GalleryFlowZoom
@@ -16,13 +18,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
+        android:layout_marginBottom="48dp"
         android:padding="0dip" />
 
-    <TextView
+    <Button
+        android:id="@+id/btn_gallery_flow"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_gravity="bottom"
-        android:gravity="center_horizontal"
+    	android:text="GalleryFlow"
         android:padding="3dp"
         android:singleLine="false"
         android:textSize="10sp" />
