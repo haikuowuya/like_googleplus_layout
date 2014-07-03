@@ -74,8 +74,8 @@ public class CrashException implements UncaughtExceptionHandler
 		deleteCrashFile(dir);
 		long currentTime = System.currentTimeMillis();
 		String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(currentTime));
-		String fileName = time +"_" + System.currentTimeMillis();
-		 
+		String fileName = time + "_" + System.currentTimeMillis();
+
 		// 以当前时间创建log文件
 		File file = new File(PATH + FILE_NAME + fileName + FILE_NAME_SUFFIX);
 
@@ -169,25 +169,26 @@ public class CrashException implements UncaughtExceptionHandler
 						Process.killProcess(Process.myPid());
 						System.exit(10);
 					}
-				})
-				.setPositiveButton("重新打开", new OnClickListener()
+				}).setPositiveButton("重新打开", new OnClickListener()
 				{
 
 					public void onClick(DialogInterface dialog, int which)
 					{
-						 Intent intent = new Intent();
-						 intent.addCategory(Intent.CATEGORY_LAUNCHER);
-						 intent.setAction(Intent.ACTION_MAIN);
-						 intent.setClassName(activity.getPackageName(), activity.getPackageName()+".StartActivity");
-						 activity.startActivity(intent );
-						 
-						 dialog.dismiss();
-						 GoogleApplication.getInstance().exitClient();
+						Intent intent = new Intent();
+						intent.addCategory(Intent.CATEGORY_LAUNCHER);
+						intent.setAction(Intent.ACTION_MAIN);
+						intent.setClassName(activity.getPackageName(), activity.getPackageName() + ".StartActivity");
+						activity.startActivity(intent);
+
+						dialog.dismiss();
+						GoogleApplication.getInstance().exitClient();
 					}
-				})
-				.create();
+				}).create();
 				dialog.setCanceledOnTouchOutside(false);
-				dialog.show();
+				if (!activity.isFinishing())
+				{
+					dialog.show();
+				}
 				dialog.setOnKeyListener(new OnKeyListener()
 				{
 					public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event)

@@ -9,6 +9,7 @@ import org.jsoup.select.Elements;
 
 import android.text.TextUtils;
 
+import com.droidux.trial.da;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.MD5Utils;
 
@@ -96,10 +97,14 @@ public class PhoneKRNewsUtils
 		{
 			if (time.contains("年") && time.contains("月") && time.contains("日"))
 			{
-				String month = time.split("年")[1].split("月")[0];
+				String month = time.split("年")[1].split("月")[0].trim();
 				month = getMonth(month);
-				String day = time.split("月")[1].split("日")[0];
-				newTime = month + "月" + day + "日";
+				String day = time.split("月")[1].split("日")[0].trim();
+				if(Integer.parseInt(day) < 10)
+				{
+					day ="0"+ day;
+				}
+				newTime = month + " 月 " + day + " 日";
 			}
 		}
 		return newTime;

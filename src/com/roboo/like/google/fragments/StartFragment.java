@@ -34,13 +34,11 @@ public class StartFragment extends BaseFragment
 		fragment.setArguments(bundle);
 		return fragment;
 	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_start, null);// TODO
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
-
 		return view;
 	}
 

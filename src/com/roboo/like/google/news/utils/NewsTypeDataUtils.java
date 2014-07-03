@@ -50,11 +50,12 @@ public class NewsTypeDataUtils
 		for (String str : arrays)
 		{
 			String[] tmp = str.split("#");
-			if (tmp.length > 1)
+			if (tmp.length > 2)
 			{
 				StartNewsTypeItem item = new StartNewsTypeItem();
 				item.name = tmp[0];
 				item.typeInt = Integer.parseInt(tmp[1]);
+				item.src = tmp[2];
 				data.add(item);
 			}
 		}

@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.roboo.like.google.fragments.StartFragment;
+import com.roboo.like.google.fragments.WelcomeFragment;
 
 public class StartActivity extends BaseLayoutActivity
 {
@@ -19,10 +20,17 @@ public class StartActivity extends BaseLayoutActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_start);
+		setContentView(R.layout.activity_start);// TODO
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_container) == null)
 		{
-			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, StartFragment.newInstance()).commit();
+			if (!mPreferences.contains(PREF_APP_FIRST_START))
+			{
+				getSupportFragmentManager().beginTransaction().add(R.id.frame_container, WelcomeFragment.newInstance()).commit();
+			}
+			else
+			{
+				getSupportFragmentManager().beginTransaction().add(R.id.frame_container, StartFragment.newInstance()).commit();
+			}
 		}
 		customActionBar();
 		initView();
@@ -40,10 +48,11 @@ public class StartActivity extends BaseLayoutActivity
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setCustomView(R.layout.actionbar_custom_view);
 	}
+
 	public void onBackPressed()
 	{
-		 GoogleApplication application = (GoogleApplication) getApplication();
-		 application.exitClient();
+		GoogleApplication application = (GoogleApplication) getApplication();
+		application.exitClient();
 		super.onBackPressed();
 	}
-}	  
+}

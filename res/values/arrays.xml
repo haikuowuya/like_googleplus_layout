@@ -74,11 +74,11 @@
         -->
     </string-array>
     <string-array name="start_news_type_arrays">
-        <item>IT之家#0</item>
-        <item>CSDN#1</item>
-        <item>科技锋芒#2</item>
-        <item>EOE#3</item>
-        <item>极客公园#4</item>
+        <item>IT之家#0#http://a.hiphotos.baidu.com/baike/w%3D268/sign=3e03ee88087b02080cc938e75ad9f25f/7acb0a46f21fbe093b66053969600c338744ade7.jpg</item>
+        <item>CSDN#1#http://imgtech.gmw.cn/attachement/jpg/site2/20111223/f04da22d7ba7105e1d7507.jpg</item>
+        <item>科技锋芒#2#http://www.phonekr.com/wp-content/uploads/2012/11/Top-2013-W-1200px.png</item>
+        <item>EOE#3#http://www.eoeandroid.com/template/thinktheme_eoe/tt_img/logo.png</item>
+        <item>极客公园#4#http://wscont1.apps.microsoft.com/winstore/1x/873a21bf-19c0-42ff-8eae-601846af68de/AppTile.1.49919.49430.png</item>
         <!--
         <item>199IT#5</item>
         <item>36KR#6</item>
