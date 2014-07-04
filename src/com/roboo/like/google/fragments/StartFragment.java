@@ -19,11 +19,14 @@ import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.StartNewsTypeListAdapter;
 import com.roboo.like.google.models.StartNewsTypeItem;
 import com.roboo.like.google.news.utils.NewsTypeDataUtils;
+import com.roboo.like.google.swipelistview.SwipeListView;
+import com.roboo.like.google.swipelistview.SwipeListViewListener;
 import com.roboo.like.google.views.StickyListHeadersListView;
 
 public class StartFragment extends BaseFragment
 {
 	private ImageLoader mImageLoader;
+	private SwipeListView mSwipeListView;
 	private StickyListHeadersListView mListView;
 	private StartNewsTypeListAdapter mAdapter;
 
@@ -34,11 +37,13 @@ public class StartFragment extends BaseFragment
 		fragment.setArguments(bundle);
 		return fragment;
 	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_start, null);// TODO
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
+		mSwipeListView = (SwipeListView) view.findViewById(R.id.slv_listview);
 		return view;
 	}
 
@@ -49,6 +54,7 @@ public class StartFragment extends BaseFragment
 		mImageLoader = ImageLoader.getInstance();
 		mImageLoader.init(imageLoaderConfiguration);
 		mListView.setAdapter(getAdapter());
+		mSwipeListView.setAdapter(getAdapter());
 		setListener();
 	}
 
@@ -61,7 +67,10 @@ public class StartFragment extends BaseFragment
 
 	private void setListener()
 	{
-		mListView.setOnItemClickListener(new OnItemClickListenerImpl());
+		OnItemClickListenerImpl onItemClickListenerImpl = new OnItemClickListenerImpl();
+		mListView.setOnItemClickListener(onItemClickListenerImpl);
+		mSwipeListView.setOnItemClickListener(onItemClickListenerImpl);
+		mSwipeListView.setSwipeListViewListener(new SwipeListViewListenerImpl());
 	}
 
 	private class OnItemClickListenerImpl implements OnItemClickListener
@@ -71,6 +80,99 @@ public class StartFragment extends BaseFragment
 			StartNewsTypeItem item = (StartNewsTypeItem) parent.getAdapter().getItem(position);
 			GoogleApplication.mCurrentType = item.typeInt;
 			MainActivity.actionMain(getActivity());
+		}
+	}
+
+	private class SwipeListViewListenerImpl implements SwipeListViewListener
+	{
+
+		@Override
+		public void onOpened(int position, boolean toRight)
+		{
+
+		}
+
+		@Override
+		public void onClosed(int position, boolean fromRight)
+		{
+
+		}
+
+		@Override
+		public void onListChanged()
+		{
+
+		}
+
+		@Override
+		public void onMove(int position, float x)
+		{
+
+		}
+
+		@Override
+		public void onStartOpen(int position, int action, boolean right)
+		{
+
+		}
+
+		@Override
+		public void onStartClose(int position, boolean right)
+		{
+
+		}
+
+		@Override
+		public void onClickFrontView(int position)
+		{
+
+		}
+
+		@Override
+		public void onClickBackView(int position)
+		{
+
+		}
+
+		@Override
+		public void onDismiss(int[] reverseSortedPositions)
+		{
+
+		}
+
+		public int onChangeSwipeMode(int position)
+		{
+			return SwipeListView.SWIPE_MODE_DEFAULT;
+		}
+
+		@Override
+		public void onChoiceChanged(int position, boolean selected)
+		{
+
+		}
+
+		@Override
+		public void onChoiceStarted()
+		{
+
+		}
+
+		@Override
+		public void onChoiceEnded()
+		{
+
+		}
+
+		@Override
+		public void onFirstListItem()
+		{
+
+		}
+
+		@Override
+		public void onLastListItem()
+		{
+
 		}
 
 	}

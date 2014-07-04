@@ -6,17 +6,21 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.roboo.like.google.R;
 import com.roboo.like.google.models.StartNewsTypeItem;
+import com.roboo.like.google.swipelistview.SwipeListView;
 
 public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeadersAdapter, SectionIndexer
 {
@@ -57,11 +61,23 @@ public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeade
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		convertView = mInflater.inflate(R.layout.list_news_type_item, null);// TODO
+		if(parent instanceof SwipeListView)
+		{
+			convertView = mInflater.inflate(R.layout.list_news_swipe_type_item, null);// TODO
+		}
 		TextView textView = ViewHolder.getView(convertView, R.id.tv_title);
 		ImageView imageView = ViewHolder.getView(convertView, R.id.iv_image);
+		Button button = ViewHolder.getView(convertView, R.id.btn_delete);
 		textView.setText(mData.get(position).name);
 		DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image).showImageOnFail(R.drawable.ic_default_image).cacheInMemory().cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
 		mImageLoader.displayImage(mData.get(position).src, imageView, options);
+		button.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				Toast.makeText(activity, "删除", Toast.LENGTH_SHORT).show();
+			}
+		});
 		return convertView;
 	}
 
