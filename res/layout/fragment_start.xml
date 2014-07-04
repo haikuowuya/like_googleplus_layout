@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:swipe="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ivorg_color" >
@@ -18,6 +19,17 @@
         android:listSelector="@android:color/transparent"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="none" />
+    
+     <com.roboo.like.google.swipelistview.SwipeListView
+       
+        android:id="@+id/example_lv_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:listSelector="#00000000"
+        swipe:swipeBackView="@+id/back_text"
+        swipe:swipeCloseAllItemsWhenMoveList="true"
+        swipe:swipeFrontView="@+id/front"
+        swipe:swipeMode="both" />
 
     <TextView
         android:id="@android:id/empty"

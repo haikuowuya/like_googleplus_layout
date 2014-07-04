@@ -34,14 +34,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.animation.BounceInterpolator;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.ProgressBar;
 
 import com.nineoldandroids.view.ViewHelper;
 import com.roboo.like.google.BaseLayoutActivity;
@@ -54,11 +52,8 @@ import com.roboo.like.google.PictureActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.TextActivity;
 import com.roboo.like.google.adapters.NewsGridAdapter;
-import com.roboo.like.google.adapters.NewsListAdapter;
 import com.roboo.like.google.async.NewsListAsyncTaskLoader;
-import com.roboo.like.google.infinite.FixedSpeedScroller;
 import com.roboo.like.google.infinite.InfinitePagerAdapter;
-import com.roboo.like.google.infinite.InfiniteViewPager;
 import com.roboo.like.google.infinite.ViewPagerEx.OnPageChangeListener;
 import com.roboo.like.google.infinite.ViewPagerEx.PageTransformer;
 import com.roboo.like.google.models.NewsItem;
@@ -69,10 +64,7 @@ import com.roboo.like.google.utils.CardToastUtils;
 import com.roboo.like.google.utils.FileUtils;
 import com.roboo.like.google.utils.MD5Utils;
 import com.roboo.like.google.utils.NetWorkUtils;
-import com.roboo.like.google.views.FooterView;
-import com.roboo.like.google.views.HeaderView;
 import com.roboo.like.google.views.StickyGridHeadersGridView;
-import com.roboo.like.google.views.StickyListHeadersListView;
 import com.roboo.like.google.views.helper.PoppyListViewHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.DefaultHeaderTransformer;
@@ -115,26 +107,16 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 	private NewsGridAdapter mAdapter;
 	/** ListView最后一列是否可见的标志 */
 	public boolean mLastItemVisible;
-	/** ListView 的 FooterView */
-	// private FooterView mFooterView;
-	/** ListView 的 HeaderView */
-	// private HeaderView mHeaderView;
+	 
 	/** 新闻列表适配器的数据源 */
 	private LinkedList<NewsItem> mData;
-	/** 当点击FooterView时显示加载数据标识 */
-	// private ProgressBar mFooterProgressBar;
+ 
 	private int mProgress = 0;
 	/** 正在加载数据中…… */
-	// private Button mBtnLoadNext;
-	/** HeaderView 中的ViewPager */
-	// private InfiniteViewPager mAdViewPager;
+	private ProcessButton mBtnLoadNext;
+ 
 	protected int mPosition = 0;
 	protected Handler mHandler = new Handler();
-
-	private boolean mSwapRunnableHasStart = false;
-	/** 模拟广告图片轮转间隔时间 */
-	private static final long SWAP_INTERVAL_TIME = 3000L;
-	private String mChannelURL;
 	private Runnable mCreateDesktopRunnable = new Runnable()
 	{
 		public void run()
@@ -143,22 +125,6 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 			activity.showCreateDesktopDialog();
 		}
 	};
-	private Runnable mSwapRunnable = new Runnable()
-	{
-		public void run()
-		{
-			// if (mAdViewPager != null)
-			// {
-			// mSwapRunnableHasStart = true;
-			// mHeaderView.getIndicator().setCurrentItem(mPosition % getRealPagerCount(), true);
-			// mAdViewPager.nextItem();
-			// mPosition++;
-			// mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
-			// mHandler.sendEmptyMessage(mPosition);
-			// }
-		}
-	};
-
 	/** 创建一个 ContentFragment 实例 */
 	public static MainGridFragment newInstance(String newsUrl)
 	{
@@ -172,15 +138,11 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_main_grid, null);// TODO
-		// mFooterView = new FooterView(getActivity(), FooterView.TYPE_PROGRESS_BUTTON);
-		// mHeaderView = new HeaderView(getActivity());
-		// mAdViewPager = mHeaderView.getViewPager();
-		// mFooterProgressBar = mFooterView.getFooterProgressBar();
-		// mBtnLoadNext = mFooterView.getButton();
+		mBtnLoadNext = (ProcessButton) view.findViewById(R.id.pbtn_load_next);
+		mBtnLoadNext.setVisibility(View.GONE);
 		mGridView = (StickyGridHeadersGridView) view.findViewById(R.id.sghgv_gridview);
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
-
 		return view;
 	}
 
@@ -196,26 +158,15 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 		mData = getOfflineData(getArguments().getString(ARG_NEWS_URL));
 		if (null != mData)
 		{
+			mBtnLoadNext.setVisibility(View.VISIBLE);
+			mPoppyView.setVisibility(View.VISIBLE);
 			mAdapter = new NewsGridAdapter(getActivity(), mData, mSectionIndex);
-			// mListView.addFooterView(mFooterView);
-			// mListView.addHeaderView(mHeaderView);
 			mGridView.setAdapter(mAdapter);
-			// mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
+			mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
 			Collections.sort(generateHeaderId(mData), new YMDComparator());
 			mAdapter.setSectionIndex(mSectionIndex);
 			mAdapter.notifyDataSetChanged();
-			if (!mSwapRunnableHasStart)
-			{
-				// mAdViewPager.setAdapter(getPagerAdapter());
-				// mAdViewPager.setOffscreenPageLimit(getRealPagerCount());
-				// FixedSpeedScroller fixedSpeedScroller = new FixedSpeedScroller(getActivity(), new BounceInterpolator());
-				// mAdViewPager.setFixedScroller(fixedSpeedScroller);
-				// mHeaderView.getIndicator().setViewPager(mAdViewPager);
-				// mAdViewPager.setOnPageChangeListener(getOnPageChangeListener());
-				// mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
-				// mAdViewPager.setPageTransformer(true, getTransformer());
-				// mSwapRunnableHasStart = true;
-			}
+
 		}
 		loadFirstData();
 		modifyDefaultListViewFieldValue();
@@ -274,8 +225,8 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 		{
 			public Object onComplete()
 			{
-				// mBtnLoadNext.setEnabled(true);
-				// ((ProcessButton) mBtnLoadNext).onNormalState();
+				mBtnLoadNext.setEnabled(true);
+				mBtnLoadNext.onNormalState();
 				return null;
 			}
 
@@ -283,21 +234,21 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 			public Object doInBackgroundProcess()
 			{
 				loadNextData();
-				// mBtnLoadNext.setEnabled(false);
+				mBtnLoadNext.setEnabled(false);
 				final Handler handler = new Handler();
 				handler.postDelayed(new Runnable()
 				{
 					public void run()
 					{
-						// ((ProcessButton) mBtnLoadNext).setProgress(mProgress);
-						// if (mProgress < 100)
-						// {
-						// handler.postDelayed(this, generateDelay());
-						// }
-						// else
-						// {
-						// onComplete();
-						// }
+						mBtnLoadNext.setProgress(mProgress);
+						if (mProgress < 100)
+						{
+							handler.postDelayed(this, generateDelay());
+						}
+						else
+						{
+							onComplete();
+						}
 						mProgress = new Random().nextInt(100);
 					}
 				}, generateDelay());
@@ -339,8 +290,8 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 		{
 			System.out.println("当前加载的是第   " + args.getInt(ARG_CURRENT_PAGENO, 1) + " 页数据");
 		}
-		// mFooterProgressBar.setVisibility(View.VISIBLE);
-		// mBtnLoadNext.setText("正在加载数据中……");
+		mPoppyView.setVisibility(View.GONE);
+		mBtnLoadNext.setText("正在加载数据中……");
 		return new NewsListAsyncTaskLoader(getActivity(), args.getString(ARG_NEWS_URL), args.getInt(ARG_CURRENT_PAGENO, 1));
 	}
 
@@ -374,7 +325,7 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 		private void doSomething()
 		{
 			mProgress = 50;
-			// new ProgressGenerator(getOnCompleteListener()).start((ProcessButton) mBtnLoadNext);
+			new ProgressGenerator(getOnCompleteListener()).start(mBtnLoadNext);
 		}
 
 		/** 图片 */
@@ -413,9 +364,9 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 	@Override
 	public void onLoadFinished(Loader<LinkedList<NewsItem>> loader, LinkedList<NewsItem> data)
 	{
-		// mBtnLoadNext.setEnabled(true);
+		mBtnLoadNext.setEnabled(true);
 		mProgress = 100;
-		// ((ProcessButton) mBtnLoadNext).onNormalState();
+		mBtnLoadNext.onNormalState();
 		if (data != null)
 		{
 			int updateCount = 0;
@@ -428,7 +379,7 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 				// mListView.addFooterView(mFooterView);
 				// mListView.addHeaderView(mHeaderView);
 				mGridView.setAdapter(mAdapter);
-				// mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
+				mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
 			}
 			else
 			{
@@ -451,7 +402,7 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 				messageText = " 更新  " + updateCount + " 条新数据";
 			}
 			new CardToastUtils(getActivity()).setShowToastStyle(CardToastUtils.SHOW_ANIMATION_TOP_TO_DOWN_STYLE).showAndAutoDismiss(messageText);
-			// mBtnLoadNext.setText("点击加载下一页");
+			mBtnLoadNext.setText("点击加载下一页");
 		}
 		else
 		{
@@ -459,22 +410,17 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 			{
 				getActivity().findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
 			}
-			// mBtnLoadNext.setText("所有数据加载完毕");
+			mBtnLoadNext.setText("所有数据加载完毕");
 		}
-		if (null != mData && !mSwapRunnableHasStart)
+		if (null != mData)
 		{
-			// mAdViewPager.setAdapter(getPagerAdapter());
-			// mAdViewPager.setOffscreenPageLimit(getRealPagerCount());
-			// FixedSpeedScroller fixedSpeedScroller = new FixedSpeedScroller(getActivity(), new BounceInterpolator());
-			// mAdViewPager.setFixedScroller(fixedSpeedScroller);
-			// mHeaderView.getIndicator().setViewPager(mAdViewPager);
-			// mAdViewPager.setOnPageChangeListener(getOnPageChangeListener());
-			// mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
-			// mAdViewPager.setPageTransformer(true, getTransformer());
+			mBtnLoadNext.setVisibility(View.VISIBLE);
+			mPoppyView.setVisibility(View.VISIBLE);
+
 		}
 		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
 		{
-			// mBtnLoadNext.setText("设置网络");
+			mBtnLoadNext.setText("设置网络");
 		}
 		// mFooterProgressBar.setVisibility(View.INVISIBLE);
 		mPullToRefreshAttacher.setRefreshComplete();
@@ -495,97 +441,6 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 		}
 		return !flag;
 	}
-
-	private OnPageChangeListener getOnPageChangeListener()
-	{
-		return new OnPageChangeListener()
-		{
-			public void onPageSelected(int position)
-			{
-				mPosition = position;
-				// mHeaderView.getIndicator().setCurrentItem(position % getRealPagerCount(), true);
-			}
-
-			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
-			{
-
-			}
-
-			public void onPageScrollStateChanged(int state)
-			{
-
-			}
-		};
-	}
-
-	private int getRealPagerCount()
-	{
-		// PagerAdapter adapter = mAdViewPager.getAdapter();
-		// if (adapter instanceof InfinitePagerAdapter)
-		// {
-		// return ((InfinitePagerAdapter) adapter).getRealCount();
-		// }
-		// else
-		// {
-		// return adapter.getCount();
-		// }
-		return 0;
-	}
-
-	private PageTransformer getTransformer()
-	{
-		PageTransformer pageTransformer = new PageTransformer()
-		{
-			public void transformPage(View page, float position)
-			{
-				ViewHelper.setTranslationX(page, position < 0 ? 0f : -page.getWidth() * position);
-			}
-		};
-
-		return pageTransformer;
-	}
-
-	private PagerAdapter getPagerAdapter()
-	{
-		PagerAdapter pagerAdapter = new PagerAdapter()
-		{
-			public boolean isViewFromObject(View view, Object object)
-			{
-				return view == object;
-			}
-
-			public int getCount()
-			{
-				return 3;
-			}
-
-			@Override
-			public int getItemPosition(Object object)
-			{
-				return POSITION_NONE;
-			}
-
-			public Object instantiateItem(ViewGroup container, int position)
-			{
-				ImageView imageView = new ImageView(getActivity());
-				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-				imageView.setScaleType(ScaleType.FIT_XY);
-				imageView.setImageResource(getResources().getIdentifier("ic_test" + (1 + position), "drawable", getActivity().getPackageName()));
-				imageView.setLayoutParams(params);
-				container.addView(imageView);
-				return imageView;
-			}
-
-			@Override
-			public void destroyItem(ViewGroup container, int position, Object object)
-			{
-				container.removeView((View) object);
-			}
-		};
-		InfinitePagerAdapter wrappedAdapter = new InfinitePagerAdapter(pagerAdapter);
-		return wrappedAdapter;
-	}
-
 	/** 处理数据重复问题,以及将最新的数据放在最上面 */
 	private LinkedList<NewsItem> handleAddData(LinkedList<NewsItem> data)
 	{
@@ -671,20 +526,6 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 		{
 			if (null != o1 && null != o2)
 			{
-				// String time1 = o1.getTime().replace("月", " ").replace("日", " ");
-				// String time2 = o2.getTime().replace("月", " ").replace("日", " ");
-				// String month1 = time1.split(" ")[0];
-				// String month2 = time2.split(" ")[0];
-				// String day1 = time1.split(" ")[1];
-				// String day2 = time1.split(" ")[1];
-				// if (month1.compareTo(month2) == 0)
-				// {
-				// return day1.compareTo(day2);
-				// }
-				// else
-				// {
-				// return month1.compareTo(month2);
-				// }
 				return o2.getTime().compareTo(o1.getTime());
 			}
 			return 0;

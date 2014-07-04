@@ -104,7 +104,7 @@ public class PhoneKRNewsUtils
 				{
 					day ="0"+ day;
 				}
-				newTime = month + " 月 " + day + " 日";
+				newTime = month + "月" + day + "日";
 			}
 		}
 		return newTime;

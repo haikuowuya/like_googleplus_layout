@@ -25,11 +25,12 @@ public class StartActivity extends BaseLayoutActivity
 		{
 			if (!mPreferences.contains(PREF_APP_FIRST_START))
 			{
-				getSupportFragmentManager().beginTransaction().add(R.id.frame_container, WelcomeFragment.newInstance()).commit();
+				mActionBar.hide();
+				beginTransaction().add(R.id.frame_container, WelcomeFragment.newInstance()).commit();
 			}
 			else
 			{
-				getSupportFragmentManager().beginTransaction().add(R.id.frame_container, StartFragment.newInstance()).commit();
+				beginTransaction().add(R.id.frame_container, StartFragment.newInstance()).commit();
 			}
 		}
 		customActionBar();
@@ -54,5 +55,10 @@ public class StartActivity extends BaseLayoutActivity
 		GoogleApplication application = (GoogleApplication) getApplication();
 		application.exitClient();
 		super.onBackPressed();
+	}
+	public void splashScreenEnd()
+	{
+		mActionBar.show();
+		beginTransaction().replace(R.id.frame_container, StartFragment.newInstance()).commit();
 	}
 }

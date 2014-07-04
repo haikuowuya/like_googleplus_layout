@@ -1,10 +1,12 @@
 package com.roboo.like.google.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.BounceInterpolator;
@@ -12,9 +14,11 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.RelativeLayout;
 
 import com.nineoldandroids.view.ViewHelper;
 import com.roboo.like.google.R;
+import com.roboo.like.google.StartActivity;
 import com.roboo.like.google.infinite.FixedSpeedScroller;
 import com.roboo.like.google.infinite.ViewPagerEx;
 import com.roboo.like.google.infinite.ViewPagerEx.OnPageChangeListener;
@@ -103,28 +107,38 @@ public class WelcomeFragment extends BaseFragment
 		public View instantiateItem(ViewGroup container, int position)
 		{
 			ImageView imageView = new ImageView(getActivity());
-			FrameLayout frameLayout = new FrameLayout(getActivity());
-
-			FrameLayout.LayoutParams frameParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			RelativeLayout relativeLayout = new RelativeLayout(getActivity());
+			RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-
+			
 			imageView.setScaleType(ScaleType.FIT_XY);
 			imageView.setImageResource(IMAGES[position]);
-			frameLayout.addView(imageView, frameParams);
+			relativeLayout.addView(imageView, relativeParams);
 			if (position > 2)
 			{
 				Button button = new Button(getActivity());
+				button.setTextColor(getResources().getColor(R.color.sky_blue_color));
 				button.setText("开启浏览");
 				button.setGravity(Gravity.CENTER);
-				
 				int buttonHeight = (int) (48 * getActivity().getResources().getDisplayMetrics().density);
-				frameParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, buttonHeight).;
- 
- 
-				frameLayout.addView(button,frameParams);
+				int buttonWidth = (int) (getActivity().getResources().getDisplayMetrics().widthPixels - getActivity().getResources().getDisplayMetrics().density * 20);
+				relativeParams = new RelativeLayout.LayoutParams(buttonWidth, buttonHeight);
+				relativeParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+				relativeParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+
+				relativeParams.bottomMargin = buttonHeight/2;
+				relativeLayout.addView(button, relativeParams);
+				button.setOnClickListener(new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						StartActivity activity = (StartActivity) getActivity();
+						activity.splashScreenEnd();
+					}
+				});
 			}
-			container.addView(frameLayout, params);
-			return frameLayout;
+			container.addView(relativeLayout, params);
+			return relativeLayout;
 		}
 
 		@Override

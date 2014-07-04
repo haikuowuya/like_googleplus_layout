@@ -33,11 +33,11 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <!-- 获取设置信息和详情页直接拨打电话需要以下权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-   <!--  <uses-permission android:name="android.permission.CALL_PHONE" /> -->
+    <!-- <uses-permission android:name="android.permission.CALL_PHONE" /> -->
+
 
     <!-- 使用定位功能所需权限,demo已集成百度定位SDK,不使用定位功能可去掉以下6项 -->
     <permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -60,7 +60,7 @@
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
-      <!-- 极光推送需要的权限 -->
+    <!-- 极光推送需要的权限 -->
     <permission
         android:name="com.roboo.like.google.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
@@ -73,15 +73,16 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" /> <!--since 1.6.0 -->
-      <!-- 极光推送需要的权限 -->
-   
-    
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" /> <!-- since 1.6.0 -->
+    <!-- 极光推送需要的权限 -->
+
+
     <!-- 创建快捷方式需要的权限 -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <!-- 创建快捷方式需要的权限 -->
+
 
     <!-- //================================================================ -->
 
@@ -92,9 +93,9 @@
     <application
         android:name=".GoogleApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:hardwareAccelerated="false"
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -119,10 +120,9 @@
         <activity android:name=".UserActivity" />
         <activity android:name=".PinterestActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".JPushActivity" 
-            android:theme="@style/Dialog.Theme"
-            
-            />
+        <activity
+            android:name=".JPushActivity"
+            android:theme="@style/Dialog.Theme" />
         <activity android:name=".ContacterActivity" />
         <activity
             android:name=".NewsActivity"
@@ -170,8 +170,7 @@
             android:name="YUNBA_APPKEY"
             android:value="53aa24ac90354b806cea8a42" />
         <!-- 使用云巴需要的服务 以及APPKEY -->
-        
-          <!-- JPush  SDK核心功能 -->
+        <!-- JPush  SDK核心功能 -->
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
@@ -215,7 +214,7 @@
         <!-- Required SDK核心功能 -->
         <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
         <!-- 用户自定义的广播接收器 -->
-         <receiver
+        <receiver
             android:name="com.roboo.like.google.receiver.JPushReceiver"
             android:enabled="true" >
             <intent-filter>
@@ -230,7 +229,7 @@
                 Required  用户打开自定义通知栏的intent
                 <category android:name="com.roboo.like.google" />
             </intent-filter>
-        </receiver>  
+        </receiver>
         <!-- 值来自开发者定义的渠道标识 -->
         <meta-data
             android:name="JPUSH_CHANNEL"
@@ -239,7 +238,7 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="@string/JPUSH_KEY" />
-          <!-- JPush  SDK核心功能 -->
+        <!-- JPush  SDK核心功能 -->
     </application>
 
 </manifest>

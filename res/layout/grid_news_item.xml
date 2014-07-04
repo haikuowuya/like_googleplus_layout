@@ -26,8 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:maxLines="2"
-           android:minLines="2"
+         
             android:textColor="@drawable/text_color_selector"
             android:textSize="16sp" />
 
@@ -37,8 +36,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:maxLines="4"
-            android:minLines="4"
+         
             android:textColor="@drawable/text_color_selector"
             android:textSize="12sp" />
     </LinearLayout>

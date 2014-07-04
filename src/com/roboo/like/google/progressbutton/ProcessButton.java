@@ -52,8 +52,8 @@ public class ProcessButton extends Button
 	private CharSequence mCompleteText;
 	private CharSequence mErrorText;
 	private int mDrawType;
-
-	private static final int DEFAULT_PRESSED_COLOR = 0x88FF0000;
+	/** 默认按钮按下时的颜色 */
+	private static final int DEFAULT_PRESSED_COLOR = 0xFFFF0000;
 	private static final int DEFAULT_NORMAL_COLOR = 0xFF0000FF;
 	protected static final int DEFAULT_PROGRESS_COLOR = 0xFFFF0000;
 	protected static final int DEFAULT_COMPLETE_COLOR = 0xFF99CC00;
@@ -63,6 +63,7 @@ public class ProcessButton extends Button
 	{
 		this(context, null);
 	}
+
 	public ProcessButton(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
@@ -226,10 +227,12 @@ public class ProcessButton extends Button
 	{
 		return mDrawType;
 	}
+
 	public void setDrawType(int drawType)
 	{
 		this.mDrawType = drawType;
 	}
+
 	public float getCornerRadius()
 	{
 		return mCornerRadius;
@@ -263,7 +266,7 @@ public class ProcessButton extends Button
 		setBackgroundDrawable(getNormalDrawable());
 	}
 
-	public  void onCompleteState()
+	public void onCompleteState()
 	{
 		if (getCompleteText() != null)
 		{
@@ -272,7 +275,7 @@ public class ProcessButton extends Button
 		setBackgroundDrawable(getCompleteDrawable());
 	}
 
-	public  void onNormalState()
+	public void onNormalState()
 	{
 		if (getNormalText() != null)
 		{

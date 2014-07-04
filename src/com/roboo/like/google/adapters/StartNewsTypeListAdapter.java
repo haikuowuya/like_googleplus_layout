@@ -56,7 +56,7 @@ public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeade
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		convertView = LayoutInflater.from(activity).inflate(R.layout.list_news_type_item, null);// TODO
+		convertView = mInflater.inflate(R.layout.list_news_type_item, null);// TODO
 		TextView textView = ViewHolder.getView(convertView, R.id.tv_title);
 		ImageView imageView = ViewHolder.getView(convertView, R.id.iv_image);
 		textView.setText(mData.get(position).name);

@@ -22,6 +22,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.roboo.like.google.R;
 import com.roboo.like.google.models.NewsItem;
+import com.roboo.like.google.views.StickyGridHeadersGridView;
 
 public class NewsGridAdapter extends BaseAdapter implements StickyHeadersAdapter, SectionIndexer
 {
@@ -82,7 +83,11 @@ public class NewsGridAdapter extends BaseAdapter implements StickyHeadersAdapter
 			ImageView imageView = ViewHolder.getView(convertView, R.id.iv_image);
 			TextView tvTitle = ViewHolder.getView(convertView, R.id.tv_title);
 			TextView tvSubTitle = ViewHolder.getView(convertView, R.id.tv_sub_title);
-
+			if (parent instanceof StickyGridHeadersGridView)
+			{
+				tvTitle.setLines(2);
+				tvSubTitle.setLines(4);
+			}
 			tvTitle.setText(item.getTitle());
 			tvSubTitle.setText(item.getSubTitle());
 			DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image).showImageOnFail(R.drawable.ic_default_image).cacheInMemory().cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
@@ -90,12 +95,10 @@ public class NewsGridAdapter extends BaseAdapter implements StickyHeadersAdapter
 			// addAnimation(convertView);
 		}
 		return convertView;
-
 	}
 
 	protected void addAnimation(View convertView)
 	{
-
 		// ObjectAnimator translateX = ObjectAnimator.ofFloat(convertView,
 		// "translationX",screenWidth/3, screenWidth );
 		// AnimatorSet set = new AnimatorSet();
@@ -192,7 +195,7 @@ public class NewsGridAdapter extends BaseAdapter implements StickyHeadersAdapter
 		{
 			section = 0;
 		}
-		if(section < mSectionIndex.size() && mSectionIndex.size() > 0)
+		if (section < mSectionIndex.size() && mSectionIndex.size() > 0)
 		{
 			return mSectionIndex.get(section);
 		}

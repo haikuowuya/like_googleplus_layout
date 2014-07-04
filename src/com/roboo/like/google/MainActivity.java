@@ -23,6 +23,7 @@ import com.roboo.like.google.adapters.NewsTypeListAdapter;
 import com.roboo.like.google.fragments.LeftFragment;
 import com.roboo.like.google.fragments.MainGridFragment;
 import com.roboo.like.google.fragments.MainListFragment;
+import com.roboo.like.google.fragments.MainPinGridFragment;
 import com.roboo.like.google.fragments.RightFragment;
 import com.roboo.like.google.models.NewsTypeItem;
 import com.roboo.like.google.news.utils.NewsTypeDataUtils;
@@ -89,7 +90,6 @@ public class MainActivity extends BaseActivity
 
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-
 		switch (item.getItemId())
 		{
 		case android.R.id.home:
@@ -124,6 +124,7 @@ public class MainActivity extends BaseActivity
 		case R.id.menu_list:// 列表显示
 			mDisplayStyle = STYLE_LIST;
 			mMenu.findItem(R.id.menu_grid).setChecked(false);
+			mMenu.findItem(R.id.menu_pinterest).setChecked(false);
 			if (!item.isChecked())
 			{
 				updateFragment();
@@ -133,6 +134,7 @@ public class MainActivity extends BaseActivity
 		case R.id.menu_grid:// 网格显示
 			mDisplayStyle = STYLE_GRID;
 			mMenu.findItem(R.id.menu_list).setChecked(false);
+			mMenu.findItem(R.id.menu_pinterest).setChecked(false);
 			if (!item.isChecked())
 			{
 				updateFragment();
@@ -140,7 +142,17 @@ public class MainActivity extends BaseActivity
 			item.setChecked(true);
 
 			return true;
-		case R.id.menu_pinterest:
+		case R.id.menu_pinterest:// 瀑布流显示
+			mDisplayStyle = STYLE_PINTEREST;
+			mMenu.findItem(R.id.menu_list).setChecked(false);
+			mMenu.findItem(R.id.menu_grid).setChecked(false);
+			if (!item.isChecked())
+			{
+				updateFragment();
+			}
+			item.setChecked(true);
+			return true;
+		case R.id.menu_help:// 帮助
 			PinterestActivity.actionPinterest(this);
 			return true;
 		case R.id.menu_download:
@@ -172,10 +184,20 @@ public class MainActivity extends BaseActivity
 
 	private void updateFragment()
 	{
-		mMainFragment = MainListFragment.newInstance(mCurrentURL);
+		if (mDisplayStyle == STYLE_LIST)
+		{
+
+			mMainFragment = MainListFragment.newInstance(mCurrentURL);
+		}
 		if (mDisplayStyle == STYLE_GRID)
 		{
+
 			mMainFragment = MainGridFragment.newInstance(mCurrentURL);
+		}
+		else if (mDisplayStyle == STYLE_PINTEREST)
+		{
+
+			mMainFragment = MainPinGridFragment.newInstance(mCurrentURL);
 		}
 		getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mMainFragment).commit();
 		mDrawerLayout.closeDrawers();

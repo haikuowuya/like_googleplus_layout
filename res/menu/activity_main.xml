@@ -36,6 +36,8 @@
             <item
                 android:id="@+id/menu_pinterest"
                 android:showAsAction="always"
+                 android:checkable="true"
+                android:checked="false"
                 android:title="瀑布流"/>
             <item
                 android:id="@+id/menu_help"

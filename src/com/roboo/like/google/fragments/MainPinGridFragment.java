@@ -34,14 +34,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.animation.BounceInterpolator;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.ProgressBar;
 
 import com.nineoldandroids.view.ViewHelper;
 import com.roboo.like.google.BaseLayoutActivity;
@@ -53,30 +51,27 @@ import com.roboo.like.google.NewsActivity;
 import com.roboo.like.google.PictureActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.TextActivity;
-import com.roboo.like.google.adapters.NewsListAdapter;
+import com.roboo.like.google.adapters.NewsGridAdapter;
 import com.roboo.like.google.async.NewsListAsyncTaskLoader;
-import com.roboo.like.google.infinite.FixedSpeedScroller;
 import com.roboo.like.google.infinite.InfinitePagerAdapter;
-import com.roboo.like.google.infinite.InfiniteViewPager;
 import com.roboo.like.google.infinite.ViewPagerEx.OnPageChangeListener;
 import com.roboo.like.google.infinite.ViewPagerEx.PageTransformer;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.progressbutton.ProcessButton;
 import com.roboo.like.google.progressbutton.ProgressGenerator;
 import com.roboo.like.google.progressbutton.ProgressGenerator.OnCompleteListener;
+import com.roboo.like.google.staggeredgrid.StaggeredGridView;
 import com.roboo.like.google.utils.CardToastUtils;
 import com.roboo.like.google.utils.FileUtils;
 import com.roboo.like.google.utils.MD5Utils;
 import com.roboo.like.google.utils.NetWorkUtils;
-import com.roboo.like.google.views.FooterView;
-import com.roboo.like.google.views.HeaderView;
-import com.roboo.like.google.views.StickyListHeadersListView;
+import com.roboo.like.google.views.StickyGridHeadersGridView;
 import com.roboo.like.google.views.helper.PoppyListViewHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.DefaultHeaderTransformer;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.OnRefreshListener;
 
-public class MainListFragment extends BaseFragment implements LoaderCallbacks<LinkedList<NewsItem>>
+public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks<LinkedList<NewsItem>>
 {
 	private static final String DECLARED_OPERA_FAST_SCROLLER_FIELD = "mFastScroller";// FastScroller
 	private static final String DECLARED_OVERLAY_SIZE = "mOverlaySize";// int
@@ -92,9 +87,8 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 	private int mStubCurrentPageNo = mCurrentPageNo;
 	/** 用于记录兩條新聞日期不相同时，该比较字符串所在List集合的索引位置，在生成HeaderId时进行获取 */
 	private LinkedList<Integer> mSectionIndex = new LinkedList<Integer>();
-
-	/** ListView */
-	private StickyListHeadersListView mListView;
+	/** 瀑布流GridView */
+	private StaggeredGridView mGridView;
 	/** 当ListView向上滚动时会出现的View的辅助类 */
 	private PoppyListViewHelper mPoppyListViewHelper;
 	/** ActionBar下拉刷新的辅助类 */
@@ -110,29 +104,16 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 	/** 文字 */
 	private Button mBtnText;
 	/** 新闻列表适配器 */
-	private NewsListAdapter mAdapter;
+	private NewsGridAdapter mAdapter;
 	/** ListView最后一列是否可见的标志 */
 	public boolean mLastItemVisible;
-	/** ListView 的 FooterView */
-	private FooterView mFooterView;
-	/** ListView 的 HeaderView */
-	private HeaderView mHeaderView;
 	/** 新闻列表适配器的数据源 */
 	private LinkedList<NewsItem> mData;
-	/** 当点击FooterView时显示加载数据标识 */
-	private ProgressBar mFooterProgressBar;
 	private int mProgress = 0;
 	/** 正在加载数据中…… */
-	private Button mBtnLoadNext;
-	/** HeaderView 中的ViewPager */
-	private InfiniteViewPager mAdViewPager;
+	private ProcessButton mBtnLoadNext;
 	protected int mPosition = 0;
 	protected Handler mHandler = new Handler();
-
-	private boolean mSwapRunnableHasStart = false;
-	/** 模拟广告图片轮转间隔时间 */
-	private static final long SWAP_INTERVAL_TIME = 3000L;
-	private String mChannelURL;
 	private Runnable mCreateDesktopRunnable = new Runnable()
 	{
 		public void run()
@@ -141,26 +122,10 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 			activity.showCreateDesktopDialog();
 		}
 	};
-	private Runnable mSwapRunnable = new Runnable()
-	{
-		public void run()
-		{
-			if (mAdViewPager != null)
-			{
-				mSwapRunnableHasStart = true;
-				mHeaderView.getIndicator().setCurrentItem(mPosition % getRealPagerCount(), true);
-				mAdViewPager.nextItem();
-				mPosition++;
-				mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
-				mHandler.sendEmptyMessage(mPosition);
-			}
-		}
-	};
-
 	/** 创建一个 ContentFragment 实例 */
-	public static MainListFragment newInstance(String newsUrl)
+	public static MainPinGridFragment newInstance(String newsUrl)
 	{
-		MainListFragment fragment = new MainListFragment();
+		MainPinGridFragment fragment = new MainPinGridFragment();
 		Bundle bundle = new Bundle();
 		bundle.putString(ARG_NEWS_URL, newsUrl);
 		fragment.setArguments(bundle);
@@ -169,52 +134,35 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.fragment_main_list, null);// TODO
-		mFooterView = new FooterView(getActivity(), FooterView.TYPE_PROGRESS_BUTTON);
-		mHeaderView = new HeaderView(getActivity());
-		mAdViewPager = mHeaderView.getViewPager();
-		mFooterProgressBar = mFooterView.getFooterProgressBar();
-		mBtnLoadNext = mFooterView.getButton();
-		 
-		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
+		View view = inflater.inflate(R.layout.fragment_pinterest, null);// TODO
+		mBtnLoadNext = (ProcessButton) view.findViewById(R.id.pbtn_load_next);
+		mBtnLoadNext.setVisibility(View.GONE);
+		mGridView = (StaggeredGridView) view.findViewById(R.id.sgv_gridview);
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
-
 		return view;
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
-		mPoppyView = mPoppyListViewHelper.createPoppyViewOnListView(R.id.slhlv_list, R.layout.poppyview);
+		mPoppyView = mPoppyListViewHelper.createPoppyViewOnListView(R.id.sgv_gridview, R.layout.poppyview);
 		mBtnPicture = (Button) mPoppyView.findViewById(R.id.btn_picture);
 		mBtnLocation = (Button) mPoppyView.findViewById(R.id.btn_location);
 		mBtnMood = (Button) mPoppyView.findViewById(R.id.btn_mood);
 		mBtnText = (Button) mPoppyView.findViewById(R.id.btn_text);
-		mPullToRefreshAttacher.addRefreshableView(mListView, getOnRefreshListener());
+		mPullToRefreshAttacher.addRefreshableView(mGridView, getOnRefreshListener());
 		mData = getOfflineData(getArguments().getString(ARG_NEWS_URL));
 		if (null != mData)
 		{
-			mAdapter = new NewsListAdapter(getActivity(), mData, mSectionIndex);
-			mListView.addFooterView(mFooterView);
-			mListView.addHeaderView(mHeaderView);
-			mListView.setAdapter(mAdapter);
+			mBtnLoadNext.setVisibility(View.VISIBLE);
+			mPoppyView.setVisibility(View.VISIBLE);
+			mAdapter = new NewsGridAdapter(getActivity(), mData, mSectionIndex);
+			mGridView.setAdapter(mAdapter);
 			mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
 			Collections.sort(generateHeaderId(mData), new YMDComparator());
 			mAdapter.setSectionIndex(mSectionIndex);
 			mAdapter.notifyDataSetChanged();
-			if (!mSwapRunnableHasStart)
-			{
-				mAdViewPager.setAdapter(getPagerAdapter());
-				mAdViewPager.setOffscreenPageLimit(getRealPagerCount());
-				FixedSpeedScroller fixedSpeedScroller = new FixedSpeedScroller(getActivity(), new BounceInterpolator());
-				mAdViewPager.setFixedScroller(fixedSpeedScroller);
-				mHeaderView.getIndicator().setViewPager(mAdViewPager);
-				mAdViewPager.setOnPageChangeListener(getOnPageChangeListener());
-				mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
-				mAdViewPager.setPageTransformer(true, getTransformer());
-				mSwapRunnableHasStart = true;
-			}
 		}
 		loadFirstData();
 		modifyDefaultListViewFieldValue();
@@ -240,31 +188,30 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 
 	private void setListener()
 	{
-		mListView.setOnItemClickListener(new OnListItemClickListenerImpl());
+		mGridView.setOnItemClickListener(new OnListItemClickListenerImpl());
 		OnClickListenerImpl onClickListenerImpl = new OnClickListenerImpl();
 		mBtnLocation.setOnClickListener(onClickListenerImpl);
 		mBtnMood.setOnClickListener(onClickListenerImpl);
 		mBtnPicture.setOnClickListener(onClickListenerImpl);
 		mBtnText.setOnClickListener(onClickListenerImpl);
-		mFooterView.getButton().setOnClickListener(onClickListenerImpl);
+		// mFooterView.getButton().setOnClickListener(onClickListenerImpl);
 	}
 
 	private class OnListItemClickListenerImpl implements OnItemClickListener
 	{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		{
-			if (parent.getAdapter().getItemViewType(position) == AbsListView.ITEM_VIEW_TYPE_HEADER_OR_FOOTER)
-			{
-				if (mFooterView.getType() == FooterView.TYPE_BUTTON)
-				{
-					loadNextData();
-				}
-
-			}
-			else
-			{
-				NewsActivity.actionNews(getActivity(), (NewsItem) parent.getAdapter().getItem(position));
-			}
+			// if (parent.getAdapter().getItemViewType(position) == AbsListView.ITEM_VIEW_TYPE_HEADER_OR_FOOTER)
+			// {
+			// // if (mFooterView.getType() == FooterView.TYPE_BUTTON)
+			// // {
+			// // loadNextData();
+			// // }
+			// }
+			// else
+			// {
+			NewsActivity.actionNews(getActivity(), (NewsItem) mAdapter.getItem(position));
+			// }
 		}
 	}
 
@@ -275,7 +222,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 			public Object onComplete()
 			{
 				mBtnLoadNext.setEnabled(true);
-				((ProcessButton) mBtnLoadNext).onNormalState();
+				mBtnLoadNext.onNormalState();
 				return null;
 			}
 
@@ -289,7 +236,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 				{
 					public void run()
 					{
-						((ProcessButton) mBtnLoadNext).setProgress(mProgress);
+						mBtnLoadNext.setProgress(mProgress);
 						if (mProgress < 100)
 						{
 							handler.postDelayed(this, generateDelay());
@@ -328,7 +275,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 			bundle.putInt(ARG_CURRENT_PAGENO, pageNo);
 		}
 		mPullToRefreshAttacher.setRefreshing(true);
-		getActivity().getSupportLoaderManager().restartLoader(0, bundle, MainListFragment.this);
+		getActivity().getSupportLoaderManager().restartLoader(0, bundle, MainPinGridFragment.this);
 	}
 
 	/** initLoader/reStartLoader方法被调用时会执行onCreateLoader */
@@ -339,7 +286,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		{
 			System.out.println("当前加载的是第   " + args.getInt(ARG_CURRENT_PAGENO, 1) + " 页数据");
 		}
-		mFooterProgressBar.setVisibility(View.VISIBLE);
+		mPoppyView.setVisibility(View.GONE);
 		mBtnLoadNext.setText("正在加载数据中……");
 		return new NewsListAsyncTaskLoader(getActivity(), args.getString(ARG_NEWS_URL), args.getInt(ARG_CURRENT_PAGENO, 1));
 	}
@@ -374,7 +321,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		private void doSomething()
 		{
 			mProgress = 50;
-			new ProgressGenerator(getOnCompleteListener()).start((ProcessButton) mBtnLoadNext);
+			new ProgressGenerator(getOnCompleteListener()).start(mBtnLoadNext);
 		}
 
 		/** 图片 */
@@ -415,7 +362,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 	{
 		mBtnLoadNext.setEnabled(true);
 		mProgress = 100;
-		((ProcessButton) mBtnLoadNext).onNormalState();
+		mBtnLoadNext.onNormalState();
 		if (data != null)
 		{
 			int updateCount = 0;
@@ -424,10 +371,10 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 			{
 				mData = data;
 				updateCount = mData.size();
-				mAdapter = new NewsListAdapter(getActivity(), mData, mSectionIndex);
-				mListView.addFooterView(mFooterView);
-				mListView.addHeaderView(mHeaderView);
-				mListView.setAdapter(mAdapter);
+				mAdapter = new NewsGridAdapter(getActivity(), mData, mSectionIndex);
+				// mListView.addFooterView(mFooterView);
+				// mListView.addHeaderView(mHeaderView);
+				mGridView.setAdapter(mAdapter);
 				mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
 			}
 			else
@@ -461,22 +408,17 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 			}
 			mBtnLoadNext.setText("所有数据加载完毕");
 		}
-		if (null != mData && !mSwapRunnableHasStart)
+		if (null != mData)
 		{
-			mAdViewPager.setAdapter(getPagerAdapter());
-			mAdViewPager.setOffscreenPageLimit(getRealPagerCount());
-			FixedSpeedScroller fixedSpeedScroller = new FixedSpeedScroller(getActivity(), new BounceInterpolator());
-			mAdViewPager.setFixedScroller(fixedSpeedScroller);
-			mHeaderView.getIndicator().setViewPager(mAdViewPager);
-			mAdViewPager.setOnPageChangeListener(getOnPageChangeListener());
-			mHandler.postDelayed(mSwapRunnable, SWAP_INTERVAL_TIME);
-			mAdViewPager.setPageTransformer(true, getTransformer());
+			mBtnLoadNext.setVisibility(View.VISIBLE);
+			mPoppyView.setVisibility(View.VISIBLE);
+
 		}
 		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
 		{
 			mBtnLoadNext.setText("设置网络");
 		}
-		mFooterProgressBar.setVisibility(View.INVISIBLE);
+		// mFooterProgressBar.setVisibility(View.INVISIBLE);
 		mPullToRefreshAttacher.setRefreshComplete();
 		if (isNeedShowCreateDesktopDialog())
 		{
@@ -495,96 +437,6 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		}
 		return !flag;
 	}
-
-	private OnPageChangeListener getOnPageChangeListener()
-	{
-		return new OnPageChangeListener()
-		{
-			public void onPageSelected(int position)
-			{
-				mPosition = position;
-				mHeaderView.getIndicator().setCurrentItem(position % getRealPagerCount(), true);
-			}
-
-			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
-			{
-
-			}
-
-			public void onPageScrollStateChanged(int state)
-			{
-
-			}
-		};
-	}
-
-	private int getRealPagerCount()
-	{
-		PagerAdapter adapter = mAdViewPager.getAdapter();
-		if (adapter instanceof InfinitePagerAdapter)
-		{
-			return ((InfinitePagerAdapter) adapter).getRealCount();
-		}
-		else
-		{
-			return adapter.getCount();
-		}
-	}
-
-	private PageTransformer getTransformer()
-	{
-		PageTransformer pageTransformer = new PageTransformer()
-		{
-			public void transformPage(View page, float position)
-			{
-				ViewHelper.setTranslationX(page, position < 0 ? 0f : -page.getWidth() * position);
-			}
-		};
-
-		return pageTransformer;
-	}
-
-	private PagerAdapter getPagerAdapter()
-	{
-		PagerAdapter pagerAdapter = new PagerAdapter()
-		{
-			public boolean isViewFromObject(View view, Object object)
-			{
-				return view == object;
-			}
-
-			public int getCount()
-			{
-				return 3;
-			}
-
-			@Override
-			public int getItemPosition(Object object)
-			{
-				return POSITION_NONE;
-			}
-
-			public Object instantiateItem(ViewGroup container, int position)
-			{
-				ImageView imageView = new ImageView(getActivity());
-				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-				imageView.setScaleType(ScaleType.FIT_XY);
-				imageView.setImageResource(getResources().getIdentifier("ic_test" + (1 + position), "drawable", getActivity().getPackageName()));
-				imageView.setLayoutParams(params);
-				container.addView(imageView);
-				return imageView;
-			}
-
-			@Override
-			public void destroyItem(ViewGroup container, int position, Object object)
-			{
-				container.removeView((View) object);
-			}
-		};
-		InfinitePagerAdapter wrappedAdapter = new InfinitePagerAdapter(pagerAdapter);
-		return wrappedAdapter;
-	}
-
 	/** 处理数据重复问题,以及将最新的数据放在最上面 */
 	private LinkedList<NewsItem> handleAddData(LinkedList<NewsItem> data)
 	{
@@ -670,20 +522,6 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		{
 			if (null != o1 && null != o2)
 			{
-				// String time1 = o1.getTime().replace("月", " ").replace("日", " ");
-				// String time2 = o2.getTime().replace("月", " ").replace("日", " ");
-				// String month1 = time1.split(" ")[0];
-				// String month2 = time2.split(" ")[0];
-				// String day1 = time1.split(" ")[1];
-				// String day2 = time1.split(" ")[1];
-				// if (month1.compareTo(month2) == 0)
-				// {
-				// return day1.compareTo(day2);
-				// }
-				// else
-				// {
-				// return month1.compareTo(month2);
-				// }
 				return o2.getTime().compareTo(o1.getTime());
 			}
 			return 0;
@@ -697,7 +535,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		{
 			Field field = AbsListView.class.getDeclaredField(DECLARED_OPERA_FAST_SCROLLER_FIELD);
 			field.setAccessible(true);
-			Object object = field.get(mListView);
+			Object object = field.get(mGridView);
 			field = field.getType().getDeclaredField(DECLARED_PAINT);// 获取绘制文字的画笔
 			field.setAccessible(true);
 			Paint paint = new Paint();

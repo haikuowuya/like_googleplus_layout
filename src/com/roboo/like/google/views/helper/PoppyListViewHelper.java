@@ -14,6 +14,8 @@ import android.widget.GridView;
 import android.widget.ListView;
 
 import com.nineoldandroids.view.ViewPropertyAnimator;
+import com.roboo.like.google.staggeredgrid.StaggeredGridView;
+import com.roboo.like.google.views.StickyGridHeadersGridView;
 
 public class PoppyListViewHelper
 {
@@ -53,30 +55,29 @@ public class PoppyListViewHelper
 	}
 
 	// for ListView
-
 	public View createPoppyViewOnAbsListView(int listViewId, int poppyViewResId, OnScrollListener onScrollListener)
 	{
-		ListView listView =  null;
-		GridView gridView =  null;
-		AbsListView view =    (AbsListView) mActivity.findViewById(listViewId);
-		if(view instanceof ListView)
+		ListView listView = null;
+
+		AbsListView view = (AbsListView) mActivity.findViewById(listViewId);
+		if (view instanceof ListView)
 		{
 			listView = (ListView) view;
 		}
-		else  if(view instanceof GridView)
+		else if (view instanceof GridView)
 		{
-			gridView = (GridView) view;
+
 		}
-		if(null != listView)
+		if (null != listView)
 		{
-		if (listView.getHeaderViewsCount() != 0)
-		{
-			throw new IllegalArgumentException("use createPoppyViewOnListView with headerResId parameter");
-		}
-		if (listView.getFooterViewsCount() != 0)
-		{
-			throw new IllegalArgumentException("poppyview library doesn't support listview with footer");
-		}
+			if (listView.getHeaderViewsCount() != 0)
+			{
+				throw new IllegalArgumentException("use createPoppyViewOnListView with headerResId parameter");
+			}
+			if (listView.getFooterViewsCount() != 0)
+			{
+				throw new IllegalArgumentException("poppyview library doesn't support listview with footer");
+			}
 		}
 		mPoppyView = mLayoutInflater.inflate(poppyViewResId, null);
 		initPoppyViewOnAbsListView(view, onScrollListener);
@@ -100,14 +101,17 @@ public class PoppyListViewHelper
 		newContainer.addView(view);
 		final FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		layoutParams.gravity = mPoppyViewPosition == PoppyViewPosition.BOTTOM ? Gravity.BOTTOM : Gravity.TOP;
+		if (view instanceof StickyGridHeadersGridView || view instanceof StaggeredGridView)
+		{
+			int bottomMargin = (int) (48 * mActivity.getResources().getDisplayMetrics().density);
+			layoutParams.bottomMargin = bottomMargin;
+		}
 		newContainer.addView(mPoppyView, layoutParams);
 		group.invalidate();
 	}
-
 	private void onScrollPositionChanged(int oldScrollPosition, int newScrollPosition)
 	{
 		int newScrollDirection;
-
 		System.out.println(oldScrollPosition + " ->" + newScrollPosition);
 
 		if (newScrollPosition < oldScrollPosition)
@@ -154,7 +158,6 @@ public class PoppyListViewHelper
 	private void initPoppyViewOnAbsListView(AbsListView listView, final OnScrollListener onScrollListener)
 	{
 		setPoppyViewOnView(listView);
-		 
 		listView.setOnScrollListener(new OnScrollListener()
 		{
 			int mScrollPosition;
