@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:drawableLeft="@drawable/swipe_delete_selector"
-            android:layout_weight="1"
+             android:drawablePadding="10dp"
             android:text="删除" />
     </LinearLayout>
     
