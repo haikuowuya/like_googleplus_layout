@@ -11,7 +11,7 @@ import com.roboo.like.google.fragments.NewsFragment;
 import com.roboo.like.google.models.NewsItem;
 
 /** 新闻详情 */
-public class CommentActivity extends BaseActivity
+public class CommentActivity extends BaseLayoutActivity
 {
 	public static final String EXTRA_NEWS_ID = "news_id";
 

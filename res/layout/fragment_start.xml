@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ivorg_color" xmlns:app="http://schemas.android.com/apk/res/com.roboo.like.google">
+
+    <com.roboo.like.google.views.StickyListHeadersListView
+        android:id="@+id/slhlv_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:drawSelectorOnTop="true"
+        android:fadeScrollbars="false"
+        android:fastScrollEnabled="true"
+        android:footerDividersEnabled="true"
+        android:listSelector="@android:color/transparent"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="none"
+        android:visibility="gone" />
+
+    <com.roboo.like.google.swipelistview.SwipeListView
+        android:id="@+id/slv_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:fadeScrollbars="false"
+        android:fastScrollEnabled="true"
+        android:footerDividersEnabled="true"
+        android:listSelector="@android:color/transparent"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="none"
+        swipe:swipeBackView="@+id/swipe_listview_back"
+        swipe:swipeCloseAllItemsWhenMoveList="true"
+        swipe:swipeFrontView="@+id/swipe_listview_font"
+        app:swipeOffsetLeft="200dp"
+        app:swipeActionLeft="reveal"
+        swipe:swipeMode="left"/>
+
+</RelativeLayout>

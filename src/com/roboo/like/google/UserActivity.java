@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import com.roboo.like.google.fragments.UserFragment;
 
 /** 个人信息界面 */
-public class UserActivity extends BaseActivity
+public class UserActivity extends BaseLayoutActivity
 {
  
 	public static void actionUser(Activity activity)

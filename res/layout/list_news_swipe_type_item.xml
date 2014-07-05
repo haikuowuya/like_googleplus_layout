@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+
+    <LinearLayout
+        android:id="@+id/swipe_listview_back"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:tag="back"
+        android:padding="8dp" >
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:text="打开" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:text="卸载" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:drawableLeft="@drawable/swipe_delete_selector"
+             android:drawablePadding="10dp"
+            android:text="删除" />
+    </LinearLayout>
+    
+    <RelativeLayout
+        android:id="@+id/swipe_listview_font"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@drawable/list_item_selector"
+        android:tag="front" >
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:padding="15dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_abs_home_up" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@id/iv_image"
+            android:layout_alignTop="@id/iv_image"
+            android:layout_toRightOf="@id/iv_image"
+            android:gravity="center_vertical"
+            android:padding="4dp"
+            android:singleLine="true"
+            android:textColor="@drawable/text_color_selector"
+            android:textSize="22sp" />
+    </RelativeLayout>
+
+</FrameLayout>

@@ -1,24 +1,38 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
+    <style name="Dialog.Theme" parent="@android:Theme.Holo.Dialog.NoActionBar">
+        <item name="android:buttonBarStyle">@style/Custom.Button.Style</item>
+        <item name="android:buttonStyle">@style/Custom.Button.Style</item>
+        <item name="android:borderlessButtonStyle">@android:style/Widget.Holo.Button.Borderless.Small</item>
+    </style>
+
+    <style name="AppBaseTheme" parent="@android:Theme.Holo.Light">
         <item name="android:actionBarSize">48dp</item>
+        <item name="android:actionButtonStyle">@style/Custom.ActionBar.Button.Style</item>
+        <item name="android:actionBarStyle">@style/Custom.ActionBar.Style</item>
         <item name="android:actionDropDownStyle">@style/Custom.ActionBar.DropDown.Style</item>
         <item name="android:spinnerDropDownItemStyle">@style/Custom.ActionBar.Spinner.DropDownItem.Style</item>
-        <item name="android:actionBarStyle">@style/Custom.ActionBar.Style</item>
         <item name="android:dropDownListViewStyle">@style/Custom.ActionBar.DropDownListView.Style</item>
         <item name="android:selectableItemBackground">@drawable/actionbar_item_selector</item>
         <item name="android:buttonStyle">@style/Custom.Button.Style</item>
         <item name="android:alertDialogTheme">@style/Custom.AlertDialog.Theme.Style</item>
         <item name="android:progressBarStyle">@style/Custom.ProgressBar.Style</item>
-        <item name="android:popupMenuStyle">@style/Custp.PopupMenu.Style</item>
+        <item name="android:popupMenuStyle">@style/Custom.PopupMenu.Style</item>
         <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_selector</item>
         <item name="android:fastScrollTrackDrawable">@color/fast_scroll_track_color</item>
         <item name="android:fastScrollOverlayPosition">atThumb</item>
         <item name="android:fastScrollPreviewBackgroundRight">@drawable/ic_fast_scroll_label_right</item>
         <item name="android:fastScrollTrackDrawable">@color/fast_scroll_track_color</item>
-       <item name="android:actionBarSplitStyle">@style/Custom.ActionBar.Style</item>
+        <item name="android:actionBarSplitStyle">@style/Custom.ActionBar.Style</item>
+        <item name="android:actionOverflowButtonStyle">@style/Custom.ActionBar.OverFlow.Button.Style</item>
+        <!-- 自动补全EditText -->
+        <item name="android:autoCompleteTextViewStyle">@style/Custom.AutoComplete.TextView.Style</item>
         <!-- 还不启用 -->
         <!-- <item name="android:alertDialogStyle">@style/Custom.AlertDialog.Style</item> -->
+        
+         <item name="android:editTextBackground">@drawable/edittext_view_background_selector</item>
+        
+        
     </style>
 
     <style name="Custom.ActionBar.DropDown.Style" parent="@android:style/Widget.Holo.Light.Spinner">
@@ -30,6 +44,12 @@
 
     <style name="Custom.ActionBar.Style" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
         <item name="android:background">@color/white_color</item>
+          <item name="android:itemPadding">4dip</item>
+        <item name="android:titleTextStyle">@style/Custom.ActionBar.Title.Style</item>
+    </style>
+
+    <style name="Custom.ActionBar.Title.Style" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@drawable/actionbar_title_text_color_selector</item>
     </style>
 
     <style name="Custom.ActionBar.DropDownListView.Style" parent="@android:style/Widget.Holo.ListView.DropDown">
@@ -89,9 +109,22 @@
         <item name="android:indeterminateDrawable">@drawable/progressbar</item>
     </style>
     <!-- ActionBar OverFlow Menu 样式 -->
-    <style name="Custp.PopupMenu.Style" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
+    <style name="Custom.PopupMenu.Style" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
         <item name="android:dropDownHorizontalOffset">10dip</item>
         <item name="android:dropDownVerticalOffset">10dp</item>
+    </style>
+    <!-- ActionBar OverFlow Menu 样式 -->
+    <style name="Custom.AutoComplete.TextView.Style" parent="@android:style/Widget.Holo.Light.AutoCompleteTextView">
+        <item name="android:dropDownSelector">@drawable/list_item_selector</item>
+        <item name="android:completionThreshold">1</item>
+    </style>
+    <!-- ActionBar上按钮样式 -->
+    <style name="Custom.ActionBar.Button.Style" parent="@style/Custom.ActionBar.OverFlow.Button.Style"></style>
+    <!-- ActionBar上overflow按钮样式 -->
+    <style name="Custom.ActionBar.OverFlow.Button.Style" parent="@android:style/Widget.Holo.Light.ActionButton">
+        <item name="android:paddingStart">2dip</item>
+        <item name="android:minWidth">32dp</item>
+        <item name="android:paddingEnd">2dip</item>
     </style>
 
 </resources>

@@ -10,9 +10,12 @@ import android.view.ViewParent;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.nineoldandroids.view.ViewPropertyAnimator;
+import com.roboo.like.google.staggeredgrid.StaggeredGridView;
+import com.roboo.like.google.views.StickyGridHeadersGridView;
 
 public class PoppyListViewHelper
 {
@@ -52,26 +55,38 @@ public class PoppyListViewHelper
 	}
 
 	// for ListView
-
-	public View createPoppyViewOnListView(int listViewId, int poppyViewResId, OnScrollListener onScrollListener)
+	public View createPoppyViewOnAbsListView(int listViewId, int poppyViewResId, OnScrollListener onScrollListener)
 	{
-		final ListView listView = (ListView) mActivity.findViewById(listViewId);
-		if (listView.getHeaderViewsCount() != 0)
+		ListView listView = null;
+
+		AbsListView view = (AbsListView) mActivity.findViewById(listViewId);
+		if (view instanceof ListView)
 		{
-			throw new IllegalArgumentException("use createPoppyViewOnListView with headerResId parameter");
+			listView = (ListView) view;
 		}
-		if (listView.getFooterViewsCount() != 0)
+		else if (view instanceof GridView)
 		{
-			throw new IllegalArgumentException("poppyview library doesn't support listview with footer");
+
+		}
+		if (null != listView)
+		{
+			if (listView.getHeaderViewsCount() != 0)
+			{
+				throw new IllegalArgumentException("use createPoppyViewOnListView with headerResId parameter");
+			}
+			if (listView.getFooterViewsCount() != 0)
+			{
+				throw new IllegalArgumentException("poppyview library doesn't support listview with footer");
+			}
 		}
 		mPoppyView = mLayoutInflater.inflate(poppyViewResId, null);
-		initPoppyViewOnListView(listView, onScrollListener);
+		initPoppyViewOnAbsListView(view, onScrollListener);
 		return mPoppyView;
 	}
 
 	public View createPoppyViewOnListView(int listViewId, int poppyViewResId)
 	{
-		return createPoppyViewOnListView(listViewId, poppyViewResId, null);
+		return createPoppyViewOnAbsListView(listViewId, poppyViewResId, null);
 	}
 
 	private void setPoppyViewOnView(View view)
@@ -86,14 +101,17 @@ public class PoppyListViewHelper
 		newContainer.addView(view);
 		final FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		layoutParams.gravity = mPoppyViewPosition == PoppyViewPosition.BOTTOM ? Gravity.BOTTOM : Gravity.TOP;
+		if (view instanceof StickyGridHeadersGridView || view instanceof StaggeredGridView)
+		{
+			int bottomMargin = (int) (48 * mActivity.getResources().getDisplayMetrics().density);
+			layoutParams.bottomMargin = bottomMargin;
+		}
 		newContainer.addView(mPoppyView, layoutParams);
 		group.invalidate();
 	}
-
 	private void onScrollPositionChanged(int oldScrollPosition, int newScrollPosition)
 	{
 		int newScrollDirection;
-
 		System.out.println(oldScrollPosition + " ->" + newScrollPosition);
 
 		if (newScrollPosition < oldScrollPosition)
@@ -137,7 +155,7 @@ public class PoppyListViewHelper
 		});
 	}
 
-	private void initPoppyViewOnListView(ListView listView, final OnScrollListener onScrollListener)
+	private void initPoppyViewOnAbsListView(AbsListView listView, final OnScrollListener onScrollListener)
 	{
 		setPoppyViewOnView(listView);
 		listView.setOnScrollListener(new OnScrollListener()

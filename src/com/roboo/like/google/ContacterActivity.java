@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.roboo.like.google.fragments.ContacterFragment;
 
-public class ContacterActivity extends BaseActivity
+public class ContacterActivity extends BaseLayoutActivity
 {
 	public static void actionContacter( Activity activity)
 	{

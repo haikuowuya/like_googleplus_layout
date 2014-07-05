@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <declare-styleable name="Reflection">
+        <attr name="dux_reflected" format="boolean" />
+        <attr name="dux_floorGap" format="dimension" />
+        <attr name="dux_reflectionStrength" format="float" />
+        <attr name="dux_reflectionHeight" format="float" />
+        <attr name="dux_effectType">
+            <enum name="none" value="0" />
+            <enum name="dim" value="1" />
+            <enum name="fade" value="2" />
+        </attr>
+        <attr name="dux_effectStrength" format="float" />
+    </declare-styleable>
+    <!-- GalleryFlow -->
+    <declare-styleable name="GalleryFlowView" uses="Reflection" />
+    <declare-styleable name="GalleryFlowView.Linear">
+        <attr name="dux_maxRotationAngle" format="integer" />
+        <attr name="dux_effectDistanceFactor" format="float" />
+        <attr name="dux_rotationAxisMode">
+            <enum name="center" value="0" />
+            <enum name="edge" value="1" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="GalleryFlowView.Linear.Zoom">
+        <attr name="dux_cameraZ" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="GalleryFlowView.Linear.Scale">
+        <attr name="dux_scale" format="float" />
+    </declare-styleable>
+    <declare-styleable name="GalleryFlowView.Radial">
+        <attr name="dux_edgeAngle" format="integer" />
+        <attr name="dux_viewPoint">
+            <enum name="inside" value="0" />
+            <enum name="outside" value="1" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="GalleryFlowView.Radial.Wall">
+        <attr name="dux_wallHeight" format="integer" />
+        <attr name="dux_cellSpacing" format="dimension" />
+    </declare-styleable>
+
+</resources>

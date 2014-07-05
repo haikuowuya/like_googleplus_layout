@@ -12,7 +12,7 @@
         <item>ic_search#搜索</item>
         <item>ic_didi#嘀嘀打车</item>
     </string-array>
-    <string-array name="actionbar_navigation_list_text_arrays">
+    <string-array name="actionbar_navigation_ithome_arrays">
         <item>IT之家#http://it.ithome.com/category/1_</item>
         <item>IE之家#http://it.ithome.com/category/7_</item>
         <item>IT之外#http://it.ithome.com/category/17_</item>
@@ -27,82 +27,70 @@
         <item>IPHONE之家#http://it.ithome.com/category/5_</item>
         <item>OFFICE之家#http://it.ithome.com/category/8_</item>
         <item>ANDROID之家#http://it.ithome.com/category/10_</item>
-       
     </string-array>
-    <string-array name="dummy_text_arrays">
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
-        <item>全部</item>
-        <item>热门信息</item>
-        <item>朋友</item>
-        <item>家人</item>
-        <item>认识的人</item>
-        <item>关注对象</item>
-        <item>Android</item>
-        <item>附近信息</item>
+    <string-array name="actionbar_navigation_csdn_arrays">
+        <item>移动开发#http://mobile.csdn.net/mobile/</item>
+        <item>业界新闻#http://news.csdn.net/news/</item>
+        <item>云计算#http://cloud.csdn.net/cloud/</item>
+        <item>软件研发#http://sd.csdn.net/sd/</item>
+        <item>程序员杂志#http://programmer.csdn.net/programmer/</item>
+    </string-array>
+    <string-array name="actionbar_navigation_phonekr_arrays">
+        <item>科技锋芒#http://www.phonekr.com/page/</item>
+    </string-array>
+    <string-array name="actionbar_navigation_geekpark_arrays">
+        <item>谷歌#http://www.geekpark.net/ajax/load_seeds/?tag_id=150188</item>
+        <item>微信#http://www.geekpark.net/ajax/load_seeds/?tag_id=160388</item>
+        <item>行业趋势#http://www.geekpark.net/ajax/load_seeds/?tag_id=155553</item>
+        <item>社交网络#http://www.geekpark.net/ajax/load_seeds/?tag_id=150045</item>
+        <item>产品观察#http://www.geekpark.net/ajax/load_seeds/?tag_id=155597</item>
+        <item>ANDROID#http://www.geekpark.net/ajax/load_seeds/?tag_id=150027</item>
+        <item>移动互联网#http://www.geekpark.net/ajax/load_seeds/?tag_id=150016</item>
+        <item>极客早知道#http://www.geekpark.net/ajax/load_seeds/?tag_id=160388</item>
+        <item>Facebook#http://www.geekpark.net/ajax/load_seeds/?tag_id=150048</item>
+    </string-array>
+    <string-array name="actionbar_navigation_eoe_arrays">
+        <item>EOE首页#http://www.eoe.cn/index/index/pageNum/</item>
+        <item>全部咨询#http://news.eoe.cn/cat-0-</item>
+        <item>行业动态#http://news.eoe.cn/cat-10-</item>
+        <item>创新项目#http://news.eoe.cn/cat-11-</item>
+        <item>人物访谈#http://news.eoe.cn/cat-12-</item>
+        <item>EOE视点#http://news.eoe.cn/cat-13-</item>
+        <item>ANDROID#http://news.eoe.cn/news/tag/Android/pageNum/</item>
+        <item>IOS#http://news.eoe.cn/news/tag/ios/pageNum/</item>
+        <item>移动互联网#http://news.eoe.cn/news/tag/移动互联网/pageNum/</item>
+        <!--
+        <item>EOE博客#http://www.eoeandroid.com/home.php?catid=0</item>
+        <item>程序人生#http://www.eoeandroid.com/home.php?catid=1</item>
+        <item>环境搭建#http://www.eoeandroid.com/home.php?catid=2</item>
+        <item>基础教程#http://www.eoeandroid.com/home.php?catid=3</item>
+        <item>用户界面#http://www.eoeandroid.com/home.php?catid=4</item>
+        <item>数据存储#http://www.eoeandroid.com/home.php?catid=5</item>
+        <item>网络通信#http://www.eoeandroid.com/home.php?catid=6</item>
+        <item>图形图像#http://www.eoeandroid.com/home.php?catid=7</item>
+        <item>游戏开发#http://www.eoeandroid.com/home.php?catid=8</item>
+        <item>第三方集成#http://www.eoeandroid.com/home.php?catid=10</item>
+        <item>其他#http://www.eoeandroid.com/home.php?catid=11</item>
+        -->
+    </string-array>
+    <string-array name="start_news_type_arrays">
+        <item>IT之家#0#http://a.hiphotos.baidu.com/baike/w%3D268/sign=3e03ee88087b02080cc938e75ad9f25f/7acb0a46f21fbe093b66053969600c338744ade7.jpg</item>
+        <item>CSDN#1#http://imgtech.gmw.cn/attachement/jpg/site2/20111223/f04da22d7ba7105e1d7507.jpg</item>
+        <item>科技锋芒#2#http://www.phonekr.com/wp-content/uploads/2012/11/Top-2013-W-1200px.png</item>
+        <item>EOE#3#http://www.eoeandroid.com/template/thinktheme_eoe/tt_img/logo.png</item>
+        <item>极客公园#4#http://wscont1.apps.microsoft.com/winstore/1x/873a21bf-19c0-42ff-8eae-601846af68de/AppTile.1.49919.49430.png</item>
+        <!--
+        <item>199IT#5</item>
+        <item>36KR#6</item>
+        <item>虎嗅网#7</item>
+        -->
+    </string-array>
+    <string-array name="img_arrays">
+        <item>file</item>
+        <item>http://img.ithome.com</item>
+        <item>http://cms.csdnimg.cn</item>
+        <item>http://www.phonekr.com</item>
+        <item>http://a1.eoe.cn/www/home</item>
     </string-array>
 
-  
 </resources>

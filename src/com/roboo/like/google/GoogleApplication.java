@@ -1,5 +1,14 @@
 package com.roboo.like.google;
 
+import io.yunba.android.manager.YunBaManager;
+
+import java.util.LinkedList;
+
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
+
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,35 +17,43 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
+import cn.jpush.android.api.JPushInterface;
 
 import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.MKGeneralListener;
 import com.baidu.mapapi.map.MKEvent;
+import com.droidux.components.DroidUxLib;
 
 public class GoogleApplication extends Application
 {
-	public static final String TYPE_ITHOME = "ithome";
-	public static final String TYPE_CSDN="csdn";
-	public static String mCurrentType = TYPE_CSDN;
+	public static final int TYPE_ITHOME = 0;
+	public static final int TYPE_CSDN = 1;
+	public static final int TYPE_PHONEKR = 2;
+	public static final int TYPE_EOE = 3;
+	public static final int TYPE_GEEKPARK = 4;
+	public static final int TYPE_199IT = 5;
+	public static final int TYPE_36KR = 6;
+	public static final int TYPE_HUXIU = 7;
+	public static int mCurrentType = TYPE_CSDN;
+	private LinkedList<Activity> mActivities = new LinkedList<Activity>();
+	public static final String BASE_DIDI_URL = "http://pay.xiaojukeji.com/api/v2/webapp?city=";
 	private static GoogleApplication mInstance;
-	/**IT之家的图片地址前缀*/
-	public  static final String PREFIX_ITHOME_IMG_URL = "http://img.ithome.com";
-	/**CSDN的图片地址前缀*/
-	public  static final String PREFIX_CSDN_IMG_URL = "http://cms.csdnimg.cn";
-	/**用于测试切换ITHOME和CSDN的一个条件*/
-	public static final String BASE_OFFICE_URL="http://it.ithome.com/category/8_";
-	public static final String TEST_CSDN_BASE_URL= "http://mobile.csdn.net/mobile/";
-	
-	public static final String BASE_COMMENT_URL= "http://www.ithome.com/ithome/GetAjaxData.aspx?type=commentpage";
-	/**获取评论的URL*/
-	public static final String DUMMY_COMMENT_URL= "http://www.ithome.com/ithome/GetAjaxData.aspx?newsid=78507&type=commentpage&page=1";
-	/**用于测试*/
+	// /** IT之家的图片地址前缀 */
+	// public static final String PREFIX_ITHOME_IMG_URL = "http://img.ithome.com";
+	// /** CSDN的图片地址前缀 */
+	// public static final String PREFIX_CSDN_IMG_URL = "http://cms.csdnimg.cn";
+	// public static final String PREFIX_PHONEKR_IMG_URL = "http://www.phonekr.com";
+
+	public static final String BASE_COMMENT_URL = "http://www.ithome.com/ithome/GetAjaxData.aspx?type=commentpage";
+	/** 获取评论的URL */
+	public static final String DUMMY_COMMENT_URL = "http://www.ithome.com/ithome/GetAjaxData.aspx?newsid=78507&type=commentpage&page=1";
+	/** 用于测试 */
 	public static boolean TEST = true;
-	/**DEBUG TAG*/
+	/** DEBUG TAG */
 	private static final String DEBUG_LOG_TAG = "GoogleApplication";
 	private Intent mIntent;
-	/**当前设备处于的网络类型*/
-	public static  String mNetworkType = "NONE";
+	/** 当前设备处于的网络类型 */
+	public static String mNetworkType = "NONE";
 
 	protected ServiceConnection mServiceConnection = new ServiceConnection()
 	{
@@ -56,11 +73,15 @@ public class GoogleApplication extends Application
 			}
 		}
 	};
+
 	public void onCreate()
 	{
 		super.onCreate();
 		mInstance = this;
 		bindNetworkService();
+		startYunBaService();
+		initJPush();
+		DroidUxLib.register("enter-your-api-key-here", this);
 	}
 
 	private void bindNetworkService()
@@ -77,7 +98,6 @@ public class GoogleApplication extends Application
 		stopService(mIntent);
 	}
 
-	
 	public BMapManager mBMapManager;
 	public boolean m_bKeyRight = true;
 
@@ -131,8 +151,69 @@ public class GoogleApplication extends Application
 
 	public static GoogleApplication getInstance()
 	{
-		 
+
 		return mInstance;
 	}
 
+	public void recordActivity(Activity activity)
+	{
+		mActivities.add(activity);
+	}
+
+	public void exitClient()
+	{
+		if (mActivities.size() > 0)
+		{
+			for (int i = 0; i < mActivities.size(); i++)
+			{
+				Activity activity = mActivities.get(i);
+				if (null != activity)
+				{
+					activity.finish();
+				}
+			}
+		}
+		ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+		activityManager.killBackgroundProcesses(getPackageName());
+		android.os.Process.killProcess(android.os.Process.myPid());
+		System.exit(10);
+		
+	}
+	/** 初始化JPush */
+	private void initJPush()
+	{
+		JPushInterface.setDebugMode(true);
+		JPushInterface.init(this);
+	}
+	private void startYunBaService()
+	{
+		YunBaManager.start(getApplicationContext());
+		IMqttActionListener listener = new IMqttActionListener()
+		{
+			public void onSuccess(IMqttToken asyncActionToken)
+			{
+				String topic = "123456";// DemoUtil.join(asyncActionToken.getTopics(), ",");
+				System.out.println("Subscribe succeed : " + topic);
+				// DemoUtil.showToast( "Subscribe succeed : " + topic, getApplicationContext());
+				StringBuilder showMsg = new StringBuilder();
+				showMsg.append("subscribe succ：").append(YunBaManager.MQTT_TOPIC).append(" = ").append(topic);
+			}
+
+			@Override
+			public void onFailure(IMqttToken asyncActionToken, Throwable exception)
+			{
+				String msg = "Subscribe failed : " + exception.getMessage();
+				System.out.println("msg = " + msg);
+				// DemoUtil.showToast(msg, getApplicationContext());
+			}
+		};
+
+		// for test
+		YunBaManager.subscribe(getApplicationContext(), new String[] { "t1", "t2", "t3" }, listener);
+
+//		 CoreManager.startService(getApplicationContext());
+		// CoreManager.startService(getApplicationContext());
+		// CoreManager.startService(getApplicationContext());
+
+	}
 }

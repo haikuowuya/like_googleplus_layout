@@ -15,10 +15,10 @@ import android.content.Context;
 
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.models.NewsItem;
+import com.roboo.like.google.news.utils.NewsListUtils;
 import com.roboo.like.google.utils.FileUtils;
 import com.roboo.like.google.utils.MD5Utils;
 import com.roboo.like.google.utils.NetWorkUtils;
-import com.roboo.like.google.utils.NewsListUtils;
 
 public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<NewsItem>>
 {
@@ -38,10 +38,6 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 		mChannelUrl = channelUrl;
 		mContext = context;
 		mPageNo = pageNo;
-		if(GoogleApplication.mCurrentType.equals(GoogleApplication.TYPE_CSDN) && mChannelUrl.equals(GoogleApplication.BASE_OFFICE_URL))
-		{
-			mChannelUrl = GoogleApplication.TEST_CSDN_BASE_URL ;
-		}
 	}
 
 	@Override
@@ -89,6 +85,10 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 			e.printStackTrace();
 		}
 		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}

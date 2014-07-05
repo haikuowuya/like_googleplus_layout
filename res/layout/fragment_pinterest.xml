@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.roboo.like.google"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ivorg_color" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.roboo.like.google.staggeredgrid.StaggeredGridView
+            android:id="@+id/sgv_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="58dp"
+            app:column_count="2"
+            app:item_margin="8dp" />
+
+        <com.roboo.like.google.progressbutton.ProcessButton
+            android:id="@+id/pbtn_load_next"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:text="点击加载下一页"
+            android:textColor="@android:color/white" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="没有联系人"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+</RelativeLayout>

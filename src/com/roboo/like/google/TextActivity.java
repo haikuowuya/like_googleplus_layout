@@ -25,7 +25,7 @@ import com.nineoldandroids.animation.ObjectAnimator;
 import com.roboo.like.google.utils.GifDecoder;
 
 /** 文字界面 */
-public class TextActivity extends BaseActivity
+public class TextActivity extends BaseLayoutActivity
 {
 	private static final String TAG = "Polish";
 	final Handler mHandler = new Handler();

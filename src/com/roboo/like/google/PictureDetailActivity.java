@@ -17,7 +17,7 @@ import com.roboo.like.google.infinite.ViewPagerEx.OnPageChangeListener;
 import com.roboo.like.google.views.CirclePageIndicator;
 
 /** 图片详情界面 */
-public class PictureDetailActivity extends BaseActivity
+public class PictureDetailActivity extends BaseLayoutActivity
 {
 	/** 是否自动切换图片 */
 	private static final boolean IS_AUTO_SWITCH_PIC = false;

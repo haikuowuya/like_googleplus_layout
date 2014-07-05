@@ -15,20 +15,22 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.roboo.like.google.BaseActivity;
+import com.roboo.like.google.BaseLayoutActivity;
 import com.roboo.like.google.GoogleApplication;
+import com.roboo.like.google.R;
 import com.roboo.like.google.utils.BitmapUtils;
 import com.roboo.like.google.views.PhotoView;
 
 public class ImagePagerAdapter extends PagerAdapter
 {
 	private List<String> mImageUrls;
-	private Context context;
+	private BaseActivity baseActivity;
 	private ImageLoader mImageLoader;
 
-	public ImagePagerAdapter(Context context, List<String> mImageUrls)
+	public ImagePagerAdapter(BaseActivity context, List<String> mImageUrls)
 	{
 
-		this.context = context;
+		this.baseActivity = context;
 		this.mImageUrls = mImageUrls;
 		mImageLoader = ImageLoader.getInstance();
 		ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(context);
@@ -51,23 +53,23 @@ public class ImagePagerAdapter extends PagerAdapter
  
 	public Object instantiateItem(ViewGroup container, int position)
 	{
-		PhotoView photoView = new PhotoView(context);
+		PhotoView photoView = new PhotoView(baseActivity);
 		container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		String mImagePath = mImageUrls.get(position);
 		if (isNetworkImg(mImagePath))
 		{
-			DisplayImageOptions options = new DisplayImageOptions.Builder().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).bitmapConfig(Config.RGB_565).build();
+			DisplayImageOptions options = new DisplayImageOptions.Builder().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image).bitmapConfig(Config.RGB_565).build();
 			mImageLoader.displayImage(mImagePath, photoView, options);
 		}
 		else
 		{
-			photoView.setImageBitmap(BitmapUtils.getBitmap(mImagePath, context.getResources().getDisplayMetrics().widthPixels, context.getResources().getDisplayMetrics().heightPixels));
+			photoView.setImageBitmap(BitmapUtils.getBitmap(mImagePath, baseActivity.getResources().getDisplayMetrics().widthPixels, baseActivity.getResources().getDisplayMetrics().heightPixels));
 		}
 		return photoView;
 	}
 
 	private boolean isNetworkImg(String mImagePath)
 	{
-		return mImagePath.startsWith(GoogleApplication.PREFIX_CSDN_IMG_URL)||mImagePath.startsWith(GoogleApplication.PREFIX_ITHOME_IMG_URL);
+	 return baseActivity.isImg(mImagePath);
 	}
 }

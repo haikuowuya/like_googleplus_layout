@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.roboo.like.google.fragments.PictureFragment;
 
 /** 图片界面 */
-public class PictureActivity extends BaseActivity
+public class PictureActivity extends BaseLayoutActivity
 {
 
 	/** 跳转到图片界面 */

@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
+
+    <LinearLayout
+        android:id="@+id/linear_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/white_color"
+        android:orientation="vertical"
+        android:showDividers="end" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp" >
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:src="@drawable/ic_abs_home_up" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:padding="4dp"
+                android:text="极光推送"
+                android:textColor="@color/red_color"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="4dp"
+            android:background="@color/sky_blue_color" />
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/list_item_default"
+            android:gravity="center"
+            android:minHeight="80dp"
+            android:padding="4dp"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/list_item_default"
+            android:gravity="center" >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:text="极光推送" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="24dp"
+                android:background="@color/orangered_color"
+                android:padding="4dp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:text="极光推送" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

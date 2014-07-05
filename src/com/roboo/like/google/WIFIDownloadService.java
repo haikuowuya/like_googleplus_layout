@@ -27,11 +27,13 @@ import com.roboo.like.google.listener.ImageLoadingListenerImpl;
 import com.roboo.like.google.models.CommentItem;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.models.NewsTypeItem;
+import com.roboo.like.google.news.list.utils.ITHomeNewsUtils;
+import com.roboo.like.google.news.utils.NewsTypeDataUtils;
+import com.roboo.like.google.news.utils.NewsContentUtils;
+import com.roboo.like.google.news.utils.NewsListUtils;
 import com.roboo.like.google.utils.CommentUtils;
-import com.roboo.like.google.utils.DataUtils;
 import com.roboo.like.google.utils.FileUtils;
 import com.roboo.like.google.utils.MD5Utils;
-import com.roboo.like.google.utils.NewsListUtils;
 
 public class WIFIDownloadService extends Service
 {
@@ -61,7 +63,7 @@ public class WIFIDownloadService extends Service
 	public void onCreate()
 	{
 		super.onCreate();
-		mData = DataUtils.handleNewsType(this);
+		mData = NewsTypeDataUtils.handleNewsType(this);
 		mCyclicBarrier = new CyclicBarrier(mData.size(), mDownloadFinishRunnable);
 		mStartTime = System.currentTimeMillis();
 		for (int i = 0; i < mData.size(); i++)
@@ -104,10 +106,14 @@ public class WIFIDownloadService extends Service
 			{
 				e.printStackTrace();
 			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 
 		/** 保存与新闻有关的数据到本地 */
-		private void persistentData() throws IOException, InterruptedException, BrokenBarrierException
+		private void persistentData() throws Exception, InterruptedException, BrokenBarrierException
 		{
 			long startTime1 = System.currentTimeMillis();
 			System.out.println("开始下载 " + mTypeItem.name);
@@ -118,15 +124,15 @@ public class WIFIDownloadService extends Service
 				for (NewsItem item : newsListData)
 				{
 					long startTime2 = System.currentTimeMillis();
-					LinkedList<String> newsContentData = NewsListUtils.getITHomeNewsDataList(item.getUrl());
+					LinkedList<String> newsContentData = NewsContentUtils.getNewsDataList(item.getUrl());
 					LinkedList<String> tmpNewsContentData = new LinkedList<String>();
 					for (String str : newsContentData)
 					{
-//						if (str.startsWith(BaseActivity.PREFIX_IMG_URL))
-//						{
-//							mImageLoader.loadImage(str, new SimpleImageLoadingListener());
-//							str ="file://"+ mImageLoader.getDiscCache().get(str).getAbsolutePath();
-//						}
+						// if (str.startsWith(BaseActivity.PREFIX_IMG_URL))
+						// {
+						// mImageLoader.loadImage(str, new SimpleImageLoadingListener());
+						// str ="file://"+ mImageLoader.getDiscCache().get(str).getAbsolutePath();
+						// }
 						tmpNewsContentData.add(str);
 					}
 					saveNewsContentData(tmpNewsContentData, item.getUrl());
