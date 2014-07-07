@@ -70,8 +70,26 @@
         <item>图形图像#http://www.eoeandroid.com/home.php?catid=7</item>
         <item>游戏开发#http://www.eoeandroid.com/home.php?catid=8</item>
         <item>第三方集成#http://www.eoeandroid.com/home.php?catid=10</item>
-        <item>其他#http://www.eoeandroid.com/home.php?catid=11</item>
+        <item>其他#http://www.eoeandroid.com/home.php?catid=11</item>
         -->
+    </string-array>
+    <string-array name="actionbar_navigation_it199_arrays">
+        <item>IOS#http://www.199it.com/archives/tag/ios/page/</item>
+        <item>IDC#http://www.199it.com/archives/tag/idc/page/</item>
+        <item>CNNIC#http://www.199it.com/archives/tag/cnnic/page/</item>
+        <item>ANDROID#http://www.199it.com/archives/tag/android/page/</item>
+        <item>电子商务#http://www.199it.com/archives/category/electronic-commerce/page/</item>
+        <item>社交网络#http://www.199it.com/archives/category/social-network/page/</item>
+        <item>网络营销#http://www.199it.com/archives/category/advertising/page/</item>
+        <item>网络媒体#http://www.199it.com/archives/category/omg/page/</item>
+        <item>网络娱乐#http://www.199it.com/archives/category/entertain/page/</item>
+        <item>网络服务#http://www.199it.com/archives/category/service/page/</item>
+        <item>数据行业#http://www.199it.com/archives/category/dataindustry/page/</item>
+        <item>用户研究#http://www.199it.com/archives/category/internet-users/page/</item>
+        <item>研究报告#http://www.199it.com/archives/category/report/page/</item>
+        <item>投资&amp;经济#http://www.199it.com/archives/category/economic-data/page/</item>
+        <item>数据信息图#http://www.199it.com/archives/category/info-graphics/page/</item>
+        <item>移动互联网#http://www.199it.com/archives/category/mobile-internet/page/</item>
     </string-array>
     <string-array name="start_news_type_arrays">
         <item>IT之家#0#http://a.hiphotos.baidu.com/baike/w%3D268/sign=3e03ee88087b02080cc938e75ad9f25f/7acb0a46f21fbe093b66053969600c338744ade7.jpg</item>
@@ -79,10 +97,10 @@
         <item>科技锋芒#2#http://www.phonekr.com/wp-content/uploads/2012/11/Top-2013-W-1200px.png</item>
         <item>EOE#3#http://www.eoeandroid.com/template/thinktheme_eoe/tt_img/logo.png</item>
         <item>极客公园#4#http://wscont1.apps.microsoft.com/winstore/1x/873a21bf-19c0-42ff-8eae-601846af68de/AppTile.1.49919.49430.png</item>
+        <item>199IT#5#http://www.199it.com/199itlogo.png</item>
         <!--
-        <item>199IT#5</item>
         <item>36KR#6</item>
-        <item>虎嗅网#7</item>
+        <item>虎嗅网#7</item>
         -->
     </string-array>
     <string-array name="img_arrays">
@@ -91,6 +109,8 @@
         <item>http://cms.csdnimg.cn</item>
         <item>http://www.phonekr.com</item>
         <item>http://a1.eoe.cn/www/home</item>
+        <item>http://www.199it.com</item>
+        <item>https://mmbiz.qlogo.cn</item>
     </string-array>
 
 </resources>

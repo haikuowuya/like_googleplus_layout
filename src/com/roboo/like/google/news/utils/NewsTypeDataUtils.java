@@ -14,20 +14,23 @@ public class NewsTypeDataUtils
 	public static LinkedList<NewsTypeItem> handleNewsType(Context context)
 	{
 		String[] arrays = context.getResources().getStringArray(R.array.actionbar_navigation_ithome_arrays);
-		if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_CSDN)
+		switch (GoogleApplication.mCurrentType)
 		{
+		case GoogleApplication.TYPE_CSDN:
 			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_csdn_arrays);
-		}
-		else if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_PHONEKR)
-		{
+			break;
+		case GoogleApplication.TYPE_PHONEKR:
 			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_phonekr_arrays);
-		}else if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_EOE)
-		{
+			break;
+		case GoogleApplication.TYPE_EOE:
 			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_eoe_arrays);
-		}
-		else if(GoogleApplication.mCurrentType == GoogleApplication.TYPE_GEEKPARK)
-		{
-			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_geekpark_arrays);
+			break;
+		case GoogleApplication.TYPE_GEEKPARK:
+			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_geekpark_arrays);;
+			break;
+		case GoogleApplication.TYPE_199IT:
+			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_it199_arrays);
+			break;
 		}
 		LinkedList<NewsTypeItem> data = new LinkedList<NewsTypeItem>();
 		for (String str : arrays)

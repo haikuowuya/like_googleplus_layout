@@ -1,6 +1,5 @@
 package com.roboo.like.google.news.utils;
 
-import java.io.IOException;
 import java.util.LinkedList;
 
 import android.annotation.SuppressLint;
@@ -10,6 +9,7 @@ import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.news.list.utils.CSDNNewsUtils;
 import com.roboo.like.google.news.list.utils.EOENewsUtils;
 import com.roboo.like.google.news.list.utils.GeekParkNewsUtils;
+import com.roboo.like.google.news.list.utils.IT199NewsUtils;
 import com.roboo.like.google.news.list.utils.ITHomeNewsUtils;
 import com.roboo.like.google.news.list.utils.PhoneKRNewsUtils;
 
@@ -19,30 +19,32 @@ public class NewsListUtils
 
 	public static LinkedList<NewsItem> getNewsList(String baseUrl, int pageNo) throws Exception
 	{
-		if (GoogleApplication.mCurrentType == GoogleApplication.TYPE_ITHOME)
+		LinkedList<NewsItem> data = null;
+		System.out.println(" NewsListUtils :: GoogleApplication.mCurrentType = " + GoogleApplication.mCurrentType);
+		switch (GoogleApplication.mCurrentType)
 		{
-			return ITHomeNewsUtils.getITHomeNewsList(baseUrl, pageNo);
+		case GoogleApplication.TYPE_ITHOME:
+			data = ITHomeNewsUtils.getITHomeNewsList(baseUrl, pageNo);
+			break;
+		case GoogleApplication.TYPE_CSDN:
+			data = CSDNNewsUtils.getCSDNNewsList(baseUrl, pageNo);
+			break;
+		case GoogleApplication.TYPE_PHONEKR:
+			data = PhoneKRNewsUtils.getPhoneKRNewsList(baseUrl, pageNo);
+			break;
+		case GoogleApplication.TYPE_EOE:
+			data = EOENewsUtils.getEOENewsList(baseUrl, pageNo);
+			break;
+		case GoogleApplication.TYPE_GEEKPARK:
+			data = GeekParkNewsUtils.getGeekParkNewsList(baseUrl, pageNo);
+			break;
+		case GoogleApplication.TYPE_199IT:
+			data = IT199NewsUtils.getIT199NewsList(baseUrl, pageNo);
+			break;
+		default:
+			data = ITHomeNewsUtils.getITHomeNewsList(baseUrl, pageNo);
+			break;
 		}
-		else if (GoogleApplication.mCurrentType == GoogleApplication.TYPE_CSDN)
-		{
-			return CSDNNewsUtils.getCSDNNewsList(baseUrl, pageNo);
-		}
-		else if (GoogleApplication.mCurrentType == GoogleApplication.TYPE_PHONEKR)
-		{
-			return PhoneKRNewsUtils.getPhoneKRNewsList(baseUrl, pageNo);
-		}
-		else if (GoogleApplication.mCurrentType == GoogleApplication.TYPE_EOE)
-		{
-			return EOENewsUtils.getEOENewsList(baseUrl, pageNo);
-		}
-		else if (GoogleApplication.mCurrentType == GoogleApplication.TYPE_GEEKPARK)
-		{
-			return GeekParkNewsUtils.getGeekParkNewsList(baseUrl, pageNo);
-		}
-
-		else
-		{
-			return ITHomeNewsUtils.getITHomeNewsList(baseUrl, pageNo);
-		}
+		return data;
 	}
 }

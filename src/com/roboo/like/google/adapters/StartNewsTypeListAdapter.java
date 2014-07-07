@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -58,7 +57,7 @@ public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeade
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent)
+	public View getView(final int position, View convertView, ViewGroup parent)
 	{
 		convertView = mInflater.inflate(R.layout.list_news_type_item, null);// TODO
 		if(parent instanceof SwipeListView)
@@ -68,16 +67,17 @@ public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeade
 		TextView textView = ViewHolder.getView(convertView, R.id.tv_title);
 		ImageView imageView = ViewHolder.getView(convertView, R.id.iv_image);
 		Button button = ViewHolder.getView(convertView, R.id.btn_delete);
-		textView.setText(mData.get(position).name);
-		DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image).showImageOnFail(R.drawable.ic_default_image).cacheInMemory().cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
-		mImageLoader.displayImage(mData.get(position).src, imageView, options);
 		button.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View v)
 			{
-				Toast.makeText(activity, "删除", Toast.LENGTH_SHORT).show();
+				mData.remove(position);
+				notifyDataSetChanged();
 			}
 		});
+		textView.setText(mData.get(position).name);
+		DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image).showImageOnFail(R.drawable.ic_default_image).cacheInMemory().cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
+		mImageLoader.displayImage(mData.get(position).src, imageView, options);
 		return convertView;
 	}
 

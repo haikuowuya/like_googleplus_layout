@@ -1,10 +1,11 @@
 package com.roboo.like.google;
 
+import java.util.LinkedList;
+
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.app.AlertDialog;
-
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -17,7 +18,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.BaseAdapter;
 
 import com.roboo.like.google.adapters.NewsTypeListAdapter;
 import com.roboo.like.google.fragments.LeftFragment;
@@ -44,6 +44,7 @@ public class MainActivity extends BaseActivity
 	private Fragment mMainFragment = null;
 	private String mCurrentURL = IT_HOME;
 	private Menu mMenu;
+	private LinkedList<NewsTypeItem> mData;
 
 	public static void actionMain(Activity activity)
 	{
@@ -56,6 +57,8 @@ public class MainActivity extends BaseActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);// TODO
 		initView();
+		initData();
+		customActionBar();
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_left_container) == null)
 		{
 			getSupportFragmentManager().beginTransaction().add(R.id.frame_left_container, LeftFragment.newInstance()).commit();
@@ -66,13 +69,18 @@ public class MainActivity extends BaseActivity
 		}
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_container) == null)
 		{
-			updateFragment();
-			// getSupportFragmentManager().beginTransaction().add(R.id.frame_container, mMainFragment).commit();
+			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, mMainFragment).commit();
 		}
-
-		customActionBar();
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
+	}
+
+	private void initData()
+	{
+		mData = NewsTypeDataUtils.handleNewsType(this);
+		mAdapter = new NewsTypeListAdapter(mData, this);
+		mCurrentURL = mData.get(0).url;
+		mMainFragment = MainListFragment.newInstance(mCurrentURL);
 	}
 
 	protected void onPostCreate(Bundle savedInstanceState)
@@ -169,7 +177,7 @@ public class MainActivity extends BaseActivity
 		mActionBar.setHomeButtonEnabled(true);
 		mActionBar.setDisplayShowTitleEnabled(false);
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		mActionBar.setListNavigationCallbacks(getAdapter(), new OnNavigationListener()
+		mActionBar.setListNavigationCallbacks(mAdapter, new OnNavigationListener()
 		{
 			public boolean onNavigationItemSelected(int itemPosition, long itemId)
 			{
@@ -186,7 +194,6 @@ public class MainActivity extends BaseActivity
 	{
 		if (mDisplayStyle == STYLE_LIST)
 		{
-
 			mMainFragment = MainListFragment.newInstance(mCurrentURL);
 		}
 		if (mDisplayStyle == STYLE_GRID)
@@ -196,22 +203,18 @@ public class MainActivity extends BaseActivity
 		}
 		else if (mDisplayStyle == STYLE_PINTEREST)
 		{
-
 			mMainFragment = MainPinGridFragment.newInstance(mCurrentURL);
 		}
-		getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mMainFragment).commit();
+		
+		
+			getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mMainFragment).commit();
+	
 		mDrawerLayout.closeDrawers();
 	}
 
 	public void initView()
 	{
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_container);
-	}
-
-	private BaseAdapter getAdapter()
-	{
-		mAdapter = new NewsTypeListAdapter(NewsTypeDataUtils.handleNewsType(this), this);
-		return mAdapter;
 	}
 
 	public void closeLeftDrawer()
@@ -281,7 +284,6 @@ public class MainActivity extends BaseActivity
 		// 快捷图标
 		ShortcutIconResource iconRes = Intent.ShortcutIconResource.fromContext(this, R.drawable.ic_launcher);
 		shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconRes);
-
 		// 发送广播
 		sendBroadcast(shortcut);
 		// Toast.makeText(mActivity, "发送到桌面", Toast.LENGTH_SHORT).show();

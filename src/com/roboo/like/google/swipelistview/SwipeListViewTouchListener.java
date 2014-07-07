@@ -2,15 +2,11 @@
  * Copyright (C) 2013 47 Degrees, LLC
  * http://47deg.com
  * hello@47deg.com
- *
  * Copyright 2012 Roman Nurik
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -47,9 +43,7 @@ import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
  */
 public class SwipeListViewTouchListener implements View.OnTouchListener
 {
-
 	private static final int DISPLACE_CHOICE = 80;
-
 	private int swipeMode = SwipeListView.SWIPE_MODE_BOTH;
 	private boolean swipeOpenOnLongPress = true;
 	private boolean swipeClosesAllItemsWhenListMoves = true;
@@ -58,7 +52,6 @@ public class SwipeListViewTouchListener implements View.OnTouchListener
 	private int swipeBackView = 0;
 
 	private Rect rect = new Rect();
-
 	// Cached ViewConfiguration and system-wide constant values
 	private int slop;
 	private int minFlingVelocity;
@@ -79,7 +72,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener
 	private List<PendingDismissData> pendingDismisses = new ArrayList<PendingDismissData>();
 	private int dismissAnimationRefCount = 0;
 	/** 手指触摸屏幕按下时的X值 */
-	private float downX;
+	private float mDownX;
 	private boolean swiping;
 	private boolean swipingRight;
 	private VelocityTracker velocityTracker;
@@ -91,7 +84,6 @@ public class SwipeListViewTouchListener implements View.OnTouchListener
 	private boolean paused;
 	/** 当前滑动的方式 */
 	private int swipeCurrentAction = SwipeListView.SWIPE_ACTION_NONE;
-
 	private int swipeActionLeft = SwipeListView.SWIPE_ACTION_REVEAL;
 	private int swipeActionRight = SwipeListView.SWIPE_ACTION_REVEAL;
 	/** 用于存储列表项是否打开的状态标志 */
@@ -704,12 +696,12 @@ public class SwipeListViewTouchListener implements View.OnTouchListener
 					{
 						swipeListView.onOpened(position, swapRight);
 						openedRight.set(position, swapRight);
-//						view.findViewById(swipeBackView).setVisibility(View.VISIBLE);
-						 
+						// view.findViewById(swipeBackView).setVisibility(View.VISIBLE);
+
 					}
 					else
 					{
-//						view.findViewById(swipeBackView).setVisibility(View.GONE);
+						// view.findViewById(swipeBackView).setVisibility(View.GONE);
 						swipeListView.onClosed(position, openedRight.get(position));
 					}
 				}
@@ -753,11 +745,8 @@ public class SwipeListViewTouchListener implements View.OnTouchListener
 	{
 		return new AbsListView.OnScrollListener()
 		{
-
 			private boolean isFirstItem = false;
 			private boolean isLastItem = false;
-
-			@Override
 			public void onScrollStateChanged(AbsListView absListView, int scrollState)
 			{
 				setEnabled(scrollState != AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL);
@@ -847,8 +836,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener
 	}
 
 	/**
-	 * @see View.OnTouchListener#onTouch(android.view.View,
-	 *      android.view.MotionEvent)
+	 * @see View.OnTouchListener#onTouch(android.view.View, android.view.MotionEvent)
 	 */
 	@Override
 	public boolean onTouch(View view, MotionEvent motionEvent)
@@ -895,7 +883,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener
 					setParentView(child);
 					setFrontView(child.findViewById(swipeFrontView));
 
-					downX = motionEvent.getRawX();
+					mDownX = motionEvent.getRawX();
 					downPosition = childPosition;
 
 					frontView.setClickable(!opened.get(downPosition));
@@ -921,7 +909,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener
 				break;
 			}
 
-			float deltaX = motionEvent.getRawX() - downX;
+			float deltaX = motionEvent.getRawX() - mDownX;
 			velocityTracker.addMovement(motionEvent);
 			velocityTracker.computeCurrentVelocity(1000);
 			float velocityX = Math.abs(velocityTracker.getXVelocity());
@@ -973,7 +961,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener
 
 			velocityTracker.recycle();
 			velocityTracker = null;
-			downX = 0;
+			mDownX = 0;
 			// change clickable front view
 			// if (swap) {
 			// frontView.setClickable(opened.get(downPosition));
@@ -995,7 +983,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener
 			float velocityX = Math.abs(velocityTracker.getXVelocity());
 			float velocityY = Math.abs(velocityTracker.getYVelocity());
 
-			float deltaX = motionEvent.getRawX() - downX;
+			float deltaX = motionEvent.getRawX() - mDownX;
 			float deltaMode = Math.abs(deltaX);
 
 			int swipeMode = this.swipeMode;

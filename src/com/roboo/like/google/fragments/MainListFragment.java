@@ -128,7 +128,6 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 	private InfiniteViewPager mAdViewPager;
 	protected int mPosition = 0;
 	protected Handler mHandler = new Handler();
-
 	private boolean mSwapRunnableHasStart = false;
 	/** 模拟广告图片轮转间隔时间 */
 	private static final long SWAP_INTERVAL_TIME = 3000L;
@@ -175,7 +174,6 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		mAdViewPager = mHeaderView.getViewPager();
 		mFooterProgressBar = mFooterView.getFooterProgressBar();
 		mBtnLoadNext = mFooterView.getButton();
-		 
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
@@ -187,6 +185,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 	{
 		super.onActivityCreated(savedInstanceState);
 		mPoppyView = mPoppyListViewHelper.createPoppyViewOnListView(R.id.slhlv_list, R.layout.poppyview);
+		mPoppyView.setVisibility(View.GONE);
 		mBtnPicture = (Button) mPoppyView.findViewById(R.id.btn_picture);
 		mBtnLocation = (Button) mPoppyView.findViewById(R.id.btn_location);
 		mBtnMood = (Button) mPoppyView.findViewById(R.id.btn_mood);
@@ -195,6 +194,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		mData = getOfflineData(getArguments().getString(ARG_NEWS_URL));
 		if (null != mData)
 		{
+			mPoppyView.setVisibility(View.VISIBLE);
 			mAdapter = new NewsListAdapter(getActivity(), mData, mSectionIndex);
 			mListView.addFooterView(mFooterView);
 			mListView.addHeaderView(mHeaderView);
@@ -217,7 +217,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 			}
 		}
 		loadFirstData();
-		modifyDefaultListViewFieldValue();
+//		modifyDefaultListViewFieldValue();
 
 	}
 
@@ -259,7 +259,6 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 				{
 					loadNextData();
 				}
-
 			}
 			else
 			{
@@ -462,7 +461,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 			mBtnLoadNext.setText("所有数据加载完毕");
 		}
 		if (null != mData && !mSwapRunnableHasStart)
-		{
+		{	mPoppyView.setVisibility(View.VISIBLE);
 			mAdViewPager.setAdapter(getPagerAdapter());
 			mAdViewPager.setOffscreenPageLimit(getRealPagerCount());
 			FixedSpeedScroller fixedSpeedScroller = new FixedSpeedScroller(getActivity(), new BounceInterpolator());
@@ -566,12 +565,16 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 
 			public Object instantiateItem(ViewGroup container, int position)
 			{
-				ImageView imageView = new ImageView(getActivity());
-				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-				imageView.setScaleType(ScaleType.FIT_XY);
-				imageView.setImageResource(getResources().getIdentifier("ic_test" + (1 + position), "drawable", getActivity().getPackageName()));
-				imageView.setLayoutParams(params);
-				container.addView(imageView);
+				ImageView imageView = null;
+				if (null != getActivity())
+				{
+					imageView = new ImageView(getActivity());
+					LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+					imageView.setScaleType(ScaleType.FIT_XY);
+					imageView.setImageResource(getResources().getIdentifier("ic_test" + (1 + position), "drawable", getActivity().getPackageName()));
+					imageView.setLayoutParams(params);
+					container.addView(imageView);
+				}
 				return imageView;
 			}
 
@@ -670,20 +673,6 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		{
 			if (null != o1 && null != o2)
 			{
-				// String time1 = o1.getTime().replace("月", " ").replace("日", " ");
-				// String time2 = o2.getTime().replace("月", " ").replace("日", " ");
-				// String month1 = time1.split(" ")[0];
-				// String month2 = time2.split(" ")[0];
-				// String day1 = time1.split(" ")[1];
-				// String day2 = time1.split(" ")[1];
-				// if (month1.compareTo(month2) == 0)
-				// {
-				// return day1.compareTo(day2);
-				// }
-				// else
-				// {
-				// return month1.compareTo(month2);
-				// }
 				return o2.getTime().compareTo(o1.getTime());
 			}
 			return 0;
@@ -739,20 +728,22 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 	private LinkedList<NewsItem> getOfflineData(String channelUrl)
 	{
 		LinkedList<NewsItem> data = null;
-		;
 		try
 		{
 			if (!TextUtils.isEmpty(channelUrl))
 			{
 				File dirFile = FileUtils.getFileCacheDir(getActivity(), FileUtils.TYPE_NEWS_LIST);
 				File dataFile = new File(dirFile, MD5Utils.generate(channelUrl));
-				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(dataFile));
-				data = (LinkedList<NewsItem>) objectInputStream.readObject();
-				objectInputStream.close();
-				GoogleApplication.TEST = true;
-				if (GoogleApplication.TEST)
+				if (dataFile.exists())
 				{
-					System.out.println("从本地文件读取对象成功");
+					ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(dataFile));
+					data = (LinkedList<NewsItem>) objectInputStream.readObject();
+					objectInputStream.close();
+					GoogleApplication.TEST = true;
+					if (GoogleApplication.TEST)
+					{
+						System.out.println("从本地文件读取对象成功");
+					}
 				}
 			}
 		}

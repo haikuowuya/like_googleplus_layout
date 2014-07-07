@@ -107,14 +107,14 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 	private NewsGridAdapter mAdapter;
 	/** ListView最后一列是否可见的标志 */
 	public boolean mLastItemVisible;
-	 
+
 	/** 新闻列表适配器的数据源 */
 	private LinkedList<NewsItem> mData;
- 
+
 	private int mProgress = 0;
 	/** 正在加载数据中…… */
 	private ProcessButton mBtnLoadNext;
- 
+
 	protected int mPosition = 0;
 	protected Handler mHandler = new Handler();
 	private Runnable mCreateDesktopRunnable = new Runnable()
@@ -125,6 +125,7 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 			activity.showCreateDesktopDialog();
 		}
 	};
+
 	/** 创建一个 ContentFragment 实例 */
 	public static MainGridFragment newInstance(String newsUrl)
 	{
@@ -169,7 +170,7 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 
 		}
 		loadFirstData();
-		modifyDefaultListViewFieldValue();
+//		modifyDefaultListViewFieldValue();
 
 	}
 
@@ -441,6 +442,7 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 		}
 		return !flag;
 	}
+
 	/** 处理数据重复问题,以及将最新的数据放在最上面 */
 	private LinkedList<NewsItem> handleAddData(LinkedList<NewsItem> data)
 	{
@@ -581,20 +583,22 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 	private LinkedList<NewsItem> getOfflineData(String channelUrl)
 	{
 		LinkedList<NewsItem> data = null;
-		;
 		try
 		{
 			if (!TextUtils.isEmpty(channelUrl))
 			{
 				File dirFile = FileUtils.getFileCacheDir(getActivity(), FileUtils.TYPE_NEWS_LIST);
 				File dataFile = new File(dirFile, MD5Utils.generate(channelUrl));
-				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(dataFile));
-				data = (LinkedList<NewsItem>) objectInputStream.readObject();
-				objectInputStream.close();
-				GoogleApplication.TEST = true;
-				if (GoogleApplication.TEST)
+				if (dataFile.exists())
 				{
-					System.out.println("从本地文件读取对象成功");
+					ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(dataFile));
+					data = (LinkedList<NewsItem>) objectInputStream.readObject();
+					objectInputStream.close();
+					GoogleApplication.TEST = true;
+					if (GoogleApplication.TEST)
+					{
+						System.out.println("从本地文件读取对象成功");
+					}
 				}
 			}
 		}

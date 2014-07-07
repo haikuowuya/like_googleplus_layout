@@ -165,7 +165,7 @@ public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks
 			mAdapter.notifyDataSetChanged();
 		}
 		loadFirstData();
-		modifyDefaultListViewFieldValue();
+//		modifyDefaultListViewFieldValue();
 
 	}
 
@@ -201,17 +201,7 @@ public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks
 	{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		{
-			// if (parent.getAdapter().getItemViewType(position) == AbsListView.ITEM_VIEW_TYPE_HEADER_OR_FOOTER)
-			// {
-			// // if (mFooterView.getType() == FooterView.TYPE_BUTTON)
-			// // {
-			// // loadNextData();
-			// // }
-			// }
-			// else
-			// {
 			NewsActivity.actionNews(getActivity(), (NewsItem) mAdapter.getItem(position));
-			// }
 		}
 	}
 
@@ -577,13 +567,14 @@ public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks
 	private LinkedList<NewsItem> getOfflineData(String channelUrl)
 	{
 		LinkedList<NewsItem> data = null;
-		;
 		try
 		{
 			if (!TextUtils.isEmpty(channelUrl))
 			{
 				File dirFile = FileUtils.getFileCacheDir(getActivity(), FileUtils.TYPE_NEWS_LIST);
 				File dataFile = new File(dirFile, MD5Utils.generate(channelUrl));
+				if(dataFile.exists())
+				{
 				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(dataFile));
 				data = (LinkedList<NewsItem>) objectInputStream.readObject();
 				objectInputStream.close();
@@ -591,6 +582,7 @@ public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks
 				if (GoogleApplication.TEST)
 				{
 					System.out.println("从本地文件读取对象成功");
+				}
 				}
 			}
 		}

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 
@@ -25,6 +26,7 @@ import com.roboo.like.google.views.StickyListHeadersListView;
 
 public class StartFragment extends BaseFragment
 {
+	private LinkedList<StartNewsTypeItem> mData;
 	private ImageLoader mImageLoader;
 	private SwipeListView mSwipeListView;
 	private StickyListHeadersListView mListView;
@@ -60,7 +62,7 @@ public class StartFragment extends BaseFragment
 
 	private ListAdapter getAdapter()
 	{
-		LinkedList<StartNewsTypeItem> mData = NewsTypeDataUtils.handleStartNewsType(getActivity());
+		mData = NewsTypeDataUtils.handleStartNewsType(getActivity());
 		mAdapter = new StartNewsTypeListAdapter(mData, getActivity());
 		return mAdapter;
 	}
@@ -69,7 +71,6 @@ public class StartFragment extends BaseFragment
 	{
 		OnItemClickListenerImpl onItemClickListenerImpl = new OnItemClickListenerImpl();
 		mListView.setOnItemClickListener(onItemClickListenerImpl);
-		mSwipeListView.setOnItemClickListener(onItemClickListenerImpl);
 		mSwipeListView.setSwipeListViewListener(new SwipeListViewListenerImpl());
 	}
 
@@ -77,16 +78,20 @@ public class StartFragment extends BaseFragment
 	{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		{
-			StartNewsTypeItem item = (StartNewsTypeItem) parent.getAdapter().getItem(position);
-			GoogleApplication.mCurrentType = item.typeInt;
-			MainActivity.actionMain(getActivity());
+			onListItemClick(position);
 		}
+
+	}
+
+	private void onListItemClick(int position)
+	{
+		StartNewsTypeItem item = mData.get(position);
+		GoogleApplication.mCurrentType = item.typeInt;
+		MainActivity.actionMain(getActivity());
 	}
 
 	private class SwipeListViewListenerImpl implements SwipeListViewListener
 	{
-
-		@Override
 		public void onOpened(int position, boolean toRight)
 		{
 
@@ -125,13 +130,13 @@ public class StartFragment extends BaseFragment
 		@Override
 		public void onClickFrontView(int position)
 		{
-
+			onListItemClick(position);
 		}
 
 		@Override
 		public void onClickBackView(int position)
 		{
-
+			mSwipeListView.closeAnimate(position);
 		}
 
 		@Override

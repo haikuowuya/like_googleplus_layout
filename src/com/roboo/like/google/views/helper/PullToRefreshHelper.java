@@ -955,7 +955,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 				mHeaderTextView.setVisibility(View.VISIBLE);
 				mHeaderTextView.setText(mPullRefreshLabel);
 			}
-			if(mHeaderButton != null)
+			if (mHeaderButton != null)
 			{
 				mHeaderButton.setVisibility(View.VISIBLE);
 				mHeaderButton.setText(mPullRefreshLabel);
@@ -1132,6 +1132,18 @@ public class PullToRefreshHelper implements View.OnTouchListener
 			 */
 			mHeaderViewWrapper = new FrameLayout(context);
 			mHeaderViewWrapper.addView(headerView);
+			int minHeight = (int) (48 * getResources().getDisplayMetrics().density);
+			int[] attrs = { android.R.attr.actionBarSize };
+			TypedArray values = context.getTheme().obtainStyledAttributes(attrs);
+			try
+			{
+				minHeight = values.getDimensionPixelSize(0, 0);// 第一个参数数组索引，第二个参数 默认值
+			}
+			finally
+			{
+				values.recycle();
+			}
+			mHeaderViewWrapper.setMinimumHeight(minHeight);
 			addView(mHeaderViewWrapper, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		}
 
