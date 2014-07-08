@@ -15,11 +15,11 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="1"
             android:background="@color/red_color"
             android:gravity="center_vertical"
             android:lineSpacingExtra="4dp"
             android:maxLines="2"
-             android:layout_weight="1"
             android:padding="8dp"
             android:textColor="@color/white_color"
             android:textScaleX="1.1"
@@ -33,9 +33,9 @@
             android:layout_height="40dp"
             android:gravity="right|center_vertical"
             android:paddingRight="10dp"
-            android:visibility="gone"
             android:textColor="@color/white_color"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ImageView
@@ -51,15 +51,16 @@
         android:id="@+id/dsv_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbarStyle="outsideOverlay"
         android:background="@color/white_color"
+        android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical" >
+
         <LinearLayout
             android:id="@+id/linear_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbarStyle="outsideInset"
             android:orientation="vertical"
+            android:scrollbarStyle="outsideInset"
             android:scrollbars="vertical" >
         </LinearLayout>
     </net.dynamicandroid.listview.DynamicScrollView>

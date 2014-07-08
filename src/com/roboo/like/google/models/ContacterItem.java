@@ -33,6 +33,17 @@ public class ContacterItem implements Comparable<ContacterItem>
 		return "联系人姓名 = " + name + "  联系人号码  = " + phone + " 联系人头像 = " + icon;
 	}
 
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj != null)
+		{
+			ContacterItem item = (ContacterItem) obj;
+			return item.phone.equals(phone) && item.name.equals(name);
+		}
+		return false;
+	}
+
 	public int compareTo(ContacterItem another)
 	{
 		HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();

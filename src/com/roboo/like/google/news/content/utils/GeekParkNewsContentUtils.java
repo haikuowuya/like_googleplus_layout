@@ -11,10 +11,14 @@ import org.jsoup.select.Elements;
 
 import android.text.TextUtils;
 
-public class GeekParkNewsContentUtils
+public class GeekParkNewsContentUtils extends BaseNewsContentUtils
 {
-	private static final String FOUR_BLANK_SPACE = "        ";
-
+	@Override
+	public LinkedList<String> getNewsContentDataList(String newsUrl) throws IOException
+	{
+		 
+		return getGeekParkNewsDataList(newsUrl);
+	}
 	public static LinkedList<String> getGeekParkNewsDataList(String newsUrl) throws IOException
 	{
 		LinkedList<String> data = new LinkedList<String>();
@@ -101,4 +105,6 @@ public class GeekParkNewsContentUtils
 	{
 		return str.toLowerCase(Locale.getDefault()).endsWith(".png") || str.toLowerCase(Locale.getDefault()).endsWith(".jpg") || str.toLowerCase(Locale.getDefault()).endsWith("gif");
 	}
+
+	
 }

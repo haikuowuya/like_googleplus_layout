@@ -10,8 +10,16 @@ import org.jsoup.select.Elements;
 
 import android.text.TextUtils;
 
-public class EOENewsContentUtils
+public class EOENewsContentUtils extends BaseNewsContentUtils
 {
+	
+	@Override
+	public LinkedList<String> getNewsContentDataList(String newsUrl) throws IOException
+	{
+	 
+		return getEoeNewsDataList(newsUrl);
+	}
+
 	public static LinkedList<String> getEoeNewsDataList(String newsUrl) throws IOException
 	{
 		LinkedList<String> data = null;
@@ -37,7 +45,7 @@ public class EOENewsContentUtils
 					}
 					else
 					{
-						content = majorElement.text();
+						content = FOUR_BLANK_SPACE + majorElement.text();
 						// System.out.println("text =" + majorElement.text());
 					}
 					if (!TextUtils.isEmpty(content))

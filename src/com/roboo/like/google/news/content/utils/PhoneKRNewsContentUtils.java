@@ -10,16 +10,24 @@ import org.jsoup.select.Elements;
 
 import android.text.TextUtils;
 
-public class PhoneKRNewsContentUtils
+public class PhoneKRNewsContentUtils extends BaseNewsContentUtils
 {
+	
 
-	public static LinkedList<String> getPhoneKRNewsDataList(String url)
+	@Override
+	public LinkedList<String> getNewsContentDataList(String newsUrl) throws IOException
+	{
+		 
+		return getPhoneKRNewsDataList(newsUrl);
+	}
+
+	public static LinkedList<String> getPhoneKRNewsDataList(String newsUrl)
 	{
 		LinkedList<String> data = null;
 		Document document;
 		try
 		{
-			document = Jsoup.connect(url).get();
+			document = Jsoup.connect(newsUrl).get();
 
 			Element element = document.getElementById("xs-post");
 			Elements elements = element.getElementsByTag("p");
@@ -32,7 +40,7 @@ public class PhoneKRNewsContentUtils
 					element = elements.get(i);
 					if (element.getElementsByTag("a").isEmpty())
 					{
-						text = element.text();
+						text = FOUR_BLANK_SPACE +element.text();
 					}
 					else
 					{

@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,7 +31,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -40,7 +38,6 @@ import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +47,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.roboo.like.google.BaseActivity;
-import com.roboo.like.google.BaseLayoutActivity;
 import com.roboo.like.google.CommentActivity;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.PictureDetailActivity;
@@ -66,7 +62,6 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 	private static final String ARG_NEWS = "news";
 	private static final int[] COLORS_COLLECTION = new int[] { R.color.red_color, R.color.sky_blue_color, R.color.hotpink_color, R.color.lightseagreen_color, R.color.orangered_color, R.color.turquoise_color, R.color.fast_scroll_track_color, R.color.alpha_red_color, R.color.poppyview_default_color };
 	private NewsItem mItem;
-
 	/** 线性布局用于存放新闻内容 */
 	private LinearLayout mLinearContainer;
 	/** 显示新闻标题 */
@@ -336,8 +331,9 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 				break;
 			case R.id.btn_retry:// 重试
 				v.setVisibility(View.GONE);
+				mProgressBar.setVisibility(View.VISIBLE);
 				getActivity().getSupportLoaderManager().restartLoader(0, getArguments(), NewsFragment.this);
-				Toast.makeText(getActivity(), "重试", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(getActivity(), "重试", Toast.LENGTH_SHORT).show();
 				break;
 			}
 		}

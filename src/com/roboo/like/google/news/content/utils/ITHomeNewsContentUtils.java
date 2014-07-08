@@ -8,12 +8,19 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class ITHomeNewsContentUtils
+public class ITHomeNewsContentUtils extends BaseNewsContentUtils
 {
 	private static final int TIME_OUT = 20000;
 	private static final String IT_HOME_NEWS_CONTENT_ID = "paragraph";
-	private static final String FOUR_BLANK = "    ";
+
 	private static final String IT_HOME_LAZY_IMG_URL = "http://img.ithome.com/images/v2/grey.gif";
+
+	@Override
+	public LinkedList<String> getNewsContentDataList(String newsUrl) throws IOException
+	{
+
+		return getITHomeNewsDataList(newsUrl);
+	}
 
 	/** 获取每条新闻的图片和内容 */
 	public static LinkedList<String> getITHomeNewsDataList(String newsUrl) throws IOException
@@ -47,9 +54,9 @@ public class ITHomeNewsContentUtils
 						}
 						else if (!element2.hasClass("content_copyright"))
 						{
-							content = FOUR_BLANK + element2.text();
+							content = FOUR_BLANK_SPACE + element2.text();
 						}
-						if (content.length() > FOUR_BLANK.length())
+						if (content.length() > FOUR_BLANK_SPACE.length())
 						{
 							data.add(content);
 						}
@@ -64,5 +71,4 @@ public class ITHomeNewsContentUtils
 		return data;
 	}
 
-	
 }

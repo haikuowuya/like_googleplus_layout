@@ -9,4 +9,4 @@
    	android:background="@drawable/list_item_selector"
    	android:textColor="@drawable/text_color_selector"
     android:gravity="center_vertical"
-    android:textAppearance="?android:attr/textAppearanceListItem" />
+    android:textSize="16sp"/>

@@ -2,6 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@drawable/ic_btn_check_checked" android:state_checked="true"></item>
+    <item android:drawable="@drawable/ic_btn_check_focused" android:state_focused="true"></item>
     <item android:drawable="@drawable/ic_btn_check_default"></item>
 
 </selector>

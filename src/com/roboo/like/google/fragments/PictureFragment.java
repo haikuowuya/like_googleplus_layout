@@ -81,7 +81,6 @@ public class PictureFragment extends BaseWithProgressFragment implements LoaderC
 		Map<String, Integer> mHeaderIdMap = new HashMap<String, Integer>();
 		int mHeaderId = 1;
 		LinkedList<PictureItem> hasHeaderIdList;
-
 		for (ListIterator<PictureItem> it = nonHeaderIdList.listIterator(); it.hasNext();)
 		{
 			PictureItem item = it.next();

@@ -26,7 +26,6 @@
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="none"
             android:stretchMode="columnWidth"
-            
             android:verticalSpacing="8dp" />
 
         <com.roboo.like.google.progressbutton.ProcessButton

@@ -9,7 +9,6 @@ import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -26,22 +25,17 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
-import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 
-import com.nineoldandroids.view.ViewHelper;
 import com.roboo.like.google.BaseLayoutActivity;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.LocationActivity;
@@ -53,9 +47,7 @@ import com.roboo.like.google.R;
 import com.roboo.like.google.TextActivity;
 import com.roboo.like.google.adapters.NewsGridAdapter;
 import com.roboo.like.google.async.NewsListAsyncTaskLoader;
-import com.roboo.like.google.infinite.InfinitePagerAdapter;
-import com.roboo.like.google.infinite.ViewPagerEx.OnPageChangeListener;
-import com.roboo.like.google.infinite.ViewPagerEx.PageTransformer;
+import com.roboo.like.google.commons.YMDComparator;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.progressbutton.ProcessButton;
 import com.roboo.like.google.progressbutton.ProgressGenerator;
@@ -521,18 +513,7 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 		hasHeaderIdList = nonHeaderIdList;
 		return hasHeaderIdList;
 	}
-
-	public class YMDComparator implements Comparator<NewsItem>
-	{
-		public int compare(NewsItem o1, NewsItem o2)
-		{
-			if (null != o1 && null != o2)
-			{
-				return o2.getTime().compareTo(o1.getTime());
-			}
-			return 0;
-		}
-	}
+ 
 
 	/** 修改ListView一些默认属性值 */
 	private void modifyDefaultListViewFieldValue()

@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import android.annotation.SuppressLint;
 
+import com.droidux.trial.da;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.news.list.utils.CSDNNewsUtils;
@@ -11,6 +12,7 @@ import com.roboo.like.google.news.list.utils.EOENewsUtils;
 import com.roboo.like.google.news.list.utils.GeekParkNewsUtils;
 import com.roboo.like.google.news.list.utils.IT199NewsUtils;
 import com.roboo.like.google.news.list.utils.ITHomeNewsUtils;
+import com.roboo.like.google.news.list.utils.KR36NewsUtils;
 import com.roboo.like.google.news.list.utils.PhoneKRNewsUtils;
 
 @SuppressLint("SimpleDateFormat")
@@ -41,6 +43,8 @@ public class NewsListUtils
 		case GoogleApplication.TYPE_199IT:
 			data = IT199NewsUtils.getIT199NewsList(baseUrl, pageNo);
 			break;
+		case GoogleApplication.TYPE_36KR:
+			data = KR36NewsUtils.get36KRNewsList(baseUrl, pageNo);
 		default:
 			data = ITHomeNewsUtils.getITHomeNewsList(baseUrl, pageNo);
 			break;

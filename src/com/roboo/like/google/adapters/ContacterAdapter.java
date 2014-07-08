@@ -52,13 +52,13 @@ public class ContacterAdapter extends BaseAdapter implements StickyHeadersAdapte
 	{
 		return position;
 	}
-
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		convertView = LayoutInflater.from(mActivity).inflate(R.layout.contacter_list_item, null);
 		final CheckedTextView textView = (CheckedTextView) convertView.findViewById(R.id.ctv_text);
-		textView.setText(mData.get(position).name);
+		ContacterItem item = mData.get(position);
+		textView.setText(item.name +"[ " + item.phone + " ]");
 		textView.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View v)

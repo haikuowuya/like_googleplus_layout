@@ -59,13 +59,17 @@ public class FooterView extends LinearLayout
 			typedArray.recycle();
 		}
 		View child = inflate(context, R.layout.listview_footer_view, null);
-		mFooterProgressBar = (ProgressBar) child.findViewById(R.id.pb_progress);
+		mFooterProgressBar = (ProgressBar) child.findViewById(R.id.pb_footer_progress);
 		mButton = (Button) child.findViewById(R.id.btn_load_next);
+		mProcessButton = (ProcessButton) child.findViewById(R.id.progress_btn_load_next);
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		if (mType == TYPE_BUTTON)
 		{
-			child = new ProcessButton(context, attrs);
-			mButton = (Button) child;
+			mProcessButton.setVisibility(View.GONE);
+		}
+		else
+		{
+			((ViewGroup) mFooterProgressBar.getParent()).setVisibility(View.GONE);
 		}
 		addView(child, params);
 	}

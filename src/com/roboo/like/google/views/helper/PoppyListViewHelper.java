@@ -16,6 +16,7 @@ import android.widget.ListView;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 import com.roboo.like.google.staggeredgrid.StaggeredGridView;
 import com.roboo.like.google.views.StickyGridHeadersGridView;
+import com.roboo.like.google.views.StickyListHeadersListView;
 
 public class PoppyListViewHelper
 {
@@ -31,7 +32,6 @@ public class PoppyListViewHelper
 	private static final int SCROLL_DIRECTION_CHANGE_THRESHOLD = 5;
 
 	private Activity mActivity;
-
 	private LayoutInflater mLayoutInflater;
 
 	private View mPoppyView;
@@ -58,7 +58,6 @@ public class PoppyListViewHelper
 	public View createPoppyViewOnAbsListView(int listViewId, int poppyViewResId, OnScrollListener onScrollListener)
 	{
 		ListView listView = null;
-
 		AbsListView view = (AbsListView) mActivity.findViewById(listViewId);
 		if (view instanceof ListView)
 		{
@@ -101,7 +100,7 @@ public class PoppyListViewHelper
 		newContainer.addView(view);
 		final FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		layoutParams.gravity = mPoppyViewPosition == PoppyViewPosition.BOTTOM ? Gravity.BOTTOM : Gravity.TOP;
-		if (view instanceof StickyGridHeadersGridView || view instanceof StaggeredGridView)
+		if (isPlusMarginBottom(view))
 		{
 			int bottomMargin = (int) (48 * mActivity.getResources().getDisplayMetrics().density);
 			layoutParams.bottomMargin = bottomMargin;
@@ -109,6 +108,12 @@ public class PoppyListViewHelper
 		newContainer.addView(mPoppyView, layoutParams);
 		group.invalidate();
 	}
+
+	private boolean isPlusMarginBottom(View view)
+	{
+		return view instanceof StickyListHeadersListView ||view instanceof StickyGridHeadersGridView || view instanceof StaggeredGridView;
+	}
+
 	private void onScrollPositionChanged(int oldScrollPosition, int newScrollPosition)
 	{
 		int newScrollDirection;
@@ -169,7 +174,6 @@ public class PoppyListViewHelper
 					onScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
 				}
 				View topChild = view.getChildAt(0);
-
 				int newScrollPosition = 0;
 				if (topChild == null)
 				{

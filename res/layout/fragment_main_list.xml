@@ -1,31 +1,44 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.roboo.like.google"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ivorg_color" >
 
-    <com.roboo.like.google.views.StickyListHeadersListView
-        android:id="@+id/slhlv_list"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10dp"
-        android:drawSelectorOnTop="true"
-        android:fadeScrollbars="false"
-        android:cacheColorHint="@android:color/transparent"
-        android:fastScrollEnabled="true"
-        android:footerDividersEnabled="true"
- 		
-        android:listSelector="@android:color/transparent"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="none" />
+        android:layout_height="match_parent" >
+
+        <com.roboo.like.google.views.StickyListHeadersListView
+            android:id="@+id/slhlv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10dp"
+            android:drawSelectorOnTop="true"
+            android:fadeScrollbars="false"
+            android:fastScrollEnabled="true"
+            android:footerDividersEnabled="true"
+            android:listSelector="@android:color/transparent"
+            android:paddingBottom="58dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="none" />
+
+        <com.roboo.like.google.views.FooterView
+            android:id="@+id/fv_footerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:type="progressbar_button" />
+    </FrameLayout>
 
     <TextView
         android:id="@android:id/empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_centerInParent="true"
         android:text="没有数据"
         android:visibility="gone" />
 

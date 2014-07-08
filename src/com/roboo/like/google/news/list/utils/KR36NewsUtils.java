@@ -12,17 +12,17 @@ import android.text.TextUtils;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.MD5Utils;
 
-public class IT199NewsUtils
+public class KR36NewsUtils
 {
 	private static final String TAG_ARTICAL = "article";
-
-	public static LinkedList<NewsItem> getIT199NewsList(String it199Url, int pageNo) throws Exception
+	private static final String KR36_URL = "http://www.36kr.com";
+	public static LinkedList<NewsItem> get36KRNewsList(String kr36Url, int pageNo) throws Exception
 	{
 		LinkedList<NewsItem> data = null;
-		String url = it199Url + pageNo;
-		System.out.println("it199Url = " + url);
+		String url = kr36Url + pageNo;
+		System.out.println("kr36Url = " + url);
 		Document document = Jsoup.connect(url).get();
-		// System.out.println("document = " + document);
+//		 System.out.println("document = " + document);
 		Elements elements = document.getElementsByTag(TAG_ARTICAL);
 		Element element = null;
 		String title = null, subTitle = null, md5 = null, time = null, src = null, newsUrl = null;
@@ -36,14 +36,15 @@ public class IT199NewsUtils
 			for (int i = 0; i < elements.size(); i++)
 			{
 				element = elements.get(i);
-				Elements tmpElements = element.getElementsByClass("entry-thumb");
+				Elements tmpElements = element.getElementsByClass("feature-img");
+				System.out.println("tmpElements = " + tmpElements);
 				if (!tmpElements.isEmpty())
 				{
 					tmpElements = tmpElements.get(0).getElementsByTag("a");
 					if (!tmpElements.isEmpty())
 					{
-						newsUrl = tmpElements.get(0).attr("href");
-//						System.out.println(newsUrl);
+						newsUrl = KR36_URL+tmpElements.get(0).attr("href");
+						System.out.println(newsUrl);
 					}
 					tmpElements = tmpElements.get(0).getElementsByTag("img");
 					if (!tmpElements.isEmpty())
@@ -55,22 +56,12 @@ public class IT199NewsUtils
 
 					}
 				}
-				tmpElements = element.getElementsByClass("entry-title");
+				tmpElements = element.getElementsByClass("right-col");
 				if (!tmpElements.isEmpty())
 				{
 					title = tmpElements.get(0).text();
-					
-					if(TextUtils.isEmpty(newsUrl))
-					{
-						newsUrl = tmpElements.get(0).getElementsByTag("a").get(0).attr("href");
-					}
+//					subTitle = tmpElements.get(1).text();
 				}
-				tmpElements = element.getElementsByClass("post-excerpt");
-				if (!tmpElements.isEmpty())
-				{
-					subTitle = tmpElements.get(0).text();
-				}
-
 				if(TextUtils.isEmpty(newsUrl))
 				{
 					newsUrl = "http://www.baidu.com";

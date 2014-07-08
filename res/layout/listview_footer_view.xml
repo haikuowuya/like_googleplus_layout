@@ -32,7 +32,7 @@
             android:layout_height="48dp"
             android:layout_centerInParent="true"
             android:layout_marginRight="40dp"
-            android:layout_toRightOf="@+id/pb_progress"
+            android:layout_toRightOf="@+id/pb_footer_progress"
             android:background="@null"
             android:gravity="center_vertical"
             android:padding="10dp"
@@ -45,7 +45,7 @@
         android:id="@+id/progress_btn_load_next"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="10dp"
+         
         android:text="点击加载下一页"
         android:textColor="@android:color/white" />
 

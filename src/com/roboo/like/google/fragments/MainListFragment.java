@@ -9,7 +9,6 @@ import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -55,6 +54,7 @@ import com.roboo.like.google.R;
 import com.roboo.like.google.TextActivity;
 import com.roboo.like.google.adapters.NewsListAdapter;
 import com.roboo.like.google.async.NewsListAsyncTaskLoader;
+import com.roboo.like.google.commons.YMDComparator;
 import com.roboo.like.google.infinite.FixedSpeedScroller;
 import com.roboo.like.google.infinite.InfinitePagerAdapter;
 import com.roboo.like.google.infinite.InfiniteViewPager;
@@ -132,6 +132,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 	/** 模拟广告图片轮转间隔时间 */
 	private static final long SWAP_INTERVAL_TIME = 3000L;
 	private String mChannelURL;
+	private boolean mShouldShowCardToast = false;
 	private Runnable mCreateDesktopRunnable = new Runnable()
 	{
 		public void run()
@@ -169,7 +170,8 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_main_list, null);// TODO
-		mFooterView = new FooterView(getActivity(), FooterView.TYPE_PROGRESS_BUTTON);
+		// mFooterView = new FooterView(getActivity(), FooterView.TYPE_PROGRESS_BUTTON);
+		mFooterView = (FooterView) view.findViewById(R.id.fv_footerview);
 		mHeaderView = new HeaderView(getActivity());
 		mAdViewPager = mHeaderView.getViewPager();
 		mFooterProgressBar = mFooterView.getFooterProgressBar();
@@ -177,7 +179,6 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
-
 		return view;
 	}
 
@@ -186,6 +187,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		super.onActivityCreated(savedInstanceState);
 		mPoppyView = mPoppyListViewHelper.createPoppyViewOnListView(R.id.slhlv_list, R.layout.poppyview);
 		mPoppyView.setVisibility(View.GONE);
+		mFooterView.setVisibility(View.GONE);
 		mBtnPicture = (Button) mPoppyView.findViewById(R.id.btn_picture);
 		mBtnLocation = (Button) mPoppyView.findViewById(R.id.btn_location);
 		mBtnMood = (Button) mPoppyView.findViewById(R.id.btn_mood);
@@ -195,8 +197,9 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		if (null != mData)
 		{
 			mPoppyView.setVisibility(View.VISIBLE);
+			mFooterView.setVisibility(View.VISIBLE);
 			mAdapter = new NewsListAdapter(getActivity(), mData, mSectionIndex);
-			mListView.addFooterView(mFooterView);
+			// mListView.addFooterView(mFooterView);
 			mListView.addHeaderView(mHeaderView);
 			mListView.setAdapter(mAdapter);
 			mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
@@ -217,19 +220,18 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 			}
 		}
 		loadFirstData();
-//		modifyDefaultListViewFieldValue();
+		// modifyDefaultListViewFieldValue();
 
 	}
 
-	private OnRefreshListener getOnRefreshListener()
+	@Override
+	public void onPause()
 	{
-		return new OnRefreshListener()
+		super.onPause();
+		if (!mPullToRefreshAttacher.isRefreshing())
 		{
-			public void onRefreshStarted(View view)
-			{
-				loadFirstData();
-			}
-		};
+			mShouldShowCardToast = false;
+		}
 	}
 
 	public void onResume()
@@ -249,16 +251,27 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		mFooterView.getButton().setOnClickListener(onClickListenerImpl);
 	}
 
+	private OnRefreshListener getOnRefreshListener()
+	{
+		return new OnRefreshListener()
+		{
+			public void onRefreshStarted(View view)
+			{
+				loadFirstData();
+			}
+		};
+	}
+
 	private class OnListItemClickListenerImpl implements OnItemClickListener
 	{
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		{
 			if (parent.getAdapter().getItemViewType(position) == AbsListView.ITEM_VIEW_TYPE_HEADER_OR_FOOTER)
 			{
-				if (mFooterView.getType() == FooterView.TYPE_BUTTON)
-				{
-					loadNextData();
-				}
+				// if (mFooterView.getType() == FooterView.TYPE_BUTTON)
+				// {
+				// loadNextData();
+				// }
 			}
 			else
 			{
@@ -313,6 +326,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 
 	private void loadFirstData()
 	{
+		mShouldShowCardToast = true;
 		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
 		{
 			DefaultHeaderTransformer transformer = (DefaultHeaderTransformer) mPullToRefreshAttacher.getHeaderTransformer();
@@ -362,16 +376,17 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 				text();
 				break;
 			case R.id.btn_load_next:// 加载下一页
-				loadNextData();
-				break;
+			case R.id.progress_btn_load_next:
 			case R.id.pbtn_load_next:
-				doSomething();
+				// loadNextData();
+				doLoadNextData();// 包含了loadNextData()
 				break;
 			}
 		}
 
-		private void doSomething()
+		private void doLoadNextData()
 		{
+			mShouldShowCardToast = true;
 			mProgress = 50;
 			new ProgressGenerator(getOnCompleteListener()).start((ProcessButton) mBtnLoadNext);
 		}
@@ -424,7 +439,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 				mData = data;
 				updateCount = mData.size();
 				mAdapter = new NewsListAdapter(getActivity(), mData, mSectionIndex);
-				mListView.addFooterView(mFooterView);
+				// mListView.addFooterView(mFooterView);
 				mListView.addHeaderView(mHeaderView);
 				mListView.setAdapter(mAdapter);
 				mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
@@ -449,7 +464,11 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 			{
 				messageText = " 更新  " + updateCount + " 条新数据";
 			}
-			new CardToastUtils(getActivity()).setShowToastStyle(CardToastUtils.SHOW_ANIMATION_TOP_TO_DOWN_STYLE).showAndAutoDismiss(messageText);
+			if (mShouldShowCardToast)
+			{
+				new CardToastUtils(getActivity()).setShowToastStyle(CardToastUtils.SHOW_ANIMATION_TOP_TO_DOWN_STYLE).showAndAutoDismiss(messageText);
+				mShouldShowCardToast = false;
+			}
 			mBtnLoadNext.setText("点击加载下一页");
 		}
 		else
@@ -461,7 +480,9 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 			mBtnLoadNext.setText("所有数据加载完毕");
 		}
 		if (null != mData && !mSwapRunnableHasStart)
-		{	mPoppyView.setVisibility(View.VISIBLE);
+		{
+			mPoppyView.setVisibility(View.VISIBLE);
+			mFooterView.setVisibility(View.VISIBLE);
 			mAdViewPager.setAdapter(getPagerAdapter());
 			mAdViewPager.setOffscreenPageLimit(getRealPagerCount());
 			FixedSpeedScroller fixedSpeedScroller = new FixedSpeedScroller(getActivity(), new BounceInterpolator());
@@ -665,18 +686,6 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		}
 		hasHeaderIdList = nonHeaderIdList;
 		return hasHeaderIdList;
-	}
-
-	public class YMDComparator implements Comparator<NewsItem>
-	{
-		public int compare(NewsItem o1, NewsItem o2)
-		{
-			if (null != o1 && null != o2)
-			{
-				return o2.getTime().compareTo(o1.getTime());
-			}
-			return 0;
-		}
 	}
 
 	/** 修改ListView一些默认属性值 */

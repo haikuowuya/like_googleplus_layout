@@ -10,9 +10,13 @@ import org.jsoup.select.Elements;
 
 import android.text.TextUtils;
 
-public class IT199NewsContentUtils
+public class IT199NewsContentUtils extends BaseNewsContentUtils
 {
-	private static final String FOUR_BLANK = "    ";
+	@Override
+	public LinkedList<String> getNewsContentDataList(String newsUrl) throws IOException
+	{
+		return getIT199NewsDataList(newsUrl);
+	}
 
 	public static LinkedList<String> getIT199NewsDataList(String newsUrl) throws IOException
 	{
@@ -46,7 +50,7 @@ public class IT199NewsContentUtils
 						}
 						else
 						{
-							content = FOUR_BLANK + majorElement.text();
+							content = FOUR_BLANK_SPACE + majorElement.text();
 						}
 						// System.out.println("text =" + majorElement.text());
 					}

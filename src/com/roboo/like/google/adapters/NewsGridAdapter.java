@@ -79,13 +79,24 @@ public class NewsGridAdapter extends BaseAdapter implements StickyHeadersAdapter
 		NewsItem item = mData.get(position);
 		if (null != item)
 		{
-			convertView = LayoutInflater.from(context).inflate(R.layout.grid_news_item, null);
+//			String time = mData.get(position).getTime();
+//			int count = null == mNewsCountInDay.get(time) ? 0 : mNewsCountInDay.get(time).intValue();
+			// if (count % 2 == 1 && (count == (position + 1)))
+			// {
+			// StickyGridHeadersGridView gridView = (StickyGridHeadersGridView) parent;
+			// gridView.setNumColumns(1);
+			// convertView = mInflater.inflate(R.layout.list_news_item, null);
+			// }
+			// else
+			// {
+			convertView = mInflater.inflate(R.layout.grid_news_item, null);
+			// }
 			ImageView imageView = ViewHolder.getView(convertView, R.id.iv_image);
 			TextView tvTitle = ViewHolder.getView(convertView, R.id.tv_title);
 			TextView tvSubTitle = ViewHolder.getView(convertView, R.id.tv_sub_title);
 			if (parent instanceof StickyGridHeadersGridView)
 			{
-				tvTitle.setLines(2);
+				tvTitle.setLines(3);
 				tvSubTitle.setLines(4);
 			}
 			tvTitle.setText(item.getTitle());

@@ -10,8 +10,15 @@ import org.jsoup.select.Elements;
 
 import android.text.TextUtils;
 
-public class CSDNNewsContentUtils
+public class CSDNNewsContentUtils extends BaseNewsContentUtils
 {
+	
+	@Override
+	public LinkedList<String> getNewsContentDataList(String newsUrl) throws IOException
+	{
+		return getCsdnNewsDataList(newsUrl);
+	}
+
 	public static LinkedList<String> getCsdnNewsDataList(String newsUrl) throws IOException
 	{
 		LinkedList<String> data = null;
@@ -39,7 +46,7 @@ public class CSDNNewsContentUtils
 					}
 					else
 					{
-						content = majorElement.text();
+						content = FOUR_BLANK_SPACE+ majorElement.text();
 						// System.out.println("text =" + majorElement.text());
 					}
 					if (!TextUtils.isEmpty(content))

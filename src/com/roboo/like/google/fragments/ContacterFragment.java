@@ -9,7 +9,6 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.ContacterAdapter;
@@ -34,10 +33,6 @@ public class ContacterFragment extends BaseWithProgressFragment implements Loade
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
 		return view;
 	}
-
- 
-
-	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);

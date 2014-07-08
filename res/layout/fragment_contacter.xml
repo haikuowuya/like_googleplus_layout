@@ -12,6 +12,8 @@
         android:drawSelectorOnTop="true"
         android:fadingEdge="none"
         android:fastScrollEnabled="true"
+        android:dividerHeight="4dp"
+        android:divider="@android:color/transparent"
         android:listSelector="@android:color/transparent"
         android:padding="16dip"
         android:scrollbarStyle="outsideOverlay" />

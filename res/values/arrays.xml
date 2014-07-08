@@ -70,7 +70,7 @@
         <item>图形图像#http://www.eoeandroid.com/home.php?catid=7</item>
         <item>游戏开发#http://www.eoeandroid.com/home.php?catid=8</item>
         <item>第三方集成#http://www.eoeandroid.com/home.php?catid=10</item>
-        <item>其他#http://www.eoeandroid.com/home.php?catid=11</item>
+        <item>其他#http://www.eoeandroid.com/home.php?catid=11</item>
         -->
     </string-array>
     <string-array name="actionbar_navigation_it199_arrays">
@@ -91,6 +91,9 @@
         <item>数据信息图#http://www.199it.com/archives/category/info-graphics/page/</item>
         <item>移动互联网#http://www.199it.com/archives/category/mobile-internet/page/</item>
     </string-array>
+    <string-array name="actionbar_navigation_36kr_arrays">
+        <item>国内创业公司#http://www.36kr.com/category/cn-startups/</item>
+    </string-array>
     <string-array name="start_news_type_arrays">
         <item>IT之家#0#http://a.hiphotos.baidu.com/baike/w%3D268/sign=3e03ee88087b02080cc938e75ad9f25f/7acb0a46f21fbe093b66053969600c338744ade7.jpg</item>
         <item>CSDN#1#http://imgtech.gmw.cn/attachement/jpg/site2/20111223/f04da22d7ba7105e1d7507.jpg</item>
@@ -98,10 +101,8 @@
         <item>EOE#3#http://www.eoeandroid.com/template/thinktheme_eoe/tt_img/logo.png</item>
         <item>极客公园#4#http://wscont1.apps.microsoft.com/winstore/1x/873a21bf-19c0-42ff-8eae-601846af68de/AppTile.1.49919.49430.png</item>
         <item>199IT#5#http://www.199it.com/199itlogo.png</item>
-        <!--
-        <item>36KR#6</item>
-        <item>虎嗅网#7</item>
-        -->
+        <item>36KR#6#http://t10.baidu.com/it/u=4004095380,3837276999&amp;fm=58</item>
+        <!-- <item>虎嗅网#7</item> -->
     </string-array>
     <string-array name="img_arrays">
         <item>file</item>
