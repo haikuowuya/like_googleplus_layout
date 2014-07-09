@@ -23,20 +23,27 @@ public class HuXiuNewsContentUtils extends BaseNewsContentUtils
 		LinkedList<String> data = null;
 		Elements majorElements;
 		Element majorElement = null;
+		String content = "";
 		Document document = Jsoup.connect(newsUrl).timeout(TIME_OUT).get();
 		// majorElements = document.getElementsByClass("article");
 		majorElement = document.getElementById("article_content");
 		if (majorElement != null)
 		{
 			data = new LinkedList<String>();
-			majorElements = majorElement.children();
+			majorElements = majorElement.getElementsByClass("p-img");
+			
+			if (!majorElements.isEmpty())
+			{
+			 content = majorElements.get(0).attr("src");
+			}
+			majorElements = majorElement.getElementsByTag("div");
 			if (!majorElements.isEmpty())
 			{
 				for (int i = 0; i < majorElements.size(); i++)
 				{
-					String content = "";
 					majorElement = majorElements.get(i);
 					Elements imgElements = majorElement.getElementsByTag("img");
+					
 					if (!imgElements.isEmpty())
 					{
 						content = imgElements.get(0).attr("src");
