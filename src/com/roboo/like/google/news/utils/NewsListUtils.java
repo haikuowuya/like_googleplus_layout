@@ -10,6 +10,7 @@ import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.news.list.utils.CSDNNewsUtils;
 import com.roboo.like.google.news.list.utils.EOENewsUtils;
 import com.roboo.like.google.news.list.utils.GeekParkNewsUtils;
+import com.roboo.like.google.news.list.utils.HuXiuNewsUtils;
 import com.roboo.like.google.news.list.utils.IT199NewsUtils;
 import com.roboo.like.google.news.list.utils.ITHomeNewsUtils;
 import com.roboo.like.google.news.list.utils.KR36NewsUtils;
@@ -45,6 +46,10 @@ public class NewsListUtils
 			break;
 		case GoogleApplication.TYPE_36KR:
 			data = KR36NewsUtils.get36KRNewsList(baseUrl, pageNo);
+			break;
+		case GoogleApplication.TYPE_HUXIU:
+			data = HuXiuNewsUtils.getHuXiuNewsList(baseUrl, pageNo);
+			break;
 		default:
 			data = ITHomeNewsUtils.getITHomeNewsList(baseUrl, pageNo);
 			break;

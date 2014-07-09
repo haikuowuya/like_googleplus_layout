@@ -22,7 +22,7 @@ import com.roboo.like.google.utils.NetWorkUtils;
 
 public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<NewsItem>>
 {
-	
+
 	private String mChannelUrl;
 	private int mPageNo;
 	private Context mContext;
@@ -47,23 +47,17 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 		try
 		{
 			File file = new File(FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_NEWS_LIST), MD5Utils.generate(mChannelUrl));
-			if (!NetWorkUtils.isNetworkAvailable(mContext) && file.exists() && mPageNo == 1)
+			data = NewsListUtils.getNewsList(mChannelUrl, mPageNo);
+		
+			if (null != data)
 			{
-				data = getOfflineData(file);
-			}
-			else
-			{
-				data = NewsListUtils.getNewsList(mChannelUrl, mPageNo);
-				if (null != data)
+				if (mPageNo == 1)
 				{
-					if (mPageNo == 1)
-					{
-						saveNewsListData(data);
-					}
-					else
-					{
-						appendNewsListData(data); 
-					}
+					saveNewsListData(data);
+				}
+				else
+				{
+					appendNewsListData(data);
 				}
 			}
 			if (data == null && file.exists())
@@ -71,9 +65,10 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 				data = getOfflineData(file);
 			}
 			mEndTime = System.currentTimeMillis();
-			if (mEndTime - mStartTime < THREAD_LEAST_DURATION_TIME)
+			long durationTime = mEndTime - mStartTime;
+			if ( durationTime< THREAD_LEAST_DURATION_TIME)
 			{
-				Thread.sleep(THREAD_LEAST_DURATION_TIME);
+				Thread.sleep(THREAD_LEAST_DURATION_TIME-durationTime);
 			}
 		}
 		catch (ClassNotFoundException e)
@@ -95,9 +90,8 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 		return data;
 	}
 
-	
-
 	/** 从文件中获取本地的离线数据 */
+	@SuppressWarnings("unchecked")
 	private LinkedList<NewsItem> getOfflineData(File file) throws StreamCorruptedException, IOException, FileNotFoundException, OptionalDataException, ClassNotFoundException
 	{
 		LinkedList<NewsItem> data;
@@ -111,7 +105,8 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 		}
 		return data;
 	}
-	/**保存第一页数据到本地文件中*/
+
+	/** 保存第一页数据到本地文件中 */
 	private void saveNewsListData(LinkedList<NewsItem> data)
 	{
 		File dirFile = FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_NEWS_LIST);
@@ -136,38 +131,42 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 			e.printStackTrace();
 		}
 	}
-	/**将第一页以后的数据追加到本地文件中去
-	 * @throws ClassNotFoundException 
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
-	 * @throws OptionalDataException 
-	 * @throws StreamCorruptedException */
+
+	/**
+	 * 将第一页以后的数据追加到本地文件中去
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws FileNotFoundException
+	 * @throws OptionalDataException
+	 * @throws StreamCorruptedException
+	 */
 	private void appendNewsListData(LinkedList<NewsItem> data) throws StreamCorruptedException, OptionalDataException, FileNotFoundException, IOException, ClassNotFoundException
 	{
 		File dirFile = FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_NEWS_LIST);
 		File dataFile = new File(dirFile, MD5Utils.generate(mChannelUrl));
 		LinkedList<NewsItem> offlineData = getOfflineData(dataFile);
 		LinkedList<NewsItem> needAppendData = new LinkedList<NewsItem>();
-		if(null != offlineData && data != null)
+		if (null != offlineData && data != null)
 		{
-			for(NewsItem item : data)
+			for (NewsItem item : data)
 			{
-				if(!offlineData.contains(item))
+				if (!offlineData.contains(item))
 				{
 					needAppendData.add(item);
 				}
 			}
-			if(needAppendData.size() > 0)
+			if (needAppendData.size() > 0)
 			{
-				ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(dataFile,true));
+				ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(dataFile, true));
 				objectOutputStream.writeObject(data);
 				objectOutputStream.close();
 				GoogleApplication.TEST = true;
 				if (GoogleApplication.TEST)
 				{
-					System.out.println("追加新闻列表对象写入文件成功 :: 追加新闻个数  = " +needAppendData.size() );
+					System.out.println("追加新闻列表对象写入文件成功 :: 追加新闻个数  = " + needAppendData.size());
 				}
-			
+
 			}
 		}
 	}

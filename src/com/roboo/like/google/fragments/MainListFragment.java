@@ -42,6 +42,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
 
+import com.droidux.trial.da;
 import com.nineoldandroids.view.ViewHelper;
 import com.roboo.like.google.BaseLayoutActivity;
 import com.roboo.like.google.GoogleApplication;
@@ -430,10 +431,10 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		mBtnLoadNext.setEnabled(true);
 		mProgress = 100;
 		((ProcessButton) mBtnLoadNext).onNormalState();
+
 		if (data != null)
 		{
 			int updateCount = 0;
-			getActivity().findViewById(android.R.id.empty).setVisibility(View.GONE);
 			if (null == mData)
 			{
 				mData = data;

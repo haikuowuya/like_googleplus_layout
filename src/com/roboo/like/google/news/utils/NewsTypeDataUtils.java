@@ -34,6 +34,9 @@ public class NewsTypeDataUtils
 		case GoogleApplication.TYPE_36KR:
 			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_36kr_arrays);
 			break;
+		case GoogleApplication.TYPE_HUXIU:
+			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_huxiu_arrays);
+			break;
 		}
 		LinkedList<NewsTypeItem> data = new LinkedList<NewsTypeItem>();
 		for (String str : arrays)

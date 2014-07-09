@@ -11,6 +11,7 @@ import com.roboo.like.google.news.content.utils.EOENewsContentUtils;
 import com.roboo.like.google.news.content.utils.GeekParkNewsContentUtils;
 import com.roboo.like.google.news.content.utils.IT199NewsContentUtils;
 import com.roboo.like.google.news.content.utils.ITHomeNewsContentUtils;
+import com.roboo.like.google.news.content.utils.KR36NewsContentUtils;
 import com.roboo.like.google.news.content.utils.PhoneKRNewsContentUtils;
 
 public class NewsContentUtils
@@ -38,6 +39,10 @@ public class NewsContentUtils
 			break;
 		case GoogleApplication.TYPE_199IT:
 			baseNewsContentUtils = new IT199NewsContentUtils();
+			break;
+		case GoogleApplication.TYPE_36KR:
+			baseNewsContentUtils = new KR36NewsContentUtils();
+			break;
 		default:
 			break;
 		}

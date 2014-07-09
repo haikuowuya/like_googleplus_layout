@@ -70,7 +70,7 @@
         <item>图形图像#http://www.eoeandroid.com/home.php?catid=7</item>
         <item>游戏开发#http://www.eoeandroid.com/home.php?catid=8</item>
         <item>第三方集成#http://www.eoeandroid.com/home.php?catid=10</item>
-        <item>其他#http://www.eoeandroid.com/home.php?catid=11</item>
+        <item>其他#http://www.eoeandroid.com/home.php?catid=11</item>
         -->
     </string-array>
     <string-array name="actionbar_navigation_it199_arrays">
@@ -92,7 +92,24 @@
         <item>移动互联网#http://www.199it.com/archives/category/mobile-internet/page/</item>
     </string-array>
     <string-array name="actionbar_navigation_36kr_arrays">
+        <item>科技#http://www.36kr.com/topic/technology?page=</item>
+        <item>网站#http://www.36kr.com/topic/websites?page=</item>
+        <item>人物#http://www.36kr.com/topic/people?page=</item>
+        <item>品牌#http://www.36kr.com/topic/brands?page=</item>
+        <item>硬件#http://www.36kr.com/topic/devices?page=</item>
+        <item>产品#http://www.36kr.com/topic/products?page=</item>
+        <item>专栏#http://www.36kr.com/category/column/</item>
+        <item>存档#http://www.36kr.com/category/archives/</item>
+        <item>氪周刊#http://www.36kr.com</item>
+        <item>应用软件#http://www.36kr.com/topic/apps?page=</item>
+        <item>创业公司#http://www.36kr.com/topic/startups?page=</item>
+        <item>国内咨询#http://www.36kr.com/category/cn-news/</item>
+        <item>国外咨询#http://www.36kr.com/category/breaking/</item>
         <item>国内创业公司#http://www.36kr.com/category/cn-startups/</item>
+        <item>国外创业公司#http://www.36kr.com/category/us-startups/</item>
+    </string-array>
+    <string-array name="actionbar_navigation_huxiu_arrays">
+        <item>看点#http://www.huxiu.com/focus.html?more=</item>
     </string-array>
     <string-array name="start_news_type_arrays">
         <item>IT之家#0#http://a.hiphotos.baidu.com/baike/w%3D268/sign=3e03ee88087b02080cc938e75ad9f25f/7acb0a46f21fbe093b66053969600c338744ade7.jpg</item>
@@ -102,7 +119,7 @@
         <item>极客公园#4#http://wscont1.apps.microsoft.com/winstore/1x/873a21bf-19c0-42ff-8eae-601846af68de/AppTile.1.49919.49430.png</item>
         <item>199IT#5#http://www.199it.com/199itlogo.png</item>
         <item>36KR#6#http://t10.baidu.com/it/u=4004095380,3837276999&amp;fm=58</item>
-        <!-- <item>虎嗅网#7</item> -->
+        <item>虎嗅网#7#http://www.huxiu.com/static/img/top_logo.png</item> 
     </string-array>
     <string-array name="img_arrays">
         <item>file</item>
@@ -112,6 +129,7 @@
         <item>http://a1.eoe.cn/www/home</item>
         <item>http://www.199it.com</item>
         <item>https://mmbiz.qlogo.cn</item>
+        <item>http://a.36krcnd.com</item>
     </string-array>
 
 </resources>

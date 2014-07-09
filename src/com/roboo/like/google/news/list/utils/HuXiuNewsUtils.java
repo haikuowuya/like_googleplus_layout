@@ -17,23 +17,19 @@ import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.MD5Utils;
 
 @SuppressLint("SimpleDateFormat")
-public class KR36NewsUtils
+public class HuXiuNewsUtils
 {
-	private static final String TAG_ARTICAL = "article";
-	private static final String KR36_URL = "http://www.36kr.com";
+	private static final String CLASS_FOCUS_LIST = "focus-list";
+	private static final String HUXIU_URL = "http://www.huxiu.com/";
 
-	public static LinkedList<NewsItem> get36KRNewsList(String kr36Url, int pageNo) throws Exception
+	public static LinkedList<NewsItem> getHuXiuNewsList(String huXiuUrl, int pageNo) throws Exception
 	{
 		LinkedList<NewsItem> data = null;
-		String url = kr36Url + pageNo;
-		if (kr36Url.equals(KR36_URL))// 特殊处理氪周刊url
-		{
-			url = kr36Url + "/tag/%E6%B0%AA%E5%91%A8%E5%88%8A?page=" + pageNo;
-		}
-		System.out.println("kr36Url = " + url);
+		String url = huXiuUrl + pageNo;
+		System.out.println("huXiuUrl = " + url);
 		Document document = Jsoup.connect(url).get();
-		//
-		Elements elements = document.getElementsByTag(TAG_ARTICAL);
+//		System.out.println("document = " + document);
+		Elements elements = document.getElementsByClass(CLASS_FOCUS_LIST);
 		Element element = null;
 		String title = null, subTitle = null, md5 = null, time = null, src = null, newsUrl = null;
 		md5 = MD5Utils.generate(url);
@@ -45,37 +41,33 @@ public class KR36NewsUtils
 			for (int i = 0; i < elements.size(); i++)
 			{
 				element = elements.get(i);
-				Elements tmpElements = element.getElementsByClass("feature-img");
+				System.out.println("element = " + element);
+				Elements tmpElements = element.getElementsByTag("a");
 				if (!tmpElements.isEmpty())
 				{
-					tmpElements = tmpElements.get(0).getElementsByTag("a");
 					if (!tmpElements.isEmpty())
 					{
-						newsUrl = KR36_URL + tmpElements.get(0).attr("href");
-						// System.out.println(newsUrl);
+						newsUrl = HUXIU_URL + tmpElements.get(0).attr("href");
 					}
-					tmpElements = tmpElements.get(0).getElementsByTag("img");
+				}
+				tmpElements = element.getElementsByClass("p1");
+				if (!tmpElements.isEmpty())
+				{
+					title = tmpElements.text();
+				}
+				tmpElements = element.getElementsByClass("p2");
+				if (!tmpElements.isEmpty())
+				{
+					subTitle = tmpElements.text();
+				}
+				tmpElements = element.getElementsByClass("p-btm");
+				if (!tmpElements.isEmpty())
+				{
+					tmpElements = tmpElements.get(0).getElementsByTag("time");
 					if (!tmpElements.isEmpty())
 					{
-						src = tmpElements.get(0).attr("data-src");
+						time = tmpElements.get(0).attr("title");
 					}
-					else
-					{}
-				}
-				tmpElements = element.getElementsByClass("postmeta");
-				if (!tmpElements.isEmpty())
-				{
-					time = tmpElements.get(0).text();
-					if (!TextUtils.isEmpty(time))
-					{
-						time = getTime(time);
-					}
-				}
-				tmpElements = element.getElementsByClass("right-col");
-				if (!tmpElements.isEmpty())
-				{
-					title = tmpElements.get(0).getElementsByTag("h1").text();
-					subTitle = tmpElements.get(0).getElementsByTag("p").text();
 				}
 				if (TextUtils.isEmpty(newsUrl))
 				{
