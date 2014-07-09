@@ -3,12 +3,12 @@ package com.roboo.like.google.news.utils;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import com.droidux.trial.da;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.news.content.utils.BaseNewsContentUtils;
 import com.roboo.like.google.news.content.utils.CSDNNewsContentUtils;
 import com.roboo.like.google.news.content.utils.EOENewsContentUtils;
 import com.roboo.like.google.news.content.utils.GeekParkNewsContentUtils;
+import com.roboo.like.google.news.content.utils.HuXiuNewsContentUtils;
 import com.roboo.like.google.news.content.utils.IT199NewsContentUtils;
 import com.roboo.like.google.news.content.utils.ITHomeNewsContentUtils;
 import com.roboo.like.google.news.content.utils.KR36NewsContentUtils;
@@ -42,6 +42,9 @@ public class NewsContentUtils
 			break;
 		case GoogleApplication.TYPE_36KR:
 			baseNewsContentUtils = new KR36NewsContentUtils();
+			break;
+		case GoogleApplication.TYPE_HUXIU:
+			baseNewsContentUtils = new HuXiuNewsContentUtils();
 			break;
 		default:
 			break;

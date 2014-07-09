@@ -109,7 +109,10 @@
         <item>国外创业公司#http://www.36kr.com/category/us-startups/</item>
     </string-array>
     <string-array name="actionbar_navigation_huxiu_arrays">
-        <item>看点#http://www.huxiu.com/focus.html?more=</item>
+        <item>看点#http://m.huxiu.com/focus/</item>
+        <item>观点#http://m.huxiu.com/opinions/</item>
+        <item>读点#http://m.huxiu.com/books/</item>
+        <item>用点#http://m.huxiu.com/products/</item>
     </string-array>
     <string-array name="start_news_type_arrays">
         <item>IT之家#0#http://a.hiphotos.baidu.com/baike/w%3D268/sign=3e03ee88087b02080cc938e75ad9f25f/7acb0a46f21fbe093b66053969600c338744ade7.jpg</item>
@@ -130,6 +133,7 @@
         <item>http://www.199it.com</item>
         <item>https://mmbiz.qlogo.cn</item>
         <item>http://a.36krcnd.com</item>
+        <item>http://img.huxiu.com</item>
     </string-array>
 
 </resources>
