@@ -51,20 +51,28 @@ public class KR36NewsContentUtils extends BaseNewsContentUtils
 						else
 						{
 							content =  majorElement.text();
-//							Elements strongElements = majorElement.getElementsByTag("strong");
-//							if (!strongElements.isEmpty())
-//							{
-//								 String strongString = strongElements.get(0).text();
+							Elements strongElements = majorElement.getElementsByTag("strong");
+							if (!strongElements.isEmpty())
+							{
+								 String strongString = strongElements.get(0).text();
 //								 content.replace(strongString, "");
-//								 content = "$"+strongString +"$"+content;
-//							}
+								 content = content.substring(strongString.length());
+								 if(content.contains(":"))
+								 {
+									 content.replace(":", "");
+								 }
+								 content = "$"+strongString +" : $"+content;
+							}
 							content = FOUR_BLANK_SPACE+content;
 						}
 						// System.out.println("text =" + majorElement.text());
 					}
 					if (!TextUtils.isEmpty(content) && i < majorElements.size() - 2)//最后两项不要了
 					{
-						data.add(content);
+						if(!content.contains("查看大图") ||(!content.contains("<br")))
+						{
+							data.add(content);
+						}
 					}
 				}
 			}

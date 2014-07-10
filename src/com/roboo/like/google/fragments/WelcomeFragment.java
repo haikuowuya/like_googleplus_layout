@@ -121,7 +121,7 @@ public class WelcomeFragment extends BaseFragment
 				button.setText("开启浏览");
 				button.setGravity(Gravity.CENTER);
 				int buttonHeight = (int) (48 * getActivity().getResources().getDisplayMetrics().density);
-				int buttonWidth = (int) (getActivity().getResources().getDisplayMetrics().widthPixels - getActivity().getResources().getDisplayMetrics().density * 20);
+				int buttonWidth = (int) (getActivity().getResources().getDisplayMetrics().widthPixels - getActivity().getResources().getDisplayMetrics().density * 100);
 				relativeParams = new RelativeLayout.LayoutParams(buttonWidth, buttonHeight);
 				relativeParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 				relativeParams.addRule(RelativeLayout.CENTER_HORIZONTAL);

@@ -115,7 +115,7 @@ public class HuXiuNewsUtils
 						String year = tmp[0].trim();
 						String month = tmp[1].trim();
 						String day = tmp[2].trim();
-						newTime = month + " 月 " + day + " 日 ";
+						newTime = month + "月" + day + "日";
 					}
 				}
 			}

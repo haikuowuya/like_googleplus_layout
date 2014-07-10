@@ -16,6 +16,7 @@ import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Binder;
@@ -23,6 +24,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
+import android.text.SpannableString;
+import android.text.SpannedString;
+import android.text.style.ForegroundColorSpan;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -203,7 +207,21 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 					params.rightMargin = lr;
 					TextView textView = new TextView(getActivity());
 					textView.setClickable(true);
-					textView.setText(str);
+					SpannableString spannableString = new SpannableString(str);
+					if(str.contains("$"))
+					{
+						int start = 1;
+						int end = str.lastIndexOf("$");
+						if(end > start)
+						{
+							str = str.replace("$", " ");
+							spannableString = new SpannableString(str);
+							ForegroundColorSpan redColorSpan = new ForegroundColorSpan(Color.RED);
+							spannableString.setSpan(redColorSpan, start, end, SpannableString.SPAN_INCLUSIVE_INCLUSIVE);
+							
+						}
+					}
+					textView.setText(spannableString);
 					textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 					textView.setLayoutParams(params);
 					textView.setPadding(lr, tb, lr, tb);

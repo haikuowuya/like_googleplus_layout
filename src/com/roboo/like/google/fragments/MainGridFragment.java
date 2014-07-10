@@ -99,7 +99,7 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 	private NewsGridAdapter mAdapter;
 	/** ListView最后一列是否可见的标志 */
 	public boolean mLastItemVisible;
-
+	private boolean mShouldShowCardToast = false;
 	/** 新闻列表适配器的数据源 */
 	private LinkedList<NewsItem> mData;
 
@@ -162,7 +162,7 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 
 		}
 		loadFirstData();
-//		modifyDefaultListViewFieldValue();
+		// modifyDefaultListViewFieldValue();
 
 	}
 
@@ -177,11 +177,24 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 		};
 	}
 
+
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		if (!mPullToRefreshAttacher.isRefreshing())
+		{
+			mShouldShowCardToast = false;
+		}
+	}
+
 	public void onResume()
 	{
 		super.onResume();
 		setListener();
 	}
+
+	 
 
 	private void setListener()
 	{
@@ -258,6 +271,7 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 
 	private void loadFirstData()
 	{
+		mShouldShowCardToast = true;
 		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
 		{
 			DefaultHeaderTransformer transformer = (DefaultHeaderTransformer) mPullToRefreshAttacher.getHeaderTransformer();
@@ -307,18 +321,17 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 				text();
 				break;
 			case R.id.btn_load_next:// 加载下一页
-				loadNextData();
-				break;
+			case R.id.progress_btn_load_next:
 			case R.id.pbtn_load_next:
-				doSomething();
+				doLoadNextData();
 				break;
 			}
 		}
-
-		private void doSomething()
+		private void doLoadNextData()
 		{
+			mShouldShowCardToast = true;
 			mProgress = 50;
-			new ProgressGenerator(getOnCompleteListener()).start(mBtnLoadNext);
+			new ProgressGenerator(getOnCompleteListener()).start((ProcessButton) mBtnLoadNext);
 		}
 
 		/** 图片 */
@@ -394,7 +407,11 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 			{
 				messageText = " 更新  " + updateCount + " 条新数据";
 			}
-			new CardToastUtils(getActivity()).setShowToastStyle(CardToastUtils.SHOW_ANIMATION_TOP_TO_DOWN_STYLE).showAndAutoDismiss(messageText);
+			if (mShouldShowCardToast)
+			{
+				new CardToastUtils(getActivity()).setShowToastStyle(CardToastUtils.SHOW_ANIMATION_TOP_TO_DOWN_STYLE).showAndAutoDismiss(messageText);
+				mShouldShowCardToast = false;
+			}
 			mBtnLoadNext.setText("点击加载下一页");
 		}
 		else
@@ -513,7 +530,6 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 		hasHeaderIdList = nonHeaderIdList;
 		return hasHeaderIdList;
 	}
- 
 
 	/** 修改ListView一些默认属性值 */
 	private void modifyDefaultListViewFieldValue()

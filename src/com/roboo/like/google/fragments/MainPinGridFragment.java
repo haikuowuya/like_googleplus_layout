@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -105,6 +106,7 @@ public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks
 	private ProcessButton mBtnLoadNext;
 	protected int mPosition = 0;
 	protected Handler mHandler = new Handler();
+	private boolean mShouldShowCardToast = false;
 	private Runnable mCreateDesktopRunnable = new Runnable()
 	{
 		public void run()
@@ -169,6 +171,15 @@ public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks
 				loadFirstData();
 			}
 		};
+	}
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		if (!mPullToRefreshAttacher.isRefreshing())
+		{
+			mShouldShowCardToast = false;
+		}
 	}
 
 	public void onResume()
@@ -242,6 +253,7 @@ public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks
 
 	private void loadFirstData()
 	{
+		mShouldShowCardToast = true;
 		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
 		{
 			DefaultHeaderTransformer transformer = (DefaultHeaderTransformer) mPullToRefreshAttacher.getHeaderTransformer();
@@ -291,20 +303,19 @@ public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks
 				text();
 				break;
 			case R.id.btn_load_next:// 加载下一页
-				loadNextData();
-				break;
+			case R.id.progress_btn_load_next:
 			case R.id.pbtn_load_next:
-				doSomething();
+				doLoadNextData();
 				break;
 			}
 		}
 
-		private void doSomething()
+		private void doLoadNextData()
 		{
+			mShouldShowCardToast = true;
 			mProgress = 50;
-			new ProgressGenerator(getOnCompleteListener()).start(mBtnLoadNext);
+			new ProgressGenerator(getOnCompleteListener()).start((ProcessButton) mBtnLoadNext);
 		}
-
 		/** 图片 */
 		public void picture()
 		{
@@ -378,7 +389,11 @@ public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks
 			{
 				messageText = " 更新  " + updateCount + " 条新数据";
 			}
-			new CardToastUtils(getActivity()).setShowToastStyle(CardToastUtils.SHOW_ANIMATION_TOP_TO_DOWN_STYLE).showAndAutoDismiss(messageText);
+			if (mShouldShowCardToast)
+			{
+				new CardToastUtils(getActivity()).setShowToastStyle(CardToastUtils.SHOW_ANIMATION_TOP_TO_DOWN_STYLE).showAndAutoDismiss(messageText);
+				mShouldShowCardToast = false;
+			}
 			mBtnLoadNext.setText("点击加载下一页");
 		}
 		else
@@ -397,6 +412,7 @@ public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks
 		}
 		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
 		{
+	
 			mBtnLoadNext.setText("设置网络");
 		}
 		// mFooterProgressBar.setVisibility(View.INVISIBLE);

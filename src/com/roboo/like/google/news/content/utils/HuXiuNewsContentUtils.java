@@ -31,10 +31,13 @@ public class HuXiuNewsContentUtils extends BaseNewsContentUtils
 		{
 			data = new LinkedList<String>();
 			majorElements = majorElement.getElementsByClass("p-img");
-			
 			if (!majorElements.isEmpty())
 			{
-			 content = majorElements.get(0).attr("src");
+				content = majorElements.get(0).attr("src");
+				if (!TextUtils.isEmpty(content))
+				{
+					data.add(content);
+				}
 			}
 			majorElements = majorElement.getElementsByTag("div");
 			if (!majorElements.isEmpty())
@@ -43,7 +46,6 @@ public class HuXiuNewsContentUtils extends BaseNewsContentUtils
 				{
 					majorElement = majorElements.get(i);
 					Elements imgElements = majorElement.getElementsByTag("img");
-					
 					if (!imgElements.isEmpty())
 					{
 						content = imgElements.get(0).attr("src");
@@ -57,13 +59,25 @@ public class HuXiuNewsContentUtils extends BaseNewsContentUtils
 						else
 						{
 							content = majorElement.text();
+							Elements bElements = majorElement.getElementsByTag("b");
+							if (!bElements.isEmpty())
+							{
+								String strongString = bElements.get(0).text();
+								content = content.substring(strongString.length());
+								content = "$" + strongString + "  $" + content;
+							}
 							content = FOUR_BLANK_SPACE + content;
 						}
 						// System.out.println("text =" + majorElement.text());
 					}
 					if (!TextUtils.isEmpty(content) && i < majorElements.size() - 2)// 最后两项不要了
 					{
+						if (content.contains("。"))
+						{
+							content.replace("。", "");
+						}
 						data.add(content);
+
 					}
 				}
 			}

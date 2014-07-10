@@ -114,7 +114,7 @@ public class KR36NewsUtils
 				{
 					day = day.split(" ")[0];
 				}
-				newTime = year.trim() + " 年 " + month.trim() + " 月 ";// + day.trim() + " 日 ";
+				newTime = year.trim() + "年" + month.trim() + "月";// + day.trim() + " 日 ";
 			}
 			else if (tmp.length == 2)
 			{
@@ -136,8 +136,8 @@ public class KR36NewsUtils
 						}
 					}
 				}
-				newTime = month.trim() + " 月 " + day.trim() + " 日 ";
-				newTime = month.trim() + "月";// 按月分比较好一点
+				newTime = month.trim() + "月" + day.trim() + "日";
+				newTime = "2014年"+month.trim() + "月";// 按月分比较好一点
 			}
 		}
 		if (time.contains("年前"))
