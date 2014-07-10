@@ -42,7 +42,7 @@ public class MoodActivity extends BaseActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_mood);
+		setContentView(R.layout.activity_mood);//TODO
 		customActionBar();
 		initView();
 		setListener();
@@ -105,7 +105,6 @@ public class MoodActivity extends BaseActivity
 		}
 
 	}
-
 }
 
 class CustomLinearLayout extends LinearLayout
@@ -115,7 +114,6 @@ class CustomLinearLayout extends LinearLayout
 	private OnFlingListener mOnFlingListener;
 	private Scroller mScroller;
 	private GestureDetector mGestureDetector;
-
 	public CustomLinearLayout(Context context)
 	{
 		this(context, null);
@@ -127,21 +125,21 @@ class CustomLinearLayout extends LinearLayout
 		setClickable(true);
 		setLongClickable(true);
 		init();
-
 	}
 
 	private void init()
 	{
 		Interpolator interpolator = new BounceInterpolator();
 		mScroller = new Scroller(getContext(), interpolator);
-
 		mGestureDetector = new GestureDetector(getContext(), new CustomGestureListener());
 		mTriggerThreshold = (int) (100 * getResources().getDisplayMetrics().density);
+		/*http://blog.csdn.net/a859522265/article/details/8889024*/
+		setWillNotDraw(false);//清除ViewGroup不绘制自身的标志 ，导致onDraw()方法的调用， 或者设置background同理。
 	}
 	@Override
 	protected void onDraw(Canvas canvas)
 	{
-		canvas.drawARGB(88, 88, 88, 88);
+		canvas.drawARGB(88, 255, 22, 22);
 //		System.out.println("onDraw");
 		super.onDraw(canvas);
 		
