@@ -125,15 +125,15 @@
         <item>虎嗅网#7#http://www.huxiu.com/static/img/top_logo.png</item> 
     </string-array>
     <string-array name="img_arrays">
-        <item>file</item>
-        <item>http://img.ithome.com</item>
-        <item>http://cms.csdnimg.cn</item>
-        <item>http://www.phonekr.com</item>
-        <item>http://a1.eoe.cn/www/home</item>
-        <item>http://www.199it.com</item>
-        <item>https://mmbiz.qlogo.cn</item>
-        <item>http://a.36krcnd.com</item>
-        <item>http://img.huxiu.com</item>
+        <item>file#文件</item>
+        <item>http://img.ithome.com#IT之家</item>
+        <item>http://cms.csdnimg.cn#CSDN</item>
+        <item>http://www.phonekr.com#科技锋芒</item>
+        <item>http://a1.eoe.cn/www/home#EOE</item>
+        <item>http://www.199it.com#199IT</item>
+        <item>https://mmbiz.qlogo.cn#199IT</item>
+        <item>http://a.36krcnd.com#36氪</item>
+        <item>http://img.huxiu.com#虎嗅网</item>
     </string-array>
 
 </resources>

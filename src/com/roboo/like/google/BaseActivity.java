@@ -35,7 +35,6 @@ public class BaseActivity extends FragmentActivity
 	{
 		super.onResume();
 		JPushInterface.onResume(this);
-		SQLiteDatabase db = new DBHelper(this).getWritableDatabase();
 	}
 
 	protected void onPause()
