@@ -26,6 +26,8 @@ import com.droidux.components.DroidUxLib;
 
 public class GoogleApplication extends Application
 {
+	public static final int DB_VERSION= 0711;//7月11日
+	public static final String DB_NAME="android";
 	public static final int TYPE_ITHOME = 0;
 	public static final int TYPE_CSDN = 1;
 	public static final int TYPE_PHONEKR = 2;

@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.roboo.like.google.fragments.StartFragment;
 import com.roboo.like.google.fragments.WelcomeFragment;
 
@@ -35,12 +37,23 @@ public class StartActivity extends BaseLayoutActivity
 		}
 		customActionBar();
 		initView();
-
 	}
 
 	public void initView()
 	{}
 
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		JPushInterface.onPause(this);
+	}
+@Override
+protected void onResume()
+{
+	super.onResume();
+	JPushInterface.onResume(this);
+}
 	private void customActionBar()
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(false);
@@ -56,6 +69,7 @@ public class StartActivity extends BaseLayoutActivity
 		application.exitClient();
 		super.onBackPressed();
 	}
+
 	public void splashScreenEnd()
 	{
 		mActionBar.show();

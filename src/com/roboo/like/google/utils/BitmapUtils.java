@@ -1,5 +1,6 @@
 package com.roboo.like.google.utils;
 
+import java.io.File;
 import java.io.InputStream;
 
 import android.graphics.Bitmap;
@@ -19,21 +20,47 @@ import android.graphics.drawable.Drawable;
 
 public class BitmapUtils
 {
+	private static final int DEFAULT_WIDTH = 300;
+	private static final int DEFAULT_HEIGHT = 300;
+
+	/***
+	 * 通过给定图片文件路径获取Bitmap对象,Bitmap大小采用默认值300*300
+	 * 
+	 * @param path
+	 *            ：图片文件的完整路径
+	 * @return null 或者 Bitmap对象
+	 */
 	public static Bitmap getBitmap(String path)
 	{
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		// 设置为true,表示解析Bitmap对象，该对象不占内存
-		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(path, options);
-		// 设置缩放比例
-		options.inSampleSize = computeScale(options, 300, 300);
-		// 设置为false,解析Bitmap对象加入到内存中
-		options.inJustDecodeBounds = false;
-		return BitmapFactory.decodeFile(path, options);
+		File file = new File(path);
+		if (file.exists())
+		{
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			// 设置为true,表示解析Bitmap对象，该对象不占内存
+			options.inJustDecodeBounds = true;
+
+			BitmapFactory.decodeFile(path, options);//
+			// 设置缩放比例
+			options.inSampleSize = computeScale(options, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+			// 设置为false,解析Bitmap对象加入到内存中
+			options.inJustDecodeBounds = false;
+			return BitmapFactory.decodeFile(path, options);// 使用BitmapFactory.decodeStream方法会更好一点。
+
+		}
+		return null;
 	}
 
+	/**通过给定图片文件路径获取Bitmap对象
+	 * @param path 图片文件的完整路径
+	 * @param width：Bitmap对象宽度
+	 * @param height：Bitmap对象高度
+	 * @return null 或者 Bitmap对象
+	 */
 	public static Bitmap getBitmap(String path, int width, int height)
 	{
+		File file = new File(path);
+		if (file.exists())
+		{
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		// 设置为true,表示解析Bitmap对象，该对象不占内存
 		options.inJustDecodeBounds = true;
@@ -43,6 +70,8 @@ public class BitmapUtils
 		// 设置为false,解析Bitmap对象加入到内存中
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeFile(path, options);
+		}
+		return null;
 	}
 
 	public static Bitmap getBitmap(InputStream inputStream, int width, int height)
@@ -60,7 +89,6 @@ public class BitmapUtils
 
 	/**
 	 * 根据View(主要是ImageView)的宽和高来计算Bitmap缩放比例。默认不缩放
-	 * 
 	 * @param options
 	 * @param width
 	 * @param height
@@ -86,7 +114,12 @@ public class BitmapUtils
 		}
 		return inSampleSize;
 	}
-
+	/***
+	 * 根据给定的Bitmap对象，获取一个带有圆角的Bitmap对象
+	 * @param bitmap
+	 * @param roundPixels
+	 * @return
+	 */
 	public static Bitmap getRoundCornerImage(Bitmap bitmap, int roundPixels)
 	{
 		// 创建一个和原始图片一样大小位图
@@ -116,9 +149,7 @@ public class BitmapUtils
 			return null;
 		}
 
-		// The gap between the reflection bitmap and original bitmap.
 		final int REFLECTION_GAP = 4;
-
 		int srcWidth = srcBitmap.getWidth();
 		int srcHeight = srcBitmap.getHeight();
 		int reflectionWidth = srcBitmap.getWidth();
@@ -128,7 +159,6 @@ public class BitmapUtils
 			return null;
 		}
 
-		// The matrix
 		Matrix matrix = new Matrix();
 		matrix.preScale(1, -1);
 		try
