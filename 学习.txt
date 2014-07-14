@@ -1,0 +1,31 @@
+﻿1、掌握Canvas类的使用-- 如何绘图
+
+                 2、掌握消息通信机制---Handler相关类的使用以及原理
+
+                 3、掌握Context类以及实现原理
+
+                 4、掌握View树的绘制流程  。 View绘制流程很重要，掌握它就基本上掌握了Android核心之一了。
+
+                         4.1、掌握触摸事件的分发流程--- onInterceptTouchEvent以及onTouchEvent方法流程
+
+                         4.2、掌握相关监听器的调用机制。例如OnClickListener监听时怎么调用的？
+
+                         4.3、能够编写自定义View以及ViewGroup
+
+                 5、理解Binder机制----Binder机制很重要，Android的进程间通信都是靠它完成的。掌握它，才能够好的完成接下
+
+                    来的学习。
+
+                 6、基本掌握ActivityManagerService类的使用，主要掌握的知识点包括如下：
+
+                          6.1、startActivity()流程，即启动一个Activity的流程  ;
+
+                          6.2、startService()流程，即启动一个Service的流程 ;
+
+                 7、基本掌握PackageManagerService类的使用，主要掌握的知识点包括如下：
+
+                          7.1、开机时如何解析所有已安装应用程序的Apk包的信息
+
+                          7.2、Intent以及IntentFilter的匹配规则以及解析过程
+
+                 8、基本掌握View添加至窗口的过程---即WindowManagerIml 、WindowManagerService类的用法
