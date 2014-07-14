@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -20,12 +19,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.roboo.like.google.adapters.NewsTypeListAdapter;
+import com.roboo.like.google.fragments.BaseMainFragment;
 import com.roboo.like.google.fragments.LeftFragment;
 import com.roboo.like.google.fragments.MainGridFragment;
 import com.roboo.like.google.fragments.MainListFragment;
 import com.roboo.like.google.fragments.MainPinGridFragment;
 import com.roboo.like.google.fragments.RightFragment;
-import com.roboo.like.google.models.NewsTypeItem;
+import com.roboo.like.google.models.SubNewsTypeItem;
 import com.roboo.like.google.news.utils.NewsTypeDataUtils;
 
 public class MainActivity extends BaseActivity
@@ -41,10 +41,12 @@ public class MainActivity extends BaseActivity
 	protected ActionBar mActionBar;
 	private NewsTypeListAdapter mAdapter;
 	private int mDisplayStyle = STYLE_LIST;
-	private Fragment mMainFragment = null;
+	private BaseMainFragment mMainFragment = null;
 	private String mCurrentURL = IT_HOME;
 	private Menu mMenu;
-	private LinkedList<NewsTypeItem> mData;
+	private LinkedList<SubNewsTypeItem> mData;
+	/** 当mMainFragment为MainListFragment时 ，是否快速滑动开启 */
+	private boolean mFastScrollEnable;
 
 	public static void actionMain(Activity activity)
 	{
@@ -56,6 +58,7 @@ public class MainActivity extends BaseActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);// TODO
+		init();
 		initView();
 		initData();
 		customActionBar();
@@ -73,6 +76,11 @@ public class MainActivity extends BaseActivity
 		}
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
+	}
+
+	private void init()
+	{
+		mFastScrollEnable = mPreferences.getBoolean(PREF_FAST_SCROLL, true);
 	}
 
 	private void initData()
@@ -93,6 +101,13 @@ public class MainActivity extends BaseActivity
 	{
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		mMenu = menu;
+		return true;
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu)
+	{
+		menu.findItem(R.id.menu_fast_scroll).setChecked(mFastScrollEnable);
 		return true;
 	}
 
@@ -133,6 +148,7 @@ public class MainActivity extends BaseActivity
 			mDisplayStyle = STYLE_LIST;
 			mMenu.findItem(R.id.menu_grid).setChecked(false);
 			mMenu.findItem(R.id.menu_pinterest).setChecked(false);
+			mMenu.findItem(R.id.menu_fast_scroll).setCheckable(true);
 			if (!item.isChecked())
 			{
 				updateFragment();
@@ -143,6 +159,7 @@ public class MainActivity extends BaseActivity
 			mDisplayStyle = STYLE_GRID;
 			mMenu.findItem(R.id.menu_list).setChecked(false);
 			mMenu.findItem(R.id.menu_pinterest).setChecked(false);
+			mMenu.findItem(R.id.menu_fast_scroll).setCheckable(true);
 			if (!item.isChecked())
 			{
 				updateFragment();
@@ -154,13 +171,26 @@ public class MainActivity extends BaseActivity
 			mDisplayStyle = STYLE_PINTEREST;
 			mMenu.findItem(R.id.menu_list).setChecked(false);
 			mMenu.findItem(R.id.menu_grid).setChecked(false);
+			mMenu.findItem(R.id.menu_fast_scroll).setCheckable(false);
+
 			if (!item.isChecked())
 			{
 				updateFragment();
 			}
 			item.setChecked(true);
 			return true;
+		case R.id.menu_fast_scroll:// 快速滑动
+			if (item.isCheckable())
+			{
+				mFastScrollEnable = !item.isChecked();
+				item.setChecked(mFastScrollEnable);
+				mPreferences.edit().putBoolean(PREF_FAST_SCROLL, mFastScrollEnable).commit();
+				mMainFragment.setFastScrollEnable(mFastScrollEnable);
+			}
+			return true;
 		case R.id.menu_help:// 帮助
+			return true;
+		case R.id.menu_gallery_flow:// GalleryFlow
 			PinterestActivity.actionPinterest(this);
 			return true;
 		case R.id.menu_download:
@@ -181,7 +211,7 @@ public class MainActivity extends BaseActivity
 		{
 			public boolean onNavigationItemSelected(int itemPosition, long itemId)
 			{
-				NewsTypeItem item = (NewsTypeItem) mAdapter.getItem(itemPosition);
+				SubNewsTypeItem item = (SubNewsTypeItem) mAdapter.getItem(itemPosition);
 				mCurrentURL = item.url;
 				updateFragment();
 				return true;
@@ -198,17 +228,13 @@ public class MainActivity extends BaseActivity
 		}
 		if (mDisplayStyle == STYLE_GRID)
 		{
-
 			mMainFragment = MainGridFragment.newInstance(mCurrentURL);
 		}
 		else if (mDisplayStyle == STYLE_PINTEREST)
 		{
 			mMainFragment = MainPinGridFragment.newInstance(mCurrentURL);
 		}
-		
-		
-			getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mMainFragment).commit();
-	
+		getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mMainFragment).commit();
 		mDrawerLayout.closeDrawers();
 	}
 

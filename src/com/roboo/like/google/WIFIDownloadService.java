@@ -11,26 +11,20 @@ import java.util.concurrent.CyclicBarrier;
 
 import android.app.Service;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.os.Looper;
-import android.view.View;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
-import com.roboo.like.google.listener.ImageLoadingListenerImpl;
 import com.roboo.like.google.models.CommentItem;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.models.NewsTypeItem;
-import com.roboo.like.google.news.list.utils.ITHomeNewsUtils;
-import com.roboo.like.google.news.utils.NewsTypeDataUtils;
+import com.roboo.like.google.models.SubNewsTypeItem;
 import com.roboo.like.google.news.utils.NewsContentUtils;
 import com.roboo.like.google.news.utils.NewsListUtils;
+import com.roboo.like.google.news.utils.NewsTypeDataUtils;
 import com.roboo.like.google.utils.CommentUtils;
 import com.roboo.like.google.utils.FileUtils;
 import com.roboo.like.google.utils.MD5Utils;
@@ -38,7 +32,7 @@ import com.roboo.like.google.utils.MD5Utils;
 public class WIFIDownloadService extends Service
 {
 	/** 有进行离线下载的新闻栏目数据 */
-	private LinkedList<NewsTypeItem> mData;
+	private LinkedList<SubNewsTypeItem> mData;
 	/** 同步辅助类 */
 	private CyclicBarrier mCyclicBarrier;
 	private ImageLoader mImageLoader;
@@ -78,10 +72,10 @@ public class WIFIDownloadService extends Service
 
 	private class DownloadThread extends Thread
 	{
-		private NewsTypeItem mTypeItem;
+		private SubNewsTypeItem mTypeItem;
 		private CyclicBarrier barrier;
 
-		public DownloadThread(NewsTypeItem mTypeItem, CyclicBarrier barrier)
+		public DownloadThread(SubNewsTypeItem mTypeItem, CyclicBarrier barrier)
 		{
 			super();
 			this.mTypeItem = mTypeItem;
@@ -152,7 +146,7 @@ public class WIFIDownloadService extends Service
 	}
 
 	/** 将新闻列表保存到本地 */
-	private void saveNewsListData(LinkedList<NewsItem> data, NewsTypeItem mTypeItem)
+	private void saveNewsListData(LinkedList<NewsItem> data, SubNewsTypeItem mTypeItem)
 	{
 		File dirFile = FileUtils.getFileCacheDir(this, FileUtils.TYPE_NEWS_LIST);
 		File dataFile = new File(dirFile, MD5Utils.generate(mTypeItem.url));

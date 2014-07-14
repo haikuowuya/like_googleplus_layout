@@ -23,22 +23,32 @@
         <menu>
             <item
                 android:id="@+id/menu_list"
-                android:showAsAction="always"
                 android:checkable="true"
                 android:checked="true"
+                android:showAsAction="always"
                 android:title="列表"/>
             <item
                 android:id="@+id/menu_grid"
-                android:showAsAction="always"
                 android:checkable="true"
                 android:checked="false"
+                android:showAsAction="always"
                 android:title="网格"/>
             <item
                 android:id="@+id/menu_pinterest"
-                android:showAsAction="always"
-                 android:checkable="true"
+                android:checkable="true"
                 android:checked="false"
+                android:showAsAction="always"
                 android:title="瀑布流"/>
+            <item
+                android:id="@+id/menu_fast_scroll"
+                android:checkable="true"
+                android:showAsAction="always"
+                android:title="快速滑动"/>
+            <item
+                android:id="@+id/menu_gallery_flow"
+                android:showAsAction="always"
+                android:title="GalleryFlow"/>
+                android:title="快速滑动"/>
             <item
                 android:id="@+id/menu_help"
                 android:showAsAction="always"

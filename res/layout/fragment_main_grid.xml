@@ -19,10 +19,12 @@
             android:drawSelectorOnTop="true"
             android:fadeScrollbars="false"
             android:fastScrollEnabled="true"
+            android:fastScrollAlwaysVisible="true"
             android:footerDividersEnabled="true"
             android:horizontalSpacing="8dp"
             android:listSelector="@android:color/transparent"
             android:numColumns="2"
+            
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="none"
             android:stretchMode="columnWidth"

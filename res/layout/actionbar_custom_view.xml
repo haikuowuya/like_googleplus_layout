@@ -2,24 +2,33 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:gravity="center_vertical"
-   	android:background="@android:color/transparent" >
+    android:background="@android:color/transparent"
+   >
 
     <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:padding="4dp"
-        android:visibility="gone"
-        android:src="@drawable/ic_abs_home_up" />
+        android:src="@drawable/ic_abs_home_up"
+        android:visibility="gone" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="4dp"
         android:text="新闻客户端"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:visibility="invisible"
-        android:gravity="center"
-        android:padding="4dp" />
+        android:textSize="20sp" />
+
+    <ImageButton
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="8dp"
+        android:layout_gravity="right|center_vertical"
+        android:background="@android:color/transparent"
+        android:onClick="add"
+        android:src="@drawable/add_selector" />
 
 </LinearLayout>

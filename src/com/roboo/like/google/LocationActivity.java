@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
 
-import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
@@ -33,7 +32,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.SearchView;
 import android.widget.SearchView.OnCloseListener;
 import android.widget.SearchView.OnQueryTextListener;

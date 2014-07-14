@@ -29,7 +29,6 @@ public abstract class BaseLayoutActivity extends BaseActivity implements SwipeBa
 	public static final String DEFAULT_CITY="苏州市";
 	public static final String DEFAULT_ADDRESS="国际科技园";
 	
-	protected SharedPreferences mPreferences;
 	/** 滑动关闭Activity的帮助工具类对象 */
 	protected SwipeBackActivityHelper mActivityHelper;
 	/** ActionBar对象 */
@@ -47,7 +46,7 @@ public abstract class BaseLayoutActivity extends BaseActivity implements SwipeBa
 			mActionBar = getActionBar();
 		}
 		mActivityHelper = new SwipeBackActivityHelper(this);
-		mPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+		
 		mActivityHelper.onActivityCreate();
 		super.setContentView(R.layout.activity_base);// TODO
 		mContainer = (FrameLayout) findViewById(R.id.frame_container);

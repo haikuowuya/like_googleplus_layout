@@ -24,7 +24,7 @@ import com.roboo.like.google.swipelistview.SwipeListView;
 import com.roboo.like.google.swipelistview.SwipeListViewListener;
 import com.roboo.like.google.views.StickyListHeadersListView;
 
-public class StartFragment extends BaseFragment
+public class AddFragment extends BaseFragment
 {
 	private LinkedList<NewsTypeItem> mData;
 	private ImageLoader mImageLoader;
@@ -32,9 +32,9 @@ public class StartFragment extends BaseFragment
 	private StickyListHeadersListView mListView;
 	private StartNewsTypeListAdapter mAdapter;
 
-	public static StartFragment newInstance()
+	public static AddFragment newInstance()
 	{
-		StartFragment fragment = new StartFragment();
+		AddFragment fragment = new AddFragment();
 		Bundle bundle = new Bundle();
 		fragment.setArguments(bundle);
 		return fragment;
@@ -55,28 +55,21 @@ public class StartFragment extends BaseFragment
 		ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(getActivity()).discCacheFileNameGenerator(new Md5FileNameGenerator()).build();
 		mImageLoader = ImageLoader.getInstance();
 		mImageLoader.init(imageLoaderConfiguration);
-
+		mListView.setAdapter(getAdapter());
+		mSwipeListView.setAdapter(getAdapter());
+		mSwipeListView.setEmptyView(getActivity().findViewById(android.R.id.empty));
+		setListener();
 	}
 
 	private ListAdapter getAdapter()
 	{
 		NewsTypeItemDaoImpl newsTypeItemDao = new NewsTypeItemDaoImpl(new DBHelper(getActivity()));
-		mData = newsTypeItemDao.getNewsTypeItems(true);
+		mData = newsTypeItemDao.getNewsTypeItems(false);
 		if (null != mData)
 		{
 			mAdapter = new StartNewsTypeListAdapter(mData, getActivity());
 		}
 		return mAdapter;
-	}
-
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-		mListView.setAdapter(getAdapter());
-		mSwipeListView.setAdapter(mAdapter);
-		setListener();
-
 	}
 
 	private void setListener()

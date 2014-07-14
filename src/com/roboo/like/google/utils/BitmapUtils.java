@@ -6,6 +6,7 @@ import java.io.InputStream;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
@@ -50,10 +51,15 @@ public class BitmapUtils
 		return null;
 	}
 
-	/**通过给定图片文件路径获取Bitmap对象
-	 * @param path 图片文件的完整路径
-	 * @param width：Bitmap对象宽度
-	 * @param height：Bitmap对象高度
+	/**
+	 * 通过给定图片文件路径获取Bitmap对象
+	 * 
+	 * @param path
+	 *            图片文件的完整路径
+	 * @param width
+	 *            ：Bitmap对象宽度
+	 * @param height
+	 *            ：Bitmap对象高度
 	 * @return null 或者 Bitmap对象
 	 */
 	public static Bitmap getBitmap(String path, int width, int height)
@@ -61,15 +67,15 @@ public class BitmapUtils
 		File file = new File(path);
 		if (file.exists())
 		{
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		// 设置为true,表示解析Bitmap对象，该对象不占内存
-		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(path, options);
-		// 设置缩放比例
-		options.inSampleSize = computeScale(options, width, height);
-		// 设置为false,解析Bitmap对象加入到内存中
-		options.inJustDecodeBounds = false;
-		return BitmapFactory.decodeFile(path, options);
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			// 设置为true,表示解析Bitmap对象，该对象不占内存
+			options.inJustDecodeBounds = true;
+			BitmapFactory.decodeFile(path, options);
+			// 设置缩放比例
+			options.inSampleSize = computeScale(options, width, height);
+			// 设置为false,解析Bitmap对象加入到内存中
+			options.inJustDecodeBounds = false;
+			return BitmapFactory.decodeFile(path, options);
 		}
 		return null;
 	}
@@ -89,6 +95,7 @@ public class BitmapUtils
 
 	/**
 	 * 根据View(主要是ImageView)的宽和高来计算Bitmap缩放比例。默认不缩放
+	 * 
 	 * @param options
 	 * @param width
 	 * @param height
@@ -114,8 +121,10 @@ public class BitmapUtils
 		}
 		return inSampleSize;
 	}
+
 	/***
 	 * 根据给定的Bitmap对象，获取一个带有圆角的Bitmap对象
+	 * 
 	 * @param bitmap
 	 * @param roundPixels
 	 * @return
@@ -239,9 +248,7 @@ public class BitmapUtils
 		{
 			return null;
 		}
-
 		Config config = (drawable.getOpacity() != PixelFormat.OPAQUE) ? Config.ARGB_8888 : Config.RGB_565;
-
 		Bitmap bitmap = null;
 
 		try
@@ -262,7 +269,24 @@ public class BitmapUtils
 		{
 			e.printStackTrace();
 		}
-
 		return bitmap;
+	}
+
+	/** 将已有的bitmap处理为带有圆角 */
+	public Bitmap processImage(Bitmap bitmap)
+	{
+		int RADIUS_FACTOR = 2;//圆角的缩放因子
+		Bitmap bmp;
+
+		bmp = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+		BitmapShader shader = new BitmapShader(bitmap, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
+		float radius = Math.min(bitmap.getWidth(), bitmap.getHeight()) / RADIUS_FACTOR;
+		Canvas canvas = new Canvas(bmp);
+		Paint paint = new Paint();
+		paint.setAntiAlias(true);
+		paint.setShader(shader);
+		RectF rect = new RectF(0, 0, bitmap.getWidth(), bitmap.getHeight());
+		canvas.drawRoundRect(rect, radius, radius, paint);
+		return bmp;
 	}
 }

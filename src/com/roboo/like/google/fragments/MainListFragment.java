@@ -42,8 +42,8 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
 
-import com.droidux.trial.da;
 import com.nineoldandroids.view.ViewHelper;
+import com.roboo.like.google.BaseActivity;
 import com.roboo.like.google.BaseLayoutActivity;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.LocationActivity;
@@ -77,7 +77,7 @@ import com.roboo.like.google.views.helper.PullToRefreshHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.DefaultHeaderTransformer;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.OnRefreshListener;
 
-public class MainListFragment extends BaseFragment implements LoaderCallbacks<LinkedList<NewsItem>>
+public class MainListFragment extends BaseMainFragment implements LoaderCallbacks<LinkedList<NewsItem>>
 {
 	private static final String DECLARED_OPERA_FAST_SCROLLER_FIELD = "mFastScroller";// FastScroller
 	private static final String DECLARED_OVERLAY_SIZE = "mOverlaySize";// int
@@ -110,6 +110,8 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 	private Button mBtnMood;
 	/** 文字 */
 	private Button mBtnText;
+	/** 当第一次获取数据为空时显示的View */
+	private View mListEmptyView;
 	/** 新闻列表适配器 */
 	private NewsListAdapter mAdapter;
 	/** ListView最后一列是否可见的标志 */
@@ -129,6 +131,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 	private InfiniteViewPager mAdViewPager;
 	protected int mPosition = 0;
 	protected Handler mHandler = new Handler();
+ 
 	private boolean mSwapRunnableHasStart = false;
 	/** 模拟广告图片轮转间隔时间 */
 	private static final long SWAP_INTERVAL_TIME = 3000L;
@@ -173,11 +176,13 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		View view = inflater.inflate(R.layout.fragment_main_list, null);// TODO
 		// mFooterView = new FooterView(getActivity(), FooterView.TYPE_PROGRESS_BUTTON);
 		mFooterView = (FooterView) view.findViewById(R.id.fv_footerview);
+		mListEmptyView = view.findViewById(android.R.id.empty);
 		mHeaderView = new HeaderView(getActivity());
 		mAdViewPager = mHeaderView.getViewPager();
 		mFooterProgressBar = mFooterView.getFooterProgressBar();
 		mBtnLoadNext = mFooterView.getButton();
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
+		mListView.setFastScrollEnabled(getActivity().getSharedPreferences(getActivity().getPackageName(),Context.MODE_PRIVATE).getBoolean(BaseActivity.PREF_FAST_SCROLL, true));
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
 		return view;
@@ -328,6 +333,10 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 	private void loadFirstData()
 	{
 		mShouldShowCardToast = true;
+		if (mListEmptyView.getVisibility() == View.VISIBLE)
+		{
+			mListEmptyView.setVisibility(View.GONE);
+		}
 		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
 		{
 			DefaultHeaderTransformer transformer = (DefaultHeaderTransformer) mPullToRefreshAttacher.getHeaderTransformer();
@@ -476,7 +485,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		{
 			if (mData == null)
 			{
-				getActivity().findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
+				mListEmptyView.setVisibility(View.VISIBLE);
 			}
 			mBtnLoadNext.setText("所有数据加载完毕");
 		}
@@ -688,7 +697,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 		hasHeaderIdList = nonHeaderIdList;
 		return hasHeaderIdList;
 	}
-
+ 
 	/** 修改ListView一些默认属性值 */
 	private void modifyDefaultListViewFieldValue()
 	{
@@ -733,7 +742,7 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 			e.printStackTrace();
 		}
 	}
-
+	
 	/** 从文件中获取本地的离线数据 */
 	private LinkedList<NewsItem> getOfflineData(String channelUrl)
 	{
@@ -778,5 +787,11 @@ public class MainListFragment extends BaseFragment implements LoaderCallbacks<Li
 			e.printStackTrace();
 		}
 		return data;
+	}
+
+	@Override
+	public void setFastScrollEnable(boolean enable)
+	{
+		mListView.setFastScrollEnabled(enable);
 	}
 }

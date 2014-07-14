@@ -37,6 +37,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 
+import com.roboo.like.google.BaseActivity;
 import com.roboo.like.google.BaseLayoutActivity;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.LocationActivity;
@@ -63,7 +64,7 @@ import com.roboo.like.google.views.helper.PullToRefreshHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.DefaultHeaderTransformer;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.OnRefreshListener;
 
-public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks<LinkedList<NewsItem>>
+public class MainPinGridFragment extends BaseMainFragment implements LoaderCallbacks<LinkedList<NewsItem>>
 {
 	private static final String DECLARED_OPERA_FAST_SCROLLER_FIELD = "mFastScroller";// FastScroller
 	private static final String DECLARED_OVERLAY_SIZE = "mOverlaySize";// int
@@ -95,6 +96,8 @@ public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks
 	private Button mBtnMood;
 	/** 文字 */
 	private Button mBtnText;
+	/** 当第一次获取数据为空时显示的View */
+	private View mListEmptyView;
 	/** 新闻列表适配器 */
 	private NewsGridAdapter mAdapter;
 	/** ListView最后一列是否可见的标志 */
@@ -131,6 +134,8 @@ public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks
 		mBtnLoadNext = (ProcessButton) view.findViewById(R.id.pbtn_load_next);
 		mBtnLoadNext.setVisibility(View.GONE);
 		mGridView = (StaggeredGridView) view.findViewById(R.id.sgv_gridview);
+		mGridView.setFastScrollEnabled(getActivity().getSharedPreferences(getActivity().getPackageName(),Context.MODE_PRIVATE).getBoolean(BaseActivity.PREF_FAST_SCROLL, true));
+		mListEmptyView = view.findViewById(android.R.id.empty);
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
 		return view;
@@ -254,6 +259,10 @@ public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks
 	private void loadFirstData()
 	{
 		mShouldShowCardToast = true;
+		if (mListEmptyView.getVisibility() == View.VISIBLE)
+		{
+			mListEmptyView.setVisibility(View.GONE);
+		}
 		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
 		{
 			DefaultHeaderTransformer transformer = (DefaultHeaderTransformer) mPullToRefreshAttacher.getHeaderTransformer();
@@ -358,7 +367,7 @@ public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks
 		if (data != null)
 		{
 			int updateCount = 0;
-			getActivity().findViewById(android.R.id.empty).setVisibility(View.GONE);
+			mListEmptyView.setVisibility(View.GONE);
 			if (null == mData)
 			{
 				mData = data;
@@ -604,5 +613,10 @@ public class MainPinGridFragment extends BaseFragment implements LoaderCallbacks
 			e.printStackTrace();
 		}
 		return data;
+	}
+	@Override
+	public void setFastScrollEnable(boolean enable)
+	{
+		mGridView.setFastScrollEnabled(enable);
 	}
 }

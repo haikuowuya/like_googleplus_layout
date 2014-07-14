@@ -17,18 +17,21 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.roboo.like.google.AddActivity;
 import com.roboo.like.google.R;
-import com.roboo.like.google.models.StartNewsTypeItem;
+import com.roboo.like.google.dao.impl.NewsTypeItemDaoImpl;
+import com.roboo.like.google.databases.DBHelper;
+import com.roboo.like.google.models.NewsTypeItem;
 import com.roboo.like.google.swipelistview.SwipeListView;
 
 public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeadersAdapter, SectionIndexer
 {
-	private LinkedList<StartNewsTypeItem> mData;
+	private LinkedList<NewsTypeItem> mData;
 	private Activity activity;
 	private LayoutInflater mInflater;
 	private ImageLoader mImageLoader;
 
-	public StartNewsTypeListAdapter(LinkedList<StartNewsTypeItem> mData, Activity activity)
+	public StartNewsTypeListAdapter(LinkedList<NewsTypeItem> mData, Activity activity)
 	{
 		super();
 		this.mData = mData;
@@ -59,25 +62,37 @@ public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeade
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent)
 	{
+		final NewsTypeItem item = mData.get(position);
 		convertView = mInflater.inflate(R.layout.list_news_type_item, null);// TODO
-		if(parent instanceof SwipeListView)
+		if (parent instanceof SwipeListView)
 		{
 			convertView = mInflater.inflate(R.layout.list_news_swipe_type_item, null);// TODO
 		}
 		TextView textView = ViewHolder.getView(convertView, R.id.tv_title);
 		ImageView imageView = ViewHolder.getView(convertView, R.id.iv_image);
 		Button button = ViewHolder.getView(convertView, R.id.btn_delete);
+		if (activity instanceof AddActivity)
+		{
+			button.setText("添加");
+			button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.swipe_add_selector, 0, 0, 0);
+		}
 		button.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View v)
 			{
-				mData.remove(position);
+				mData.remove(item);
+				NewsTypeItemDaoImpl newsTypeItemDaoImpl = new NewsTypeItemDaoImpl(new DBHelper(activity));
+				boolean returnFlag = newsTypeItemDaoImpl.updateFlag(item.md5, !item.flag);
+				if (returnFlag)
+				{
+					System.out.println("修改成功");
+				}
 				notifyDataSetChanged();
 			}
 		});
-		textView.setText(mData.get(position).name);
+		textView.setText(item.name);
 		DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image).showImageOnFail(R.drawable.ic_default_image).cacheInMemory().cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
-		mImageLoader.displayImage(mData.get(position).src, imageView, options);
+		mImageLoader.displayImage(item.img, imageView, options);
 		return convertView;
 	}
 
@@ -108,14 +123,14 @@ public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeade
 	@Override
 	public View getHeaderView(int position, View convertView, ViewGroup parent)
 	{
-//		convertView = mInflater.inflate(R.layout.sticky_header_view, parent, false);
-//		TextView textView = ViewHolder.getView(convertView, R.id.tv_text);
-//		textView.setText("" + (1 + position));
-//		textView.setVisibility(View.GONE);
-//		ViewHolder.getView(convertView, R.id.frame_container).setVisibility(View.GONE);
+		// convertView = mInflater.inflate(R.layout.sticky_header_view, parent, false);
+		// TextView textView = ViewHolder.getView(convertView, R.id.tv_text);
+		// textView.setText("" + (1 + position));
+		// textView.setVisibility(View.GONE);
+		// ViewHolder.getView(convertView, R.id.frame_container).setVisibility(View.GONE);
 		convertView = new View(activity);
 		return convertView;
-		
+
 	}
 
 }

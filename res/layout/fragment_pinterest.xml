@@ -12,6 +12,8 @@
             android:id="@+id/sgv_gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fastScrollEnabled="true"
+            android:fastScrollAlwaysVisible="true"
             android:paddingBottom="58dp"
             app:column_count="2"
             app:item_margin="8dp" />
@@ -30,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="没有联系人"
+        android:text="没有数据"
         android:textSize="16sp"
         android:visibility="gone" />
 

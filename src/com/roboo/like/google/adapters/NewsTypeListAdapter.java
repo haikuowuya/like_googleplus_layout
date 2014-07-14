@@ -12,14 +12,15 @@ import android.widget.TextView;
 
 import com.roboo.like.google.R;
 import com.roboo.like.google.models.NewsTypeItem;
+import com.roboo.like.google.models.SubNewsTypeItem;
 
 public class NewsTypeListAdapter extends BaseAdapter implements StickyHeadersAdapter,SectionIndexer
 {
-	private LinkedList<NewsTypeItem> mData;
+	private LinkedList<SubNewsTypeItem> mData;
 	private Activity activity;
 	private LayoutInflater mInflater;
 
-	public NewsTypeListAdapter(LinkedList<NewsTypeItem> mData, Activity activity)
+	public NewsTypeListAdapter(LinkedList<SubNewsTypeItem> mData, Activity activity)
 	{
 		super();
 		this.mData = mData;

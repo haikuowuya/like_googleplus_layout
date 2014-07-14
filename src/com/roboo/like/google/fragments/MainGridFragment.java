@@ -36,6 +36,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 
+import com.roboo.like.google.BaseActivity;
 import com.roboo.like.google.BaseLayoutActivity;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.LocationActivity;
@@ -62,7 +63,7 @@ import com.roboo.like.google.views.helper.PullToRefreshHelper;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.DefaultHeaderTransformer;
 import com.roboo.like.google.views.helper.PullToRefreshHelper.OnRefreshListener;
 
-public class MainGridFragment extends BaseFragment implements LoaderCallbacks<LinkedList<NewsItem>>
+public class MainGridFragment extends BaseMainFragment implements LoaderCallbacks<LinkedList<NewsItem>>
 {
 	private static final String DECLARED_OPERA_FAST_SCROLLER_FIELD = "mFastScroller";// FastScroller
 	private static final String DECLARED_OVERLAY_SIZE = "mOverlaySize";// int
@@ -95,6 +96,8 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 	private Button mBtnMood;
 	/** 文字 */
 	private Button mBtnText;
+	/** 当第一次获取数据为空时显示的View */
+	private View mListEmptyView;
 	/** 新闻列表适配器 */
 	private NewsGridAdapter mAdapter;
 	/** ListView最后一列是否可见的标志 */
@@ -133,7 +136,9 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 		View view = inflater.inflate(R.layout.fragment_main_grid, null);// TODO
 		mBtnLoadNext = (ProcessButton) view.findViewById(R.id.pbtn_load_next);
 		mBtnLoadNext.setVisibility(View.GONE);
+		mListEmptyView = view.findViewById(android.R.id.empty);
 		mGridView = (StickyGridHeadersGridView) view.findViewById(R.id.sghgv_gridview);
+		mGridView.setFastScrollEnabled(getActivity().getSharedPreferences(getActivity().getPackageName(),Context.MODE_PRIVATE).getBoolean(BaseActivity.PREF_FAST_SCROLL, true));
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
 		return view;
@@ -177,7 +182,6 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 		};
 	}
 
-
 	@Override
 	public void onPause()
 	{
@@ -193,8 +197,6 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 		super.onResume();
 		setListener();
 	}
-
-	 
 
 	private void setListener()
 	{
@@ -272,6 +274,10 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 	private void loadFirstData()
 	{
 		mShouldShowCardToast = true;
+		if (mListEmptyView.getVisibility() == View.VISIBLE)
+		{
+			mListEmptyView.setVisibility(View.GONE);
+		}
 		if (!NetWorkUtils.isNetworkAvailable(getActivity()))
 		{
 			DefaultHeaderTransformer transformer = (DefaultHeaderTransformer) mPullToRefreshAttacher.getHeaderTransformer();
@@ -327,6 +333,7 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 				break;
 			}
 		}
+
 		private void doLoadNextData()
 		{
 			mShouldShowCardToast = true;
@@ -376,7 +383,7 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 		if (data != null)
 		{
 			int updateCount = 0;
-			getActivity().findViewById(android.R.id.empty).setVisibility(View.GONE);
+			mListEmptyView.setVisibility(View.GONE);
 			if (null == mData)
 			{
 				mData = data;
@@ -620,5 +627,10 @@ public class MainGridFragment extends BaseFragment implements LoaderCallbacks<Li
 			e.printStackTrace();
 		}
 		return data;
+	}
+	@Override
+	public void setFastScrollEnable(boolean enable)
+	{
+		mGridView.setFastScrollEnabled(enable);
 	}
 }

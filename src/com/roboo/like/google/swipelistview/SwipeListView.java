@@ -270,6 +270,10 @@ public class SwipeListView extends ListView
 	public void setAdapter(ListAdapter adapter)
 	{
 		super.setAdapter(adapter);
+		if(adapter == null)
+		{
+			return;
+		}
 		mTouchListener.resetItems();
 		adapter.registerDataSetObserver(new DataSetObserver()
 		{

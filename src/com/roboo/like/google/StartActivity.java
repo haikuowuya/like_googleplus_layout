@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
+import android.view.View;
+import android.widget.ImageButton;
 import cn.jpush.android.api.JPushInterface;
 
 import com.roboo.like.google.fragments.StartFragment;
@@ -40,7 +41,9 @@ public class StartActivity extends BaseLayoutActivity
 	}
 
 	public void initView()
-	{}
+	{
+
+	}
 
 	@Override
 	protected void onPause()
@@ -48,12 +51,14 @@ public class StartActivity extends BaseLayoutActivity
 		super.onPause();
 		JPushInterface.onPause(this);
 	}
-@Override
-protected void onResume()
-{
-	super.onResume();
-	JPushInterface.onResume(this);
-}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		JPushInterface.onResume(this);
+	}
+
 	private void customActionBar()
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(false);
@@ -74,5 +79,9 @@ protected void onResume()
 	{
 		mActionBar.show();
 		beginTransaction().replace(R.id.frame_container, StartFragment.newInstance()).commit();
+	}
+	public void add(View v)
+	{
+		AddActivity.actionAdd(this);
 	}
 }

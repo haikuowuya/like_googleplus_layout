@@ -42,7 +42,15 @@
         swipe:swipeBackView="@+id/swipe_listview_back"
         swipe:swipeCloseAllItemsWhenMoveList="true"
         swipe:swipeFrontView="@+id/swipe_listview_font"
-        
         swipe:swipeMode="both" />
+      <TextView
+        android:id="@android:id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="没有订阅数据"
+        android:visibility="gone" />
 
 </RelativeLayout>

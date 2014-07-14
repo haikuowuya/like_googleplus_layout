@@ -1,33 +1,38 @@
 package com.roboo.like.google;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import org.json.JSONArray;
-
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import cn.jpush.android.api.JPushInterface;
 
-import com.droidux.trial.da;
 import com.roboo.like.google.commons.CrashException;
+import com.roboo.like.google.dao.impl.ImgUrlDaoImpl;
+import com.roboo.like.google.dao.impl.NewsTypeItemDaoImpl;
 import com.roboo.like.google.databases.DBHelper;
-import com.roboo.like.google.utils.DBJSonUtils;
+import com.roboo.like.google.models.ImgUrl;
+import com.roboo.like.google.models.NewsTypeItem;
 
 public class BaseActivity extends FragmentActivity
 {
+	public static final String PREF_FAST_SCROLL="fast_scroll";
+	private static final String PREF_FIRST_INSERT_IMG_URL = "insert_img_url";
+	private static final String PREF_FIRST_INSERT_NEWS_TYPE = "insert_news_type";
+
+	protected SharedPreferences mPreferences;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		GoogleApplication application = (GoogleApplication) getApplication();
 		application.recordActivity(this);
-
 		Thread.setDefaultUncaughtExceptionHandler(CrashException.getInstance(this));
+		mPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
 		super.onCreate(savedInstanceState);
 	}
 
@@ -35,6 +40,51 @@ public class BaseActivity extends FragmentActivity
 	{
 		super.onResume();
 		JPushInterface.onResume(this);
+		if (!mPreferences.contains(PREF_FIRST_INSERT_IMG_URL) || !mPreferences.getBoolean(PREF_FIRST_INSERT_IMG_URL, false))
+		{
+			insertImgUrls();
+		}
+		if (!mPreferences.contains(PREF_FIRST_INSERT_NEWS_TYPE) || !mPreferences.getBoolean(PREF_FIRST_INSERT_NEWS_TYPE, false))
+		{
+			insertNewsType();
+		}
+	}
+	private void insertNewsType()
+	{
+		LinkedList<NewsTypeItem> typeItems = NewsTypeItem.getNewsTypeItems(this);
+		NewsTypeItemDaoImpl newsTypeItemDao = new NewsTypeItemDaoImpl(new DBHelper(this));
+		if(null != typeItems)
+		{
+			boolean returnFlag = newsTypeItemDao.insertNewsTypeItems(typeItems);
+			 mPreferences.edit().putBoolean(PREF_FIRST_INSERT_NEWS_TYPE, returnFlag).commit();
+			if (returnFlag)
+			{
+				System.out.println("插入 新闻类型 成功");
+			}
+			else
+			{
+				System.out.println("插入 新闻类型  失败");
+			}
+		}
+	}
+
+	private void insertImgUrls()
+	{
+		LinkedList<ImgUrl> imgUrls = ImgUrl.getImgUrls(this);
+		if (null != imgUrls)
+		{
+			ImgUrlDaoImpl imgUrlDao = new ImgUrlDaoImpl(new DBHelper(this));
+			boolean returnFlag = imgUrlDao.insertImgUrls(imgUrls);
+			 mPreferences.edit().putBoolean(PREF_FIRST_INSERT_IMG_URL, returnFlag).commit();
+			if (returnFlag)
+			{
+				System.out.println("插入图片Base URL 成功");
+			}
+			else
+			{
+				System.out.println("插入图片Base URL 失败");
+			}
+		}
 	}
 
 	protected void onPause()
@@ -45,7 +95,8 @@ public class BaseActivity extends FragmentActivity
 
 	public boolean isImg(String str)
 	{
-		List<String> imgList = Arrays.asList(getResources().getStringArray(R.array.img_arrays));
+		ImgUrlDaoImpl imgUrlDao = new ImgUrlDaoImpl(new DBHelper(this));
+		List<String> imgList = imgUrlDao.getImgUrls();
 		boolean flag = false;
 		for (String string : imgList)
 		{
