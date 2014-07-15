@@ -9,16 +9,24 @@ import android.animation.Keyframe;
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
+import android.util.AttributeSet;
+import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -43,28 +51,28 @@ public class CommentFragment extends BaseWithProgressFragment implements LoaderC
 	private FooterView mFooterView;
 	private Button mBtnLoadNext;
 	private ProgressBar mFooterProgressBar;
-	private int  mCurrentCommentPageNo = 1;
+	private int mCurrentCommentPageNo = 1;
+	private PopupWindow mPopupWindow;
 
 	public static CommentFragment newInstance(String newsId)
 	{
 		CommentFragment fragment = new CommentFragment();
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(ARG_NEWS_ID, newsId);
-		 
+
 		fragment.setArguments(bundle);
 		return fragment;
 	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.fragment_comment, null);//TODO
+		View view = inflater.inflate(R.layout.fragment_comment, null);// TODO
 		mListView = (DynamicListView) view.findViewById(R.id.dlv_list);
 		mFooterView = new FooterView(getActivity(), FooterView.TYPE_BUTTON);
 		mFooterProgressBar = mFooterView.getFooterProgressBar();
 		mBtnLoadNext = mFooterView.getButton();
 		return view;
 	}
-
 
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
@@ -77,13 +85,37 @@ public class CommentFragment extends BaseWithProgressFragment implements LoaderC
 
 	private void setListener()
 	{
-		mBtnLoadNext.setOnClickListener( new OnClickListenerImpl());
+		mBtnLoadNext.setOnClickListener(new OnClickListenerImpl());
+		mListView.setOnItemClickListener(new OnItemClickListener()
+		{
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			{
+				showPopupWindow(view);
+			}
+		});
+	}
+
+	private void showPopupWindow(View view)
+	{
+		if (mPopupWindow == null)
+		{
+			View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.popupwindow_comment, null);
+			int height = (int) (48 * getResources().getDisplayMetrics().density);
+			int width = getResources().getDisplayMetrics().widthPixels - 40;
+			mPopupWindow = new PopupWindow(contentView, width, height);
+		}
+		if(mPopupWindow.isShowing())
+		{
+			mPopupWindow.dismiss();
+		}
+		mPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 	}
 
 	public Loader<LinkedList<CommentItem>> onCreateLoader(int id, Bundle args)
 	{
 		String newsId = getArguments().getString(ARG_NEWS_ID);
-		return new CommentAsyncTaskLoader(getActivity(), newsId,mCurrentCommentPageNo);
+		return new CommentAsyncTaskLoader(getActivity(), newsId, mCurrentCommentPageNo);
 	}
 
 	@Override
@@ -103,7 +135,7 @@ public class CommentFragment extends BaseWithProgressFragment implements LoaderC
 				mAdapter = new CommentAdapter(getActivity(), mData);
 				mListView.addFooterView(mFooterView);
 				mListView.setAdapter(mAdapter);
-				
+
 			}
 			else
 			{
@@ -119,15 +151,15 @@ public class CommentFragment extends BaseWithProgressFragment implements LoaderC
 				}
 			}
 		}
-		else 
+		else
 		{
-			if(mCurrentCommentPageNo ==1)
+			if (mCurrentCommentPageNo == 1)
 			{
 				mListView.setEmptyView(getActivity().findViewById(android.R.id.empty));
 			}
-			else if(mCurrentCommentPageNo > 1)
+			else if (mCurrentCommentPageNo > 1)
 			{
-				mCurrentCommentPageNo --;
+				mCurrentCommentPageNo--;
 				mBtnLoadNext.setText("所有数据加载完毕");
 				mBtnLoadNext.setClickable(false);
 			}
@@ -149,7 +181,7 @@ public class CommentFragment extends BaseWithProgressFragment implements LoaderC
 		// 定制动画
 		setupCustomAnimations();
 		// 设置mLinearContainer布局改变时动画
-//		mLinearContainer.setLayoutTransition(mTransitioner);
+		// mLinearContainer.setLayoutTransition(mTransitioner);
 
 	}
 
@@ -215,6 +247,7 @@ public class CommentFragment extends BaseWithProgressFragment implements LoaderC
 			}
 		});
 	}
+
 	private class OnClickListenerImpl implements OnClickListener
 	{
 		public void onClick(View v)
@@ -222,11 +255,12 @@ public class CommentFragment extends BaseWithProgressFragment implements LoaderC
 			loadNextData();
 		}
 	}
+
 	private void loadNextData()
 	{
-		 mCurrentCommentPageNo++;
-		 mFooterProgressBar.setVisibility(View.VISIBLE);
-		 mBtnLoadNext.setText("正在获取数据……");
+		mCurrentCommentPageNo++;
+		mFooterProgressBar.setVisibility(View.VISIBLE);
+		mBtnLoadNext.setText("正在获取数据……");
 		getActivity().getSupportLoaderManager().restartLoader(0, getArguments(), this);
 	}
 }

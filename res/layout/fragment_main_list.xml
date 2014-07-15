@@ -9,6 +9,7 @@
         android:layout_height="match_parent" >
 
         <com.roboo.like.google.views.StickyListHeadersListView
+            
             android:id="@+id/slhlv_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

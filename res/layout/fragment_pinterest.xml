@@ -9,6 +9,7 @@
         android:layout_height="match_parent" >
 
         <com.roboo.like.google.staggeredgrid.StaggeredGridView
+             android:layoutAnimation="@anim/layout_grid_fade"
             android:id="@+id/sgv_gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
