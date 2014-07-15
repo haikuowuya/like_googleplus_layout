@@ -183,6 +183,7 @@ public class MainListFragment extends BaseMainFragment implements LoaderCallback
 		mBtnLoadNext = mFooterView.getButton();
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
 		mListView.setFastScrollEnabled(getActivity().getSharedPreferences(getActivity().getPackageName(),Context.MODE_PRIVATE).getBoolean(BaseActivity.PREF_FAST_SCROLL, true));
+		mListView.setFastScrollAlwaysVisible(getActivity().getSharedPreferences(getActivity().getPackageName(),Context.MODE_PRIVATE).getBoolean(BaseActivity.PREF_FAST_SCROLL, true));
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
 		return view;
@@ -793,5 +794,6 @@ public class MainListFragment extends BaseMainFragment implements LoaderCallback
 	public void setFastScrollEnable(boolean enable)
 	{
 		mListView.setFastScrollEnabled(enable);
+		mListView.setFastScrollAlwaysVisible(enable);
 	}
 }

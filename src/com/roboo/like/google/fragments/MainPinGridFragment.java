@@ -135,6 +135,7 @@ public class MainPinGridFragment extends BaseMainFragment implements LoaderCallb
 		mBtnLoadNext.setVisibility(View.GONE);
 		mGridView = (StaggeredGridView) view.findViewById(R.id.sgv_gridview);
 		mGridView.setFastScrollEnabled(getActivity().getSharedPreferences(getActivity().getPackageName(),Context.MODE_PRIVATE).getBoolean(BaseActivity.PREF_FAST_SCROLL, true));
+		mGridView.setFastScrollAlwaysVisible(getActivity().getSharedPreferences(getActivity().getPackageName(),Context.MODE_PRIVATE).getBoolean(BaseActivity.PREF_FAST_SCROLL, true));
 		mListEmptyView = view.findViewById(android.R.id.empty);
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
@@ -618,5 +619,7 @@ public class MainPinGridFragment extends BaseMainFragment implements LoaderCallb
 	public void setFastScrollEnable(boolean enable)
 	{
 		mGridView.setFastScrollEnabled(enable);
+		mGridView.setFastScrollAlwaysVisible(enable);
+		
 	}
 }

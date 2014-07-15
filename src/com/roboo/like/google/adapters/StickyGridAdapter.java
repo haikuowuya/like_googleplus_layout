@@ -18,13 +18,19 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.roboo.like.google.PictureDetailActivity;
 import com.roboo.like.google.R;
+import com.roboo.like.google.listener.ImageLoadingListenerImpl;
 import com.roboo.like.google.models.PictureItem;
+import com.roboo.like.google.staggeredgrid.StaggeredGridView;
 import com.roboo.like.google.utils.BitmapUtils;
 
 public class StickyGridAdapter extends BaseAdapter implements StickyHeadersAdapter
 {
+	private static final boolean DEBUG=true;
 	private List<PictureItem> hasHeaderIdList;
 
 	private LayoutInflater mInflater;
@@ -35,6 +41,7 @@ public class StickyGridAdapter extends BaseAdapter implements StickyHeadersAdapt
 	private Set<BitmapWorkerTask> taskCollection = new HashSet<BitmapWorkerTask>();
 	private int mFirstVisibleItem;
 	private int mVisibleItemCount;
+	private ImageLoader mImageLoader;
 	// 获取应用程序的最大内存
 	final int maxMemory = (int) (Runtime.getRuntime().maxMemory());
 	private LruCache<String, Bitmap> mLruCache = new LruCache<String, Bitmap>(maxMemory / 8)
@@ -51,6 +58,12 @@ public class StickyGridAdapter extends BaseAdapter implements StickyHeadersAdapt
 		this.mActivity = activity;
 		mInflater = LayoutInflater.from(mActivity);
 		this.hasHeaderIdList = hasHeaderIdList;
+		mImageLoader = ImageLoader.getInstance();
+		ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(mActivity);
+		 if(!mImageLoader.isInited())
+		 {
+			 mImageLoader.init(configuration );
+		 }
 	}
 
 	public int getCount()
@@ -72,16 +85,22 @@ public class StickyGridAdapter extends BaseAdapter implements StickyHeadersAdapt
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		convertView = mInflater.inflate(R.layout.picture_grid_item, parent, false);
-		ImageView imageView = (ImageView) convertView.findViewById(R.id.iv_image);
+		if(parent instanceof StaggeredGridView)
+		{
+			convertView = mInflater.inflate(R.layout.picture_pin_item, parent, false);
+		}
+		final ImageView imageView = (ImageView) convertView.findViewById(R.id.iv_image);
 		String path = hasHeaderIdList.get(position).getPath();
-		if (mLruCache.get(path) == null)
-		{
-			new BitmapWorkerTask(imageView).execute(path);
-		}
-		else
-		{
-			imageView.setImageBitmap(mLruCache.get(path));
-		}
+//		if (mLruCache.get(path) == null)
+//		{
+//			new BitmapWorkerTask(imageView).execute(path);
+//		}
+//		else
+//		{
+//			imageView.setImageBitmap(mLruCache.get(path));
+//		}
+ 
+		mImageLoader.displayImage("file://"+path, imageView, new ImageLoadingListenerImpl());
 		imageView.setOnClickListener(new OnClickListenerImpl(path));
 		return convertView;
 	}

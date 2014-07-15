@@ -10,36 +10,32 @@ import java.util.Map;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
-import android.widget.ProgressBar;
 
 import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.StickyGridAdapter;
 import com.roboo.like.google.async.PictureAsyncTaskLoader;
 import com.roboo.like.google.models.PictureItem;
+import com.roboo.like.google.staggeredgrid.StaggeredGridView;
 import com.roboo.like.google.views.StickyGridHeadersGridView;
 
-public class PictureFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<PictureItem>>
+public class PicturePinFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<PictureItem>>
 {
-	private StickyGridHeadersGridView mSGHGridView;
+	private StaggeredGridView mGridView;
 
-	public static PictureFragment newInstance()
+	public static PicturePinFragment newInstance()
 	{
-		PictureFragment fragment = new PictureFragment();
+		PicturePinFragment fragment = new PicturePinFragment();
 		return fragment;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.fragment_picture, null);
-		mSGHGridView = (StickyGridHeadersGridView) view.findViewById(R.id.sgh_gridview);
+		View view = inflater.inflate(R.layout.fragment_picture_pin, null);
+		mGridView = (StaggeredGridView) view.findViewById(R.id.sgv_gridview);
 		return view;
 	}
 	@Override
@@ -61,7 +57,7 @@ public class PictureFragment extends BaseWithProgressFragment implements LoaderC
 		{
 			LinkedList<PictureItem> dataWrapper = generateHeaderId(data);
 			Collections.sort(dataWrapper, new YMDComparator());	// 排序
-			mSGHGridView.setAdapter(new StickyGridAdapter(getActivity(), dataWrapper));
+			mGridView.setAdapter(new StickyGridAdapter(getActivity(), dataWrapper));
 		}
 		mProgressBar.setVisibility(View.GONE);
 	}

@@ -10,8 +10,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.media.MediaScannerConnection;
-import android.media.MediaScannerConnection.OnScanCompletedListener;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;

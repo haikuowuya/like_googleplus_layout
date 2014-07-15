@@ -139,6 +139,7 @@ public class MainGridFragment extends BaseMainFragment implements LoaderCallback
 		mListEmptyView = view.findViewById(android.R.id.empty);
 		mGridView = (StickyGridHeadersGridView) view.findViewById(R.id.sghgv_gridview);
 		mGridView.setFastScrollEnabled(getActivity().getSharedPreferences(getActivity().getPackageName(),Context.MODE_PRIVATE).getBoolean(BaseActivity.PREF_FAST_SCROLL, true));
+		mGridView.setFastScrollEnabled(getActivity().getSharedPreferences(getActivity().getPackageName(),Context.MODE_PRIVATE).getBoolean(BaseActivity.PREF_FAST_SCROLL, true));
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
 		return view;
@@ -632,5 +633,6 @@ public class MainGridFragment extends BaseMainFragment implements LoaderCallback
 	public void setFastScrollEnable(boolean enable)
 	{
 		mGridView.setFastScrollEnabled(enable);
+		mGridView.setFastScrollAlwaysVisible(enable);
 	}
 }

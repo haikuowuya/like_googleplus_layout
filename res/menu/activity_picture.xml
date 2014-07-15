@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_grid_pinterest"
+        android:icon="@drawable/ic_menu_grid"
+        android:showAsAction="always"
+        android:title="网格"/>
+</menu>

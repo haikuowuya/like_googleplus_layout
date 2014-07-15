@@ -25,10 +25,12 @@
                 android:id="@+id/menu_list"
                 android:checkable="true"
                 android:checked="true"
+                android:icon="@drawable/ic_abs_picture_up"
                 android:showAsAction="always"
                 android:title="列表"/>
             <item
                 android:id="@+id/menu_grid"
+                android:icon="@drawable/ic_abs_picture_up"
                 android:checkable="true"
                 android:checked="false"
                 android:showAsAction="always"
@@ -36,21 +38,25 @@
             <item
                 android:id="@+id/menu_pinterest"
                 android:checkable="true"
+                android:icon="@drawable/ic_abs_picture_up"
                 android:checked="false"
                 android:showAsAction="always"
                 android:title="瀑布流"/>
             <item
                 android:id="@+id/menu_fast_scroll"
                 android:checkable="true"
+                android:icon="@drawable/ic_abs_picture_up"
                 android:showAsAction="always"
                 android:title="快速滑动"/>
             <item
                 android:id="@+id/menu_gallery_flow"
+                android:icon="@drawable/ic_abs_picture_up"
                 android:showAsAction="always"
                 android:title="GalleryFlow"/>
                 android:title="快速滑动"/>
             <item
                 android:id="@+id/menu_help"
+                android:icon="@drawable/ic_abs_picture_up"
                 android:showAsAction="always"
                 android:title="帮助"/>
         </menu>

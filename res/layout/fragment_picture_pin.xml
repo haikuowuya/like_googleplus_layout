@@ -1,0 +1,16 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+     xmlns:app="http://schemas.android.com/apk/res/com.roboo.like.google"
+   
+    android:layout_height="match_parent" >
+
+    <com.roboo.like.google.staggeredgrid.StaggeredGridView
+        android:id="@+id/sgv_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fastScrollAlwaysVisible="true"
+        android:fastScrollEnabled="true"
+        app:column_count="2"
+        app:item_margin="8dp" />
+
+</RelativeLayout>

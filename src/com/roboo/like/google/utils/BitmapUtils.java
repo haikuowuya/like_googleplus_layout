@@ -1,6 +1,7 @@
 package com.roboo.like.google.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 
 import android.graphics.Bitmap;
@@ -39,7 +40,6 @@ public class BitmapUtils
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			// 设置为true,表示解析Bitmap对象，该对象不占内存
 			options.inJustDecodeBounds = true;
-
 			BitmapFactory.decodeFile(path, options);//
 			// 设置缩放比例
 			options.inSampleSize = computeScale(options, DEFAULT_WIDTH, DEFAULT_HEIGHT);
