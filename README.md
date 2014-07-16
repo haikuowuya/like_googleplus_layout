@@ -9,7 +9,6 @@ like_googleplus_layout
 
 ![Screenshot 02](https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/02.png)
 
-
 ![Screenshot 03](https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/03.png)
 
 ![Screenshot 04](https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/04.png)
@@ -17,3 +16,5 @@ like_googleplus_layout
 ![Screenshot 05](https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/05.png)
 
 ![Screenshot 06](https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/06.png)
+
+![Screenshot 07](https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/07.png)
