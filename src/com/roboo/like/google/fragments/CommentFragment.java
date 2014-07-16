@@ -25,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
@@ -91,25 +92,28 @@ public class CommentFragment extends BaseWithProgressFragment implements LoaderC
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
-				showPopupWindow(view);
+				if (parent.getAdapter().getItemViewType(position) != AdapterView.ITEM_VIEW_TYPE_HEADER_OR_FOOTER)
+				{
+					showPopupWindow(view);
+				}
 			}
 		});
 	}
 
 	private void showPopupWindow(View view)
 	{
+		int height = (int) (48 * getResources().getDisplayMetrics().density);
+		int width = (int) (getResources().getDisplayMetrics().widthPixels - 20 * getResources().getDisplayMetrics().density);
 		if (mPopupWindow == null)
 		{
 			View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.popupwindow_comment, null);
-			int height = (int) (48 * getResources().getDisplayMetrics().density);
-			int width = getResources().getDisplayMetrics().widthPixels - 40;
 			mPopupWindow = new PopupWindow(contentView, width, height);
 		}
-		if(mPopupWindow.isShowing())
+		if (mPopupWindow.isShowing())
 		{
 			mPopupWindow.dismiss();
 		}
-		mPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+		mPopupWindow.showAsDropDown(view);
 	}
 
 	public Loader<LinkedList<CommentItem>> onCreateLoader(int id, Bundle args)
