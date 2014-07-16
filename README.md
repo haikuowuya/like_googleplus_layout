@@ -5,7 +5,7 @@ like_googleplus_layout
 
 
 ##Screenshots
-![Screenshot 0](https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/0.png https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/1.png ,https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/1.png , https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/1.png)
+![Screenshot 0](https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/0.png , https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/1.png , https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/1.png)
 ![Screenshot 2](https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/2.png)
 (https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/3.png)
 
