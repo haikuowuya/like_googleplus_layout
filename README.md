@@ -5,7 +5,7 @@ like_googleplus_layout
 
 
 ##Screenshots
-![Screenshot 0](https://github.com/haikuowuya/like_googleplus_layout/blob/master/Screenshots/0.png)
+![Screenshot 0](https://raw.githubusercontent.com/haikuowuya/like_googleplus_layout/master/Screenshots/0.png)
 
 ![Screenshot 1](https://github.com/haikuowuya/like_googleplus_layout/blob/master/Screenshots/1.png)
 
