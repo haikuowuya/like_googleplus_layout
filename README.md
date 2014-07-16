@@ -1,7 +1,8 @@
 like_googleplus_layout
 ======================
 
-仿Google+的布局
+本来是闲来无事的时候仿Google+的布局Demo,后来加着加着就变成这个鸟样子了，数据都是用jsoup 从网上解析的，主要里面用了一些开源的组件。
+需要依赖Library库程序 ：在程序的library文件夹下。
 
 
 ##Screenshots
