@@ -8,6 +8,7 @@ import com.droidux.trial.da;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.news.list.utils.CSDNNewsUtils;
+import com.roboo.like.google.news.list.utils.CYDBNewsUtils;
 import com.roboo.like.google.news.list.utils.EOENewsUtils;
 import com.roboo.like.google.news.list.utils.GeekParkNewsUtils;
 import com.roboo.like.google.news.list.utils.HuXiuNewsUtils;
@@ -50,6 +51,10 @@ public class NewsListUtils
 		case GoogleApplication.TYPE_HUXIU:
 			data = HuXiuNewsUtils.getHuXiuNewsList(baseUrl, pageNo);
 			break;
+		case GoogleApplication.TYPE_CHUANYI_DABAN:
+			data = CYDBNewsUtils.getCydbNewsList(baseUrl, pageNo);
+			break;
+			
 		default:
 			data = ITHomeNewsUtils.getITHomeNewsList(baseUrl, pageNo);
 			break;

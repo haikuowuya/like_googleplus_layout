@@ -20,11 +20,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.roboo.like.google.models.CommentItem;
 import com.roboo.like.google.models.NewsItem;
-import com.roboo.like.google.models.NewsTypeItem;
 import com.roboo.like.google.models.SubNewsTypeItem;
 import com.roboo.like.google.news.utils.NewsContentUtils;
 import com.roboo.like.google.news.utils.NewsListUtils;
-import com.roboo.like.google.news.utils.NewsTypeDataUtils;
 import com.roboo.like.google.utils.CommentUtils;
 import com.roboo.like.google.utils.FileUtils;
 import com.roboo.like.google.utils.MD5Utils;
@@ -57,7 +55,7 @@ public class WIFIDownloadService extends Service
 	public void onCreate()
 	{
 		super.onCreate();
-		mData = NewsTypeDataUtils.handleNewsType(this);
+		mData = SubNewsTypeItem.handleNewsType(this);
 		mCyclicBarrier = new CyclicBarrier(mData.size(), mDownloadFinishRunnable);
 		mStartTime = System.currentTimeMillis();
 		for (int i = 0; i < mData.size(); i++)

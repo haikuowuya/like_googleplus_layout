@@ -26,7 +26,6 @@ import com.roboo.like.google.fragments.MainListFragment;
 import com.roboo.like.google.fragments.MainPinGridFragment;
 import com.roboo.like.google.fragments.RightFragment;
 import com.roboo.like.google.models.SubNewsTypeItem;
-import com.roboo.like.google.news.utils.NewsTypeDataUtils;
 
 public class MainActivity extends BaseActivity
 {
@@ -85,7 +84,7 @@ public class MainActivity extends BaseActivity
 
 	private void initData()
 	{
-		mData = NewsTypeDataUtils.handleNewsType(this);
+		mData = SubNewsTypeItem.handleNewsType(this);
 		mAdapter = new NewsTypeListAdapter(mData, this);
 		mCurrentURL = mData.get(0).url;
 		mMainFragment = MainListFragment.newInstance(mCurrentURL);

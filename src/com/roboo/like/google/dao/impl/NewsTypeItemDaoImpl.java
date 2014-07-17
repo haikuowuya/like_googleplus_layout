@@ -108,7 +108,7 @@ public class NewsTypeItemDaoImpl
 	{
 		LinkedList<NewsTypeItem> data = null;
 		SQLiteDatabase db = mHelper.getWritableDatabase();
-		Cursor cursor = db.query(true, TABLE_NEWS_TYPE_LIST, new String[] { NEWS_TYPE_MD5, NEWS_TYPE_ID, NEWS_TYPE_NAME, NEWS_TYPE_IMG, NEWS_TYPE_FLAG }, null, null, null, null, null, null);
+		Cursor cursor = db.query(true, TABLE_NEWS_TYPE_LIST, new String[] { NEWS_TYPE_MD5, NEWS_TYPE_ID, NEWS_TYPE_NAME, NEWS_TYPE_IMG, NEWS_TYPE_FLAG }, null, null, null, null, NEWS_TYPE_ID +" ASC", null);
 		if (null != cursor)
 		{
 			data = new LinkedList<NewsTypeItem>();

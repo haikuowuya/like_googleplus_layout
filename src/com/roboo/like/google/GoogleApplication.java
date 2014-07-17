@@ -36,6 +36,7 @@ public class GoogleApplication extends Application
 	public static final int TYPE_199IT = 5;
 	public static final int TYPE_36KR = 6;
 	public static final int TYPE_HUXIU = 7;
+	public static final int TYPE_CHUANYI_DABAN = 8;
 	public static int mCurrentType = TYPE_CSDN;
 	private LinkedList<Activity> mActivities = new LinkedList<Activity>();
 	public static final String BASE_DIDI_URL = "http://pay.xiaojukeji.com/api/v2/webapp?city=";

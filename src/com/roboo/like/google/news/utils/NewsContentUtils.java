@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.news.content.utils.BaseNewsContentUtils;
 import com.roboo.like.google.news.content.utils.CSDNNewsContentUtils;
+import com.roboo.like.google.news.content.utils.CYDBNewsContentUtils;
 import com.roboo.like.google.news.content.utils.EOENewsContentUtils;
 import com.roboo.like.google.news.content.utils.GeekParkNewsContentUtils;
 import com.roboo.like.google.news.content.utils.HuXiuNewsContentUtils;
@@ -46,6 +47,10 @@ public class NewsContentUtils
 		case GoogleApplication.TYPE_HUXIU:
 			baseNewsContentUtils = new HuXiuNewsContentUtils();
 			break;
+		case GoogleApplication.TYPE_CHUANYI_DABAN:
+			baseNewsContentUtils = new CYDBNewsContentUtils();
+			break;
+			
 		default:
 			break;
 		}
