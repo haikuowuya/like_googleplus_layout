@@ -43,9 +43,6 @@ public final class R {
         <item>其他#http://www.eoeandroid.com/home.php?catid=11</item>
 
 
-
-
-
         
          */
         public static final int actionbar_navigation_eoe_arrays=0x7f070009;
@@ -845,9 +842,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int menu_food=0x7f090069;
         public static final int menu_gallery_flow=0x7f090074;
         public static final int menu_grid=0x7f090071;
-        public static final int menu_grid_pinterest=0x7f090076;
+        public static final int menu_grid_pinterest=0x7f090077;
         public static final int menu_group=0x7f09006d;
-        public static final int menu_help=0x7f090075;
+        public static final int menu_help=0x7f090076;
         public static final int menu_hotel=0x7f09006b;
         public static final int menu_list=0x7f090070;
         public static final int menu_location=0x7f090068;
@@ -855,6 +852,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int menu_notification=0x7f09006f;
         public static final int menu_pinterest=0x7f090072;
         public static final int menu_search=0x7f090067;
+        public static final int menu_settings=0x7f090075;
         public static final int mv_mapview=0x7f090028;
         public static final int none=0x7f09000a;
         public static final int npb_progress=0x7f090055;
