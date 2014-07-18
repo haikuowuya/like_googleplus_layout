@@ -13,8 +13,7 @@
         <item>ic_didi#嘀嘀打车</item>
     </string-array>
     <string-array name="actionbar_navigation_ithome_arrays">
-
-        <!--
+ 
              <item>IT之家#http://it.ithome.com/category/1_</item>
         <item>IE之家#http://it.ithome.com/category/7_</item>
         <item>IT之外#http://it.ithome.com/category/17_</item>
@@ -27,18 +26,16 @@
         <item>WIN7之家#http://it.ithome.com/category/3_</item>
         <item>VISTA之家#http://it.ithome.com/category/4_</item>
         <item>IPHONE之家#http://it.ithome.com/category/5_</item>
-        <item>OFFICE之家#http://it.ithome.com/category/8_</item>
-        -->
+        <item>OFFICE之家#http://it.ithome.com/category/8_</item> 
         <item>ANDROID之家#http://it.ithome.com/category/10_</item>
     </string-array>
     <string-array name="actionbar_navigation_csdn_arrays">
         <item>移动开发#http://mobile.csdn.net/mobile/</item>
-        <!--
+        
         <item>业界新闻#http://news.csdn.net/news/</item>
         <item>云计算#http://cloud.csdn.net/cloud/</item>
         <item>软件研发#http://sd.csdn.net/sd/</item>
-        <item>程序员杂志#http://programmer.csdn.net/programmer/</item>
-        -->
+        <item>程序员杂志#http://programmer.csdn.net/programmer/</item> 
     </string-array>
     <string-array name="actionbar_navigation_phonekr_arrays">
         <item>科技锋芒#http://www.phonekr.com/page/</item>
@@ -50,7 +47,7 @@
     </string-array>
     <string-array name="actionbar_navigation_geekpark_arrays">
 
-        <!--
+        
         <item>谷歌#http://www.geekpark.net/ajax/load_seeds/?tag_id=150188</item>
         <item>微信#http://www.geekpark.net/ajax/load_seeds/?tag_id=160388</item>
         <item>行业趋势#http://www.geekpark.net/ajax/load_seeds/?tag_id=155553</item>
@@ -58,21 +55,19 @@
         <item>产品观察#http://www.geekpark.net/ajax/load_seeds/?tag_id=155597</item>
         <item>移动互联网#http://www.geekpark.net/ajax/load_seeds/?tag_id=150016</item>
         <item>极客早知道#http://www.geekpark.net/ajax/load_seeds/?tag_id=160388</item>
-        <item>Facebook#http://www.geekpark.net/ajax/load_seeds/?tag_id=150048</item>
-        -->
+        <item>Facebook#http://www.geekpark.net/ajax/load_seeds/?tag_id=150048</item> 
         <item>ANDROID#http://www.geekpark.net/ajax/load_seeds/?tag_id=150027</item>
     </string-array>
     <string-array name="actionbar_navigation_eoe_arrays">
 
-        <!--
+        
              <item>EOE首页#http://www.eoe.cn/index/index/pageNum/</item>
         <item>全部咨询#http://news.eoe.cn/cat-0-</item>
         <item>行业动态#http://news.eoe.cn/cat-10-</item>
         <item>创新项目#http://news.eoe.cn/cat-11-</item>
         <item>人物访谈#http://news.eoe.cn/cat-12-</item>
         <item>EOE视点#http://news.eoe.cn/cat-13-</item>
-        <item>IOS#http://news.eoe.cn/news/tag/ios/pageNum/</item>
-        -->
+        <item>IOS#http://news.eoe.cn/news/tag/ios/pageNum/</item> 
         <item>ANDROID#http://news.eoe.cn/news/tag/Android/pageNum/</item>
         <item>移动互联网#http://news.eoe.cn/news/tag/移动互联网/pageNum/</item>
         <!--
@@ -91,13 +86,13 @@
     </string-array>
     <string-array name="actionbar_navigation_it199_arrays">
 
-        <!--
+       
         <item>IOS#http://www.199it.com/archives/tag/ios/page/</item>
         <item>IDC#http://www.199it.com/archives/tag/idc/page/</item>
         <item>CNNIC#http://www.199it.com/archives/tag/cnnic/page/</item>
-        -->
+        
         <item>ANDROID#http://www.199it.com/archives/tag/android/page/</item>
-        <!--
+        
         <item>电子商务#http://www.199it.com/archives/category/electronic-commerce/page/</item>
         <item>社交网络#http://www.199it.com/archives/category/social-network/page/</item>
         <item>网络营销#http://www.199it.com/archives/category/advertising/page/</item>
@@ -108,8 +103,7 @@
         <item>用户研究#http://www.199it.com/archives/category/internet-users/page/</item>
         <item>研究报告#http://www.199it.com/archives/category/report/page/</item>
         <item>投资&amp;经济#http://www.199it.com/archives/category/economic-data/page/</item>
-        <item>数据信息图#http://www.199it.com/archives/category/info-graphics/page/</item>
-        -->
+        <item>数据信息图#http://www.199it.com/archives/category/info-graphics/page/</item> 
         <item>移动互联网#http://www.199it.com/archives/category/mobile-internet/page/</item>
     </string-array>
     <string-array name="actionbar_navigation_36kr_arrays">
