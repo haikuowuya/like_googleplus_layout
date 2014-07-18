@@ -62,13 +62,12 @@ public class CYDBNewsContentUtils extends BaseNewsContentUtils
 						}
 						// System.out.println("text =" + majorElement.text());
 					}
-					if (!TextUtils.isEmpty(content) && i < majorElements.size() - 2)// 最后两项不要了
+					if (!TextUtils.isEmpty(content))
 					{
-						if (content.contains("。"))
+						if (!content.contains("readmore.gif"))
 						{
-							content.replace("。", "");
+							data.add(content);
 						}
-						data.add(content);
 
 					}
 				}

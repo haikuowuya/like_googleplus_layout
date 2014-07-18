@@ -39,11 +39,14 @@ public class CYDBNewsUtils
 			{
 				element = elements.get(i);
 				Elements tmpElements = element.getElementsByClass("textbox-title");
+
 				if (!tmpElements.isEmpty())
 				{
+					tmpElements = tmpElements.get(0).getElementsByTag("h2");
 					if (!tmpElements.isEmpty())
 					{
-						tmpElements = tmpElements.get(0).getElementsByTag("h2");
+						tmpElements = tmpElements.get(0).getElementsByTag("a");
+						System.out.println("a = " + tmpElements);
 						if (!tmpElements.isEmpty())
 						{
 							newsUrl = CYDB_URL + tmpElements.get(0).attr("href");
@@ -51,16 +54,28 @@ public class CYDBNewsUtils
 						}
 					}
 				}
+				tmpElements = element.getElementsByClass("textbox-label");
+				if (!tmpElements.isEmpty())
+				{
+					time = tmpElements.get(0).text().trim();
+					time = getTime(time);
+				}
 				tmpElements = element.getElementsByClass("textbox-content");
 				if (!tmpElements.isEmpty())
 				{
-					 
 					tmpElements = tmpElements.get(0).getElementsByTag("p");
 					if (!tmpElements.isEmpty())
 					{
-						subTitle = tmpElements.get(0).text().trim();
+						subTitle = tmpElements.get(0).text();
+						if (!TextUtils.isEmpty(subTitle))
+						{
+							subTitle = subTitle.trim();
+						}
+						if (tmpElements.size() > 0)
+						{
+							tmpElements = tmpElements.get(1).getElementsByTag("img");
+						}
 					}
-					tmpElements = tmpElements.get(0).getElementsByTag("img");
 					if (!tmpElements.isEmpty())
 					{
 						src = tmpElements.get(0).attr("src");
@@ -90,26 +105,28 @@ public class CYDBNewsUtils
 	private static String getTime(String time)
 	{
 		String newTime = "今天";
-		if (time.contains(" "))
+		if (!TextUtils.isEmpty(time))
 		{
-			String[] tmp = time.split(" ");
-			if (tmp.length == 2)
+			time = time.trim();
+			if (time.contains(" "))
 			{
-				String ymd = tmp[0];
-				if (ymd.contains("-"))
+				String[] tmp = time.split(" ");
+				if (tmp.length > 1)
 				{
-					tmp = ymd.split("-");
-					if (tmp.length == 3)
+					time = tmp[1];
+					if (time.contains("/"))
 					{
-						String year = tmp[0].trim();
-						String month = tmp[1].trim();
-						String day = tmp[2].trim();
-						newTime = month + "月" + day + "日";
+						tmp = time.split("/");
+						if (tmp.length > 2)
+						{
+							String month = tmp[1];
+							String day = tmp[2];
+							newTime = month + "月" + day + "日";
+						}
 					}
 				}
 			}
 		}
-
 		return newTime.trim();
 	}
 }
