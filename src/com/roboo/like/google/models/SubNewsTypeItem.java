@@ -4,6 +4,8 @@ import java.util.LinkedList;
 
 import android.content.Context;
 
+import com.droidux.trial.da;
+import com.roboo.like.google.BaseActivity;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.R;
 
@@ -40,10 +42,11 @@ public class SubNewsTypeItem
 			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_huxiu_arrays);
 			break;
 		case GoogleApplication.TYPE_CHUANYI_DABAN:
-			arrays =  context.getResources().getStringArray(R.array.actionbar_navigation_cydb_arrays);
+			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_cydb_arrays);
 			break;
 		}
 		LinkedList<SubNewsTypeItem> data = new LinkedList<SubNewsTypeItem>();
+		SubNewsTypeItem defaultItem = new SubNewsTypeItem();
 		for (String str : arrays)
 		{
 			String[] tmp = str.split("#");
@@ -52,9 +55,31 @@ public class SubNewsTypeItem
 				SubNewsTypeItem item = new SubNewsTypeItem();
 				item.name = tmp[0];
 				item.url = tmp[1];
-				data.add(item);
+				defaultItem.name = tmp[0];
+				defaultItem.url = tmp[1];
+				boolean onlyAndroid = isOnlyAndroid();
+				if (onlyAndroid)
+				{
+					if (item.name.trim().contains("android") || item.name.trim().contains("移动互联网"))
+					{
+						data.add(item);
+					}
+				}
+				else
+				{
+					data.add(item);
+				}
 			}
 		}
+		if (data.size() == 0)
+		{
+			data.add(defaultItem);
+		}
 		return data;
+	}
+
+	private static boolean isOnlyAndroid()
+	{
+		return  GoogleApplication.mIsOnlyAndroid;
 	}
 }

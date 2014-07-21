@@ -32,6 +32,7 @@ public class MainActivity extends BaseActivity
 	private static final int STYLE_LIST = 1;
 	private static final int STYLE_GRID = 2;
 	private static final int STYLE_PINTEREST = 3;
+	
 	/** 默认是IT之家 */
 	public static final String IT_HOME = "http://it.ithome.com/category/1_";
 	private static final String WIFI = "WIFI";
@@ -44,6 +45,7 @@ public class MainActivity extends BaseActivity
 	private String mCurrentURL = IT_HOME;
 	private Menu mMenu;
 	private LinkedList<SubNewsTypeItem> mData;
+	private boolean mIsOnlyAndroid ;
 	/** 当mMainFragment为MainListFragment时 ，是否快速滑动开启 */
 	private boolean mFastScrollEnable;
 
@@ -80,6 +82,7 @@ public class MainActivity extends BaseActivity
 	private void init()
 	{
 		mFastScrollEnable = mPreferences.getBoolean(PREF_FAST_SCROLL, true);
+		mIsOnlyAndroid = GoogleApplication.mIsOnlyAndroid;
 	}
 
 	private void initData()
@@ -95,7 +98,17 @@ public class MainActivity extends BaseActivity
 		super.onPostCreate(savedInstanceState);
 		mDrawerToggle.syncState();
 	}
-
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		if(mIsOnlyAndroid != GoogleApplication.mIsOnlyAndroid)
+		{
+			initData();
+			updateFragment();
+			mAdapter.notifyDataSetChanged();
+		}
+	}
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.activity_main, menu);
@@ -128,7 +141,6 @@ public class MainActivity extends BaseActivity
 				mDrawerLayout.openDrawer(Gravity.LEFT);
 			}
 			return true;
-
 		case R.id.menu_notification:
 			if (mDrawerLayout.isDrawerOpen(Gravity.LEFT))
 			{
@@ -186,6 +198,9 @@ public class MainActivity extends BaseActivity
 				mPreferences.edit().putBoolean(PREF_FAST_SCROLL, mFastScrollEnable).commit();
 				mMainFragment.setFastScrollEnable(mFastScrollEnable);
 			}
+			return true;
+		case R.id.menu_settings://设置
+			SettingsActivity.actionSettings(this);
 			return true;
 		case R.id.menu_help:// 帮助
 			return true;

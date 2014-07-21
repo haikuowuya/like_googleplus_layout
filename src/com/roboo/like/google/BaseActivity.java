@@ -20,12 +20,11 @@ import com.roboo.like.google.models.NewsTypeItem;
 
 public class BaseActivity extends FragmentActivity
 {
-	public static final String PREF_FAST_SCROLL="fast_scroll";
+	public static final String PREF_FAST_SCROLL = "fast_scroll";
+	public static final String PREF_ONLY_ANDROID="only_android";
 	private static final String PREF_FIRST_INSERT_IMG_URL = "insert_img_url";
 	private static final String PREF_FIRST_INSERT_NEWS_TYPE = "insert_news_type";
-
 	protected SharedPreferences mPreferences;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -48,15 +47,17 @@ public class BaseActivity extends FragmentActivity
 		{
 			insertNewsType();
 		}
+		GoogleApplication.mIsOnlyAndroid = mPreferences.getBoolean(PREF_ONLY_ANDROID, false);
 	}
+
 	private void insertNewsType()
 	{
 		LinkedList<NewsTypeItem> typeItems = NewsTypeItem.getNewsTypeItems(this);
 		NewsTypeItemDaoImpl newsTypeItemDao = new NewsTypeItemDaoImpl(new DBHelper(this));
-		if(null != typeItems)
+		if (null != typeItems)
 		{
 			boolean returnFlag = newsTypeItemDao.insertNewsTypeItems(typeItems);
-			 mPreferences.edit().putBoolean(PREF_FIRST_INSERT_NEWS_TYPE, returnFlag).commit();
+			mPreferences.edit().putBoolean(PREF_FIRST_INSERT_NEWS_TYPE, returnFlag).commit();
 			if (returnFlag)
 			{
 				System.out.println("插入 新闻类型 成功");
@@ -75,7 +76,7 @@ public class BaseActivity extends FragmentActivity
 		{
 			ImgUrlDaoImpl imgUrlDao = new ImgUrlDaoImpl(new DBHelper(this));
 			boolean returnFlag = imgUrlDao.insertImgUrls(imgUrls);
-			 mPreferences.edit().putBoolean(PREF_FIRST_INSERT_IMG_URL, returnFlag).commit();
+			mPreferences.edit().putBoolean(PREF_FIRST_INSERT_IMG_URL, returnFlag).commit();
 			if (returnFlag)
 			{
 				System.out.println("插入图片Base URL 成功");
@@ -112,6 +113,11 @@ public class BaseActivity extends FragmentActivity
 			}
 		}
 		return flag;
+	}
+
+	public SharedPreferences getSharedPreferences()
+	{
+		return mPreferences;
 	}
 
 	protected FragmentTransaction beginTransaction()

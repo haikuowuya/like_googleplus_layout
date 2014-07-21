@@ -46,7 +46,7 @@ public class CYDBNewsUtils
 					if (!tmpElements.isEmpty())
 					{
 						tmpElements = tmpElements.get(0).getElementsByTag("a");
-						System.out.println("a = " + tmpElements);
+//						System.out.println("a = " + tmpElements);
 						if (!tmpElements.isEmpty())
 						{
 							newsUrl = CYDB_URL + tmpElements.get(0).attr("href");
