@@ -105,8 +105,17 @@ public class MainActivity extends BaseActivity
 		if(mIsOnlyAndroid != GoogleApplication.mIsOnlyAndroid)
 		{
 			initData();
-			updateFragment();
-			mAdapter.notifyDataSetChanged();
+			mActionBar.setListNavigationCallbacks(mAdapter, new OnNavigationListener()
+			{
+				public boolean onNavigationItemSelected(int itemPosition, long itemId)
+				{
+					SubNewsTypeItem item = (SubNewsTypeItem) mAdapter.getItem(itemPosition);
+					mCurrentURL = item.url;
+					updateFragment();
+					return true;
+				}
+			});
+			mIsOnlyAndroid  = GoogleApplication.mIsOnlyAndroid;
 		}
 	}
 	public boolean onCreateOptionsMenu(Menu menu)
