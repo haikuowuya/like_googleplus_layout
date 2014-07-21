@@ -14,11 +14,11 @@
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical" >
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
+        android:layout_margin="10dp"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:minHeight="100dp" >
+            android:orientation="vertical" >
 
             <CheckedTextView
                 android:id="@+id/ctv_android"
@@ -30,9 +30,8 @@
                 android:gravity="center_vertical"
                 android:padding="10dp"
                 android:text="只显示Android方面资讯"
-                android:layout_marginRight="10dp"
                 android:textColor="@drawable/text_color_selector" />
-        </RelativeLayout>
+        </LinearLayout>
     </net.dynamicandroid.listview.DynamicScrollView>
 
 </net.dynamicandroid.listview.DynamicListLayout>

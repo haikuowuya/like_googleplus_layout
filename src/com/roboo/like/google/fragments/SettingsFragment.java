@@ -11,7 +11,12 @@ import android.widget.CheckedTextView;
 import com.roboo.like.google.BaseActivity;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.R;
-
+/***
+ *  设置Fragment
+ * @author bo.li
+ * 2014-7-21 下午5:40:54
+ * TODO
+ */
 public class SettingsFragment extends BaseFragment
 {
 	private DynamicScrollView mScrollView;
