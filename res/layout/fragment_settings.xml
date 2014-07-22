@@ -11,13 +11,12 @@
         android:background="@color/white_color"
         android:fadingEdge="none"
         android:fillViewport="true"
+        android:padding="10dp"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical" >
 
         <LinearLayout
-            
             android:layout_width="match_parent"
-        android:layout_margin="10dp"
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
@@ -30,8 +29,44 @@
                 android:clickable="true"
                 android:gravity="center_vertical"
                 android:padding="10dp"
-              	
                 android:text="只显示Android方面资讯"
+                android:textColor="@drawable/text_color_selector" />
+
+            <TextView
+                android:id="@+id/tv_root"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/list_item_selector"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:textAppearance="?android:attr/textAppearance"
+                android:text="请求系统最高权限"
+                android:textColor="@drawable/text_color_selector" />
+            <TextView
+                android:id="@+id/tv_app_grade"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/list_item_selector"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:textAppearance="?android:attr/textAppearance"
+                android:text="给程序评分"
+                android:textColor="@drawable/text_color_selector" />
+            <TextView
+                android:id="@+id/tv_wifi"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/list_item_selector"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:textAppearance="?android:attr/textAppearance"
+                android:text="获取WIFI信息"
                 android:textColor="@drawable/text_color_selector" />
         </LinearLayout>
     </net.dynamicandroid.listview.DynamicScrollView>
