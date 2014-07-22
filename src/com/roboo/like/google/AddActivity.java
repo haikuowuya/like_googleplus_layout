@@ -10,24 +10,30 @@ import com.roboo.like.google.fragments.AddFragment;
 /**添加订阅界面 */
 public class AddActivity extends BaseLayoutActivity
 {
- 
+	//{{
+	 /**
+	  *  跳转到添加界面
+	  * @param activity
+	  */
 	public static void actionAdd(Activity activity)
 	{
 		Intent intent = new Intent(activity,AddActivity.class);
 		activity.startActivity(intent);
 	}
+	//}}
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add);
 		initView();
 		customActionBar();
+ 
 		if(getSupportFragmentManager().findFragmentById(R.id.frame_container) ==null)
 		{
 			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, AddFragment.newInstance()).commit();
 		}
+		 
 	}
-	 
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId())

@@ -15,6 +15,7 @@
         android:scrollbars="vertical" >
 
         <LinearLayout
+            
             android:layout_width="match_parent"
         android:layout_margin="10dp"
             android:layout_height="match_parent"
@@ -29,6 +30,7 @@
                 android:clickable="true"
                 android:gravity="center_vertical"
                 android:padding="10dp"
+              	
                 android:text="只显示Android方面资讯"
                 android:textColor="@drawable/text_color_selector" />
         </LinearLayout>

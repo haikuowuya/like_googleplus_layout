@@ -32,7 +32,6 @@ public class MainActivity extends BaseActivity
 	private static final int STYLE_LIST = 1;
 	private static final int STYLE_GRID = 2;
 	private static final int STYLE_PINTEREST = 3;
-	
 	/** 默认是IT之家 */
 	public static final String IT_HOME = "http://it.ithome.com/category/1_";
 	private static final String WIFI = "WIFI";
@@ -77,6 +76,7 @@ public class MainActivity extends BaseActivity
 		}
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
+		
 	}
 
 	private void init()
