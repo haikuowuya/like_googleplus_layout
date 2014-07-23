@@ -56,6 +56,7 @@ public class CommentAdapter extends BaseAdapter
 			TextView tvContent = ViewHolder.getView(convertView, R.id.tv_content);
 			TextView tvAgree = ViewHolder.getView(convertView, R.id.tv_agree);
 			TextView tvDisAgree = ViewHolder.getView(convertView, R.id.tv_disAgree);
+			((ViewGroup)tvFloor.getParent()).setVisibility(View.VISIBLE);
 			tvFloor.setText(item.floor);
 			tvNick.setText(item.nick);
 			tvPhoneType.setText(item.phoneType);
