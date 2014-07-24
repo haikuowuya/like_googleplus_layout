@@ -26,18 +26,29 @@ import com.droidux.components.DroidUxLib;
 
 public class GoogleApplication extends Application
 {
-	public static final int DB_VERSION= 0711;//7月11日
+	public static final int DB_VERSION= 0724;//7月11日
 	public static final String DB_NAME="android";
 	public static boolean mIsOnlyAndroid = false;
+	/**IT之家*/
 	public static final int TYPE_ITHOME = 0;
+	/**CSDN论坛*/
 	public static final int TYPE_CSDN = 1;
+	/**科技锋芒*/
 	public static final int TYPE_PHONEKR = 2;
+	/**EOE社区*/
 	public static final int TYPE_EOE = 3;
+	/**极客公园*/
 	public static final int TYPE_GEEKPARK = 4;
+	/**IT199*/
 	public static final int TYPE_199IT = 5;
+	/**36氪*/
 	public static final int TYPE_36KR = 6;
+	/**虎嗅网*/
 	public static final int TYPE_HUXIU = 7;
+	/**穿衣打扮*/
 	public static final int TYPE_CHUANYI_DABAN = 8;
+	/**网络尖刀*/
+	public static final int TYPE_WLJD = 9;
 	public static int mCurrentType = TYPE_CSDN;
 	private LinkedList<Activity> mActivities = new LinkedList<Activity>();
 	public static final String BASE_DIDI_URL = "http://pay.xiaojukeji.com/api/v2/webapp?city=";

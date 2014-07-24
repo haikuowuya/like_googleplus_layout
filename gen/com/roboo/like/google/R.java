@@ -55,12 +55,15 @@ public final class R {
         public static final int actionbar_navigation_it199_arrays=0x7f07000a;
         public static final int actionbar_navigation_ithome_arrays=0x7f070004;
         public static final int actionbar_navigation_phonekr_arrays=0x7f070006;
-        public static final int img_arrays=0x7f07000e;
+        /**  网络尖刀  
+         */
+        public static final int actionbar_navigation_wljd_arrays=0x7f07000d;
+        public static final int img_arrays=0x7f07000f;
         public static final int left_drawer_text_arrays=0x7f070003;
         public static final int sample_eng=0x7f070000;
         public static final int sample_kor=0x7f070001;
         public static final int sample_num=0x7f070002;
-        public static final int start_news_type_arrays=0x7f07000d;
+        public static final int start_news_type_arrays=0x7f07000e;
     }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"

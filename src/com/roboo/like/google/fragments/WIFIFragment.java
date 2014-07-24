@@ -1,7 +1,14 @@
 package com.roboo.like.google.fragments;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.http.protocol.HTTP;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -108,9 +115,137 @@ public class WIFIFragment extends BaseWithProgressFragment
 		{
 			for (WifiConfiguration configuration : networks)
 			{
-				System.out.println(configuration);
+//				System.out.println("configuration = " + configuration);
+			}
+		}
+		HashMap<String, String> hashMap = getConfigWifiInfos();
+		for(String string :hashMap.keySet())
+		{
+			for(ScanResult scanResult : wifis)
+			{
+				System.out.println("scanResult.SSID = " + scanResult.SSID + " string = " + string);
+				if(scanResult.SSID.equals(string))
+				{
+					
+				}
 			}
 		}
 		return wifis;
 	}
+
+	/**
+	 * 获取设备中已经配置过的wifi信息
+	 */
+	private HashMap<String, String> getConfigWifiInfos()
+	{
+		HashMap<String, String> data = new HashMap<String, String>();
+		String newFilePath = "/mnt/sdcard/wifi.conf";
+		File file = new File(newFilePath);
+		if (!file.exists())
+		{
+			String originFilePath = "/data/misc/wifi/wpa_supplicant.conf";
+			System.out.println(" runRootCommand = " + runRootCommand(" chmod 777 " + originFilePath));
+			System.out.println(" runRootCommand = " + runRootCommand(" cp " + originFilePath + "  " + newFilePath));
+		}
+		else
+		{
+			if (file.canRead())
+			{
+				try
+				{
+					FileInputStream fileInputStream = new FileInputStream(file);
+					byte[] buffer = new byte[1024];
+					int len = -1;
+					StringBuffer stringBuffer = new StringBuffer();
+					while ((len = fileInputStream.read(buffer)) != -1)
+					{
+						stringBuffer.append(new String(buffer, 0, len, HTTP.UTF_8));
+					}
+					// System.out.println("stringBuffer = " + stringBuffer);
+					if (stringBuffer.toString().contains("network="))
+					{
+						stringBuffer = stringBuffer.delete(0, stringBuffer.toString().indexOf("network="));
+						String[] tmp = stringBuffer.toString().split("network=");
+						for (String str : tmp)
+						{
+							if (str.contains("{") && str.contains("}"))
+							{
+								str = str.replace("{", "");
+								str = str.replace("}", "");
+							}
+							str = str.trim();
+							if (str.contains("\n"))
+							{
+								String[] tmp1 = str.split("\n");
+								// System.out.println("tmp1 = " + tmp1.length);
+								if (tmp1.length == 4)// 有密码
+								{
+									String ssid = tmp1[0];
+									String password = tmp1[1];
+									if (ssid.contains("="))
+									{
+										ssid = ssid.split("=")[1];
+									}
+									if (password.contains("="))
+									{
+										password = password.split("=")[1];
+									}
+									// System.out.println("ssid = " + ssid + " password = " + password);
+									data.put(ssid, password);
+								}
+							}
+						}
+					}
+					fileInputStream.close();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+//			file.delete();
+		}
+		return data;
+	}
+
+	/***
+	 * 执行Root 命令
+	 * 
+	 * @param command
+	 *            要执行的命令[chmod 777 /data/misc/wifi/wpa_supplicant.conf]
+	 * @return true 命令成功执行 或者 false 命令执行失败
+	 */
+	public static boolean runRootCommand(String command)
+	{
+		Process process = null;
+		DataOutputStream os = null;
+		try
+		{
+			process = Runtime.getRuntime().exec("su");
+			os = new DataOutputStream(process.getOutputStream());
+			os.writeBytes(command + "\n");
+			os.writeBytes("exit\n");
+			os.flush();
+			process.waitFor();
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
+		finally
+		{
+			try
+			{
+				if (os != null)
+				{
+					os.close();
+				}
+				process.destroy();
+			}
+			catch (Exception e)
+			{}
+		}
+		return true;
+	}
+
 }

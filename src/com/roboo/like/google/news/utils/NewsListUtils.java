@@ -16,6 +16,7 @@ import com.roboo.like.google.news.list.utils.IT199NewsUtils;
 import com.roboo.like.google.news.list.utils.ITHomeNewsUtils;
 import com.roboo.like.google.news.list.utils.KR36NewsUtils;
 import com.roboo.like.google.news.list.utils.PhoneKRNewsUtils;
+import com.roboo.like.google.news.list.utils.WLJDNewsUtils;
 
 @SuppressLint("SimpleDateFormat")
 public class NewsListUtils
@@ -53,6 +54,9 @@ public class NewsListUtils
 			break;
 		case GoogleApplication.TYPE_CHUANYI_DABAN:
 			data = CYDBNewsUtils.getCydbNewsList(baseUrl, pageNo);
+			break;
+		case GoogleApplication.TYPE_WLJD:
+			data = WLJDNewsUtils.getWljdNewsList(baseUrl, pageNo);
 			break;
 			
 		default:

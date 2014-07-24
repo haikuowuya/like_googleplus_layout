@@ -44,6 +44,9 @@ public class SubNewsTypeItem
 		case GoogleApplication.TYPE_CHUANYI_DABAN:
 			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_cydb_arrays);
 			break;
+		case GoogleApplication.TYPE_WLJD:
+			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_wljd_arrays);
+			break;
 		}
 		LinkedList<SubNewsTypeItem> data = new LinkedList<SubNewsTypeItem>();
 		SubNewsTypeItem defaultItem = new SubNewsTypeItem();
@@ -80,6 +83,6 @@ public class SubNewsTypeItem
 
 	private static boolean isOnlyAndroid()
 	{
-		return  GoogleApplication.mIsOnlyAndroid;
+		return GoogleApplication.mIsOnlyAndroid;
 	}
 }

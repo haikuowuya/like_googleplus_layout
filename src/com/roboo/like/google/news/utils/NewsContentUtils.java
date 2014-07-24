@@ -14,6 +14,7 @@ import com.roboo.like.google.news.content.utils.IT199NewsContentUtils;
 import com.roboo.like.google.news.content.utils.ITHomeNewsContentUtils;
 import com.roboo.like.google.news.content.utils.KR36NewsContentUtils;
 import com.roboo.like.google.news.content.utils.PhoneKRNewsContentUtils;
+import com.roboo.like.google.news.content.utils.WLJDNewsContentUtils;
 
 public class NewsContentUtils
 {
@@ -49,6 +50,10 @@ public class NewsContentUtils
 			break;
 		case GoogleApplication.TYPE_CHUANYI_DABAN:
 			baseNewsContentUtils = new CYDBNewsContentUtils();
+			break;
+		case GoogleApplication.TYPE_WLJD:
+		baseNewsContentUtils = new WLJDNewsContentUtils(); 
+		 
 			break;
 			
 		default:
