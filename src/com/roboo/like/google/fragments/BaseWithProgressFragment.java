@@ -10,8 +10,10 @@ import android.widget.ProgressBar;
 
 public class BaseWithProgressFragment extends Fragment
 {
+	protected static boolean DEBUG = true;
 	protected ProgressBar mProgressBar;
 	private FrameLayout mDecorView;
+	
  
 	public void onActivityCreated(Bundle savedInstanceState)
 	{

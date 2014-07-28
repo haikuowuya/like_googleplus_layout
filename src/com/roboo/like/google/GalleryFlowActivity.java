@@ -28,6 +28,7 @@ import android.widget.ImageView.ScaleType;
 import com.roboo.like.google.utils.BitmapUtils;
 
 /** 画廊 */
+@SuppressWarnings("deprecation")
 public class GalleryFlowActivity extends BaseLayoutActivity
 {
 	private GalleryFlow mGallery = null;

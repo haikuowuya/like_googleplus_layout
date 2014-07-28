@@ -80,13 +80,15 @@ public class PinterestActivity extends BaseLayoutActivity implements AnimationLi
 	@SuppressWarnings("deprecation")
 	private void initGFZ()
 	{
+		
 		mGalleryFlowZoom = (GalleryFlowZoom) findViewById(R.id.gfz_gallery);
 		mGalleryFlowZoom.setReflected(false);
 		mAdapterLooper = createAdapter();
 		mGalleryFlowZoom.setAdapter(mAdapterLooper);
-		mGalleryFlowZoom.setSelection(0, true);
+		mGalleryFlowZoom.setClipChildren(false);
 		mGalleryFlowZoom.setCallbackDuringFling(false);
 		mGalleryFlowZoom.setMaxFlingVelocity(1500);
+		 
 		mGalleryFlowZoom.setSelection(mAdapterLooper.getCenterPosition());
 	}
 

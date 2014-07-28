@@ -1,15 +1,16 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.roboo.like.google"
     android:layout_width="match_parent"
-    android:background="@android:color/white"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
 
     <com.droidux.widget.gallery.GalleryFlowCarousel
         android:id="@+id/gfc_gallery"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="48dp"
         android:gravity="center_vertical"
         android:padding="0dip"
-        android:layout_marginBottom="48dp"
         android:visibility="gone" />
 
     <com.droidux.widget.gallery.GalleryFlowZoom
@@ -17,18 +18,21 @@
         style="@style/DroidUX.GalleryFlow.Linear.Zoomflow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
         android:layout_marginBottom="48dp"
-        android:padding="0dip" />
+        android:gravity="center_vertical"
+        android:padding="0dip"
+        android:spacing="-45dp"
+        app:dux_floorGap="2dp"
+        app:dux_maxRotationAngle="15" />
 
     <Button
         android:id="@+id/btn_gallery_flow"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_gravity="bottom"
-    	android:text="GalleryFlow"
         android:padding="3dp"
         android:singleLine="false"
+        android:text="GalleryFlow"
         android:textSize="10sp" />
 
 </FrameLayout>
