@@ -3,16 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/list_item_selector"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/tv_address"
-        style="@style/Wifi.List.Item.TextView.Style" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_abs_picture_up" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/Sms.List.Item.TextView.Style"
+            android:layout_width="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            style="@style/Sms.List.Item.TextView.Style"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_type"
+            style="@style/Sms.List.Item.TextView.Style"
+            android:layout_width="wrap_content" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_body"
-        style="@style/Wifi.List.Item.TextView.Style"
+        style="@style/Sms.List.Item.TextView.Style"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:singleLine="false"
         android:textSize="14sp" />
 
 </LinearLayout>

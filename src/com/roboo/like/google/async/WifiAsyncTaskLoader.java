@@ -19,7 +19,7 @@ import android.net.wifi.WifiManager;
 
 public class WifiAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<ScanResult>>
 {
-	protected static boolean DEBUG = true;
+ 
 	private Context mContext;
 
 	public WifiAsyncTaskLoader(Context context)
@@ -51,8 +51,8 @@ public class WifiAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<ScanResu
 	private LinkedList<ScanResult> getWifiInfo()
 	{
 		WifiManager mWifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
-		DEBUG = false;
-		if (DEBUG)
+		mDebug = false;
+		if (mDebug)
 		{
 			WifiInfo wifiInfo = mWifiManager.getConnectionInfo();
 			System.out.println(wifiInfo.getSSID() + " " + wifiInfo.getIpAddress() + " " + wifiInfo.getLinkSpeed() + " " + wifiInfo.getMacAddress() + " " + wifiInfo.getNetworkId() + " " + wifiInfo.getRssi() + " " + wifiInfo.getBSSID());
@@ -65,8 +65,8 @@ public class WifiAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<ScanResu
 			for (int i = 0; i < data.size(); i++)
 			{
 				ScanResult scanResult = data.get(i);
-				DEBUG = false;
-				if (DEBUG)
+				mDebug = false;
+				if (mDebug)
 				{
 					System.out.println("无线网络名称  = " + scanResult.SSID + " capabilities = " + scanResult.capabilities + " frequency = " + scanResult.frequency + " level = " + scanResult.level + " timestamp = " + scanResult.timestamp + " describeContents = " + scanResult.describeContents()
 						+ " BSSID = " + scanResult.BSSID);
@@ -79,7 +79,7 @@ public class WifiAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<ScanResu
 		{
 			for (WifiConfiguration configuration : networks)
 			{
-				if (DEBUG)
+				if (mDebug)
 				{
 					System.out.println("configuration = " + configuration);
 				}
@@ -92,8 +92,8 @@ public class WifiAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<ScanResu
 			for (String key : hashMap.keySet())
 			{
 				String ssid = scanResult.SSID;
-				DEBUG = true;
-				if (DEBUG)
+				mDebug = true;
+				if (mDebug)
 				{
 					System.out.println("scanResult.SSID = " + ssid + " string = " + key + " password = " + hashMap.get(key));
 				}
@@ -134,8 +134,8 @@ public class WifiAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<ScanResu
 				{
 					stringBuffer.append(new String(buffer, 0, len, HTTP.UTF_8));
 				}
-				DEBUG = false;
-				if(DEBUG)
+				mDebug = false;
+				if(mDebug)
 				{
 				 System.out.println("stringBuffer = " + stringBuffer);
 				}
