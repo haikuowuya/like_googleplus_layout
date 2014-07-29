@@ -23,6 +23,7 @@ import com.roboo.like.google.LocationActivity;
 import com.roboo.like.google.MainActivity;
 import com.roboo.like.google.PictureActivity;
 import com.roboo.like.google.R;
+import com.roboo.like.google.SMSActivity;
 import com.roboo.like.google.UserActivity;
 import com.roboo.like.google.views.AnimationListView;
 
@@ -113,6 +114,9 @@ public class LeftFragment extends BaseFragment
 				break;
 			case 4:// 位置信息
 				LocationActivity.actionLocation(getActivity());
+				break;
+			case 5://短信
+				SMSActivity.actionSms(getActivity());
 				break;
 			case 8://嘀嘀打车
 				DidiActivity.actionDidi(getActivity());

@@ -6,11 +6,11 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/tv_ssid"
+        android:id="@+id/tv_address"
         style="@style/Wifi.List.Item.TextView.Style" />
 
     <TextView
-        android:id="@+id/tv_capabilities"
+        android:id="@+id/tv_body"
         style="@style/Wifi.List.Item.TextView.Style"
         android:layout_marginLeft="10dp"
         android:textSize="14sp" />

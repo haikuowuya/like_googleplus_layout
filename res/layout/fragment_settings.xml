@@ -22,52 +22,31 @@
 
             <CheckedTextView
                 android:id="@+id/ctv_android"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/list_item_selector"
+                style="@style/Settings.TextView.Style"
                 android:checkMark="@drawable/checked_textview_selector"
                 android:clickable="true"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:text="只显示Android方面资讯"
-                android:textColor="@drawable/text_color_selector" />
+                android:text="只显示Android方面资讯" />
 
             <TextView
                 android:id="@+id/tv_root"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
+                style="@style/Settings.TextView.Style"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/list_item_selector"
                 android:clickable="true"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:textAppearance="?android:attr/textAppearance"
-                android:text="请求系统最高权限"
-                android:textColor="@drawable/text_color_selector" />
+                android:text="请求系统最高权限" />
+
             <TextView
                 android:id="@+id/tv_app_grade"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
+                style="@style/Settings.TextView.Style"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/list_item_selector"
                 android:clickable="true"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:textAppearance="?android:attr/textAppearance"
-                android:text="给程序评分"
-                android:textColor="@drawable/text_color_selector" />
+                android:text="给程序评分" />
+
             <TextView
                 android:id="@+id/tv_wifi"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
+                style="@style/Settings.TextView.Style"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/list_item_selector"
                 android:clickable="true"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:textAppearance="?android:attr/textAppearance"
-                android:text="获取WIFI信息"
-                android:textColor="@drawable/text_color_selector" />
+                android:text="获取WIFI信息" />
         </LinearLayout>
     </net.dynamicandroid.listview.DynamicScrollView>
 

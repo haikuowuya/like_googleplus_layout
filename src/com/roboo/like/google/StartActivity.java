@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import cn.jpush.android.api.JPushInterface;
 
 import com.roboo.like.google.fragments.StartFragment;
 import com.roboo.like.google.fragments.WelcomeFragment;
@@ -18,7 +17,6 @@ public class StartActivity extends BaseLayoutActivity
 		Intent intent = new Intent(activity, StartActivity.class);
 		activity.startActivity(intent);
 	}
-
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -35,6 +33,7 @@ public class StartActivity extends BaseLayoutActivity
 				beginTransaction().add(R.id.frame_container, StartFragment.newInstance()).commit();
 			}
 		}
+
 		customActionBar();
 		initView();
 	}
@@ -42,20 +41,6 @@ public class StartActivity extends BaseLayoutActivity
 	public void initView()
 	{
 
-	}
-
-	@Override
-	protected void onPause()
-	{
-		super.onPause();
-		JPushInterface.onPause(this);
-	}
-
-	@Override
-	protected void onResume()
-	{
-		super.onResume();
-		JPushInterface.onResume(this);
 	}
 
 	private void customActionBar()
@@ -79,6 +64,7 @@ public class StartActivity extends BaseLayoutActivity
 		mActionBar.show();
 		beginTransaction().replace(R.id.frame_container, StartFragment.newInstance()).commit();
 	}
+
 	public void add(View v)
 	{
 		AddActivity.actionAdd(this);

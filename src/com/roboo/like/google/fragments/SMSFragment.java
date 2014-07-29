@@ -4,7 +4,6 @@ import java.io.DataOutputStream;
 import java.util.LinkedList;
 
 import android.annotation.SuppressLint;
-import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -16,17 +15,18 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.roboo.like.google.R;
-import com.roboo.like.google.adapters.WIFIAdapter;
-import com.roboo.like.google.async.WifiAsyncTaskLoader;
+import com.roboo.like.google.adapters.SMSAdapter;
+import com.roboo.like.google.async.SmsAsyncTaskLoader;
+import com.roboo.like.google.models.SmsItem;
 
 @SuppressLint("NewApi")
-public class WIFIFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<ScanResult>>
+public class SMSFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<SmsItem>>
 {
 	private ListView mListView;
 
-	public static WIFIFragment newInstance()
+	public static SMSFragment newInstance()
 	{
-		WIFIFragment fragment = new WIFIFragment();
+		SMSFragment fragment = new SMSFragment();
 		return fragment;
 	}
 
@@ -36,7 +36,7 @@ public class WIFIFragment extends BaseWithProgressFragment implements LoaderCall
 		View view = null;
 		if (savedInstanceState == null)
 		{
-			view = inflater.inflate(R.layout.fragment_wifi, null);// TODO
+			view = inflater.inflate(R.layout.fragment_sms, null);// TODO
 			mListView = (ListView) view.findViewById(R.id.dlv_list);
 			getActivity().getSupportLoaderManager().initLoader(0, null, this);
 		}
@@ -67,23 +67,23 @@ public class WIFIFragment extends BaseWithProgressFragment implements LoaderCall
 	}
 
 	@Override
-	public Loader<LinkedList<ScanResult>> onCreateLoader(int id, Bundle args)
+	public Loader<LinkedList<SmsItem>> onCreateLoader(int id, Bundle args)
 	{
-		return new WifiAsyncTaskLoader(getActivity());
+		return new SmsAsyncTaskLoader(getActivity());
 	}
 
 	@Override
-	public void onLoadFinished(Loader<LinkedList<ScanResult>> loader, LinkedList<ScanResult> data)
+	public void onLoadFinished(Loader<LinkedList<SmsItem>> loader, LinkedList<SmsItem> data)
 	{
 		mProgressBar.setVisibility(View.GONE);
 		if (data != null)
 		{
-			mListView.setAdapter(new WIFIAdapter(getActivity(), data));
+ 		mListView.setAdapter(new SMSAdapter(getActivity(), data));
 		}
 	}
 
 	@Override
-	public void onLoaderReset(Loader<LinkedList<ScanResult>> loader)
+	public void onLoaderReset(Loader<LinkedList<SmsItem>> loader)
 	{
 
 	}

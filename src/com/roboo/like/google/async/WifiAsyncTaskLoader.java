@@ -86,9 +86,10 @@ public class WifiAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<ScanResu
 			}
 		}
 		HashMap<String, String> hashMap = getConfigWifiInfos();
-		for (String key : hashMap.keySet())
+		for (ScanResult scanResult : wifis)
 		{
-			for (ScanResult scanResult : wifis)
+			scanResult.capabilities = "WIFI密码没有配置过";
+			for (String key : hashMap.keySet())
 			{
 				String ssid = scanResult.SSID;
 				DEBUG = true;
@@ -96,13 +97,12 @@ public class WifiAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<ScanResu
 				{
 					System.out.println("scanResult.SSID = " + ssid + " string = " + key + " password = " + hashMap.get(key));
 				}
-				scanResult.capabilities = "WIFI密码没有配置过";
-				if (ssid.equals(key))
+				boolean flag = ssid.equals(key);
+				if (flag)
 				{
 					scanResult.capabilities = hashMap.get(key);
 					break;
 				}
-			 
 			}
 		}
 		return wifis;
@@ -122,66 +122,68 @@ public class WifiAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<ScanResu
 			// System.out.println(" runRootCommand = " + runRootCommand(" chmod 777 " + originFilePath));
 			System.out.println(" runRootCommand = " + runRootCommand(" cp " + originFilePath + "  " + newFilePath));
 		}
-		else
+		if (file.exists() && file.canRead())
 		{
-			if (file.canRead())
+			try
 			{
-				try
+				FileInputStream fileInputStream = new FileInputStream(file);
+				byte[] buffer = new byte[1024];
+				int len = -1;
+				StringBuffer stringBuffer = new StringBuffer();
+				while ((len = fileInputStream.read(buffer)) != -1)
 				{
-					FileInputStream fileInputStream = new FileInputStream(file);
-					byte[] buffer = new byte[1024];
-					int len = -1;
-					StringBuffer stringBuffer = new StringBuffer();
-					while ((len = fileInputStream.read(buffer)) != -1)
+					stringBuffer.append(new String(buffer, 0, len, HTTP.UTF_8));
+				}
+				DEBUG = false;
+				if(DEBUG)
+				{
+				 System.out.println("stringBuffer = " + stringBuffer);
+				}
+				if (stringBuffer.toString().contains("network="))
+				{
+					stringBuffer = stringBuffer.delete(0, stringBuffer.toString().indexOf("network="));
+					String[] tmp = stringBuffer.toString().split("network=");
+					for (String str : tmp)
 					{
-						stringBuffer.append(new String(buffer, 0, len, HTTP.UTF_8));
-					}
-					// System.out.println("stringBuffer = " + stringBuffer);
-					if (stringBuffer.toString().contains("network="))
-					{
-						stringBuffer = stringBuffer.delete(0, stringBuffer.toString().indexOf("network="));
-						String[] tmp = stringBuffer.toString().split("network=");
-						for (String str : tmp)
+						if (str.contains("{") && str.contains("}"))
 						{
-							if (str.contains("{") && str.contains("}"))
+							str = str.replace("{", "");
+							str = str.replace("}", "");
+						}
+						str = str.trim();
+						if (str.contains("\n"))
+						{
+							String[] tmp1 = str.split("\n");
+							// System.out.println("tmp1 = " + tmp1.length);
+							if (tmp1.length == 4)// 有密码
 							{
-								str = str.replace("{", "");
-								str = str.replace("}", "");
-							}
-							str = str.trim();
-							if (str.contains("\n"))
-							{
-								String[] tmp1 = str.split("\n");
-								// System.out.println("tmp1 = " + tmp1.length);
-								if (tmp1.length == 4)// 有密码
+								String ssid = tmp1[0];
+								String password = tmp1[1];
+								if (ssid.contains("="))
 								{
-									String ssid = tmp1[0];
-									String password = tmp1[1];
-									if (ssid.contains("="))
-									{
-										ssid = ssid.split("=")[1];
-										ssid = ssid.substring(1, ssid.length() - 1);
-									}
-									if (password.contains("="))
-									{
-										password = password.split("=")[1];
-										password = password.substring(1, password.length() - 1);
-									}
-									// System.out.println("ssid = " + ssid + " password = " + password);
-									data.put(ssid, password);
+									ssid = ssid.split("=")[1];
+									ssid = ssid.substring(1, ssid.length() - 1);
 								}
+								if (password.contains("="))
+								{
+									password = password.split("=")[1];
+									password = password.substring(1, password.length() - 1);
+								}
+								// System.out.println("ssid = " + ssid + " password = " + password);
+								data.put(ssid, password);
 							}
 						}
 					}
-					fileInputStream.close();
 				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
+				fileInputStream.close();
 			}
-			file.delete();
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		}
+		file.delete();
+
 		return data;
 	}
 
