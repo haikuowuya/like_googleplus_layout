@@ -19,7 +19,7 @@
             android:drawableLeft="@drawable/swipe_fav_selector"
             android:drawablePadding="10dp"
             android:padding="10dp"
-            android:text="收藏" />
+            android:text="@string/tv_fav" />
 
         <View
             android:layout_width="0dp"
@@ -33,7 +33,7 @@
             android:drawableLeft="@drawable/swipe_delete_selector"
             android:drawablePadding="10dp"
             android:padding="10dp"
-            android:text="删除" />
+            android:text="@string/tv_delete" />
     </LinearLayout>
 
     <RelativeLayout

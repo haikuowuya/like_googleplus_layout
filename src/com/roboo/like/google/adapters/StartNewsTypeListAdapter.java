@@ -70,13 +70,14 @@ public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeade
 		}
 		TextView textView = ViewHolder.getView(convertView, R.id.tv_title);
 		ImageView imageView = ViewHolder.getView(convertView, R.id.iv_image);
-		Button button = ViewHolder.getView(convertView, R.id.btn_delete);
+		Button btnDelete = ViewHolder.getView(convertView, R.id.btn_delete);
+		Button btnFav = ViewHolder.getView(convertView, R.id.btn_fav);
 		if (activity instanceof AddActivity)
 		{
-			button.setText("添加");
-			button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.swipe_add_selector, 0, 0, 0);
+			btnDelete.setText("添加");
+			btnDelete.setCompoundDrawablesWithIntrinsicBounds(R.drawable.swipe_add_selector, 0, 0, 0);
 		}
-		button.setOnClickListener(new OnClickListener()
+		btnDelete.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View v)
 			{
@@ -87,6 +88,13 @@ public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeade
 				{
 					System.out.println("修改成功");
 				}
+				notifyDataSetChanged();
+			}
+		});
+		btnFav.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
 				notifyDataSetChanged();
 			}
 		});
