@@ -3,16 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/list_item_selector"
-    android:orientation="vertical" >
+     >
 
     <TextView
-        android:id="@+id/tv_ssid"
-        style="@style/Wifi.List.Item.TextView.Style" />
+        android:id="@+id/tv_busNo"
+        android:layout_width="48dp"
+        style="@style/Bus.List.Item.TextView.Style" />
 
     <TextView
-        android:id="@+id/tv_capabilities"
-        style="@style/Wifi.List.Item.TextView.Style"
+        android:id="@+id/tv_busName"
+        android:layout_weight="1"
+        style="@style/Bus.List.Item.TextView.Style"
         android:layout_marginLeft="10dp"
-        android:textSize="14sp" />
+          />
 
 </LinearLayout>

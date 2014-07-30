@@ -47,11 +47,11 @@ public class BusAdapter extends BaseAdapter
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		BusItem item = mData.get(position);
-		convertView = LayoutInflater.from(mActivity).inflate(R.layout.wifi_list_item, null);
-		TextView tvSSID = ViewHolder.getView(convertView, R.id.tv_ssid);
-		TextView tvCapabilities = ViewHolder.getView(convertView, R.id.tv_capabilities);
-		tvSSID.setText(item.busNo);
-		tvCapabilities.setText(item.busName);
+		convertView = LayoutInflater.from(mActivity).inflate(R.layout.bus_list_item, null);
+		TextView tvBusNo= ViewHolder.getView(convertView, R.id.tv_busNo);
+		TextView tvBuName = ViewHolder.getView(convertView, R.id.tv_busName);
+		tvBusNo.setText(item.busNo);
+		tvBuName.setText(item.busName);
 		return convertView;
 	}
 

@@ -86,7 +86,7 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 	}
 
 	@Override
-	public void onLoaderReset(Loader<LinkedList<ScanResult>> loader)
+	public void onLoaderReset(Loader<LinkedList<BusItem>> loader)
 	{
 
 	}
