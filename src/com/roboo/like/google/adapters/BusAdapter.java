@@ -3,8 +3,6 @@ package com.roboo.like.google.adapters;
 import java.util.LinkedList;
 
 import android.app.Activity;
-import android.net.wifi.ScanResult;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,5 +52,4 @@ public class BusAdapter extends BaseAdapter
 		tvBuName.setText(item.busName);
 		return convertView;
 	}
-
 }

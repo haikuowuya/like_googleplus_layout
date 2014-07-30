@@ -14,6 +14,7 @@ import com.roboo.like.google.models.BusItem;
 
 public class BusAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusItem>>
 {
+	public static final String BASE_URL="http://www.szjt.gov.cn/apts/";
 	public static final String URL = "http://www.szjt.gov.cn/apts/APTSLine.aspx?__VIEWSTATE=%2FwEPDwUJNDk3MjU2MjgyD2QWAmYPZBYCAgMPZBYCAgEPZBYCAgYPDxYCHgdWaXNpYmxlaGRkZLSbkOWJhbw7r9tBdPn33bPCSlJcKXww5ounfGoyhKl3&__EVENTVALIDATION=%2FwEWAwLeub7XBwL88Oh8AqX89aoK1GKT3VlKUTd%2FxyQgZexCetMuo%2Fi%2FLRDnisAyha1YxN0%3D&ctl00%24MainContent%24LineName=18&ctl00%24MainContent%24SearchLine=%E6%90%9C%E7%B4%A2";// 18
 	private Context mContext;
 
@@ -64,7 +65,7 @@ public class BusAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusItem>>
 						Elements aElemens = tmpEleemnts.get(0).getElementsByTag("a");
 						if (!aElemens.isEmpty())
 						{
-							busUrl = aElemens.get(0).attr("href");
+							busUrl = BASE_URL+aElemens.get(0).attr("href");
 							busNo = aElemens.get(0).text();
 						}
 						busName = tmpEleemnts.get(1).text();
@@ -82,7 +83,7 @@ public class BusAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusItem>>
 		}
 		if (data != null)
 		{
-			mDebug = false;
+			mDebug = true;
 			if (mDebug)
 			{
 				for (BusItem item : data)
