@@ -10,6 +10,7 @@ import com.roboo.like.google.utils.PinYinUtils;
 public class ContacterItem implements Comparable<ContacterItem>
 {
 	public String name;
+	/**联系人头像的uri*/
 	public String icon;
 	public String phone;
 	public Bitmap bitmap;

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.TextureView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -97,7 +98,8 @@ public class RouteActivity extends BaseLayoutActivity
 				{
 					str = "我的位置";
 				}
-				TextView textView = new TextView(this);
+				TextView textView = new TextView(this, null, R.style.Base_List_Item_TextView_Style);
+				textView.setTextColor(R.drawable.text_color_selector);
 				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(android.widget.LinearLayout.LayoutParams.MATCH_PARENT, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
 				params.gravity = Gravity.CENTER_VERTICAL;
 				textView.setLayoutParams(params);
@@ -110,7 +112,6 @@ public class RouteActivity extends BaseLayoutActivity
 				mLinearContainer.addView(view);
 				if (i != routeList.size() - 1)
 				{
-
 				}
 				else
 				{
@@ -127,7 +128,6 @@ public class RouteActivity extends BaseLayoutActivity
 			}
 			Button button = new Button(this);
 			button.setGravity(Gravity.CENTER);
-
 			button.setBackgroundResource(R.drawable.list_item_selector);
 			button.setPadding(paddingLTBR, paddingLTBR, paddingLTBR, paddingLTBR);
 			button.setText("嘀嘀打车");

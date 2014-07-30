@@ -23,7 +23,14 @@ import com.roboo.like.google.dao.impl.NewsTypeItemDaoImpl;
 import com.roboo.like.google.databases.DBHelper;
 import com.roboo.like.google.models.NewsTypeItem;
 import com.roboo.like.google.swipelistview.SwipeListView;
-
+/**
+ * 首页新闻类型列表适配器
+ * @author bo.li
+ *
+ * 2014-7-30 上午10:16:36
+ *
+ * TODO
+ */
 public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeadersAdapter, SectionIndexer
 {
 	private LinkedList<NewsTypeItem> mData;
@@ -71,11 +78,19 @@ public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeade
 		TextView textView = ViewHolder.getView(convertView, R.id.tv_title);
 		ImageView imageView = ViewHolder.getView(convertView, R.id.iv_image);
 		Button btnDelete = ViewHolder.getView(convertView, R.id.btn_delete);
-		Button btnFav = ViewHolder.getView(convertView, R.id.btn_fav);
+		final Button btnFav = ViewHolder.getView(convertView, R.id.btn_fav);
 		if (activity instanceof AddActivity)
 		{
 			btnDelete.setText("添加");
 			btnDelete.setCompoundDrawablesWithIntrinsicBounds(R.drawable.swipe_add_selector, 0, 0, 0);
+		}
+		if(item.fav)
+		{
+			btnFav.setText("取消收藏");
+		}
+		else 
+		{
+			btnFav.setText("收藏");
 		}
 		btnDelete.setOnClickListener(new OnClickListener()
 		{
@@ -95,6 +110,16 @@ public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeade
 		{
 			public void onClick(View v)
 			{
+				NewsTypeItemDaoImpl newsTypeItemDaoImpl = new NewsTypeItemDaoImpl(new DBHelper(activity));
+				boolean returnFav = newsTypeItemDaoImpl.updateFav(item.md5, !item.fav);
+				if (returnFav)
+				{
+					mData.remove(position);
+					boolean fav = newsTypeItemDaoImpl.getFav(item.md5);
+					item.fav = fav;
+					mData.add(position, item);
+					System.out.println("修改成功");
+				}
 				notifyDataSetChanged();
 			}
 		});

@@ -41,6 +41,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.nineoldandroids.view.ViewHelper;
 import com.roboo.like.google.BaseActivity;
@@ -53,6 +54,7 @@ import com.roboo.like.google.NewsActivity;
 import com.roboo.like.google.PictureActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.TextActivity;
+import com.roboo.like.google.abs.ptr.OnCancleListener;
 import com.roboo.like.google.adapters.NewsListAdapter;
 import com.roboo.like.google.async.NewsListAsyncTaskLoader;
 import com.roboo.like.google.commons.YMDComparator;
@@ -93,7 +95,6 @@ public class MainListFragment extends BaseMainFragment implements LoaderCallback
 	private int mStubCurrentPageNo = mCurrentPageNo;
 	/** 用于记录兩條新聞日期不相同时，该比较字符串所在List集合的索引位置，在生成HeaderId时进行获取 */
 	private LinkedList<Integer> mSectionIndex = new LinkedList<Integer>();
-
 	/** ListView */
 	private StickyListHeadersListView mListView;
 	/** 当ListView向上滚动时会出现的View的辅助类 */
@@ -131,7 +132,7 @@ public class MainListFragment extends BaseMainFragment implements LoaderCallback
 	private InfiniteViewPager mAdViewPager;
 	protected int mPosition = 0;
 	protected Handler mHandler = new Handler();
- 
+
 	private boolean mSwapRunnableHasStart = false;
 	/** 模拟广告图片轮转间隔时间 */
 	private static final long SWAP_INTERVAL_TIME = 3000L;
@@ -173,7 +174,8 @@ public class MainListFragment extends BaseMainFragment implements LoaderCallback
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.fragment_main_list, null);// TODO
+		View view = null;
+		view = inflater.inflate(R.layout.fragment_main_list, null);// TODO
 		// mFooterView = new FooterView(getActivity(), FooterView.TYPE_PROGRESS_BUTTON);
 		mFooterView = (FooterView) view.findViewById(R.id.fv_footerview);
 		mListEmptyView = view.findViewById(android.R.id.empty);
@@ -182,10 +184,12 @@ public class MainListFragment extends BaseMainFragment implements LoaderCallback
 		mFooterProgressBar = mFooterView.getFooterProgressBar();
 		mBtnLoadNext = mFooterView.getButton();
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
-		mListView.setFastScrollEnabled(getActivity().getSharedPreferences(getActivity().getPackageName(),Context.MODE_PRIVATE).getBoolean(BaseActivity.PREF_FAST_SCROLL, true));
-		mListView.setFastScrollAlwaysVisible(getActivity().getSharedPreferences(getActivity().getPackageName(),Context.MODE_PRIVATE).getBoolean(BaseActivity.PREF_FAST_SCROLL, true));
+		mListView.setFastScrollEnabled(getActivity().getSharedPreferences(getActivity().getPackageName(), Context.MODE_PRIVATE).getBoolean(BaseActivity.PREF_FAST_SCROLL, true));
+		mListView.setFastScrollAlwaysVisible(getActivity().getSharedPreferences(getActivity().getPackageName(), Context.MODE_PRIVATE).getBoolean(BaseActivity.PREF_FAST_SCROLL, true));
 		mPoppyListViewHelper = new PoppyListViewHelper(getActivity());
 		mPullToRefreshAttacher = PullToRefreshHelper.get(getActivity());
+		mPullToRefreshAttacher.setOnCancleListener(getOnCancleListener());
+		mInited = true;
 		return view;
 	}
 
@@ -226,9 +230,29 @@ public class MainListFragment extends BaseMainFragment implements LoaderCallback
 				mSwapRunnableHasStart = true;
 			}
 		}
-		loadFirstData();
+		if (savedInstanceState == null)
+		{
+			loadFirstData();
+		}
 		// modifyDefaultListViewFieldValue();
 
+	}
+
+	private OnCancleListener getOnCancleListener()
+	{
+		return new OnCancleListener()
+		{
+			public void onCancle()
+			{
+				getLoaderManager().destroyLoader(0);
+				mPullToRefreshAttacher.setRefreshComplete();
+				mDebug = true;
+				if (mDebug)
+				{
+					Toast.makeText(getActivity(), "结束任务", Toast.LENGTH_SHORT).show();
+				}
+			}
+		};
 	}
 
 	@Override
@@ -368,80 +392,12 @@ public class MainListFragment extends BaseMainFragment implements LoaderCallback
 		return new NewsListAsyncTaskLoader(getActivity(), args.getString(ARG_NEWS_URL), args.getInt(ARG_CURRENT_PAGENO, 1));
 	}
 
-	private class OnClickListenerImpl implements OnClickListener
-	{
-		public void onClick(View v)
-		{
-			switch (v.getId())
-			{
-			case R.id.btn_picture:// 图片
-				picture();
-				break;
-			case R.id.btn_location:// 位置
-				location();
-				break;
-			case R.id.btn_mood:// 心情
-				mood();
-				break;
-			case R.id.btn_text:// 文字
-				text();
-				break;
-			case R.id.btn_load_next:// 加载下一页
-			case R.id.progress_btn_load_next:
-			case R.id.pbtn_load_next:
-				// loadNextData();
-				doLoadNextData();// 包含了loadNextData()
-				break;
-			}
-		}
-
-		private void doLoadNextData()
-		{
-			mShouldShowCardToast = true;
-			mProgress = 50;
-			new ProgressGenerator(getOnCompleteListener()).start((ProcessButton) mBtnLoadNext);
-		}
-
-		/** 图片 */
-		public void picture()
-		{
-			PictureActivity.actionPicture(getActivity());
-		}
-
-		/** 位置 */
-		public void location()
-		{
-			LocationActivity.actionLocation(getActivity());
-		}
-
-		/** 心情 */
-		public void mood()
-		{
-			MoodActivity.actionMood(getActivity());
-		}
-
-		/** 文字 */
-		public void text()
-		{
-			TextActivity.actionText(getActivity());
-		}
-	}
-
-	/** 跳转到设置界面 */
-	public void networkSettings()
-	{
-		Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(intent);
-	}
-
 	@Override
 	public void onLoadFinished(Loader<LinkedList<NewsItem>> loader, LinkedList<NewsItem> data)
 	{
 		mBtnLoadNext.setEnabled(true);
 		mProgress = 100;
 		((ProcessButton) mBtnLoadNext).onNormalState();
-
 		if (data != null)
 		{
 			int updateCount = 0;
@@ -512,6 +468,73 @@ public class MainListFragment extends BaseMainFragment implements LoaderCallback
 		if (isNeedShowCreateDesktopDialog())
 		{
 			mHandler.postDelayed(mCreateDesktopRunnable, 500L);
+		}
+	}
+
+	/** 跳转到设置界面 */
+	public void networkSettings()
+	{
+		Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
+	}
+
+	private class OnClickListenerImpl implements OnClickListener
+	{
+		public void onClick(View v)
+		{
+			switch (v.getId())
+			{
+			case R.id.btn_picture:// 图片
+				picture();
+				break;
+			case R.id.btn_location:// 位置
+				location();
+				break;
+			case R.id.btn_mood:// 心情
+				mood();
+				break;
+			case R.id.btn_text:// 文字
+				text();
+				break;
+			case R.id.btn_load_next:// 加载下一页
+			case R.id.progress_btn_load_next:
+			case R.id.pbtn_load_next:
+				// loadNextData();
+				doLoadNextData();// 包含了loadNextData()
+				break;
+			}
+		}
+
+		private void doLoadNextData()
+		{
+			mShouldShowCardToast = true;
+			mProgress = 50;
+			new ProgressGenerator(getOnCompleteListener()).start((ProcessButton) mBtnLoadNext);
+		}
+
+		/** 图片 */
+		public void picture()
+		{
+			PictureActivity.actionPicture(getActivity());
+		}
+
+		/** 位置 */
+		public void location()
+		{
+			LocationActivity.actionLocation(getActivity());
+		}
+
+		/** 心情 */
+		public void mood()
+		{
+			MoodActivity.actionMood(getActivity());
+		}
+
+		/** 文字 */
+		public void text()
+		{
+			TextActivity.actionText(getActivity());
 		}
 	}
 
@@ -698,7 +721,7 @@ public class MainListFragment extends BaseMainFragment implements LoaderCallback
 		hasHeaderIdList = nonHeaderIdList;
 		return hasHeaderIdList;
 	}
- 
+
 	/** 修改ListView一些默认属性值 */
 	private void modifyDefaultListViewFieldValue()
 	{
@@ -743,7 +766,7 @@ public class MainListFragment extends BaseMainFragment implements LoaderCallback
 			e.printStackTrace();
 		}
 	}
-	
+
 	/** 从文件中获取本地的离线数据 */
 	private LinkedList<NewsItem> getOfflineData(String channelUrl)
 	{

@@ -17,7 +17,10 @@ public class NewsTypeItem
 	public String note;
 	public String desc ;
 	public String img;
+	/**是否订阅的标志*/
 	public boolean flag;
+	/**是否收藏的标志*/
+	public boolean fav;
 
 	/***
 	 * 将arrays.xml中的新闻类型处理成LinkedList 对象

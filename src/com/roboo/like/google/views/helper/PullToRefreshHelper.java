@@ -30,6 +30,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -38,11 +39,13 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.roboo.like.google.R;
 import com.roboo.like.google.abs.ptr.InstanceCreationUtils;
+import com.roboo.like.google.abs.ptr.OnCancleListener;
 
 public class PullToRefreshHelper implements View.OnTouchListener
 {
@@ -65,7 +68,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 
 	private final View mHeaderView;
 	private final Animation mHeaderInAnimation, mHeaderOutAnimation;
-
+	private static OnCancleListener mOnCancleListener;
 	private final int mTouchSlop;
 	private final float mRefreshScrollDistance;
 
@@ -114,7 +117,10 @@ public class PullToRefreshHelper implements View.OnTouchListener
 		}
 		return attacher;
 	}
-
+	public void setOnCancleListener(OnCancleListener onCancleListener)
+	{
+		mOnCancleListener = onCancleListener;
+	}
 	protected PullToRefreshHelper(Activity activity, Options options)
 	{
 		if (options == null)
@@ -894,6 +900,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 		private ViewGroup mContentLayout;
 		private TextView mHeaderTextView;
 		private Button mHeaderButton;
+		private ImageButton mHeaderImageButton;
 		private ProgressBar mHeaderProgressBar;
 
 		private CharSequence mPullRefreshLabel, mRefreshingLabel, mReleaseLabel;
@@ -907,6 +914,8 @@ public class PullToRefreshHelper implements View.OnTouchListener
 			mHeaderProgressBar = (ProgressBar) headerView.findViewById(R.id.ptr_progress);
 			mHeaderTextView = (TextView) headerView.findViewById(R.id.ptr_text);
 			mHeaderButton = (Button) headerView.findViewById(R.id.ptr_btn);
+			mHeaderImageButton = (ImageButton) headerView.findViewById(R.id.ptr_ibtn_cancle);
+			
 			mPullRefreshLabel = "下拉刷新…";
 			mRefreshingLabel = "正在更新数据…";
 			mReleaseLabel = "放开以刷新…";
@@ -917,7 +926,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 				mContentLayout.getLayoutParams().height = getActionBarSize(activity);
 				mContentLayout.requestLayout();
 			}
-
+			
 			Drawable abBg = getActionBarBackground(activity);
 			if (abBg != null)
 			{
@@ -952,7 +961,7 @@ public class PullToRefreshHelper implements View.OnTouchListener
 			// Reset Text View
 			if (mHeaderTextView != null)
 			{
-				mHeaderTextView.setVisibility(View.VISIBLE);
+				mHeaderTextView.setVisibility(View.GONE);
 				mHeaderTextView.setText(mPullRefreshLabel);
 			}
 			if (mHeaderButton != null)
@@ -960,7 +969,10 @@ public class PullToRefreshHelper implements View.OnTouchListener
 				mHeaderButton.setVisibility(View.VISIBLE);
 				mHeaderButton.setText(mPullRefreshLabel);
 			}
-
+			if(mHeaderImageButton != null)
+			{
+				mHeaderImageButton.setVisibility(View.GONE);
+			}
 			// Reset the Content Layout
 			if (mContentLayout != null)
 			{
@@ -977,6 +989,10 @@ public class PullToRefreshHelper implements View.OnTouchListener
 				final float progress = mInterpolator.getInterpolation(percentagePulled);
 				mHeaderProgressBar.setProgress(Math.round(mHeaderProgressBar.getMax() * progress));
 			}
+			if(mContentLayout != null)
+			{
+				mContentLayout.setVisibility(View.VISIBLE);
+			}
 		}
 
 		@Override
@@ -989,6 +1005,20 @@ public class PullToRefreshHelper implements View.OnTouchListener
 			if (mHeaderButton != null)
 			{
 				mHeaderButton.setText(mRefreshingLabel);
+			}
+			if(mHeaderImageButton != null)
+			{
+				mHeaderImageButton.setVisibility(View.VISIBLE);
+				mHeaderImageButton.setOnClickListener(new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						 if(mOnCancleListener != null)
+						 {
+							 mOnCancleListener.onCancle();
+						 }
+					}
+				});
 			}
 			if (mHeaderProgressBar != null)
 			{
@@ -1183,5 +1213,5 @@ public class PullToRefreshHelper implements View.OnTouchListener
 			mHeaderTransformer.onRefreshMinimized();
 		}
 	};
-
+	
 }

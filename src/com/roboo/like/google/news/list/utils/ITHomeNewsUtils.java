@@ -1,9 +1,9 @@
 package com.roboo.like.google.news.list.utils;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.Locale;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -71,7 +71,7 @@ public class ITHomeNewsUtils
 								}
 								if (TODAY.equals(time))
 								{
-									SimpleDateFormat dateFormat = new SimpleDateFormat("MM月dd日");
+									SimpleDateFormat dateFormat = new SimpleDateFormat("MM月dd日",Locale.CHINESE);
 									time = dateFormat.format(new Date(System.currentTimeMillis()));
 								}
 								news.setSrc(src);

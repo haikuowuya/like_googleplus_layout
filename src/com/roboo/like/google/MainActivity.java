@@ -44,10 +44,11 @@ public class MainActivity extends BaseActivity
 	private String mCurrentURL = IT_HOME;
 	private Menu mMenu;
 	private LinkedList<SubNewsTypeItem> mData;
-	private boolean mIsOnlyAndroid ;
+	private boolean mIsOnlyAndroid;
 	/** 当mMainFragment为MainListFragment时 ，是否快速滑动开启 */
 	private boolean mFastScrollEnable;
-
+	/**为了减少一次数据加载，onCreate方法和设置ActionBar导航列表模式时都会去加载数据*/
+	private  boolean mIsFirstEnter = true;
 	public static void actionMain(Activity activity)
 	{
 		Intent intent = new Intent(activity, MainActivity.class);
@@ -76,7 +77,7 @@ public class MainActivity extends BaseActivity
 		}
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		
+
 	}
 
 	private void init()
@@ -98,11 +99,12 @@ public class MainActivity extends BaseActivity
 		super.onPostCreate(savedInstanceState);
 		mDrawerToggle.syncState();
 	}
+
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
-		if(mIsOnlyAndroid != GoogleApplication.mIsOnlyAndroid)
+		if (mIsOnlyAndroid != GoogleApplication.mIsOnlyAndroid)
 		{
 			initData();
 			mActionBar.setListNavigationCallbacks(mAdapter, new OnNavigationListener()
@@ -111,13 +113,18 @@ public class MainActivity extends BaseActivity
 				{
 					SubNewsTypeItem item = (SubNewsTypeItem) mAdapter.getItem(itemPosition);
 					mCurrentURL = item.url;
-					updateFragment();
+					if(!mIsFirstEnter)
+					{
+						updateFragment();
+						mIsFirstEnter = false;
+					}
 					return true;
 				}
 			});
-			mIsOnlyAndroid  = GoogleApplication.mIsOnlyAndroid;
+			mIsOnlyAndroid = GoogleApplication.mIsOnlyAndroid;
 		}
 	}
+
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.activity_main, menu);
@@ -208,7 +215,7 @@ public class MainActivity extends BaseActivity
 				mMainFragment.setFastScrollEnable(mFastScrollEnable);
 			}
 			return true;
-		case R.id.menu_settings://设置
+		case R.id.menu_settings:// 设置
 			SettingsActivity.actionSettings(this);
 			return true;
 		case R.id.menu_help:// 帮助

@@ -6,10 +6,10 @@
         <item>ic_friend#人脉</item>
         <item>ic_picture#照片</item>
         <item>ic_camera#拍照</item>
-        <item>ic_location#位置信息</item>
         <item>ic_hangout#环聊</item>
         <item>ic_events#活动</item>
-        <item>ic_search#搜索</item>
+        <item>ic_location#位置信息</item>
+        <item>ic_bus#实时公交</item>
         <item>ic_didi#嘀嘀打车</item>
     </string-array>
     <string-array name="actionbar_navigation_ithome_arrays">
@@ -75,7 +75,7 @@
         <item>图形图像#http://www.eoeandroid.com/home.php?catid=7</item>
         <item>游戏开发#http://www.eoeandroid.com/home.php?catid=8</item>
         <item>第三方集成#http://www.eoeandroid.com/home.php?catid=10</item>
-        <item>其他#http://www.eoeandroid.com/home.php?catid=11</item>
+        <item>其他#http://www.eoeandroid.com/home.php?catid=11</item>
         -->
     </string-array>
     <string-array name="actionbar_navigation_it199_arrays">
@@ -119,7 +119,7 @@
         <item>读点#http://m.huxiu.com/books/</item>
         <item>用点#http://m.huxiu.com/products/</item>
     </string-array>
-    <!-- 网络尖刀  -->
+    <!-- 网络尖刀 -->
     <string-array name="actionbar_navigation_wljd_arrays">
         <item>安全#http://www.ijiandao.com/safe/page/</item>
         <item>新闻#http://www.ijiandao.com/news/page/</item>

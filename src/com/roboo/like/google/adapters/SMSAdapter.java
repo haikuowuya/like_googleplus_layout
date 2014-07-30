@@ -27,7 +27,6 @@ public class SMSAdapter extends BaseAdapter
 	{
 		this.mData = data;
 		this.mActivity = mActivity;
-
 	}
 
 	@Override
@@ -68,12 +67,12 @@ public class SMSAdapter extends BaseAdapter
 			{
 				ivImageView.setImageBitmap(item.bitmap);
 			}
-			handleLinkClick(tvBody);
+//			handleLinkClick(tvBody);
 		}
 		return convertView;
 	}
 
-	private void handleLinkClick(TextView tvBody)
+	protected void handleLinkClick(TextView tvBody)
 	{
 		tvBody.setMovementMethod(LinkMovementMethod.getInstance());
 		CharSequence text = tvBody.getText().toString();
@@ -100,6 +99,7 @@ public class SMSAdapter extends BaseAdapter
 		{
 			super(url);
 		}
+
 		public void onClick(View widget)
 		{
 			DidiActivity.actionDidi(mActivity, getURL());

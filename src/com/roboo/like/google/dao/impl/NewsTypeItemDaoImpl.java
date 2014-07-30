@@ -6,9 +6,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.droidux.trial.da;
+import com.droidux.trial.cu;
 import com.roboo.like.google.databases.DBHelper;
-import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.models.NewsTypeItem;
 
 /**
@@ -26,9 +25,9 @@ public class NewsTypeItemDaoImpl
 	private static final String NEWS_TYPE_IMG = "news_type_img";
 	private static final String NEWS_TYPE_DESC = "news_type_desc";
 	private static final String NEWS_TYPE_FLAG = "news_type_flag";
+	private static final String NEWS_TYPE_FAV = "news_type_fav";
 	private static final String NEWS_TYPE_ADD_TIME = "news_type_add_time";
 	private static final String NEWS_TYPE_NOTE = "news_type_note";
-
 	private DBHelper mHelper;
 
 	public NewsTypeItemDaoImpl(DBHelper mHelper)
@@ -60,6 +59,7 @@ public class NewsTypeItemDaoImpl
 					values.put(NEWS_TYPE_NAME, item.name);
 					values.put(NEWS_TYPE_ADD_TIME, item.addTime);
 					values.put(NEWS_TYPE_FLAG, item.flag);
+					values.put(NEWS_TYPE_FAV, item.fav);
 					values.put(NEWS_TYPE_ID, item.id);
 					values.put(NEWS_TYPE_IMG, item.img);
 					values.put(NEWS_TYPE_NOTE, item.note);
@@ -104,11 +104,11 @@ public class NewsTypeItemDaoImpl
 	 * 
 	 * @return null 或者 LinkedList<NewsTypeItem> 对象
 	 */
-	private  LinkedList<NewsTypeItem> getNewsTypeItems()
+	private LinkedList<NewsTypeItem> getNewsTypeItems()
 	{
 		LinkedList<NewsTypeItem> data = null;
 		SQLiteDatabase db = mHelper.getWritableDatabase();
-		Cursor cursor = db.query(true, TABLE_NEWS_TYPE_LIST, new String[] { NEWS_TYPE_MD5, NEWS_TYPE_ID, NEWS_TYPE_NAME, NEWS_TYPE_IMG, NEWS_TYPE_FLAG }, null, null, null, null, NEWS_TYPE_ID +" ASC", null);
+		Cursor cursor = db.query(true, TABLE_NEWS_TYPE_LIST, new String[] { NEWS_TYPE_MD5, NEWS_TYPE_ID, NEWS_TYPE_NAME, NEWS_TYPE_IMG, NEWS_TYPE_FLAG, NEWS_TYPE_FAV }, null, null, null, null, NEWS_TYPE_ID + " ASC", null);
 		if (null != cursor)
 		{
 			data = new LinkedList<NewsTypeItem>();
@@ -120,11 +120,13 @@ public class NewsTypeItemDaoImpl
 				String name = cursor.getString(2);
 				String img = cursor.getString(3);
 				boolean flag = "1".equals(cursor.getString(4));
+				boolean fav = "1".equals(cursor.getString(5));
 				item.md5 = md5;
 				item.id = id;
 				item.img = img;
 				item.flag = flag;
 				item.name = name;
+				item.fav = fav;
 				data.add(item);
 			}
 			cursor.close();
@@ -136,9 +138,12 @@ public class NewsTypeItemDaoImpl
 		db.close();
 		return data;
 	}
+
 	/***
 	 * 根据给定的标志参数来获取相应的新闻类型集合
-	 * @param flag  true 订阅过的 或者  false 没有订阅过的
+	 * 
+	 * @param flag
+	 *            true 订阅过的 或者 false 没有订阅过的
 	 * @return null 或者 LinkedList<NewsTypeItem> 对象
 	 */
 	public LinkedList<NewsTypeItem> getNewsTypeItems(boolean flag)
@@ -152,16 +157,20 @@ public class NewsTypeItemDaoImpl
 				tmp.add(item);
 			}
 		}
-		if(tmp.size() ==0)
+		if (tmp.size() == 0)
 		{
 			tmp = null;
 		}
-		 return tmp;
+		return tmp;
 	}
+
 	/***
 	 * 根据md5来改变新闻类型的订阅标志
-	 * @param md5 新闻类型的md5
-	 * @param flag true 添加订阅 或者 false 取消订阅
+	 * 
+	 * @param md5
+	 *            新闻类型的md5
+	 * @param flag
+	 *            true 添加订阅 或者 false 取消订阅
 	 * @return true 表示操作成功
 	 */
 	public boolean updateFlag(String md5, boolean flag)
@@ -173,5 +182,47 @@ public class NewsTypeItemDaoImpl
 		rowId = db.update(TABLE_NEWS_TYPE_LIST, values, NEWS_TYPE_MD5 + " = ?", new String[] { md5 });
 		db.close();
 		return rowId > -1;
+	}
+
+	/***
+	 * 根据md5来改变新闻类型的收藏标志
+	 * 
+	 * @param md5
+	 *            新闻类型的md5
+	 * @param flag
+	 *            true 收藏 或者 false 取消收藏
+	 * @return true 表示操作成功
+	 */
+	public boolean updateFav(String md5, boolean fav)
+	{
+		int rowId = -1;
+		SQLiteDatabase db = mHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(NEWS_TYPE_FAV, fav);
+		rowId = db.update(TABLE_NEWS_TYPE_LIST, values, NEWS_TYPE_MD5 + " = ?", new String[] { md5 });
+		db.close();
+		return rowId > -1;
+	}
+
+	/***
+	 * 根据md5来判断新闻类型是否收藏
+	 * 
+	 * @param md5
+	 *            新闻类型的md5
+	 * @return true 表示已经收藏成功
+	 */
+	public boolean getFav(String md5)
+	{
+		boolean fav = false;
+		SQLiteDatabase db = mHelper.getWritableDatabase();
+		Cursor cursor = db.query(TABLE_NEWS_TYPE_LIST, new String[] { NEWS_TYPE_FAV }, NEWS_TYPE_MD5 + " = ?", new String[] { md5 }, null, null, null);
+		if (null != cursor && cursor.getCount() > 0)
+		{
+			cursor.moveToFirst();
+			fav = "1".equals(cursor.getString(0));
+			cursor.close();
+		}
+		db.close();
+		return fav;
 	}
 }

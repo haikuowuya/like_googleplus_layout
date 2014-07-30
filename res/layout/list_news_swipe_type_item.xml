@@ -19,6 +19,7 @@
             android:drawableLeft="@drawable/swipe_fav_selector"
             android:drawablePadding="10dp"
             android:padding="10dp"
+            android:minWidth="110dp"
             android:text="@string/tv_fav" />
 
         <View
@@ -49,6 +50,7 @@
             android:layout_height="match_parent"
             android:padding="15dp"
             android:scaleType="fitXY"
+            android:contentDescription="@string/tv_content_desc"
             android:src="@drawable/ic_abs_home_up" />
 
         <TextView

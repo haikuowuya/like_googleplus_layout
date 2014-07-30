@@ -1,12 +1,30 @@
-<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ctv_text"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:padding="10dp"
-    android:drawableLeft="@drawable/ic_picture"
-    android:checkMark="@drawable/checked_textview_selector"
-    android:drawablePadding="10dp"
-   	android:background="@drawable/list_item_selector"
-   	android:textColor="@drawable/text_color_selector"
-    android:gravity="center_vertical"
-    android:textSize="16sp"/>
+    android:addStatesFromChildren="true"
+    android:duplicateParentState="true"
+    android:background="@drawable/list_item_selector" >
+
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:contentDescription="@string/tv_content_desc"
+        android:padding="6dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_picture" />
+
+    <CheckedTextView
+        android:id="@+id/ctv_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       
+        android:checkMark="@drawable/checked_textview_selector"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@drawable/text_color_selector"
+        android:textSize="16sp" />
+
+</LinearLayout>

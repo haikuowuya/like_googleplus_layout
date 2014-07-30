@@ -6,5 +6,6 @@
     <string name="tv_empty_data">没有数据</string>
     <string name="tv_fav">收藏</string>
     <string name="tv_delete">删除</string>
+    <string name="tv_content_desc">这是一个ImageView</string>
     <string name="JPUSH_KEY">ec7ea7d5c3305f48e3b33f2c</string>
 </resources>

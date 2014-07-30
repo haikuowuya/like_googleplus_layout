@@ -1,4 +1,4 @@
 [
-{"table":"CREATE TABLE news_type_list(_id INTEGER PRIMARY KEY AUTOINCREMENT,news_type_md5 TEXT, news_type_name TEXT,news_type_id INTEGER, news_type_img TEXT,news_type_desc TEXT, news_type_flag TEXT,news_type_add_time TEXT, news_type_note TEXT)"},
+{"table":"CREATE TABLE news_type_list(_id INTEGER PRIMARY KEY AUTOINCREMENT,news_type_md5 TEXT, news_type_name TEXT,news_type_id INTEGER, news_type_img TEXT,news_type_desc TEXT, news_type_flag TEXT,news_type_fav TEXT,news_type_add_time TEXT, news_type_note TEXT)"},
 {"table":"CREATE TABLE news_img_list(_id INTEGER PRIMARY KEY AUTOINCREMENT, news_img_md5 TEXT, news_img TEXT, news_img_note TEXT)"}
 ]

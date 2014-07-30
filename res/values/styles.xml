@@ -3,8 +3,7 @@
     <style name="AppBaseTheme" parent="@android:style/Theme.Light"></style>
 
     <style name="AppTheme" parent="AppBaseTheme">
-
-          <item name="android:windowAnimationStyle">@style/Animation.Activity.Style</item> 
+        <item name="android:windowAnimationStyle">@style/Animation.Activity.Style</item>
         <!-- <item name="android:windowAnimationStyle">@style/Animation.Activity.Translucent.Style</item> -->
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -34,10 +33,8 @@
     </style>
 
     <style name="Animation.Activity.Translucent.Style" parent="@android:style/Animation.Translucent">
- 
         <item name="android:windowEnterAnimation">@anim/base_slide_right_in</item>
-        <item name="android:windowExitAnimation">@anim/base_slide_right_out</item> 
-
+        <item name="android:windowExitAnimation">@anim/base_slide_right_out</item>
         <item name="android:activityOpenEnterAnimation">@anim/base_slide_right_in</item>
         <item name="android:activityOpenExitAnimation">@anim/base_stay_orig</item>
         <item name="android:activityCloseEnterAnimation">@anim/base_stay_orig</item>
@@ -74,11 +71,32 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">4dp</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">middle</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:ellipsize">end</item>
     </style>
-    <!-- 评论List  Item 样式 -->
+    <!-- 新闻List Item 样式 -->
+    <style name="News.List.Item.TextView.Style" parent="@style/Base.List.Item.TextView.Style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:textColor">@drawable/text_color_selector</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <!-- 新闻List Item 中的标题样式 -->
+    <style name="Title.News.List.Item.TextView.Style" parent="@style/News.List.Item.TextView.Style">
+        <item name="android:textSize">18sp</item>
+    </style>
+    <!-- 新闻List Item 中的子标题样式 -->
+    <style name="SubTitle.News.List.Item.TextView.Style" parent="@style/News.List.Item.TextView.Style">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:maxLines">4</item>
+    </style>
+
+    <!-- 评论List Item 样式 -->
     <style name="Comment.List.Item.TextView.Style" parent="@style/Base.List.Item.TextView.Style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -87,7 +105,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">middle</item>
     </style>
-    <!-- WIFI信息List  Item 样式 -->
+    <!-- WIFI信息List Item 样式 -->
     <style name="Wifi.List.Item.TextView.Style" parent="@style/Base.List.Item.TextView.Style">
         <item name="android:layout_height">40dp</item>
         <item name="android:layout_width">match_parent</item>
@@ -99,7 +117,7 @@
         <item name="android:text">@string/app_name</item>
         <item name="android:gravity">center_vertical</item>
     </style>
-    <!--短信 List Item样式  -->
+    <!-- 短信 List Item样式 -->
     <style name="Sms.List.Item.TextView.Style" parent="@style/Base.List.Item.TextView.Style">
         <item name="android:layout_height">40dp</item>
         <item name="android:layout_width">match_parent</item>
@@ -112,9 +130,9 @@
         <item name="android:textColorLink">@drawable/text_color_selector</item>
         <item name="android:gravity">center_vertical</item>
     </style>
-    <!-- 设置  TextView  样式 -->
+    <!-- 设置界面中 TextView  样式 -->
     <style name="Settings.TextView.Style" parent="@style/Base.List.Item.TextView.Style">
-                <item name="android:layout_height">48dp</item>
+        <item name="android:layout_height">48dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:padding">10dp</item>
         <item name="android:textColor">@drawable/text_color_selector</item>
@@ -125,7 +143,6 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:background">@drawable/list_item_selector</item>
         <item name="android:textAppearance">?android:attr/textAppearance</item>
-        
     </style>
 
     <style name="Custom.ListView.Style" parent="@android:style/Widget.ListView">
@@ -136,6 +153,5 @@
         <item name="android:scrollbars">none</item>
         <item name="android:fadingEdge">none</item>
     </style>
-    
 
 </resources>

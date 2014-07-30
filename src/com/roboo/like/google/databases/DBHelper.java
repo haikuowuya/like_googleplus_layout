@@ -1,16 +1,16 @@
 package com.roboo.like.google.databases;
 
+import java.io.File;
 import java.util.LinkedList;
-
-import com.droidux.trial.da;
-import com.roboo.like.google.GoogleApplication;
-import com.roboo.like.google.utils.DBJSonUtils;
 
 import android.content.Context;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.roboo.like.google.GoogleApplication;
+import com.roboo.like.google.utils.DBJSonUtils;
 
 public class DBHelper extends SQLiteOpenHelper
 {
@@ -56,7 +56,13 @@ public class DBHelper extends SQLiteOpenHelper
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
-
+		String path = db.getPath();
+		File file = new File(path);
+		if (file.exists() && file.delete())
+		{
+			onCreate(db);
+			System.out.println("删除数据文件成功");
+		}
 	}
 
 }

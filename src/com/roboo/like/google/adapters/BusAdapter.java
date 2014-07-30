@@ -12,13 +12,14 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.roboo.like.google.R;
+import com.roboo.like.google.models.BusItem;
 
-public class WIFIAdapter extends BaseAdapter
+public class BusAdapter extends BaseAdapter
 {
-	private LinkedList<ScanResult> mData;
+	private LinkedList<BusItem> mData;
 	private Activity mActivity;
 
-	public WIFIAdapter(Activity mActivity, LinkedList<ScanResult> data)
+	public BusAdapter(Activity mActivity, LinkedList<BusItem> data)
 	{
 		this.mData = data;
 		this.mActivity = mActivity;
@@ -45,12 +46,12 @@ public class WIFIAdapter extends BaseAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		ScanResult item = mData.get(position);
+		BusItem item = mData.get(position);
 		convertView = LayoutInflater.from(mActivity).inflate(R.layout.wifi_list_item, null);
 		TextView tvSSID = ViewHolder.getView(convertView, R.id.tv_ssid);
 		TextView tvCapabilities = ViewHolder.getView(convertView, R.id.tv_capabilities);
-		tvSSID.setText(item.SSID);
-		tvCapabilities.setText("安全性  " + item.capabilities);
+		tvSSID.setText(item.busNo);
+		tvCapabilities.setText(item.busName);
 		return convertView;
 	}
 

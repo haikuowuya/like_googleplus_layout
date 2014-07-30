@@ -48,7 +48,6 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 		{
 			File file = new File(FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_NEWS_LIST), MD5Utils.generate(mChannelUrl));
 			data = NewsListUtils.getNewsList(mChannelUrl, mPageNo);
-		
 			if (null != data)
 			{
 				if (mPageNo == 1)
@@ -166,7 +165,6 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 				{
 					System.out.println("追加新闻列表对象写入文件成功 :: 追加新闻个数  = " + needAppendData.size());
 				}
-
 			}
 		}
 	}

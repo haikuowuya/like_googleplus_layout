@@ -16,6 +16,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.text.TextUtils;
 
 public class WifiAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<ScanResult>>
 {
@@ -71,6 +72,7 @@ public class WifiAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<ScanResu
 					System.out.println("无线网络名称  = " + scanResult.SSID + " capabilities = " + scanResult.capabilities + " frequency = " + scanResult.frequency + " level = " + scanResult.level + " timestamp = " + scanResult.timestamp + " describeContents = " + scanResult.describeContents()
 						+ " BSSID = " + scanResult.BSSID);
 				}
+				 
 				wifis.add(scanResult);
 			}
 		}
@@ -86,6 +88,7 @@ public class WifiAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<ScanResu
 			}
 		}
 		HashMap<String, String> hashMap = getConfigWifiInfos();
+		LinkedList<ScanResult> tmpList = new LinkedList<ScanResult>();
 		for (ScanResult scanResult : wifis)
 		{
 			scanResult.capabilities = "WIFI密码没有配置过";
@@ -100,12 +103,33 @@ public class WifiAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<ScanResu
 				boolean flag = ssid.equals(key);
 				if (flag)
 				{
+					tmpList.add(scanResult);
 					scanResult.capabilities = hashMap.get(key);
 					break;
 				}
 			}
 		}
+		handleWifi(wifis ,tmpList);
 		return wifis;
+	}
+
+	private void handleWifi(LinkedList<ScanResult> wifis,LinkedList<ScanResult> tmpList)
+	{
+		wifis.removeAll(tmpList);
+		wifis.addAll(0, tmpList);
+		tmpList.clear();
+		 for(ScanResult scanResult :wifis)
+		 {
+			 if(TextUtils.isEmpty(scanResult.SSID))
+			 {
+				 tmpList.add(scanResult);
+			 }
+		 }
+		 if(tmpList.size() > 0)
+		 {
+			 wifis.removeAll(tmpList);
+		 }
+		
 	}
 
 	/**
@@ -183,7 +207,6 @@ public class WifiAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<ScanResu
 			}
 		}
 		file.delete();
-
 		return data;
 	}
 

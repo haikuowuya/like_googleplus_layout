@@ -11,7 +11,6 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.roboo.like.google.R;
-import com.roboo.like.google.models.NewsTypeItem;
 import com.roboo.like.google.models.SubNewsTypeItem;
 
 public class NewsTypeListAdapter extends BaseAdapter implements StickyHeadersAdapter,SectionIndexer

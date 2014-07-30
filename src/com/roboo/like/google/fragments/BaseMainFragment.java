@@ -1,9 +1,9 @@
 package com.roboo.like.google.fragments;
 
-import android.support.v4.app.Fragment;
 
-public  abstract class BaseMainFragment extends Fragment
+public  abstract class BaseMainFragment extends BaseFragment
 {
+	public boolean mInited = false;
 	public abstract void setFastScrollEnable(boolean enable);
 	
 }

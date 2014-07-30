@@ -16,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.SimpleAdapter;
 
+import com.roboo.like.google.BusActivity;
 import com.roboo.like.google.CameraActivity;
 import com.roboo.like.google.ContacterActivity;
 import com.roboo.like.google.DidiActivity;
@@ -102,6 +103,8 @@ public class LeftFragment extends BaseFragment
 		{
 			switch (position)
 			{
+			case 0://首页
+				break;
 			case 1:// 人脉
 				ContacterActivity.actionContacter(mainActivity);
 				break;
@@ -112,11 +115,14 @@ public class LeftFragment extends BaseFragment
 					// CameraActivity.actionCamera(getActivity());
 				startCamera();
 				break;
-			case 4:// 位置信息
+			case 4://短信
+				SMSActivity.actionSms(getActivity());
+				break;
+			case 6:// 位置信息
 				LocationActivity.actionLocation(getActivity());
 				break;
-			case 5://短信
-				SMSActivity.actionSms(getActivity());
+			case 7://实时公交
+				BusActivity.actionBus(getActivity());
 				break;
 			case 8://嘀嘀打车
 				DidiActivity.actionDidi(getActivity());

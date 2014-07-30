@@ -1,5 +1,7 @@
 package com.roboo.like.google.adapters;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -8,12 +10,19 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.MediaStore.Images.Media;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
+import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
@@ -26,8 +35,8 @@ public class ContacterAdapter extends BaseAdapter implements StickyHeadersAdapte
 	private LinkedList<ContacterItem> mData;
 	private Activity mActivity;
 	private LayoutInflater mInflater;
-	/**用于记录两个字符串大写首字母不相同时，该比较字符串所在List集合的索引位置*/
-	private LinkedList<Integer> mSectionIndex =new LinkedList<Integer>();
+	/** 用于记录两个字符串大写首字母不相同时，该比较字符串所在List集合的索引位置 */
+	private LinkedList<Integer> mSectionIndex = new LinkedList<Integer>();
 
 	public ContacterAdapter(Activity activity, LinkedList<ContacterItem> data)
 	{
@@ -52,18 +61,24 @@ public class ContacterAdapter extends BaseAdapter implements StickyHeadersAdapte
 	{
 		return position;
 	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		convertView = LayoutInflater.from(mActivity).inflate(R.layout.contacter_list_item, null);
 		final CheckedTextView textView = (CheckedTextView) convertView.findViewById(R.id.ctv_text);
+		ImageView imageView = (ImageView) convertView.findViewById(R.id.iv_image);
 		ContacterItem item = mData.get(position);
-		textView.setText(item.name +"[ " + item.phone + " ]");
+		if (item.bitmap != null)
+		{
+			imageView.setImageBitmap(item.bitmap);
+		}
+		textView.setText(item.name + "[ " + item.phone + " ]");
 		textView.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View v)
 			{
-			  	textView.setChecked(!textView.isChecked());
+				textView.setChecked(!textView.isChecked());
 			}
 		});
 		return convertView;
@@ -85,7 +100,7 @@ public class ContacterAdapter extends BaseAdapter implements StickyHeadersAdapte
 	{
 		if (section >= mSectionIndex.size())
 		{
-			section = mSectionIndex.size()-1;
+			section = mSectionIndex.size() - 1;
 		}
 		else if (section < 0)
 		{
@@ -104,7 +119,7 @@ public class ContacterAdapter extends BaseAdapter implements StickyHeadersAdapte
 				return i - 1;
 			}
 		}
-		return mSectionIndex.size()- 1;
+		return mSectionIndex.size() - 1;
 	}
 
 	@Override
@@ -147,12 +162,13 @@ public class ContacterAdapter extends BaseAdapter implements StickyHeadersAdapte
 		}
 		return hasHeaderIdList;
 	}
-	/**获取中文字符串的大写首字母*/
+
+	/** 获取中文字符串的大写首字母 */
 	private String getFristLetter(String str)
 	{
-		 HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
-		 defaultFormat.setCaseType(HanyuPinyinCaseType.UPPERCASE);
-		 defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+		HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
+		defaultFormat.setCaseType(HanyuPinyinCaseType.UPPERCASE);
+		defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
 		return PinYinUtils.getPinYinHeadChar(str, defaultFormat).substring(0, 1);
 	}
 }

@@ -22,17 +22,26 @@
             android:layout_height="match_parent"
             android:background="@color/ghostwhite_color"
             android:gravity="center"
-            android:visibility="gone"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:visibility="gone" />
         <Button
             android:id="@+id/ptr_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/ghostwhite_color"
             android:gravity="center"
+         
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black" />
+        <ImageButton
+            android:id="@+id/ptr_ibtn_cancle"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/list_item_selector"
+            android:gravity="right"
+            android:layout_gravity="right"
+             android:src="@drawable/ic_ptr_cancle"/>
     </FrameLayout>
 
     <ProgressBar

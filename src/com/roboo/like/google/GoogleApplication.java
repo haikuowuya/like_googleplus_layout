@@ -26,7 +26,7 @@ import com.droidux.components.DroidUxLib;
 
 public class GoogleApplication extends Application
 {
-	public static final int DB_VERSION= 0724;//7月11日
+	public static final int DB_VERSION= 0711;//7月11日
 	public static final String DB_NAME="android";
 	public static boolean mIsOnlyAndroid = false;
 	/**IT之家*/
