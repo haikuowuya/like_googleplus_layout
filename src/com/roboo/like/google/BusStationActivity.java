@@ -7,14 +7,20 @@ import android.view.MenuItem;
 
 import com.roboo.like.google.fragments.BusFragment;
 import com.roboo.like.google.fragments.BusLineFragment;
+import com.roboo.like.google.fragments.BusStationFragment;
 import com.roboo.like.google.models.BusItem;
+import com.roboo.like.google.models.BusLineItem;
 
 /** 公交界面 */
-public class BusActivity extends BaseLayoutActivity
+public class BusStationActivity extends BaseLayoutActivity
 {
-	public static void actionBus(Activity activity)
+	 
+	private static final String EXTRA_BUS_LINE_ITEM= "bus_line_item";
+	private BusLineItem mBusLineItem;
+	public static void actionBusStation(Activity activity,BusLineItem item)
 	{
-		Intent intent = new Intent(activity, BusActivity.class);
+		Intent intent = new Intent(activity, BusStationActivity.class);
+		intent.putExtra(EXTRA_BUS_LINE_ITEM, item);
 		activity.startActivity(intent);
 	}
 
@@ -23,10 +29,11 @@ public class BusActivity extends BaseLayoutActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bus);//TODO
 		initView();
+		mBusLineItem = (BusLineItem) getIntent().getSerializableExtra(EXTRA_BUS_LINE_ITEM);
 		customActionBar();
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_container) == null)
 		{
-			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, BusFragment.newInstance()).commit();
+			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, BusStationFragment.newInstance(mBusLineItem.stationUrl)).commit();
 		}
 	}
 
@@ -45,22 +52,12 @@ public class BusActivity extends BaseLayoutActivity
 	{
 
 	}
-	public void skipToBusLineFragment(String busLineUrl)
-	{
-		beginTransaction().replace(R.id.frame_container, BusLineFragment.newInstance(busLineUrl)).addToBackStack("bus").commit();
-	}
-	public void skipToBusLineFragment(BusItem item)
-	{
-		mActionBar.setTitle("公交 - "+item.busNo+ " 路");
-		 skipToBusLineFragment(item.busUrl);
-	}
 	private void customActionBar()
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(true);
-		mActionBar.setTitle("公交");
+		mActionBar.setTitle("站点 - "+mBusLineItem.stationName);
 		mActionBar.setLogo(R.drawable.ic_abs_bus_up);
 	}
-
 	@Override
 	public void onUserInteraction()
 	{

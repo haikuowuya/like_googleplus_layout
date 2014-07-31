@@ -122,6 +122,8 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".WIFIActivity" />
         <activity android:name=".BusActivity" />
+        <activity android:name=".BusLineActivity" />
+        <activity android:name=".BusStationActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SMSActivity" />
         <activity

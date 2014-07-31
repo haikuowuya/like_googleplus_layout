@@ -7,43 +7,41 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AbsListView;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.roboo.like.google.BaseActivity;
-import com.roboo.like.google.BusActivity;
 import com.roboo.like.google.BusLineActivity;
 import com.roboo.like.google.R;
-import com.roboo.like.google.adapters.BusAdapter;
-import com.roboo.like.google.async.BusAsyncTaskLoader;
+import com.roboo.like.google.adapters.BusStationAdapter;
+import com.roboo.like.google.async.BusStationAsyncTaskLoader;
 import com.roboo.like.google.models.BusItem;
+import com.roboo.like.google.models.BusStationItem;
 
 @SuppressLint("NewApi")
-public class BusFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<BusItem>>
+public class BusStationFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<BusStationItem>>
 {
 	private ListView mListView;
-	private LinkedList<BusItem> mData;
-	private BusAdapter mAdapter;
+	public static final String ARG_BUS_LINE = "bus_line";
+	public static final String ARG_BUS_ITEM = "bus_item";
+	private LinkedList<BusStationItem> mData;
 	private View mHeaderView;
-	private String mBusNo = "18";
+	private BusStationAdapter mAdapter;
 	private int mListViewFirstPosition   = 0;
-	public static BusFragment newInstance()
+	public static BusStationFragment newInstance(String busLineUrl)
 	{
-		BusFragment fragment = new BusFragment();
+		BusStationFragment fragment = new BusStationFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString(ARG_BUS_LINE, busLineUrl);
+		fragment.setArguments(bundle);
 		return fragment;
 	}
 
@@ -53,7 +51,7 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 		View view = null;
 		if (savedInstanceState == null)
 		{
-			view = inflater.inflate(R.layout.fragment_bus, null);// TODO
+			view = inflater.inflate(R.layout.fragment_bus_line, null);// TODO
 			mListView = (ListView) view.findViewById(R.id.dlv_list);
 		}
 		mHeaderView = createHeaderView();
@@ -61,42 +59,12 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 		return view;
 	}
 
-	/***
-	 * 为ListView创建一个HeaderView
-	 * 
-	 * @return
-	 */
-	private View createHeaderView()
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState)
 	{
-		mHeaderView = LayoutInflater.from(getActivity()).inflate(R.layout.listview_bus_header_view, null);// TODO ListView的HeaderView布局文件
-		final EditText editText = (EditText) mHeaderView.findViewById(R.id.et_text);
-		ImageButton ibtnSearch = (ImageButton) mHeaderView.findViewById(R.id.ibtn_search);
-		ibtnSearch.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				if (!TextUtils.isEmpty(editText.getText()))
-				{
-					if (TextUtils.isDigitsOnly(editText.getText()))
-					{
-						mBusNo = editText.getText().toString();
-						BaseActivity baseActivity = (BaseActivity) getActivity();
-						baseActivity.hideKeyBoard(editText);
-						editText.setText(null);
-						onRefresh();
-					}
-					else
-					{
-						Toast.makeText(getActivity(), "输入的线路番号不合法", Toast.LENGTH_SHORT).show();
-					}
-				}
-				else
-				{
-					Toast.makeText(getActivity(), "请输入的线路番号", Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
-		return mHeaderView;
+		super.onActivityCreated(savedInstanceState);
+		doLoadData();
+		setListener();
 	}
 
 	private void doLoadData()
@@ -105,21 +73,15 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 		mProgressBar.setVisibility(View.VISIBLE);
 	}
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState)
+	/***
+	 * 为ListView通过代码创建一个HeaderView
+	 * 
+	 * @return
+	 */
+	private View createHeaderView()
 	{
-		super.onActivityCreated(savedInstanceState);
-		if (mData == null)
-		{
-			doLoadData();
-		}
-		else
-		{
-			mProgressBar.setVisibility(View.GONE);
-			mAdapter = new BusAdapter(getActivity(), mData);
-			mListView.setAdapter(mAdapter);
-		}
-		setListener();
+		mHeaderView = LayoutInflater.from(getActivity()).inflate(R.layout.listview_bus_station_header_view, null);// TODO ListView的HeaderView布局文件
+		return mHeaderView;
 	}
 
 	@Override
@@ -140,29 +102,18 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 		return super.onOptionsItemSelected(item);
 	}
 
-	/**
-	 * 刷新
-	 */
 	private void onRefresh()
 	{
 		mHeaderView.setVisibility(View.GONE);
-		mData = new LinkedList<BusItem>();
-		mAdapter = new BusAdapter(getActivity(), mData);
+		mData = new LinkedList<BusStationItem>();
+		mAdapter = new BusStationAdapter(getActivity(), mData);
 		mListView.setAdapter(mAdapter);
 		doLoadData();
 	}
 
 	public void setListener()
 	{
-		 
-		mListView.setOnItemClickListener(new OnItemClickListener()
-		{
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-			{
-				BusItem item = (BusItem) parent.getAdapter().getItem(position);
-				 BusLineActivity.actionBusLine(getActivity(), item);
-			}
-		});
+		mListView.setOnItemClickListener(getOnItemClickListener());
 		mListView.setOnScrollListener(new OnScrollListener()
 		{
 			
@@ -182,21 +133,38 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 		});
 	}
 
-	@Override
-	public Loader<LinkedList<BusItem>> onCreateLoader(int id, Bundle args)
+	private OnItemClickListener getOnItemClickListener()
 	{
-		return new BusAsyncTaskLoader(getActivity(), mBusNo);
+		return new OnItemClickListener()
+		{
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			{
+				BusStationItem item = (BusStationItem) parent.getAdapter().getItem(position);
+				BusItem busItem = new BusItem();
+				busItem.busNo = item.busNo;
+				busItem.busUrl = item.stationUrl;
+				BusLineActivity.actionBusLine(getActivity(), busItem);
+			}
+
+		};
 	}
 
 	@Override
-	public void onLoadFinished(Loader<LinkedList<BusItem>> loader, LinkedList<BusItem> data)
+	public Loader<LinkedList<BusStationItem>> onCreateLoader(int id, Bundle args)
+	{
+		return new BusStationAsyncTaskLoader(getActivity(), getArguments().getString(ARG_BUS_LINE, null));
+	}
+
+	@Override
+	public void onLoadFinished(Loader<LinkedList<BusStationItem>> loader, LinkedList<BusStationItem> data)
 	{
 		mProgressBar.setVisibility(View.GONE);
 		if (data != null)
 		{
 			mData = data;
 			mHeaderView.setVisibility(View.VISIBLE);
-			mAdapter = new BusAdapter(getActivity(), mData);
+			mAdapter = new BusStationAdapter(getActivity(), mData);
 			mListView.setAdapter(mAdapter);
 			if(mListViewFirstPosition > 0)
 			{
@@ -206,7 +174,7 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 	}
 
 	@Override
-	public void onLoaderReset(Loader<LinkedList<BusItem>> loader)
+	public void onLoaderReset(Loader<LinkedList<BusStationItem>> loader)
 	{
 
 	}

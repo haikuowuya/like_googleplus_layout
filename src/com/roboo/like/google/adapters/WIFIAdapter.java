@@ -46,7 +46,7 @@ public class WIFIAdapter extends BaseAdapter
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		ScanResult item = mData.get(position);
-		convertView = LayoutInflater.from(mActivity).inflate(R.layout.wifi_list_item, null);
+		convertView = LayoutInflater.from(mActivity).inflate(R.layout.list_wifi_item, null);
 		TextView tvSSID = ViewHolder.getView(convertView, R.id.tv_ssid);
 		TextView tvCapabilities = ViewHolder.getView(convertView, R.id.tv_capabilities);
 		tvSSID.setText(item.SSID);

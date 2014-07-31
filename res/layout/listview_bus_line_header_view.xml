@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="32dp"
+    android:background="@android:color/white"
+    android:gravity="center_vertical" >
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:text="@string/tv_station_name"
+        android:textColor="@color/red_color"
+        android:textStyle="bold" />
+
+    <Button
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:text="@string/tv_station_mark"
+        android:textColor="@color/violet_color"
+        android:textStyle="bold" />
+
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:text="@string/tv_station_bus_no"
+        android:textColor="@color/sky_blue_color"
+        android:textStyle="bold" />
+
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/tv_station_bus_time"
+        android:textColor="@color/hotpink_color"
+        android:textStyle="bold" />
+
+</LinearLayout>

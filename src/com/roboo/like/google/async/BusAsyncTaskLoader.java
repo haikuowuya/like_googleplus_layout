@@ -10,17 +10,25 @@ import org.jsoup.select.Elements;
 
 import android.content.Context;
 
+import com.droidux.trial.da;
 import com.roboo.like.google.models.BusItem;
 
 public class BusAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusItem>>
 {
 	public static final String BASE_URL="http://www.szjt.gov.cn/apts/";
-	public static final String URL = "http://www.szjt.gov.cn/apts/APTSLine.aspx?__VIEWSTATE=%2FwEPDwUJNDk3MjU2MjgyD2QWAmYPZBYCAgMPZBYCAgEPZBYCAgYPDxYCHgdWaXNpYmxlaGRkZLSbkOWJhbw7r9tBdPn33bPCSlJcKXww5ounfGoyhKl3&__EVENTVALIDATION=%2FwEWAwLeub7XBwL88Oh8AqX89aoK1GKT3VlKUTd%2FxyQgZexCetMuo%2Fi%2FLRDnisAyha1YxN0%3D&ctl00%24MainContent%24LineName=18&ctl00%24MainContent%24SearchLine=%E6%90%9C%E7%B4%A2";// 18
+	public static final String URL = "http://www.szjt.gov.cn/apts/APTSLine.aspx?__VIEWSTATE=%2FwEPDwUJNDk3MjU2MjgyD2QWAmYPZBYCAgMPZBYCAgEPZBYCAgYPDxYCHgdWaXNpYmxlaGRkZLSbkOWJhbw7r9tBdPn33bPCSlJcKXww5ounfGoyhKl3&__EVENTVALIDATION=%2FwEWAwLeub7XBwL88Oh8AqX89aoK1GKT3VlKUTd%2FxyQgZexCetMuo%2Fi%2FLRDnisAyha1YxN0%3D&ctl00%24MainContent%24SearchLine=%E6%90%9C%E7%B4%A2&ctl00%24MainContent%24LineName=";// 18
 	private Context mContext;
+	public   String mBusNo;
 
 	public BusAsyncTaskLoader(Context context)
 	{
 		super(context);
+		this.mContext = context;
+	}
+	public BusAsyncTaskLoader(Context context,String busNo)
+	{
+		super(context);
+		this.mBusNo = busNo;
 		this.mContext = context;
 	}
 
@@ -47,7 +55,7 @@ public class BusAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusItem>>
 		LinkedList<BusItem> data = null;
 		try
 		{
-			Document document = Jsoup.connect(URL).get();
+			Document document = Jsoup.connect(URL+mBusNo).get();
 			Element element = document.getElementById("MainContent_DATA");
 			element = element.getElementsByTag("tbody").get(0);
 			Elements elements = element.getElementsByTag("tr");
@@ -75,15 +83,20 @@ public class BusAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusItem>>
 						data.add(item);
 					}
 				}
+				if(data.size() ==0)
+				{
+					data = null;
+				}
 			}
 		}
 		catch (IOException e1)
 		{
 			e1.printStackTrace();
 		}
+		 
 		if (data != null)
 		{
-			mDebug = true;
+			mDebug = false;
 			if (mDebug)
 			{
 				for (BusItem item : data)

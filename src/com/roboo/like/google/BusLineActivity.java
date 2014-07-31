@@ -5,28 +5,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.roboo.like.google.fragments.BusFragment;
 import com.roboo.like.google.fragments.BusLineFragment;
 import com.roboo.like.google.models.BusItem;
+import com.roboo.like.google.models.BusStationItem;
 
 /** 公交界面 */
-public class BusActivity extends BaseLayoutActivity
+public class BusLineActivity extends BaseLayoutActivity
 {
-	public static void actionBus(Activity activity)
+	private static final String EXTRA_BUS_ITEM= "bus_item";
+	private BusItem mBusItem;
+	public static void actionBusLine(Activity activity,BusItem item)
 	{
-		Intent intent = new Intent(activity, BusActivity.class);
+		Intent intent = new Intent(activity, BusLineActivity.class);
+		intent.putExtra(EXTRA_BUS_ITEM, item);
 		activity.startActivity(intent);
 	}
+	 
 
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bus);//TODO
 		initView();
+		mBusItem = (BusItem) getIntent().getSerializableExtra(EXTRA_BUS_ITEM);
 		customActionBar();
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_container) == null)
 		{
-			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, BusFragment.newInstance()).commit();
+			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, BusLineFragment.newInstance(mBusItem.busUrl)).commit();
 		}
 	}
 
@@ -45,22 +50,12 @@ public class BusActivity extends BaseLayoutActivity
 	{
 
 	}
-	public void skipToBusLineFragment(String busLineUrl)
-	{
-		beginTransaction().replace(R.id.frame_container, BusLineFragment.newInstance(busLineUrl)).addToBackStack("bus").commit();
-	}
-	public void skipToBusLineFragment(BusItem item)
-	{
-		mActionBar.setTitle("公交 - "+item.busNo+ " 路");
-		 skipToBusLineFragment(item.busUrl);
-	}
 	private void customActionBar()
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(true);
-		mActionBar.setTitle("公交");
+		mActionBar.setTitle("公交 - "+mBusItem.busNo+ " 路");
 		mActionBar.setLogo(R.drawable.ic_abs_bus_up);
 	}
-
 	@Override
 	public void onUserInteraction()
 	{

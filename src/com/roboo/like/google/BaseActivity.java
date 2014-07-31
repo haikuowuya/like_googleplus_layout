@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import cn.jpush.android.api.JPushInterface;
 
 import com.roboo.like.google.commons.CrashException;
@@ -119,14 +121,20 @@ public class BaseActivity extends FragmentActivity
 	{
 		return mPreferences;
 	}
-
+	public void hideKeyBoard(View view )
+	{
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		if(imm.isActive(view))
+		{
+			imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+		}
+	}
 	protected FragmentTransaction beginTransaction()
 	{
 		int enter = R.anim.base_slide_right_in;
 		int exit = R.anim.base_slide_right_out;
 		int popEnter = R.anim.base_slide_right_in;
 		int popExit = R.anim.base_slide_right_out;
-
 		enter = exit = popEnter = popExit = 0;
 		return getSupportFragmentManager().beginTransaction().setCustomAnimations(enter, exit, popEnter, popExit);
 	}

@@ -9,11 +9,8 @@ import android.widget.ProgressBar;
 
 public class BaseWithProgressFragment extends BaseFragment
 {
-
 	protected ProgressBar mProgressBar;
 	private FrameLayout mDecorView;
-	
- 
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);

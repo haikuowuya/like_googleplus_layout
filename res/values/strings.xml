@@ -7,5 +7,16 @@
     <string name="tv_fav">收藏</string>
     <string name="tv_delete">删除</string>
     <string name="tv_content_desc">这是一个ImageView</string>
+    <string name="tv_bus_no_hint">请输入线路番号</string>
+    <string name="tv_bus_no">线路番号</string>
+    <string name="tv_bus_name">线路名称</string>
+    <string name="tv_station_name">站台</string>
+    <string name="tv_bus_direction">方向</string>
+    <string name="tv_bus_line">线路</string>
+    <string name="tv_station_bus_no">车牌号</string>
+    <string name="tv_station_mark">编号</string>
+    <string name="tv_station_bus_time">进站时间</string>
+    <string name="tv_bus_update_time">时间</string>
+    <string name="tv_bus_stop_spacing">站距</string>
     <string name="JPUSH_KEY">ec7ea7d5c3305f48e3b33f2c</string>
 </resources>

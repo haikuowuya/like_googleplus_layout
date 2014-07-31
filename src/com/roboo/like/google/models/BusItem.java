@@ -1,6 +1,7 @@
 package com.roboo.like.google.models;
 
-public class BusItem
+@SuppressWarnings("serial")
+public class BusItem extends BaseItem
 {
 	/**公交线路对应的url*/
 	public String busUrl;

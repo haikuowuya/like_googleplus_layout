@@ -45,7 +45,7 @@ public class BusAdapter extends BaseAdapter
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		BusItem item = mData.get(position);
-		convertView = LayoutInflater.from(mActivity).inflate(R.layout.bus_list_item, null);
+		convertView = LayoutInflater.from(mActivity).inflate(R.layout.list_bus_item, null);//TODO
 		TextView tvBusNo= ViewHolder.getView(convertView, R.id.tv_busNo);
 		TextView tvBuName = ViewHolder.getView(convertView, R.id.tv_busName);
 		tvBusNo.setText(item.busNo);
