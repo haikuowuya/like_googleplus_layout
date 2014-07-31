@@ -25,6 +25,7 @@ import com.roboo.like.google.adapters.BusStationAdapter;
 import com.roboo.like.google.async.BusStationAsyncTaskLoader;
 import com.roboo.like.google.models.BusItem;
 import com.roboo.like.google.models.BusStationItem;
+import com.roboo.like.google.utils.NetWorkUtils;
 
 @SuppressLint("NewApi")
 public class BusStationFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<BusStationItem>>
@@ -35,7 +36,8 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 	private LinkedList<BusStationItem> mData;
 	private View mHeaderView;
 	private BusStationAdapter mAdapter;
-	private int mListViewFirstPosition   = 0;
+	private int mListViewFirstPosition = 0;
+
 	public static BusStationFragment newInstance(String busLineUrl)
 	{
 		BusStationFragment fragment = new BusStationFragment();
@@ -116,20 +118,19 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 		mListView.setOnItemClickListener(getOnItemClickListener());
 		mListView.setOnScrollListener(new OnScrollListener()
 		{
-			
+
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState)
 			{
-				if(scrollState == OnScrollListener.SCROLL_STATE_IDLE)
+				if (scrollState == OnScrollListener.SCROLL_STATE_IDLE)
 				{
-					 mListViewFirstPosition = view.getFirstVisiblePosition();
+					mListViewFirstPosition = view.getFirstVisiblePosition();
 				}
 			}
-			
+
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
-			{
-			}
+			{}
 		});
 	}
 
@@ -166,9 +167,21 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 			mHeaderView.setVisibility(View.VISIBLE);
 			mAdapter = new BusStationAdapter(getActivity(), mData);
 			mListView.setAdapter(mAdapter);
-			if(mListViewFirstPosition > 0)
+			if (mListViewFirstPosition > 0)
 			{
 				mListView.setSelection(mListViewFirstPosition);
+			}
+		}
+		else
+		{
+			
+			if (NetWorkUtils.isNetworkAvailable(getActivity()))
+			{
+
+			}
+			else
+			{
+
 			}
 		}
 	}

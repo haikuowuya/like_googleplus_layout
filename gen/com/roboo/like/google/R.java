@@ -1010,18 +1010,19 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int list_news_type_item=0x7f030034;
         public static final int list_sms_item=0x7f030035;
         public static final int list_wifi_item=0x7f030036;
-        public static final int listview_bus_header_view=0x7f030037;
-        public static final int listview_bus_line_header_view=0x7f030038;
-        public static final int listview_bus_station_header_view=0x7f030039;
-        public static final int listview_footer_view=0x7f03003a;
-        public static final int listview_header_view=0x7f03003b;
-        public static final int picture_grid_item=0x7f03003c;
-        public static final int picture_pin_item=0x7f03003d;
-        public static final int poppyview=0x7f03003e;
-        public static final int popupwindow_comment=0x7f03003f;
-        public static final int ptr_default_header=0x7f030040;
-        public static final int sticky_header_view=0x7f030041;
-        public static final int toast_view=0x7f030042;
+        public static final int listview_bus_empty_view=0x7f030037;
+        public static final int listview_bus_header_view=0x7f030038;
+        public static final int listview_bus_line_header_view=0x7f030039;
+        public static final int listview_bus_station_header_view=0x7f03003a;
+        public static final int listview_footer_view=0x7f03003b;
+        public static final int listview_header_view=0x7f03003c;
+        public static final int picture_grid_item=0x7f03003d;
+        public static final int picture_pin_item=0x7f03003e;
+        public static final int poppyview=0x7f03003f;
+        public static final int popupwindow_comment=0x7f030040;
+        public static final int ptr_default_header=0x7f030041;
+        public static final int sticky_header_view=0x7f030042;
+        public static final int toast_view=0x7f030043;
     }
     public static final class menu {
         public static final int activity_bus=0x7f0c0000;

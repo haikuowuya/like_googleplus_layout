@@ -83,12 +83,24 @@ public class BusLineAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusLi
 							stationMark = tmpEleemnts.get(1).text();
 							incomingBusNo = tmpEleemnts.get(2).text();
 							incomingBusTime = tmpEleemnts.get(3).text();
+							
+							
+							if(!TextUtils.isEmpty(stationName))
+							{
+								if(stationName.contains("（"))
+								{
+									stationName = stationName.replace("（", "[");
+								}
+								if(stationName.contains("）"))
+								{
+									stationName = stationName.replace(")", "]");
+								}
+							}
 							item.stationName = stationName;
 							item.incomingBusNo = incomingBusNo;
 							item.incomingBusTime = incomingBusTime;
 							item.stationMark = stationMark;
 							item.stationUrl = stationUrl;
-
 							data.add(item);
 						}
 					}

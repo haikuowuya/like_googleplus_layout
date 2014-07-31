@@ -31,6 +31,7 @@ import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.BusAdapter;
 import com.roboo.like.google.async.BusAsyncTaskLoader;
 import com.roboo.like.google.models.BusItem;
+import com.roboo.like.google.utils.NetWorkUtils;
 
 @SuppressLint("NewApi")
 public class BusFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<BusItem>>
@@ -39,8 +40,10 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 	private LinkedList<BusItem> mData;
 	private BusAdapter mAdapter;
 	private View mHeaderView;
+	private View mEmptyView;
 	private String mBusNo = "18";
-	private int mListViewFirstPosition   = 0;
+	private int mListViewFirstPosition = 0;
+
 	public static BusFragment newInstance()
 	{
 		BusFragment fragment = new BusFragment();
@@ -57,8 +60,16 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 			mListView = (ListView) view.findViewById(R.id.dlv_list);
 		}
 		mHeaderView = createHeaderView();
+		mEmptyView = createEmptyView();
 		mListView.addHeaderView(mHeaderView);
+		mListView.setEmptyView(mEmptyView);
 		return view;
+	}
+
+	private View createEmptyView()
+	{
+		mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.listview_bus_empty_view, null);// TODO ListView的HeaderView布局文件
+		return mEmptyView;
 	}
 
 	/***
@@ -103,6 +114,8 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 	{
 		getActivity().getSupportLoaderManager().restartLoader(0, null, this);
 		mProgressBar.setVisibility(View.VISIBLE);
+		mEmptyView.setVisibility(View.GONE);
+
 	}
 
 	@Override
@@ -154,31 +167,30 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 
 	public void setListener()
 	{
-		 
+
 		mListView.setOnItemClickListener(new OnItemClickListener()
 		{
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
 				BusItem item = (BusItem) parent.getAdapter().getItem(position);
-				 BusLineActivity.actionBusLine(getActivity(), item);
+				BusLineActivity.actionBusLine(getActivity(), item);
 			}
 		});
 		mListView.setOnScrollListener(new OnScrollListener()
 		{
-			
+
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState)
 			{
-				if(scrollState == OnScrollListener.SCROLL_STATE_IDLE)
+				if (scrollState == OnScrollListener.SCROLL_STATE_IDLE)
 				{
-					 mListViewFirstPosition = view.getFirstVisiblePosition();
+					mListViewFirstPosition = view.getFirstVisiblePosition();
 				}
 			}
-			
+
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
-			{
-			}
+			{}
 		});
 	}
 
@@ -198,10 +210,29 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 			mHeaderView.setVisibility(View.VISIBLE);
 			mAdapter = new BusAdapter(getActivity(), mData);
 			mListView.setAdapter(mAdapter);
-			if(mListViewFirstPosition > 0)
+			if (mListViewFirstPosition > 0)
 			{
 				mListView.setSelection(mListViewFirstPosition);
 			}
+		}
+		else
+		{
+			mEmptyView.setOnClickListener(new OnClickListener()
+			{
+				public void onClick(View v)
+				{
+					if (NetWorkUtils.isNetworkAvailable(getActivity()))
+					{
+
+					}
+					else
+					{
+
+					}
+
+				}
+			});
+
 		}
 	}
 
