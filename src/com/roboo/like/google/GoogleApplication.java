@@ -96,11 +96,14 @@ public class GoogleApplication extends Application
 	{
 		super.onCreate();
 		mInstance = this;
+	 
 		bindNetworkService();
 //		startYunBaService();
 		initJPush();
 		DroidUxLib.register("enter-your-api-key-here", this);
 	}
+
+	 
 
 	private void bindNetworkService()
 	{

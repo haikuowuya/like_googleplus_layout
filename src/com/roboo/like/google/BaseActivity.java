@@ -51,6 +51,7 @@ public class BaseActivity extends FragmentActivity
 			insertNewsType();
 		}
 		GoogleApplication.mIsOnlyAndroid = mPreferences.getBoolean(PREF_ONLY_ANDROID, false);
+		GoogleApplication.mIsExactBus = mPreferences.getBoolean(PREF_EXACT_BUS, false);
 	}
 
 	private void insertNewsType()
