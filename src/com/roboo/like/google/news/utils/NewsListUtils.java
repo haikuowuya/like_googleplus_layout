@@ -11,6 +11,7 @@ import com.roboo.like.google.news.list.utils.CSDNNewsUtils;
 import com.roboo.like.google.news.list.utils.CYDBNewsUtils;
 import com.roboo.like.google.news.list.utils.EOENewsUtils;
 import com.roboo.like.google.news.list.utils.GeekParkNewsUtils;
+import com.roboo.like.google.news.list.utils.HiApkNewsUtils;
 import com.roboo.like.google.news.list.utils.HuXiuNewsUtils;
 import com.roboo.like.google.news.list.utils.IT199NewsUtils;
 import com.roboo.like.google.news.list.utils.ITHomeNewsUtils;
@@ -58,7 +59,9 @@ public class NewsListUtils
 		case GoogleApplication.TYPE_WLJD:
 			data = WLJDNewsUtils.getWljdNewsList(baseUrl, pageNo);
 			break;
-			
+		case GoogleApplication.TYPE_HIAPK:
+			data = HiApkNewsUtils.getHiApkNewsList(baseUrl, pageNo);
+			break;
 		default:
 			data = ITHomeNewsUtils.getITHomeNewsList(baseUrl, pageNo);
 			break;

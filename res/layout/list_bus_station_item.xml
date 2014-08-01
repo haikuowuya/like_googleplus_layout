@@ -18,6 +18,7 @@
         android:id="@+id/tv_bus_to"
         style="@style/Bus.List.Item.TextView.Style"
         android:layout_width="130dp"
+        android:gravity="center_vertical"
         android:ellipsize="middle" />
 
     <TextView

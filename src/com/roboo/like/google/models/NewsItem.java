@@ -2,6 +2,8 @@ package com.roboo.like.google.models;
 
 import java.io.Serializable;
 
+import android.text.TextUtils;
+
 public class NewsItem implements Serializable
 {
 	private static final long serialVersionUID = 2452345351L;
@@ -18,8 +20,9 @@ public class NewsItem implements Serializable
 	private long date = System.currentTimeMillis();
 	private String newsCategoryMd5;
 	public int headerId;
-	/**极客公园*/
-	public String  t = "0";
+	/** 极客公园 */
+	public String t = "0";
+
 	public NewsItem()
 	{
 		super();
@@ -185,7 +188,10 @@ public class NewsItem implements Serializable
 		if (null != o && o instanceof NewsItem)
 		{
 			NewsItem item = (NewsItem) o;
-			return this.md5.equals(item.getMd5()) && title.equals(item.title);
+			if (!TextUtils.isEmpty(title))
+			{
+				return this.md5.equals(item.getMd5()) && title.equals(item.title);
+			}
 		}
 		return false;
 	}
@@ -204,7 +210,7 @@ public class NewsItem implements Serializable
 	public String toString()
 	{
 
-		return "md5 = " + md5 + " newsId = " + newsId + " url = " + url + " title = " + title + " subTitle = " + subTitle + " src = " + src;
+		return "md5 = " + md5 + " newsId = " + newsId + " newsUrl = " + url + " title = " + title + " subTitle = " + subTitle + " src = " + src;
 
 	}
 

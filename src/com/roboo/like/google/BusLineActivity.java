@@ -3,35 +3,51 @@ package com.roboo.like.google;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.roboo.like.google.fragments.BusLineFragment;
 import com.roboo.like.google.models.BusItem;
-import com.roboo.like.google.models.BusStationItem;
 
 /** 公交界面 */
 public class BusLineActivity extends BaseLayoutActivity
 {
-	private static final String EXTRA_BUS_ITEM= "bus_item";
+	private static final String EXTRA_BUS_ITEM = "bus_item";
+	/** 反向的BusItem信息 */
+	private static final String EXTRA_BUS__INVERT_ITEM = "bus_invert_item";
 	private BusItem mBusItem;
-	public static void actionBusLine(Activity activity,BusItem item)
+	private BusItem mBusInVertItem;
+	private boolean mIsInvert = false;
+
+	public static void actionBusLine(Activity activity, BusItem item)
 	{
 		Intent intent = new Intent(activity, BusLineActivity.class);
 		intent.putExtra(EXTRA_BUS_ITEM, item);
 		activity.startActivity(intent);
 	}
-	 
+
+	public static void actionBusLine(Activity activity, BusItem item, BusItem invertingItem)
+	{
+		Intent intent = new Intent(activity, BusLineActivity.class);
+		intent.putExtra(EXTRA_BUS_ITEM, item);
+		intent.putExtra(EXTRA_BUS__INVERT_ITEM, invertingItem);
+		activity.startActivity(intent);
+	}
 
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_bus);//TODO
+		setContentView(R.layout.activity_bus);// TODO
 		initView();
 		mBusItem = (BusItem) getIntent().getSerializableExtra(EXTRA_BUS_ITEM);
+		if (null != getIntent().getSerializableExtra(EXTRA_BUS__INVERT_ITEM))
+		{
+			mBusInVertItem = (BusItem) getIntent().getSerializableExtra(EXTRA_BUS__INVERT_ITEM);
+		}
 		customActionBar();
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_container) == null)
 		{
-			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, BusLineFragment.newInstance(mBusItem.busUrl)).commit();
+			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, BusLineFragment.newInstance(mBusItem.busUrl, mBusItem.busName)).commit();
 		}
 	}
 
@@ -50,12 +66,38 @@ public class BusLineActivity extends BaseLayoutActivity
 	{
 
 	}
+
+	public void invert()
+	{
+		if (null != mBusInVertItem)
+		{
+			if (!mIsInvert)
+			{
+				beginTransaction().replace(R.id.frame_container, BusLineFragment.newInstance(mBusInVertItem.busUrl, mBusInVertItem.busName)).commit();
+				mIsInvert = true;
+			}
+			else
+			{
+				beginTransaction().replace(R.id.frame_container, BusLineFragment.newInstance(mBusItem.busUrl, mBusItem.busName)).commit();
+				mIsInvert = false;
+			}
+		}
+	}
+
 	private void customActionBar()
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(true);
-		mActionBar.setTitle("公交 - "+mBusItem.busNo+ " 路");
+		if (TextUtils.isDigitsOnly(mBusItem.busNo))
+		{
+			mActionBar.setTitle("公交 - " + mBusItem.busNo + " 路");
+		}
+		else
+		{
+			mActionBar.setTitle("公交 - " + mBusItem.busNo);
+		}
 		mActionBar.setLogo(R.drawable.ic_abs_bus_up);
 	}
+
 	@Override
 	public void onUserInteraction()
 	{

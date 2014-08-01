@@ -18,11 +18,9 @@ import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.news.utils.NewsListUtils;
 import com.roboo.like.google.utils.FileUtils;
 import com.roboo.like.google.utils.MD5Utils;
-import com.roboo.like.google.utils.NetWorkUtils;
 
 public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<NewsItem>>
 {
-
 	private String mChannelUrl;
 	private int mPageNo;
 	private Context mContext;
@@ -65,9 +63,9 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 			}
 			mEndTime = System.currentTimeMillis();
 			long durationTime = mEndTime - mStartTime;
-			if ( durationTime< THREAD_LEAST_DURATION_TIME)
+			if (durationTime < THREAD_LEAST_DURATION_TIME)
 			{
-				Thread.sleep(THREAD_LEAST_DURATION_TIME-durationTime);
+				Thread.sleep(THREAD_LEAST_DURATION_TIME - durationTime);
 			}
 		}
 		catch (ClassNotFoundException e)

@@ -3,6 +3,7 @@ package com.roboo.like.google.adapters;
 import java.util.LinkedList;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,14 @@ public class BusAdapter extends BaseAdapter
 		convertView = LayoutInflater.from(mActivity).inflate(R.layout.list_bus_item, null);//TODO
 		TextView tvBusNo= ViewHolder.getView(convertView, R.id.tv_busNo);
 		TextView tvBuName = ViewHolder.getView(convertView, R.id.tv_busName);
-		tvBusNo.setText(item.busNo);
+		if(TextUtils.isDigitsOnly(item.busNo))
+		{
+			tvBusNo.setText(item.busNo +"路");
+		}
+		else
+		{
+			tvBusNo.setText(item.busNo);
+		}
 		tvBuName.setText(item.busName);
 		return convertView;
 	}

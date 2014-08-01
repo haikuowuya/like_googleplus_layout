@@ -10,7 +10,7 @@
         android:background="@android:color/transparent"
         android:gravity="center"
         android:text="@string/tv_bus_line"
-        android:textColor="@color/violet_color"
+         
         android:textStyle="bold" />
 
     <Button
@@ -19,7 +19,7 @@
         android:background="@android:color/transparent"
         android:gravity="center"
         android:text="@string/tv_bus_direction"
-        android:textColor="@color/red_color"
+      
         android:textStyle="bold" />
 
     <Button
@@ -29,7 +29,7 @@
         android:background="@android:color/transparent"
         android:gravity="center"
         android:text="@string/tv_station_bus_no"
-        android:textColor="@color/sky_blue_color"
+       
         android:textStyle="bold" />
 
     <Button
@@ -40,7 +40,7 @@
         android:gravity="center"
         android:singleLine="true"
         android:text="@string/tv_bus_update_time"
-        android:textColor="@color/hotpink_color"
+   
         android:textStyle="bold" />
 
     <Button
@@ -51,7 +51,7 @@
         android:gravity="center"
         android:singleLine="true"
         android:text="@string/tv_bus_stop_spacing"
-        android:textColor="@color/hotpink_color"
+      
         android:textStyle="bold" />
 
 </LinearLayout>

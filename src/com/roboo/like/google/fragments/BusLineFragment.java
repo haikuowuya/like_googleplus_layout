@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,11 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.roboo.like.google.BusLineActivity;
 import com.roboo.like.google.BusStationActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.BusLineAdapter;
@@ -30,17 +33,20 @@ public class BusLineFragment extends BaseWithProgressFragment implements LoaderC
 {
 	private ListView mListView;
 	public static final String ARG_BUS_LINE = "bus_line";
-	public static final String ARG_BUS_ITEM = "bus_item";
+	public static final String ARG_BUS_NAME = "bus_name";
 	private LinkedList<BusLineItem> mData;
 	private View mHeaderView;
 	private BusLineAdapter mAdapter;
 	private int mListViewFirstPosition   = 0;
+	private TextView mTvBusName;
+	private String mBusName;
 
-	public static BusLineFragment newInstance(String busLineUrl)
+	public static BusLineFragment newInstance(String busLineUrl,String busName)
 	{
 		BusLineFragment fragment = new BusLineFragment();
 		Bundle bundle = new Bundle();
 		bundle.putString(ARG_BUS_LINE, busLineUrl);
+		bundle.putString(ARG_BUS_NAME, busName);
 		fragment.setArguments(bundle);
 		return fragment;
 	}
@@ -56,6 +62,7 @@ public class BusLineFragment extends BaseWithProgressFragment implements LoaderC
 		}
 		mHeaderView = createHeaderView();
 		mListView.addHeaderView(mHeaderView);
+		init();
 		return view;
 	}
 
@@ -66,8 +73,15 @@ public class BusLineFragment extends BaseWithProgressFragment implements LoaderC
 		doLoadData();
 		setListener();
 	}
-
-	 
+	private void init()
+	{
+		mBusName = getArguments().getString(ARG_BUS_NAME);
+		if(TextUtils.isEmpty(mBusName))
+		{
+			mTvBusName.setVisibility(View.GONE);
+		}
+		mTvBusName.setText(mBusName);
+	}
 
 	private void doLoadData()
 	{
@@ -83,13 +97,19 @@ public class BusLineFragment extends BaseWithProgressFragment implements LoaderC
 	private View createHeaderView()
 	{
 		mHeaderView = LayoutInflater.from(getActivity()).inflate(R.layout.listview_bus_line_header_view, null);// TODO ListView的HeaderView布局文件
+		mTvBusName = (TextView) mHeaderView.findViewById(R.id.tv_bus_name);
 		return mHeaderView;
 	}
-
+	@Override
+	public void onPrepareOptionsMenu(Menu menu)
+	{
+		super.onPrepareOptionsMenu(menu);
+		menu.findItem(R.id.menu_invert).setVisible(!TextUtils.isEmpty(mBusName));
+	}
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
 	{
-		inflater.inflate(R.menu.activity_bus, menu);
+		inflater.inflate(R.menu.activity_bus_line, menu);
 	}
 
 	@Override
@@ -100,9 +120,18 @@ public class BusLineFragment extends BaseWithProgressFragment implements LoaderC
 		case R.id.menu_refresh:// 重试
 			onRefresh();
 			break;
+		case R.id.menu_invert://换方向
+			invert();
+			break;
 
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void invert()
+	{
+		BusLineActivity busLineActivity = (BusLineActivity) getActivity();
+		busLineActivity.invert();
 	}
 
 	private void onRefresh()

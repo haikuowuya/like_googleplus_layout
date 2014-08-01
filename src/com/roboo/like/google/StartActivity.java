@@ -49,7 +49,7 @@ public class StartActivity extends BaseLayoutActivity
 		mActionBar.setDisplayShowHomeEnabled(false);
 		mActionBar.setBackgroundDrawable(new ColorDrawable(Color.RED));
 		mActionBar.setDisplayShowCustomEnabled(true);
-		mActionBar.setCustomView(R.layout.actionbar_custom_view);
+		mActionBar.setCustomView(R.layout.actionbar_custom_view);//TODO  Custom View
 	}
 
 	public void onBackPressed()
@@ -68,5 +68,9 @@ public class StartActivity extends BaseLayoutActivity
 	public void add(View v)
 	{
 		AddActivity.actionAdd(this);
+	}
+	public void bus(View v)
+	{
+		BusActivity.actionBus(this);
 	}
 }

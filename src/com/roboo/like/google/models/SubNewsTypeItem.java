@@ -4,8 +4,6 @@ import java.util.LinkedList;
 
 import android.content.Context;
 
-import com.droidux.trial.da;
-import com.roboo.like.google.BaseActivity;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.R;
 
@@ -29,8 +27,7 @@ public class SubNewsTypeItem
 			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_eoe_arrays);
 			break;
 		case GoogleApplication.TYPE_GEEKPARK:
-			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_geekpark_arrays);
-			;
+			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_geekpark_arrays);;
 			break;
 		case GoogleApplication.TYPE_199IT:
 			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_it199_arrays);
@@ -46,6 +43,9 @@ public class SubNewsTypeItem
 			break;
 		case GoogleApplication.TYPE_WLJD:
 			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_wljd_arrays);
+			break;
+		case GoogleApplication.TYPE_HIAPK:
+			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_hiapk_arrays);
 			break;
 		}
 		LinkedList<SubNewsTypeItem> data = new LinkedList<SubNewsTypeItem>();

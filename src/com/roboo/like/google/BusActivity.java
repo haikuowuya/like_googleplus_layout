@@ -45,15 +45,8 @@ public class BusActivity extends BaseLayoutActivity
 	{
 
 	}
-	public void skipToBusLineFragment(String busLineUrl)
-	{
-		beginTransaction().replace(R.id.frame_container, BusLineFragment.newInstance(busLineUrl)).addToBackStack("bus").commit();
-	}
-	public void skipToBusLineFragment(BusItem item)
-	{
-		mActionBar.setTitle("公交 - "+item.busNo+ " 路");
-		 skipToBusLineFragment(item.busUrl);
-	}
+	 
+	 
 	private void customActionBar()
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(true);

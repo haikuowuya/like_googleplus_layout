@@ -126,6 +126,13 @@
         <item>科技#http://www.ijiandao.com/tech/page/</item>
         <item>创业#http://www.ijiandao.com/start/page/</item>
     </string-array>
+    <string-array name="actionbar_navigation_hiapk_arrays">
+        <item>Android手机#http://m.hiapk.com/news/android/list_962_</item>
+        <item>智能平台#http://m.hiapk.com/news/mobile/list_963_</item>
+        <item>行业巨头#http://m.hiapk.com/news/tech/list_964_</item>
+        <item>移动互联#http://m.hiapk.com/news/internet/list_965_</item>
+        <item>新酷科技#http://m.hiapk.com/news/cool/list_966_</item>
+    </string-array>
     <string-array name="start_news_type_arrays">
         <item>IT之家#0#IT之家是一个提供IT业界和数码产品资讯的泛科技媒体平台。我们快速精选泛科技新闻，分享即时的IT业界动态和紧跟潮流的数码产品资讯，提供给力的PC和手机技术文章、丰富的系统应用美化资源，以及享不尽的智能阅读#http://a.hiphotos.baidu.com/baike/w%3D268/sign=3e03ee88087b02080cc938e75ad9f25f/7acb0a46f21fbe093b66053969600c338744ade7.jpg</item>
         <item>CSDN#1#CSDN创立于1999年，是中国最大的IT社区和服务平台，为中国的软件开发者和IT从业者提供知识传播、职业发展、软件开发等全生命周期服务，满足他们在职业发展中学习及共享知识和信息、建立职业发展社交圈、通过软件开发实现技术商业化等刚性需求#http://imgtech.gmw.cn/attachement/jpg/site2/20111223/f04da22d7ba7105e1d7507.jpg</item>
@@ -137,6 +144,7 @@
         <item>虎嗅网#7#虎嗅网是一个用户可参与的商业资讯与观点交流平台。这个资讯及观点平台的核心，是关注互联网与移动互联网一系列明星公司（包括公众公司与创业型企业）的起落轨迹、产业潮汐的动力与趋势，以及互联网与移动互联网如何改造传统产业。我们致力于为用户创造获取与交流商业资讯的更"有效率"的体验 #http://www.huxiu.com/static/img/top_logo.png</item>
         <item>穿衣打扮#8#提供服饰搭配,美容知识等方面的精彩文章#http://www.chong4.com.cn/image/logo.gif</item>
         <item>网络尖刀#9#网络尖刀 读懂互联网安全#http://www.ijiandao.com/wp-content/themes/lovnvns/img/logo.jpg</item>
+        <item>安卓网#10#安卓资讯#http://bbs.hiapk.com/template/hiapk/images/logo.png</item>
     </string-array>
     <string-array name="img_arrays">
         <item>file#文件</item>
@@ -151,6 +159,7 @@
         <item>http://img.huxiu.com#虎嗅网</item>
         <item>http://www.chong4.com.cn/#穿衣打扮</item>
         <item>http://www.ijiandao.com/#网络尖刀</item>
+        <item>http://p3.image.hiapk.com/#安卓网</item>
     </string-array>
 
 </resources>

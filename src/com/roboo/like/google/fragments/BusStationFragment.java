@@ -141,10 +141,13 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
+				
 				BusStationItem item = (BusStationItem) parent.getAdapter().getItem(position);
 				BusItem busItem = new BusItem();
+			 
 				busItem.busNo = item.busNo;
 				busItem.busUrl = item.stationUrl;
+				 
 				BusLineActivity.actionBusLine(getActivity(), busItem);
 			}
 

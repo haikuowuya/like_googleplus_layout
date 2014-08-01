@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<net.dynamicandroid.listview.DynamicListLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ivorg_color" >
 
-    <net.dynamicandroid.listview.DynamicListView
-        android:id="@+id/dlv_list"
+    <net.dynamicandroid.listview.DynamicListLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:cacheColorHint="@android:color/transparent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10dp"
-        android:fadeScrollbars="false"
-        android:fadingEdge="none"
-        android:footerDividersEnabled="true"
-        android:listSelector="@drawable/list_item_selector" >
-    </net.dynamicandroid.listview.DynamicListView>
+        android:background="@color/ivorg_color" >
 
-</net.dynamicandroid.listview.DynamicListLayout>
+        <net.dynamicandroid.listview.DynamicListView
+            android:id="@+id/dlv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10dp"
+            android:fadeScrollbars="false"
+            android:fadingEdge="none"
+            android:footerDividersEnabled="true"
+            android:listSelector="@drawable/list_item_selector" >
+        </net.dynamicandroid.listview.DynamicListView>
+    </net.dynamicandroid.listview.DynamicListLayout>
+
+    <include
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        layout="@layout/listview_bus_empty_view" />
+</FrameLayout>

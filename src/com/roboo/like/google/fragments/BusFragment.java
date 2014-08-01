@@ -15,17 +15,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import cn.jpush.android.api.i;
+
 import com.roboo.like.google.BaseActivity;
-import com.roboo.like.google.BusActivity;
 import com.roboo.like.google.BusLineActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.adapters.BusAdapter;
@@ -43,6 +45,7 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 	private View mEmptyView;
 	private String mBusNo = "18";
 	private int mListViewFirstPosition = 0;
+	private Button mBtnRetry;
 
 	public static BusFragment newInstance()
 	{
@@ -62,14 +65,15 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 		mHeaderView = createHeaderView();
 		mEmptyView = createEmptyView();
 		mListView.addHeaderView(mHeaderView);
-		mListView.setEmptyView(mEmptyView);
 		return view;
 	}
 
 	private View createEmptyView()
 	{
 		mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.listview_bus_empty_view, null);// TODO ListView的HeaderView布局文件
+		mBtnRetry = (Button) mEmptyView.findViewById(R.id.btn_retry);
 		return mEmptyView;
+
 	}
 
 	/***
@@ -115,6 +119,7 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 		getActivity().getSupportLoaderManager().restartLoader(0, null, this);
 		mProgressBar.setVisibility(View.VISIBLE);
 		mEmptyView.setVisibility(View.GONE);
+		mListView.setVisibility(View.VISIBLE);
 
 	}
 
@@ -173,7 +178,28 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
 				BusItem item = (BusItem) parent.getAdapter().getItem(position);
-				BusLineActivity.actionBusLine(getActivity(), item);
+				BusItem invertItem = getInvertBusItem(item);
+				if (invertItem != null)
+				{
+					BusLineActivity.actionBusLine(getActivity(), item, invertItem);
+				}
+				else
+				{
+					BusLineActivity.actionBusLine(getActivity(), item);
+				}
+			}
+
+			private BusItem getInvertBusItem(BusItem busItem)
+			{
+				BusItem invertItem = null;
+				for (BusItem item : mData)
+				{
+					if ((busItem.busNo.equals(item.busNo)) && (!busItem.busUrl.equals(item.busUrl)))
+					{
+						invertItem = item;
+					}
+				}
+				return invertItem;
 			}
 		});
 		mListView.setOnScrollListener(new OnScrollListener()
@@ -217,7 +243,9 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 		}
 		else
 		{
-			mEmptyView.setOnClickListener(new OnClickListener()
+			mEmptyView.setVisibility(View.VISIBLE);
+			mListView.setVisibility(View.GONE);
+			mBtnRetry.setOnClickListener(new OnClickListener()
 			{
 				public void onClick(View v)
 				{

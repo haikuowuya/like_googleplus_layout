@@ -17,6 +17,10 @@ public class YMDComparator implements Comparator<NewsItem>
 			{
 				result = -result;
 			}
+			if(o2.getTime().contains("第") && o2.getTime().contains("页"))
+			{
+				result = o1.getTime().compareTo(o2.getTime());
+			}
 		}
 		return result;
 	}

@@ -1,6 +1,8 @@
 package com.roboo.like.google.async;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 import org.jsoup.Jsoup;
@@ -11,7 +13,6 @@ import org.jsoup.select.Elements;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.roboo.like.google.models.BusLineItem;
 import com.roboo.like.google.models.BusStationItem;
 
 public class BusStationAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusStationItem>>
@@ -91,10 +92,21 @@ public class BusStationAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<Bu
 							item.busLicensePlate = busLicensePlate;
 							item.busStopSpacing = busStopSpacing;
 							item.busUpdateTime = busUpdateTime;
-							data.add(item);
+							if ("进站".equals(item.busStopSpacing))
+							{
+								data.addFirst(item);
+							}
+							else if (TextUtils.isDigitsOnly(item.busStopSpacing))
+							{
+								data.add(data.size(), item);
+							}
+							else
+							{
+								data.addLast(item);
+							}
 						}
 					}
-					if(data.size() ==0)
+					if (data.size() == 0)
 					{
 						data = null;
 					}
@@ -114,9 +126,83 @@ public class BusStationAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<Bu
 						System.out.println("item = " + item);
 					}
 				}
+				Collections.sort(data, new BusStopSpacingComparator());
 			}
 		}
 		return data;
 	}
 
+	/**
+	 * 对进入当前站台的车辆按照站距进行排序
+	 * 
+	 * @author bo.li 2014-8-1 上午8:54:50 TODO
+	 */
+	class BusStopSpacingComparator implements Comparator<BusStationItem>
+	{
+		public int compare(BusStationItem o1, BusStationItem o2)
+		{
+			if (o1 != null && o2 != null)
+			{
+				if (TextUtils.isDigitsOnly(o2.busStopSpacing))
+				{
+					if (TextUtils.isDigitsOnly(o1.busStopSpacing))
+					{
+						int o1Int = Integer.parseInt(o1.busStopSpacing);
+						int o2Int = Integer.parseInt(o2.busStopSpacing);
+						if (o1Int == o2Int)
+						{
+							if (TextUtils.isDigitsOnly(o1.busNo) && TextUtils.isDigitsOnly(o1.busNo))
+							{
+								int busNo1 = Integer.parseInt(o1.busNo);
+								int busNo2 = Integer.parseInt(o2.busNo);
+								if (busNo2 > busNo1)
+								{
+									return -1;
+								}
+							}
+						}
+						else
+						{
+							if (o2Int > o1Int)
+							{
+								return -1;
+							}
+						}
+						return 1;
+					}
+					else if ("进站".equals(o2.busStopSpacing))
+					{
+						return 1;
+					}
+					else if ("无车".equals(o2.busStopSpacing))
+					{
+						return -1;
+					}
+				}
+				else
+				{
+					if ("进站".equals(o2.busStopSpacing))
+					{
+						return 1;
+					}
+					else
+					{
+						if ("进站".equals(o1.busStopSpacing))
+						{
+							return 1;
+						}
+						else if ("无车".equals(o1.busStopSpacing))
+						{
+							return -1;
+						}
+					}
+					if ("无车".equals(o2.busStopSpacing))
+					{
+						return -1;
+					}
+				}
+			}
+			return 0;
+		}
+	}
 }
