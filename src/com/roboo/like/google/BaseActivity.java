@@ -24,6 +24,7 @@ public class BaseActivity extends FragmentActivity
 {
 	public static final String PREF_FAST_SCROLL = "fast_scroll";
 	public static final String PREF_ONLY_ANDROID="only_android";
+	public static final String PREF_EXACT_BUS="exact_bus";
 	private static final String PREF_FIRST_INSERT_IMG_URL = "insert_img_url";
 	private static final String PREF_FIRST_INSERT_NEWS_TYPE = "insert_news_type";
 	protected SharedPreferences mPreferences;

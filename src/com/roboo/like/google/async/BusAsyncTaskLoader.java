@@ -13,7 +13,7 @@ import org.jsoup.select.Elements;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.droidux.trial.da;
+import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.models.BusItem;
 
 public class BusAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusItem>>
@@ -83,7 +83,7 @@ public class BusAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusItem>>
 						busName = tmpEleemnts.get(1).text();
 						if (!TextUtils.isEmpty(busName))
 						{
-							if(busName.contains("=>"))
+							if (busName.contains("=>"))
 							{
 								busName = busName.replace("=>", " — ");
 							}
@@ -93,7 +93,17 @@ public class BusAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusItem>>
 						item.busUrl = busUrl;
 						if (!TextUtils.isEmpty(item.busNo) && !TextUtils.isEmpty(item.busName))
 						{
-							data.add(item);
+							if (GoogleApplication.mIsExactBus)
+							{
+								if (mBusNo.equals(item.busNo))
+								{
+									data.add(item);
+								}
+							}
+							else
+							{
+								data.add(item);
+							}
 						}
 					}
 				}

@@ -47,6 +47,13 @@
                 android:layout_marginTop="10dp"
                 android:clickable="true"
                 android:text="获取WIFI信息" />
+                        <CheckedTextView
+                android:id="@+id/ctv_bus"
+                android:layout_marginTop="10dp"
+                style="@style/Settings.TextView.Style"
+                android:checkMark="@drawable/checked_textview_selector"
+                android:clickable="true"
+                android:text="公交番号准确查询" />
         </LinearLayout>
     </net.dynamicandroid.listview.DynamicScrollView>
 
