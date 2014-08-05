@@ -401,7 +401,7 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 				// Toast.makeText(getActivity(), "重试", Toast.LENGTH_SHORT).show();
 				break;
 			case R.id.btn_webview:// 网页中显示
-				WebViewActivity.actionDidi(getActivity(), mItem.getUrl(), mItem.getSource());
+				WebViewActivity.actionWebView(getActivity(), mItem.getUrl(), mItem.getSource());
 				break;
 			}
 		}

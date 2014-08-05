@@ -102,7 +102,7 @@ public class SMSAdapter extends BaseAdapter
 
 		public void onClick(View widget)
 		{
-			WebViewActivity.actionDidi(mActivity, getURL());
+			WebViewActivity.actionWebView(mActivity, getURL());
 
 		}
 

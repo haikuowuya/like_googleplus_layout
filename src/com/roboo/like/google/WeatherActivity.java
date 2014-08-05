@@ -52,6 +52,11 @@ public class WeatherActivity extends BaseLayoutActivity
 		{
 			beginTransaction().replace(R.id.frame_container, WeatherFragment.newInstance(cityItem)).addToBackStack("province").commit();
 		}
+		else
+		{
+			System.out.println(" cityItem.cUrl = " + cityItem.cUrl);
+			WebViewActivity.actionWebView(this, cityItem.cUrl, cityItem.cName);
+		}
 	}
 
 	private void customActionBar()

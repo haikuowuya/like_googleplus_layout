@@ -16,7 +16,8 @@ public class WeatherAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<CityI
 {
 	private static final String BASW_WEATHER_URL = "http://m.weathercn.com/";
 	private static final String PROVINCE_WEATHER_URL = "http://m.weathercn.com/province.jsp";
-	private static final String REGEX = "dis.do?pid=";
+	private static final String REGEX_PROVINCE = "dis.do?pid=";
+	private static final String REGEX_CITY = "cout.do?did=";
 	private Context mContext;
 	private CityItem mCityItem;
 
@@ -63,7 +64,7 @@ public class WeatherAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<CityI
 		LinkedList<CityItem> items = null;
 		try
 		{
-			System.out.println("mCityItem.pUrl "+ mCityItem.pUrl);
+//			System.out.println("mCityItem.pUrl = "+ mCityItem.pUrl);
 			Document document = Jsoup.connect(mCityItem.pUrl).get();
 			Elements elements = document.getElementsByTag("a");
 			if (!elements.isEmpty())
@@ -73,8 +74,10 @@ public class WeatherAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<CityI
 				{
 					Element element = elements.get(i);
 					String href = element.attr("href");
-					if (null != href && href.startsWith(REGEX))
+					if (null != href && href.startsWith(REGEX_CITY))
 					{
+						href = href.replace("cout", "index");
+						href = href.replace("did", "cid");
 						CityItem item = new CityItem();
 						String cUrl = BASW_WEATHER_URL + href;
 						String cName = element.text();
@@ -114,7 +117,7 @@ public class WeatherAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<CityI
 				{
 					Element element = elements.get(i);
 					String href = element.attr("href");
-					if (null != href && href.startsWith(REGEX))
+					if (null != href && href.startsWith(REGEX_PROVINCE))
 					{
 						CityItem item = new CityItem();
 						String pUrl = BASW_WEATHER_URL + href;

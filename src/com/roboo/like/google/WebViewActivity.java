@@ -44,20 +44,20 @@ public class WebViewActivity extends BaseLayoutActivity
 	/** 刷新 or 取消 */
 	private ImageButton mIBtnBrowserRefreshCancle;
 
-	public static void actionDidi(Activity activity)
+	public static void actionWebView(Activity activity)
 	{
 		Intent intent = new Intent(activity, WebViewActivity.class);
 		activity.startActivity(intent);
 	}
 
-	public static void actionDidi(Activity activity, String url)
+	public static void actionWebView(Activity activity, String url)
 	{
 		Intent intent = new Intent(activity, WebViewActivity.class);
 		intent.putExtra(EXTRA_URL, url);
 		activity.startActivity(intent);
 	}
 
-	public static void actionDidi(Activity activity, String url, String title)
+	public static void actionWebView(Activity activity, String url, String title)
 	{
 		Intent intent = new Intent(activity, WebViewActivity.class);
 		intent.putExtra(EXTRA_URL, url);

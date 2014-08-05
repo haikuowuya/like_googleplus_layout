@@ -129,7 +129,7 @@ public class LeftFragment extends BaseFragment
 				BusActivity.actionBus(getActivity());
 				break;
 			case 8://嘀嘀打车
-				WebViewActivity.actionDidi(getActivity());
+				WebViewActivity.actionWebView(getActivity());
 				break;
 			}
 			mainActivity.closeLeftDrawer();
