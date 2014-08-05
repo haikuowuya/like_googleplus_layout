@@ -47,6 +47,9 @@ public class SubNewsTypeItem
 		case GoogleApplication.TYPE_HIAPK:
 			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_hiapk_arrays);
 			break;
+		case GoogleApplication.TYPE_XCF:
+			arrays = context.getResources().getStringArray(R.array.actionbar_navigation_xcf_arrays);
+			break;
 		}
 		LinkedList<SubNewsTypeItem> data = new LinkedList<SubNewsTypeItem>();
 		SubNewsTypeItem defaultItem = new SubNewsTypeItem();

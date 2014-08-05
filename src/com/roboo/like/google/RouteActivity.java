@@ -135,7 +135,7 @@ public class RouteActivity extends BaseLayoutActivity
 			{
 				public void onClick(View v)
 				{
-					DidiActivity.actionDidi(RouteActivity.this, getDidiUrl(toAddres, null)); 
+					WebViewActivity.actionDidi(RouteActivity.this, getDidiUrl(toAddres, null)); 
 				}
 			});
 			mLinearContainer.addView(button);

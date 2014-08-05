@@ -13,7 +13,7 @@ import org.jsoup.select.Elements;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.MD5Utils;
 
-public class CSDNNewsUtils
+public class CSDNNewsListUtils extends BaseNewsListUtils
 {
 	public static LinkedList<NewsItem> getCSDNNewsList(String csdnUrl, int pageNo) throws IOException
 	{
@@ -27,7 +27,7 @@ public class CSDNNewsUtils
 		String url = csdnUrl + pageNo;
 		document = Jsoup.connect(url).get();
 		majorElements = document.getElementsByClass("unit");
-		String title = null, subTitle = null, md5 = null, time = null, src = null, newsUrl = null;
+		String title = null, source ="CSDN",subTitle = null, md5 = null, time = null, src = null, newsUrl = null;
 		md5 = MD5Utils.generate(url);
 
 		if (!majorElements.isEmpty())
@@ -99,11 +99,18 @@ public class CSDNNewsUtils
 				item.setMd5(md5);
 				item.setUrl(newsUrl);
 				item.setTitle(title);
+				item.setSource(source);
 				item.setSubTitle(subTitle);
 				data.add(item);
 			}
 		}
 
 		return data;
+	}
+
+	@Override
+	public LinkedList<NewsItem> getNewsList(String baseUrl, int pageNo) throws Exception
+	{
+		return getCSDNNewsList(baseUrl, pageNo);
 	}
 }

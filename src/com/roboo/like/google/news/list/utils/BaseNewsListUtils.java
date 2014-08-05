@@ -7,5 +7,5 @@ import com.roboo.like.google.models.NewsItem;
 
 public abstract class BaseNewsListUtils
 {
-	  public abstract LinkedList<NewsItem> getNewsList(String baseUrl, String pageNo) throws IOException;
+	  public abstract LinkedList<NewsItem> getNewsList(String baseUrl, int pageNo) throws Exception;
 }

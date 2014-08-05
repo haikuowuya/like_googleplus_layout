@@ -126,6 +126,7 @@
         <activity android:name=".BusStationActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SMSActivity" />
+        <activity android:name=".WeatherActivity" />
         <activity
             android:name=".JPushActivity"
             android:theme="@style/Dialog.Theme" />
@@ -138,7 +139,7 @@
         <activity android:name=".RouteActivity" />
         <activity android:name=".GalleryFlowActivity" />
         <activity
-            android:name=".DidiActivity"
+            android:name="com.roboo.like.google.WebViewActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <service android:name=".NetworkService" />

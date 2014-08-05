@@ -14,8 +14,15 @@ import android.text.TextUtils;
 
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.MD5Utils;
-
-public class GeekParkNewsUtils
+/***
+ * 获取极客公园网站信息
+ * @author bo.li
+ *
+ * 2014-8-4 上午11:07:47
+ *
+ * TODO
+ */
+public class GeekParkNewsListUtils extends BaseNewsListUtils
 {
 	public static final String GEEKPARK_ANDROID_URL = "http://www.geekpark.net/ajax/load_seeds/?type=img&tag_id=150027&num=10&t=1367647519";
 	public static final String BASE_GEEKPARK_URL = "http://www.geekpark.net";
@@ -26,7 +33,7 @@ public class GeekParkNewsUtils
 		LinkedList<NewsItem> data = null;
 		String url = geekparkUrl + "&type=img&num=10&t=" + pageNo;
 		System.out.println("url = " + url);
-		String title = null, subTitle = null, md5 = null, time = null, src = null, newsUrl = null;
+		String title = null, subTitle = null, source="极客公园",md5 = null, time = null, src = null, newsUrl = null;
 		md5 = MD5Utils.generate(url);
 		HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
 		if (httpURLConnection.getResponseCode() == HttpStatus.SC_OK)
@@ -65,6 +72,7 @@ public class GeekParkNewsUtils
 							NewsItem item = new NewsItem();
 							item.setSrc(src);
 							item.setTime(time);
+							item.setSource(source);
 							item.setMd5(md5);
 							item.setUrl(newsUrl);
 							item.setTitle(title);
@@ -99,5 +107,11 @@ public class GeekParkNewsUtils
 			}
 		}
 		return newTime;
+	}
+
+	@Override
+	public LinkedList<NewsItem> getNewsList(String baseUrl, int pageNo) throws Exception
+	{
+		return getGeekParkNewsList(baseUrl, pageNo);
 	}
 }

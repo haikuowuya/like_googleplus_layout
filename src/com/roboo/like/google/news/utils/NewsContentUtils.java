@@ -16,6 +16,7 @@ import com.roboo.like.google.news.content.utils.ITHomeNewsContentUtils;
 import com.roboo.like.google.news.content.utils.KR36NewsContentUtils;
 import com.roboo.like.google.news.content.utils.PhoneKRNewsContentUtils;
 import com.roboo.like.google.news.content.utils.WLJDNewsContentUtils;
+import com.roboo.like.google.news.content.utils.XCFNewsContentUtils;
 
 public class NewsContentUtils
 {
@@ -57,6 +58,8 @@ public class NewsContentUtils
 		case GoogleApplication.TYPE_HIAPK:
 			baseNewsContentUtils = new HiApkNewsContentUtils(); 
 			break;
+		case GoogleApplication.TYPE_XCF:
+			baseNewsContentUtils = new XCFNewsContentUtils();
 		default:
 			break;
 		}

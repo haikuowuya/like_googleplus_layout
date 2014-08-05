@@ -15,7 +15,7 @@ import android.text.TextUtils;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.MD5Utils;
 
-public class ITHomeNewsUtils
+public class ITHomeNewsListUtils extends BaseNewsListUtils
 {
 	private static final String TODAY = "今日";
 	private static final String IT_HOME_STYLE_CLASS_NAME = "cate_list";
@@ -80,6 +80,7 @@ public class ITHomeNewsUtils
 								news.setUrl(url);
 								news.setTitle(title);
 								news.setSubTitle(subTitle);
+								news.setSource("IT之家");
 								data.add(news);
 							}
 						}
@@ -88,5 +89,12 @@ public class ITHomeNewsUtils
 			}
 		}
 		return data;
+	}
+
+	@Override
+	public LinkedList<NewsItem> getNewsList(String baseUrl, int pageNo) throws Exception
+	{
+		return getITHomeNewsList(baseUrl, pageNo);
+			
 	}
 }

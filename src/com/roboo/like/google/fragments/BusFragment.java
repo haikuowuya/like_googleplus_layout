@@ -25,8 +25,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import cn.jpush.android.api.i;
-
 import com.roboo.like.google.BaseActivity;
 import com.roboo.like.google.BusLineActivity;
 import com.roboo.like.google.R;
@@ -129,13 +127,14 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 		super.onActivityCreated(savedInstanceState);
 		if (mData == null)
 		{
-			doLoadData();
-		}
-		else
-		{
-			mProgressBar.setVisibility(View.GONE);
-			mAdapter = new BusAdapter(getActivity(), mData);
-			mListView.setAdapter(mAdapter);
+			onRefresh();
+//			doLoadData();
+//		}
+//		else
+//		{
+//			mProgressBar.setVisibility(View.GONE);
+//			mAdapter = new BusAdapter(getActivity(), mData);
+//			mListView.setAdapter(mAdapter);
 		}
 		setListener();
 	}
@@ -230,10 +229,10 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 	public void onLoadFinished(Loader<LinkedList<BusItem>> loader, LinkedList<BusItem> data)
 	{
 		mProgressBar.setVisibility(View.GONE);
+		mHeaderView.setVisibility(View.VISIBLE);
 		if (data != null)
 		{
 			mData = data;
-			mHeaderView.setVisibility(View.VISIBLE);
 			mAdapter = new BusAdapter(getActivity(), mData);
 			mListView.setAdapter(mAdapter);
 			if (mListViewFirstPosition > 0)
@@ -244,7 +243,7 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 		else
 		{
 			mEmptyView.setVisibility(View.VISIBLE);
-			mListView.setVisibility(View.GONE);
+//			mListView.setVisibility(View.GONE);
 			mBtnRetry.setOnClickListener(new OnClickListener()
 			{
 				public void onClick(View v)

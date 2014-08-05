@@ -50,6 +50,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.roboo.like.google.BaseActivity;
 import com.roboo.like.google.CommentActivity;
+import com.roboo.like.google.WebViewActivity;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.PictureDetailActivity;
 import com.roboo.like.google.R;
@@ -79,6 +80,7 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 	private DynamicScrollView mScrollView;
 	private boolean mHasAddedFrontView = false;
 	private ImageView mIvImageView;
+	private LinkedList<String> mData ;
 	/** 动画结束后执行隐藏进度圈和显示标题 */
 	private Runnable mHideProgressBarRunnable = new Runnable()
 	{
@@ -89,7 +91,7 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 			mTvTime.setVisibility(View.VISIBLE);
 		}
 	};
-
+	 
 	public static NewsFragment newInstance(NewsItem item)
 	{
 		NewsFragment fragment = new NewsFragment();
@@ -121,7 +123,10 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 		ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(getActivity()).discCacheFileNameGenerator(new Md5FileNameGenerator()).build();
 		mImageLoader.init(imageLoaderConfiguration);
 		setListener();
-		getActivity().getSupportLoaderManager().initLoader(0, getArguments(), this);
+		if(mData == null)
+		{
+			getActivity().getSupportLoaderManager().restartLoader(0, getArguments(), this);
+		}
 	}
 
 	@Override
@@ -166,7 +171,9 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 		int lr = (int) (10 * getActivity().getResources().getDisplayMetrics().density);
 		if (null != data && data.size() > 0)
 		{
+			mData = data;
 			removeRetryButton();
+			removeToWebViewButton();
 			durationTime = ANIMATION_DURATION_TIME * data.size();
 			setLinearContainerAnimation();
 			int tb = 5;
@@ -206,17 +213,17 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 					TextView textView = new TextView(getActivity());
 					textView.setClickable(true);
 					SpannableString spannableString = new SpannableString(str);
-					if(str.contains("$"))
+					if (str.contains("$"))
 					{
 						int start = 1;
 						int end = str.lastIndexOf("$");
-						if(end > start)
+						if (end > start)
 						{
 							str = str.replace("$", " ");
 							spannableString = new SpannableString(str);
 							ForegroundColorSpan redColorSpan = new ForegroundColorSpan(Color.RED);
 							spannableString.setSpan(redColorSpan, start, end, SpannableString.SPAN_INCLUSIVE_INCLUSIVE);
-							
+
 						}
 					}
 					textView.setText(spannableString);
@@ -227,7 +234,6 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 					mLinearContainer.addView(textView);
 
 				}
-
 				GoogleApplication.TEST = false;
 				if (GoogleApplication.TEST)
 				{
@@ -238,6 +244,8 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 			{
 				addCommentButton(params, lr);
 			}
+			//添加在网页中查看原文按钮
+			addToWebViewButton(lr);
 			// mHasAddedFrontView = addFrontView();
 		}
 		else
@@ -258,6 +266,14 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 		if (mLinearContainer.findViewById(R.id.btn_retry) != null)
 		{
 			mLinearContainer.removeView(mLinearContainer.findViewById(R.id.btn_retry));
+		}
+	}
+
+	private void removeToWebViewButton()
+	{
+		if (mLinearContainer.findViewById(R.id.btn_webview) != null)
+		{
+			mLinearContainer.removeView(mLinearContainer.findViewById(R.id.btn_webview));
 		}
 	}
 
@@ -289,9 +305,10 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 	/** 当没有获取到数据时添加重试按钮 */
 	private void addRetryButton(int ltrb)
 	{
-		Button button = new Button(getActivity());
-		button.setId(R.id.btn_retry);
-		if (button.getParent() == null)
+		Button btnRetry = new Button(getActivity());
+		
+		btnRetry.setId(R.id.btn_retry);
+		if (btnRetry.getParent() == null)
 		{
 			android.widget.LinearLayout.LayoutParams params = new android.widget.LinearLayout.LayoutParams(android.widget.LinearLayout.LayoutParams.MATCH_PARENT, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
 			params.gravity = Gravity.CENTER | Gravity.BOTTOM;
@@ -299,17 +316,48 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 			params.rightMargin = ltrb;
 			params.topMargin = ltrb;
 			params.bottomMargin = ltrb;
-			button.setClickable(true);
-			button.setText("点击重新加载");
-			button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-			button.setPadding(ltrb, ltrb, ltrb, ltrb);
-			button.setBackgroundResource(R.drawable.list_item_selector);
-			mLinearContainer.addView(button, params);
-			button.setOnClickListener(new OnClickListenerImpl());
+			btnRetry.setClickable(true);
+			btnRetry.setText("点击重新加载");
+			btnRetry.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+			btnRetry.setPadding(ltrb, ltrb, ltrb, ltrb);
+			btnRetry.setBackgroundResource(R.drawable.list_item_selector);
+			mLinearContainer.addView(btnRetry, params);
+			btnRetry.setOnClickListener(new OnClickListenerImpl());
 		}
 		else
 		{
-			button.setVisibility(View.VISIBLE);
+			btnRetry.setVisibility(View.VISIBLE);
+
+		}
+		
+		addToWebViewButton(ltrb);
+	}
+
+	private void addToWebViewButton(int ltrb)
+	{
+		Button  btnToWebView = new Button(getActivity()); 
+		btnToWebView.setId(R.id.btn_webview);
+		if (mLinearContainer.findViewById(R.id.btn_webview) == null)
+		{
+			android.widget.LinearLayout.LayoutParams params = new android.widget.LinearLayout.LayoutParams(android.widget.LinearLayout.LayoutParams.MATCH_PARENT, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
+			params.gravity = Gravity.CENTER | Gravity.BOTTOM;
+			params.leftMargin = ltrb;
+			params.rightMargin = ltrb;
+			params.topMargin = ltrb;
+			params.bottomMargin = ltrb;
+			btnToWebView.setClickable(true);
+			btnToWebView.setText("查看原文");
+
+			btnToWebView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+			btnToWebView.setPadding(ltrb, ltrb, ltrb, ltrb);
+			btnToWebView.setBackgroundResource(R.drawable.list_item_selector);
+			mLinearContainer.addView(btnToWebView, params);
+			btnToWebView.setOnClickListener(new OnClickListenerImpl());
+
+		}
+		else
+		{
+			btnToWebView.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -347,13 +395,16 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 				break;
 			case R.id.btn_retry:// 重试
 				v.setVisibility(View.GONE);
+				getActivity().findViewById(R.id.btn_webview).setVisibility(View.GONE);
 				mProgressBar.setVisibility(View.VISIBLE);
 				getActivity().getSupportLoaderManager().restartLoader(0, getArguments(), NewsFragment.this);
-//				Toast.makeText(getActivity(), "重试", Toast.LENGTH_SHORT).show();
+				// Toast.makeText(getActivity(), "重试", Toast.LENGTH_SHORT).show();
+				break;
+			case R.id.btn_webview:// 网页中显示
+				WebViewActivity.actionDidi(getActivity(), mItem.getUrl(), mItem.getSource());
 				break;
 			}
 		}
-
 	}
 
 	/** 设置ViewGroup添加子View时的动画 */

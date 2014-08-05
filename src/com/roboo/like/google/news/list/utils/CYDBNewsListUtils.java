@@ -12,9 +12,16 @@ import android.text.TextUtils;
 
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.MD5Utils;
-
+/**
+ * 获取穿衣打扮网站信息
+ * @author bo.li
+ *
+ * 2014-8-4 上午11:12:44
+ *
+ * TODO
+ */
 @SuppressLint("SimpleDateFormat")
-public class CYDBNewsUtils
+public class CYDBNewsListUtils extends BaseNewsListUtils
 {
 	private static final String CLASS_TEXTBOX = "textbox";
 	private static final String CYDB_URL = "http://www.chong4.com.cn";
@@ -28,7 +35,7 @@ public class CYDBNewsUtils
 		// System.out.println("document = " + document);
 		Elements elements = document.getElementsByClass(CLASS_TEXTBOX);
 		Element element = null;
-		String title = null, subTitle = null, md5 = null, time = null, src = null, newsUrl = null;
+		String title = null, subTitle = null,source="穿衣打扮", md5 = null, time = null, src = null, newsUrl = null;
 		md5 = MD5Utils.generate(url);
 		time = "今天";
 		time = "第" + pageNo + "页";
@@ -90,6 +97,7 @@ public class CYDBNewsUtils
 				item.setTime(time);
 				item.setMd5(md5);
 				item.setUrl(newsUrl);
+				item.setSource(source);
 				item.setTitle(title);
 				item.setSubTitle(subTitle);
 				if (!data.contains(item))
@@ -128,5 +136,11 @@ public class CYDBNewsUtils
 			}
 		}
 		return newTime.trim();
+	}
+
+	@Override
+	public LinkedList<NewsItem> getNewsList(String baseUrl, int pageNo) throws Exception
+	{
+		 return getCydbNewsList(baseUrl, pageNo);
 	}
 }

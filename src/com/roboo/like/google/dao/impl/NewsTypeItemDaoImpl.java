@@ -104,7 +104,7 @@ public class NewsTypeItemDaoImpl
 	 * 
 	 * @return null 或者 LinkedList<NewsTypeItem> 对象
 	 */
-	private LinkedList<NewsTypeItem> getNewsTypeItems()
+	public  LinkedList<NewsTypeItem> getNewsTypeItems()
 	{
 		LinkedList<NewsTypeItem> data = null;
 		SQLiteDatabase db = mHelper.getWritableDatabase();

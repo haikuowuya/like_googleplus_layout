@@ -9,6 +9,7 @@ import org.jsoup.select.Elements;
 
 import android.text.TextUtils;
 
+import com.droidux.trial.ba;
 import com.droidux.trial.da;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.MD5Utils;
@@ -18,7 +19,7 @@ import com.roboo.like.google.utils.MD5Utils;
  * 
  * @author bo.li
  */
-public class PhoneKRNewsUtils
+public class PhoneKRNewsListUtils extends BaseNewsListUtils
 {
 	private static final String KE_JI_FENG_MANG_URL = "http://www.phonekr.com/page/";
 
@@ -29,7 +30,7 @@ public class PhoneKRNewsUtils
 		System.out.println("url = " + url);
 		Document document = Jsoup.connect(url).timeout(20000).get();
 		Element divTag = document.getElementById("xs-main");
-		String title = null, subTitle = null, md5 = null, time = null, src = null, newsUrl = null;
+		String title = null, subTitle = null,source="科技锋芒", md5 = null, time = null, src = null, newsUrl = null;
 		md5 = MD5Utils.generate(url);
 		time = "今天";
 		if (null != divTag)
@@ -79,6 +80,7 @@ public class PhoneKRNewsUtils
 					item.setSrc(src);
 					item.setTime(time);
 					item.setMd5(md5);
+					item.setSource(source);
 					item.setUrl(newsUrl);
 					item.setTitle(title);
 					item.setSubTitle(subTitle);
@@ -161,5 +163,11 @@ public class PhoneKRNewsUtils
 			month = "12";
 		}
 		return month;
+	}
+
+	@Override
+	public LinkedList<NewsItem> getNewsList(String baseUrl, int pageNo) throws Exception
+	{
+		return getPhoneKRNewsList(baseUrl, pageNo);
 	}
 }

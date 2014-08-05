@@ -122,7 +122,7 @@ public class SettingsFragment extends BaseFragment
 				break;
 
 			case R.id.ctv_bus:
-				boolean isBusChecked = mCtvAndroid.isChecked();
+				boolean isBusChecked = mCtvBus.isChecked();
 				mCtvBus.setChecked(!isBusChecked);
 				GoogleApplication.mIsExactBus = !isBusChecked;
 				baseActivity.getSharedPreferences().edit().putBoolean(BaseActivity.PREF_EXACT_BUS, !isBusChecked).commit();

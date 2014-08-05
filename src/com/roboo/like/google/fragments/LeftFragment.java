@@ -19,7 +19,8 @@ import android.widget.SimpleAdapter;
 import com.roboo.like.google.BusActivity;
 import com.roboo.like.google.CameraActivity;
 import com.roboo.like.google.ContacterActivity;
-import com.roboo.like.google.DidiActivity;
+import com.roboo.like.google.WeatherActivity;
+import com.roboo.like.google.WebViewActivity;
 import com.roboo.like.google.LocationActivity;
 import com.roboo.like.google.MainActivity;
 import com.roboo.like.google.PictureActivity;
@@ -118,6 +119,9 @@ public class LeftFragment extends BaseFragment
 			case 4://短信
 				SMSActivity.actionSms(getActivity());
 				break;
+			case 5://天气信息
+				WeatherActivity.actionWeather(getActivity());
+				break;
 			case 6:// 位置信息
 				LocationActivity.actionLocation(getActivity());
 				break;
@@ -125,7 +129,7 @@ public class LeftFragment extends BaseFragment
 				BusActivity.actionBus(getActivity());
 				break;
 			case 8://嘀嘀打车
-				DidiActivity.actionDidi(getActivity());
+				WebViewActivity.actionDidi(getActivity());
 				break;
 			}
 			mainActivity.closeLeftDrawer();

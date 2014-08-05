@@ -16,8 +16,16 @@ import com.droidux.trial.da;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.MD5Utils;
 
+/**
+ * 获取36氪网站信息
+ * @author bo.li
+ *
+ * 2014-8-4 上午11:10:19
+ *
+ * TODO
+ */
 @SuppressLint("SimpleDateFormat")
-public class KR36NewsUtils
+public class KR36NewsListUtils extends BaseNewsListUtils
 {
 	private static final String TAG_ARTICAL = "article";
 	private static final String KR36_URL = "http://www.36kr.com";
@@ -35,7 +43,7 @@ public class KR36NewsUtils
 		//
 		Elements elements = document.getElementsByTag(TAG_ARTICAL);
 		Element element = null;
-		String title = null, subTitle = null, md5 = null, time = null, src = null, newsUrl = null;
+		String title = null, subTitle = null,source="36氪", md5 = null, time = null, src = null, newsUrl = null;
 		md5 = MD5Utils.generate(url);
 		time = "今天";
 		time = "第" + pageNo + "页";
@@ -87,6 +95,7 @@ public class KR36NewsUtils
 				item.setMd5(md5);
 				item.setUrl(newsUrl);
 				item.setTitle(title);
+				item.setSource(source);
 				item.setSubTitle(subTitle);
 				if (!data.contains(item))
 				{
@@ -145,5 +154,11 @@ public class KR36NewsUtils
 			newTime = time;
 		}
 		return newTime.trim();
+	}
+
+	@Override
+	public LinkedList<NewsItem> getNewsList(String baseUrl, int pageNo) throws Exception
+	{
+		 return get36KRNewsList(baseUrl, pageNo);
 	}
 }

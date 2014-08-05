@@ -12,23 +12,30 @@ import android.text.TextUtils;
 
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.MD5Utils;
-
+/**
+ *  获取网络尖刀网站信息
+ * @author bo.li
+ *
+ * 2014-8-4 上午11:13:53
+ *
+ * TODO
+ */
 @SuppressLint("SimpleDateFormat")
-public class HuXiuNewsUtils
+public class WLJDNewsListUtils extends BaseNewsListUtils
 {
-	private static final String CLASS_UL_LIST = "ul-list";
+	private static final String CLASS_LIST = "listbg";
 	private static final String HUXIU_URL = "http://m.huxiu.com";
 
-	public static LinkedList<NewsItem> getHuXiuNewsList(String huXiuUrl, int pageNo) throws Exception
+	public static LinkedList<NewsItem> getWljdNewsList(String wljdUrl, int pageNo) throws Exception
 	{
 		LinkedList<NewsItem> data = null;
-		String url = huXiuUrl + pageNo + ".html";
-		System.out.println("huXiuUrl = " + url);
+		String url = wljdUrl + pageNo ;
+		System.out.println("wljdUrl = " + url);
 		Document document = Jsoup.connect(url).get();
-		// System.out.println("document = " + document);
-		Elements elements = document.getElementsByClass(CLASS_UL_LIST);
+	 
+		Elements elements = document.getElementsByClass(CLASS_LIST);
 		Element element = null;
-		String title = null, subTitle = null, md5 = null, time = null, src = null, newsUrl = null;
+		String title = null, subTitle = null, source ="网络尖刀",md5 = null, time = null, src = null, newsUrl = null;
 		md5 = MD5Utils.generate(url);
 		time = "今天";
 		time = "第" + pageNo + "页";
@@ -41,45 +48,31 @@ public class HuXiuNewsUtils
 				for (int i = 0; i < elements.size(); i++)
 				{
 					element = elements.get(i);
-					Elements tmpElements = element.getElementsByTag("a");
-					if (!tmpElements.isEmpty())
+					Elements tmpElements = element.getElementsByClass("list_img");
+					if(!tmpElements.isEmpty())
 					{
-						if (!tmpElements.isEmpty())
+						tmpElements = tmpElements.get(0).getElementsByTag("a");
+						if(!tmpElements.isEmpty())
 						{
-							newsUrl = HUXIU_URL + tmpElements.get(0).attr("href");
-						}
-					}
-					tmpElements = element.getElementsByClass("p1");
-					if (!tmpElements.isEmpty())
-					{
-						title = tmpElements.text();
-						tmpElements = tmpElements.get(0).getElementsByTag("img");
-						if (!tmpElements.isEmpty())
-						{
-							src = tmpElements.get(0).attr("src");
-						}
-					}
-					tmpElements = element.getElementsByClass("p2");
-					if (!tmpElements.isEmpty())
-					{
-						subTitle = tmpElements.text();
-					}
-					tmpElements = element.getElementsByClass("p-btm");
-					if (!tmpElements.isEmpty())
-					{
-						tmpElements = tmpElements.get(0).getElementsByTag("time");
-						if (!tmpElements.isEmpty())
-						{
-							time = tmpElements.get(0).attr("title");
-							if (!TextUtils.isEmpty(time))
+							newsUrl = tmpElements.get(0).attr("href");
+							title = tmpElements.get(0).attr("title");
+							tmpElements =  tmpElements.get(0).getElementsByTag("img");
+							if(!tmpElements.isEmpty())
 							{
-								time = getTime(time);
-							}
+								src = tmpElements.get(0).attr("src");
+							}		
 						}
 					}
-					if (TextUtils.isEmpty(newsUrl))
+					tmpElements = element.getElementsByClass("list_Brief");
+					if(!tmpElements.isEmpty())
 					{
-						newsUrl = "http://www.baidu.com";
+						subTitle = tmpElements.get(0).text();
+					}
+					
+					tmpElements = element.getElementsByClass("list_time");
+					if(!tmpElements.isEmpty())
+					{
+						time = tmpElements.get(0).text();
 					}
 					NewsItem item = new NewsItem();
 					item.setSrc(src);
@@ -87,6 +80,7 @@ public class HuXiuNewsUtils
 					item.setMd5(md5);
 					item.setUrl(newsUrl);
 					item.setTitle(title);
+					item.setSource(source);
 					item.setSubTitle(subTitle);
 					if (!data.contains(item))
 					{
@@ -122,5 +116,11 @@ public class HuXiuNewsUtils
 		}
 
 		return newTime.trim();
+	}
+
+	@Override
+	public LinkedList<NewsItem> getNewsList(String baseUrl, int pageNo) throws Exception
+	{
+		return getWljdNewsList(baseUrl, pageNo);
 	}
 }

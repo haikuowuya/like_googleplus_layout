@@ -1,165 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="left_drawer_text_arrays">
-        <item>ic_home#首页</item>
-        <item>ic_friend#人脉</item>
-        <item>ic_picture#照片</item>
-        <item>ic_camera#拍照</item>
-        <item>ic_hangout#环聊</item>
-        <item>ic_events#活动</item>
-        <item>ic_location#位置信息</item>
-        <item>ic_bus#实时公交</item>
-        <item>ic_didi#嘀嘀打车</item>
-    </string-array>
-    <string-array name="actionbar_navigation_ithome_arrays">
-        <item>IT之家#http://it.ithome.com/category/1_</item>
-        <item>IE之家#http://it.ithome.com/category/7_</item>
-        <item>IT之外#http://it.ithome.com/category/17_</item>
-        <item>壁纸之家#http://it.ithome.com/category/12_</item>
-        <item>主题之家#http://it.ithome.com/category/13_</item>
-        <item>数码之家#http://it.ithome.com/category/15_</item>
-        <item>游戏之家#http://it.ithome.com/category/14_</item>
-        <item>WIN9之家#http://it.ithome.com/category/19_</item>
-        <item>WIN8之家#http://it.ithome.com/category/2_</item>
-        <item>WIN7之家#http://it.ithome.com/category/3_</item>
-        <item>VISTA之家#http://it.ithome.com/category/4_</item>
-        <item>IPHONE之家#http://it.ithome.com/category/5_</item>
-        <item>OFFICE之家#http://it.ithome.com/category/8_</item>
-        <item>ANDROID之家#http://it.ithome.com/category/10_</item>
-    </string-array>
-    <string-array name="actionbar_navigation_csdn_arrays">
-        <item>移动开发#http://mobile.csdn.net/mobile/</item>
-        <item>业界新闻#http://news.csdn.net/news/</item>
-        <item>云计算#http://cloud.csdn.net/cloud/</item>
-        <item>软件研发#http://sd.csdn.net/sd/</item>
-        <item>程序员杂志#http://programmer.csdn.net/programmer/</item>
-    </string-array>
-    <string-array name="actionbar_navigation_phonekr_arrays">
-        <item>科技锋芒#http://www.phonekr.com/page/</item>
-    </string-array>
-    <string-array name="actionbar_navigation_cydb_arrays">
-        <item>首页#http://www.chong4.com.cn/index.php?mode=1&amp;page=</item>
-        <item>精选#http://www.chong4.com.cn/index.php?go=starred&amp;mode=1&amp;page=</item>
-        <item>搭配#http://www.chong4.com.cn/tag.php?tag=搭配&amp;mode=1&amp;page=</item>
-    </string-array>
-    <string-array name="actionbar_navigation_geekpark_arrays">
-        <item>谷歌#http://www.geekpark.net/ajax/load_seeds/?tag_id=150188</item>
-        <item>微信#http://www.geekpark.net/ajax/load_seeds/?tag_id=160388</item>
-        <item>行业趋势#http://www.geekpark.net/ajax/load_seeds/?tag_id=155553</item>
-        <item>社交网络#http://www.geekpark.net/ajax/load_seeds/?tag_id=150045</item>
-        <item>产品观察#http://www.geekpark.net/ajax/load_seeds/?tag_id=155597</item>
-        <item>移动互联网#http://www.geekpark.net/ajax/load_seeds/?tag_id=150016</item>
-        <item>极客早知道#http://www.geekpark.net/ajax/load_seeds/?tag_id=160388</item>
-        <item>Facebook#http://www.geekpark.net/ajax/load_seeds/?tag_id=150048</item>
-        <item>ANDROID#http://www.geekpark.net/ajax/load_seeds/?tag_id=150027</item>
-    </string-array>
-    <string-array name="actionbar_navigation_eoe_arrays">
-        <item>EOE首页#http://www.eoe.cn/index/index/pageNum/</item>
-        <item>全部咨询#http://news.eoe.cn/cat-0-</item>
-        <item>行业动态#http://news.eoe.cn/cat-10-</item>
-        <item>创新项目#http://news.eoe.cn/cat-11-</item>
-        <item>人物访谈#http://news.eoe.cn/cat-12-</item>
-        <item>EOE视点#http://news.eoe.cn/cat-13-</item>
-        <item>IOS#http://news.eoe.cn/news/tag/ios/pageNum/</item>
-        <item>ANDROID#http://news.eoe.cn/news/tag/Android/pageNum/</item>
-        <item>移动互联网#http://news.eoe.cn/news/tag/移动互联网/pageNum/</item>
-        <!--
-        <item>EOE博客#http://www.eoeandroid.com/home.php?catid=0</item>
-        <item>程序人生#http://www.eoeandroid.com/home.php?catid=1</item>
-        <item>环境搭建#http://www.eoeandroid.com/home.php?catid=2</item>
-        <item>基础教程#http://www.eoeandroid.com/home.php?catid=3</item>
-        <item>用户界面#http://www.eoeandroid.com/home.php?catid=4</item>
-        <item>数据存储#http://www.eoeandroid.com/home.php?catid=5</item>
-        <item>网络通信#http://www.eoeandroid.com/home.php?catid=6</item>
-        <item>图形图像#http://www.eoeandroid.com/home.php?catid=7</item>
-        <item>游戏开发#http://www.eoeandroid.com/home.php?catid=8</item>
-        <item>第三方集成#http://www.eoeandroid.com/home.php?catid=10</item>
-        <item>其他#http://www.eoeandroid.com/home.php?catid=11</item>
-        -->
-    </string-array>
-    <string-array name="actionbar_navigation_it199_arrays">
-        <item>IOS#http://www.199it.com/archives/tag/ios/page/</item>
-        <item>IDC#http://www.199it.com/archives/tag/idc/page/</item>
-        <item>CNNIC#http://www.199it.com/archives/tag/cnnic/page/</item>
-        <item>ANDROID#http://www.199it.com/archives/tag/android/page/</item>
-        <item>电子商务#http://www.199it.com/archives/category/electronic-commerce/page/</item>
-        <item>社交网络#http://www.199it.com/archives/category/social-network/page/</item>
-        <item>网络营销#http://www.199it.com/archives/category/advertising/page/</item>
-        <item>网络媒体#http://www.199it.com/archives/category/omg/page/</item>
-        <item>网络娱乐#http://www.199it.com/archives/category/entertain/page/</item>
-        <item>网络服务#http://www.199it.com/archives/category/service/page/</item>
-        <item>数据行业#http://www.199it.com/archives/category/dataindustry/page/</item>
-        <item>用户研究#http://www.199it.com/archives/category/internet-users/page/</item>
-        <item>研究报告#http://www.199it.com/archives/category/report/page/</item>
-        <item>投资&amp;经济#http://www.199it.com/archives/category/economic-data/page/</item>
-        <item>数据信息图#http://www.199it.com/archives/category/info-graphics/page/</item>
-        <item>移动互联网#http://www.199it.com/archives/category/mobile-internet/page/</item>
-    </string-array>
-    <string-array name="actionbar_navigation_36kr_arrays">
-        <item>科技#http://www.36kr.com/topic/technology?page=</item>
-        <item>网站#http://www.36kr.com/topic/websites?page=</item>
-        <item>人物#http://www.36kr.com/topic/people?page=</item>
-        <item>品牌#http://www.36kr.com/topic/brands?page=</item>
-        <item>硬件#http://www.36kr.com/topic/devices?page=</item>
-        <item>产品#http://www.36kr.com/topic/products?page=</item>
-        <item>专栏#http://www.36kr.com/category/column/</item>
-        <item>存档#http://www.36kr.com/category/archives/</item>
-        <item>氪周刊#http://www.36kr.com</item>
-        <item>应用软件#http://www.36kr.com/topic/apps?page=</item>
-        <item>创业公司#http://www.36kr.com/topic/startups?page=</item>
-        <item>国内咨询#http://www.36kr.com/category/cn-news/</item>
-        <item>国外咨询#http://www.36kr.com/category/breaking/</item>
-        <item>国内创业公司#http://www.36kr.com/category/cn-startups/</item>
-        <item>国外创业公司#http://www.36kr.com/category/us-startups/</item>
-    </string-array>
-    <string-array name="actionbar_navigation_huxiu_arrays">
-        <item>看点#http://m.huxiu.com/focus/</item>
-        <item>观点#http://m.huxiu.com/opinions/</item>
-        <item>读点#http://m.huxiu.com/books/</item>
-        <item>用点#http://m.huxiu.com/products/</item>
-    </string-array>
-    <!-- 网络尖刀 -->
-    <string-array name="actionbar_navigation_wljd_arrays">
-        <item>安全#http://www.ijiandao.com/safe/page/</item>
-        <item>新闻#http://www.ijiandao.com/news/page/</item>
-        <item>科技#http://www.ijiandao.com/tech/page/</item>
-        <item>创业#http://www.ijiandao.com/start/page/</item>
-    </string-array>
-    <string-array name="actionbar_navigation_hiapk_arrays">
-        <item>Android手机#http://m.hiapk.com/news/android/list_962_</item>
-        <item>智能平台#http://m.hiapk.com/news/mobile/list_963_</item>
-        <item>行业巨头#http://m.hiapk.com/news/tech/list_964_</item>
-        <item>移动互联#http://m.hiapk.com/news/internet/list_965_</item>
-        <item>新酷科技#http://m.hiapk.com/news/cool/list_966_</item>
-    </string-array>
-    <string-array name="start_news_type_arrays">
-        <item>IT之家#0#IT之家是一个提供IT业界和数码产品资讯的泛科技媒体平台。我们快速精选泛科技新闻，分享即时的IT业界动态和紧跟潮流的数码产品资讯，提供给力的PC和手机技术文章、丰富的系统应用美化资源，以及享不尽的智能阅读#http://a.hiphotos.baidu.com/baike/w%3D268/sign=3e03ee88087b02080cc938e75ad9f25f/7acb0a46f21fbe093b66053969600c338744ade7.jpg</item>
-        <item>CSDN#1#CSDN创立于1999年，是中国最大的IT社区和服务平台，为中国的软件开发者和IT从业者提供知识传播、职业发展、软件开发等全生命周期服务，满足他们在职业发展中学习及共享知识和信息、建立职业发展社交圈、通过软件开发实现技术商业化等刚性需求#http://imgtech.gmw.cn/attachement/jpg/site2/20111223/f04da22d7ba7105e1d7507.jpg</item>
-        <item>科技锋芒#2#锋客网是煮机网麾下的一个中文团队博客. 在这里, 我们的新闻和评论也许没有别人的专业, 及时, 但是我们可以放心勾搭, 随便告白……绝对良心厚道有节操, 吐槽绝对毫不留情, 一等犀利, 观念先进~ 在这里你可能看到符合和不符合天朝法律的任何东西. 锋客的含义就是”先锋 + 极客”#http://www.phonekr.com/wp-content/uploads/2012/11/Top-2013-W-1200px.png</item>
-        <item>EOE#3#最棒的移动开发者社区#http://www.eoeandroid.com/template/thinktheme_eoe/tt_img/logo.png</item>
-        <item>极客公园#4#极客公园是中国最大的创新者社区，汇聚最优秀的创业精英和产品人群。欢迎网站投稿贡献高质量的产品、行业观察#http://tp2.sinaimg.cn/1735559201/180/40049779894/1</item>
-        <item>199IT#5#199IT互联网数据资讯中心是一个非赢利松散组织提供IMT数据信息服务的网站，自成立以来，我们搜集、编译、分析、整理了全球市场研究机构的调研分析数据，并第一时间将信息免费提供给业内的朋友。我们相信“数据驱动未来”，我们也相信我们做的不是简单的数据搬运工作，而是数据金矿的重新提炼和展现。我们也相信在过去一年我们的数据给关注199IT网站的朋友带去诸多产品、运营、市场方面的启发。展望未来，我们希望可以做得更好！#http://www.199it.com/199itlogo.png</item>
-        <item>36KR#6#36氪是中国领先的科技新媒体，我们报道最新的互联网科技新闻以及最有潜力的互联网创业企业。我们的目标是，通过对互联网行业及最新创业企业的关注，为中文互联网读者提供一个最佳的了解互联网行业当下与未来的科技媒体#http://t10.baidu.com/it/u=4004095380,3837276999&amp;fm=58</item>
-        <item>虎嗅网#7#虎嗅网是一个用户可参与的商业资讯与观点交流平台。这个资讯及观点平台的核心，是关注互联网与移动互联网一系列明星公司（包括公众公司与创业型企业）的起落轨迹、产业潮汐的动力与趋势，以及互联网与移动互联网如何改造传统产业。我们致力于为用户创造获取与交流商业资讯的更"有效率"的体验 #http://www.huxiu.com/static/img/top_logo.png</item>
-        <item>穿衣打扮#8#提供服饰搭配,美容知识等方面的精彩文章#http://www.chong4.com.cn/image/logo.gif</item>
-        <item>网络尖刀#9#网络尖刀 读懂互联网安全#http://www.ijiandao.com/wp-content/themes/lovnvns/img/logo.jpg</item>
-        <item>安卓网#10#安卓资讯#http://bbs.hiapk.com/template/hiapk/images/logo.png</item>
-    </string-array>
-    <string-array name="img_arrays">
-        <item>file#文件</item>
-        <item>http#HTTP</item>
-        <item>http://img.ithome.com#IT之家</item>
-        <item>http://cms.csdnimg.cn#CSDN</item>
-        <item>http://www.phonekr.com#科技锋芒</item>
-        <item>http://a1.eoe.cn/www/home#EOE</item>
-        <item>http://www.199it.com#199IT</item>
-        <item>https://mmbiz.qlogo.cn#199IT</item>
-        <item>http://a.36krcnd.com#36氪</item>
-        <item>http://img.huxiu.com#虎嗅网</item>
-        <item>http://www.chong4.com.cn/#穿衣打扮</item>
-        <item>http://www.ijiandao.com/#网络尖刀</item>
-        <item>http://p3.image.hiapk.com/#安卓网</item>
-    </string-array>
+	<string-array name="left_drawer_text_arrays">
+		<item>ic_home#首页</item>
+		<item>ic_friend#人脉</item>
+		<item>ic_picture#照片</item>
+		<item>ic_camera#拍照</item>
+		<item>ic_hangout#环聊</item>
+		<item>ic_weather#天气信息</item>
+		<item>ic_location#位置信息</item>
+		<item>ic_bus#实时公交</item>
+		<item>ic_didi#嘀嘀打车</item>
+	</string-array>
+	<string-array name="actionbar_navigation_ithome_arrays">
+		<item>IT之家#http://it.ithome.com/category/1_</item>
+		<item>IE之家#http://it.ithome.com/category/7_</item>
+		<item>IT之外#http://it.ithome.com/category/17_</item>
+		<item>壁纸之家#http://it.ithome.com/category/12_</item>
+		<item>主题之家#http://it.ithome.com/category/13_</item>
+		<item>数码之家#http://it.ithome.com/category/15_</item>
+		<item>游戏之家#http://it.ithome.com/category/14_</item>
+		<item>WIN9之家#http://it.ithome.com/category/19_</item>
+		<item>WIN8之家#http://it.ithome.com/category/2_</item>
+		<item>WIN7之家#http://it.ithome.com/category/3_</item>
+		<item>VISTA之家#http://it.ithome.com/category/4_</item>
+		<item>IPHONE之家#http://it.ithome.com/category/5_</item>
+		<item>OFFICE之家#http://it.ithome.com/category/8_</item>
+		<item>ANDROID之家#http://it.ithome.com/category/10_</item>
+	</string-array>
+	<string-array name="actionbar_navigation_csdn_arrays">
+		<item>移动开发#http://mobile.csdn.net/mobile/</item>
+		<item>业界新闻#http://news.csdn.net/news/</item>
+		<item>云计算#http://cloud.csdn.net/cloud/</item>
+		<item>软件研发#http://sd.csdn.net/sd/</item>
+		<item>程序员杂志#http://programmer.csdn.net/programmer/</item>
+	</string-array>
+	<string-array name="actionbar_navigation_phonekr_arrays">
+		<item>科技锋芒#http://www.phonekr.com/page/</item>
+	</string-array>
+	<string-array name="actionbar_navigation_cydb_arrays">
+		<item>首页#http://www.chong4.com.cn/index.php?mode=1&amp;page=</item>
+		<item>精选#http://www.chong4.com.cn/index.php?go=starred&amp;mode=1&amp;page=
+		</item>
+		<item>搭配#http://www.chong4.com.cn/tag.php?tag=搭配&amp;mode=1&amp;page=
+		</item>
+	</string-array>
+	<string-array name="actionbar_navigation_geekpark_arrays">
+		<item>谷歌#http://www.geekpark.net/ajax/load_seeds/?tag_id=150188</item>
+		<item>微信#http://www.geekpark.net/ajax/load_seeds/?tag_id=160388</item>
+		<item>行业趋势#http://www.geekpark.net/ajax/load_seeds/?tag_id=155553
+		</item>
+		<item>社交网络#http://www.geekpark.net/ajax/load_seeds/?tag_id=150045
+		</item>
+		<item>产品观察#http://www.geekpark.net/ajax/load_seeds/?tag_id=155597
+		</item>
+		<item>移动互联网#http://www.geekpark.net/ajax/load_seeds/?tag_id=150016
+		</item>
+		<item>极客早知道#http://www.geekpark.net/ajax/load_seeds/?tag_id=160388
+		</item>
+		<item>Facebook#http://www.geekpark.net/ajax/load_seeds/?tag_id=150048
+		</item>
+		<item>ANDROID#http://www.geekpark.net/ajax/load_seeds/?tag_id=150027
+		</item>
+	</string-array>
+	<string-array name="actionbar_navigation_eoe_arrays">
+		<item>EOE首页#http://www.eoe.cn/index/index/pageNum/</item>
+		<item>全部咨询#http://news.eoe.cn/cat-0-</item>
+		<item>行业动态#http://news.eoe.cn/cat-10-</item>
+		<item>创新项目#http://news.eoe.cn/cat-11-</item>
+		<item>人物访谈#http://news.eoe.cn/cat-12-</item>
+		<item>EOE视点#http://news.eoe.cn/cat-13-</item>
+		<item>IOS#http://news.eoe.cn/news/tag/ios/pageNum/</item>
+		<item>ANDROID#http://news.eoe.cn/news/tag/Android/pageNum/</item>
+		<item>移动互联网#http://news.eoe.cn/news/tag/移动互联网/pageNum/</item>
+		<!-- <item>EOE博客#http://www.eoeandroid.com/home.php?catid=0</item> <item>程序人生#http://www.eoeandroid.com/home.php?catid=1</item> 
+			<item>环境搭建#http://www.eoeandroid.com/home.php?catid=2</item> <item>基础教程#http://www.eoeandroid.com/home.php?catid=3</item> 
+			<item>用户界面#http://www.eoeandroid.com/home.php?catid=4</item> <item>数据存储#http://www.eoeandroid.com/home.php?catid=5</item> 
+			<item>网络通信#http://www.eoeandroid.com/home.php?catid=6</item> <item>图形图像#http://www.eoeandroid.com/home.php?catid=7</item> 
+			<item>游戏开发#http://www.eoeandroid.com/home.php?catid=8</item> <item>第三方集成#http://www.eoeandroid.com/home.php?catid=10</item> 
+			<item>其他#http://www.eoeandroid.com/home.php?catid=11</item> -->
+	</string-array>
+	<string-array name="actionbar_navigation_it199_arrays">
+		<item>IOS#http://www.199it.com/archives/tag/ios/page/</item>
+		<item>IDC#http://www.199it.com/archives/tag/idc/page/</item>
+		<item>CNNIC#http://www.199it.com/archives/tag/cnnic/page/</item>
+		<item>ANDROID#http://www.199it.com/archives/tag/android/page/</item>
+		<item>电子商务#http://www.199it.com/archives/category/electronic-commerce/page/
+		</item>
+		<item>社交网络#http://www.199it.com/archives/category/social-network/page/
+		</item>
+		<item>网络营销#http://www.199it.com/archives/category/advertising/page/
+		</item>
+		<item>网络媒体#http://www.199it.com/archives/category/omg/page/</item>
+		<item>网络娱乐#http://www.199it.com/archives/category/entertain/page/
+		</item>
+		<item>网络服务#http://www.199it.com/archives/category/service/page/</item>
+		<item>数据行业#http://www.199it.com/archives/category/dataindustry/page/
+		</item>
+		<item>用户研究#http://www.199it.com/archives/category/internet-users/page/
+		</item>
+		<item>研究报告#http://www.199it.com/archives/category/report/page/</item>
+		<item>投资&amp;经济#http://www.199it.com/archives/category/economic-data/page/
+		</item>
+		<item>数据信息图#http://www.199it.com/archives/category/info-graphics/page/
+		</item>
+		<item>移动互联网#http://www.199it.com/archives/category/mobile-internet/page/
+		</item>
+	</string-array>
+	<string-array name="actionbar_navigation_36kr_arrays">
+		<item>科技#http://www.36kr.com/topic/technology?page=</item>
+		<item>网站#http://www.36kr.com/topic/websites?page=</item>
+		<item>人物#http://www.36kr.com/topic/people?page=</item>
+		<item>品牌#http://www.36kr.com/topic/brands?page=</item>
+		<item>硬件#http://www.36kr.com/topic/devices?page=</item>
+		<item>产品#http://www.36kr.com/topic/products?page=</item>
+		<item>专栏#http://www.36kr.com/category/column/</item>
+		<item>存档#http://www.36kr.com/category/archives/</item>
+		<item>氪周刊#http://www.36kr.com</item>
+		<item>应用软件#http://www.36kr.com/topic/apps?page=</item>
+		<item>创业公司#http://www.36kr.com/topic/startups?page=</item>
+		<item>国内咨询#http://www.36kr.com/category/cn-news/</item>
+		<item>国外咨询#http://www.36kr.com/category/breaking/</item>
+		<item>国内创业公司#http://www.36kr.com/category/cn-startups/</item>
+		<item>国外创业公司#http://www.36kr.com/category/us-startups/</item>
+	</string-array>
+	<string-array name="actionbar_navigation_huxiu_arrays">
+		<item>看点#http://m.huxiu.com/focus/</item>
+		<item>观点#http://m.huxiu.com/opinions/</item>
+		<item>读点#http://m.huxiu.com/books/</item>
+		<item>用点#http://m.huxiu.com/products/</item>
+	</string-array>
+	<!-- 网络尖刀 -->
+	<string-array name="actionbar_navigation_wljd_arrays">
+		<item>安全#http://www.ijiandao.com/safe/page/</item>
+		<item>新闻#http://www.ijiandao.com/news/page/</item>
+		<item>科技#http://www.ijiandao.com/tech/page/</item>
+		<item>创业#http://www.ijiandao.com/start/page/</item>
+	</string-array>
+	<string-array name="actionbar_navigation_hiapk_arrays">
+		<item>Android手机#http://m.hiapk.com/news/android/list_962_</item>
+		<item>智能平台#http://m.hiapk.com/news/mobile/list_963_</item>
+		<item>行业巨头#http://m.hiapk.com/news/tech/list_964_</item>
+		<item>移动互联#http://m.hiapk.com/news/internet/list_965_</item>
+		<item>新酷科技#http://m.hiapk.com/news/cool/list_966_</item>
+	</string-array>
+	<!-- <item>早餐#http://m.xiachufang.com/search/?keyword=%E6%97%A9%E9%A4%90</item> 
+		<item>清热祛火#http://m.xiachufang.com/search/?keyword=%E6%B8%85%E7%83%AD%E7%A5%9B%E7%81%AB</item>
+		<item>宵夜#http://m.xiachufang.com/search/?keyword=%E5%AE%B5%E5%A4%9C</item> 
+		<item>补血#http://m.xiachufang.com/search/?keyword=%E8%A1%A5%E8%A1%80</item> -->
+	<string-array name="actionbar_navigation_xcf_arrays">
+		<item>家常菜#http://m.xiachufang.com/search/?keyword=%E5%AE%B6%E5%B8%B8%E8%8F%9C</item>
+		<item>快手菜#http://m.xiachufang.com/search/?keyword=%E5%BF%AB%E6%89%8B%E8%8F%9C%20</item>
+		<item>下饭菜#http://m.xiachufang.com/search/?keyword=%E4%B8%8B%E9%A5%AD%E8%8F%9C</item>
+	</string-array>
+	<string-array name="start_news_type_arrays">
+		<item>IT之家#0#IT之家是一个提供IT业界和数码产品资讯的泛科技媒体平台。我们快速精选泛科技新闻，分享即时的IT业界动态和紧跟潮流的数码产品资讯，提供给力的PC和手机技术文章、丰富的系统应用美化资源，以及享不尽的智能阅读#http://a.hiphotos.baidu.com/baike/w%3D268/sign=3e03ee88087b02080cc938e75ad9f25f/7acb0a46f21fbe093b66053969600c338744ade7.jpg
+		</item>
+		<item>CSDN#1#CSDN创立于1999年，是中国最大的IT社区和服务平台，为中国的软件开发者和IT从业者提供知识传播、职业发展、软件开发等全生命周期服务，满足他们在职业发展中学习及共享知识和信息、建立职业发展社交圈、通过软件开发实现技术商业化等刚性需求#http://imgtech.gmw.cn/attachement/jpg/site2/20111223/f04da22d7ba7105e1d7507.jpg
+		</item>
+		<item>科技锋芒#2#锋客网是煮机网麾下的一个中文团队博客. 在这里, 我们的新闻和评论也许没有别人的专业, 及时,
+			但是我们可以放心勾搭, 随便告白……绝对良心厚道有节操, 吐槽绝对毫不留情, 一等犀利, 观念先进~
+			在这里你可能看到符合和不符合天朝法律的任何东西. 锋客的含义就是”先锋 +
+			极客”#http://www.phonekr.com/wp-content/uploads/2012/11/Top-2013-W-1200px.png
+		</item>
+		<item>EOE#3#最棒的移动开发者社区#http://www.eoeandroid.com/template/thinktheme_eoe/tt_img/logo.png
+		</item>
+		<item>极客公园#4#极客公园是中国最大的创新者社区，汇聚最优秀的创业精英和产品人群。欢迎网站投稿贡献高质量的产品、行业观察#http://tp2.sinaimg.cn/1735559201/180/40049779894/1
+		</item>
+		<item>199IT#5#199IT互联网数据资讯中心是一个非赢利松散组织提供IMT数据信息服务的网站，自成立以来，我们搜集、编译、分析、整理了全球市场研究机构的调研分析数据，并第一时间将信息免费提供给业内的朋友。我们相信“数据驱动未来”，我们也相信我们做的不是简单的数据搬运工作，而是数据金矿的重新提炼和展现。我们也相信在过去一年我们的数据给关注199IT网站的朋友带去诸多产品、运营、市场方面的启发。展望未来，我们希望可以做得更好！#http://www.199it.com/199itlogo.png
+		</item>
+		<item>36KR#6#36氪是中国领先的科技新媒体，我们报道最新的互联网科技新闻以及最有潜力的互联网创业企业。我们的目标是，通过对互联网行业及最新创业企业的关注，为中文互联网读者提供一个最佳的了解互联网行业当下与未来的科技媒体#http://t10.baidu.com/it/u=4004095380,3837276999&amp;fm=58
+		</item>
+		<item>虎嗅网#7#虎嗅网是一个用户可参与的商业资讯与观点交流平台。这个资讯及观点平台的核心，是关注互联网与移动互联网一系列明星公司（包括公众公司与创业型企业）的起落轨迹、产业潮汐的动力与趋势，以及互联网与移动互联网如何改造传统产业。我们致力于为用户创造获取与交流商业资讯的更"有效率"的体验
+			#http://www.huxiu.com/static/img/top_logo.png
+		</item>
+		<item>穿衣打扮#8#提供服饰搭配,美容知识等方面的精彩文章#http://www.chong4.com.cn/image/logo.gif
+		</item>
+		<item>网络尖刀#9#网络尖刀
+			读懂互联网安全#http://www.ijiandao.com/wp-content/themes/lovnvns/img/logo.jpg
+		</item>
+		<item>安卓网#10#安卓资讯#http://bbs.hiapk.com/template/hiapk/images/logo.png
+		</item>
+		<item>下厨房#11#下厨房#http://staticm.xiachufang.com/static%2Fpic%2Flogo.png
+		</item>
+	</string-array>
+	<string-array name="img_arrays">
+		<item>file#文件</item>
+		<item>http#HTTP</item>
+		<item>http://img.ithome.com#IT之家</item>
+		<item>http://cms.csdnimg.cn#CSDN</item>
+		<item>http://www.phonekr.com#科技锋芒</item>
+		<item>http://a1.eoe.cn/www/home#EOE</item>
+		<item>http://www.199it.com#199IT</item>
+		<item>https://mmbiz.qlogo.cn#199IT</item>
+		<item>http://a.36krcnd.com#36氪</item>
+		<item>http://img.huxiu.com#虎嗅网</item>
+		<item>http://www.chong4.com.cn/#穿衣打扮</item>
+		<item>http://www.ijiandao.com/#网络尖刀</item>
+		<item>http://p3.image.hiapk.com/#安卓网</item>
+		<item>http://i1.xiachufang.com/#下厨房</item>
+		<item>http://i2.xiachufang.com/#下厨房</item>
+		<item>http://i3.xiachufang.com/#下厨房</item>
+		<item>http://i4.xiachufang.com/#下厨房</item>
+	</string-array>
 
 </resources>

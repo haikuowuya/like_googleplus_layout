@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ivorg_color"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:background="@android:color/white" >
+
+        <WebView
+            android:id="@+id/wv_webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical" />
+
+        <ProgressBar
+            android:id="@+id/pb_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="3dip"
+            android:layout_gravity="top"
+            android:background="@android:color/transparent"
+            android:max="100"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" >
+
+        <ImageButton
+            android:id="@+id/ibtn_browser_back"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/actionbar_item_selector"
+            android:contentDescription="@string/tv_content_desc"
+            android:src="@drawable/browser_back_selector" />
+
+        <ImageButton
+            android:id="@+id/ibtn_browser_refresh_or_cancle"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@drawable/actionbar_item_selector"
+            android:contentDescription="@string/tv_content_desc"
+            android:src="@drawable/browser_cancle_selector" />
+
+        <ImageButton
+            android:id="@+id/ibtn_browser_forward"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/actionbar_item_selector"
+            android:contentDescription="@string/tv_content_desc"
+            android:src="@drawable/browser_forward_selector" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -27,19 +27,17 @@ public class NewsActivity extends BaseLayoutActivity
 	{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_news);
 		initView();
-
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_container) == null)
 		{
 			mItem = (NewsItem) getIntent().getSerializableExtra(EXTRA_NEWS);
 			if (null != mItem)
+			{
 				getSupportFragmentManager().beginTransaction().add(R.id.frame_container, NewsFragment.newInstance(mItem)).commit();
+			}
 		}
-
 	}
-
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId())
@@ -60,6 +58,6 @@ public class NewsActivity extends BaseLayoutActivity
 	public void onUserInteraction()
 	{
 		super.onUserInteraction();
-//		Toast.makeText(this, "用户触摸屏幕", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(this, "用户触摸屏幕", Toast.LENGTH_SHORT).show();
 	}
 }

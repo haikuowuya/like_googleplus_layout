@@ -11,9 +11,16 @@ import android.annotation.SuppressLint;
 
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.MD5Utils;
-
+/**
+ * 获取安卓网网站信息
+ * @author bo.li
+ *
+ * 2014-8-4 上午11:15:57
+ *
+ * TODO
+ */
 @SuppressLint("SimpleDateFormat")
-public class HiApkNewsUtils
+public class HiApkNewsListUtils extends BaseNewsListUtils
 {
 
 	public static LinkedList<NewsItem> getHiApkNewsList(String hiApkUrl, int pageNo) throws Exception
@@ -24,7 +31,7 @@ public class HiApkNewsUtils
 		Document document = Jsoup.connect(url).get();
 		Elements elements = null;
 		Element element = document.getElementById("container");
-		String title = null, subTitle = null, md5 = null, time = null, src = null, newsUrl = null;
+		String title = null, subTitle = null,source="安卓网", md5 = null, time = null, src = null, newsUrl = null;
 		md5 = MD5Utils.generate(url);
 		time = "今天";
 		time = "第" + pageNo + "页";
@@ -70,6 +77,7 @@ public class HiApkNewsUtils
 					item.setSrc(src);
 					item.setTime(time);
 					item.setMd5(md5);
+					item.setSource(source);
 					item.setUrl(newsUrl);
 					item.setTitle(title);
 					item.setSubTitle(subTitle);
@@ -107,5 +115,11 @@ public class HiApkNewsUtils
 		}
 
 		return newTime.trim();
+	}
+
+	@Override
+	public LinkedList<NewsItem> getNewsList(String baseUrl, int pageNo) throws Exception
+	{
+		 return getHiApkNewsList(baseUrl, pageNo);
 	}
 }

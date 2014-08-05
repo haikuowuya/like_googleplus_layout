@@ -12,7 +12,15 @@ import android.text.TextUtils;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.MD5Utils;
 
-public class IT199NewsUtils
+/**
+ * 获取IT199网站信息
+ * @author bo.li
+ *
+ * 2014-8-4 上午11:09:16
+ *
+ * TODO
+ */
+public class IT199NewsListUtils extends BaseNewsListUtils
 {
 	private static final String TAG_ARTICAL = "article";
 
@@ -25,7 +33,7 @@ public class IT199NewsUtils
 		// System.out.println("document = " + document);
 		Elements elements = document.getElementsByTag(TAG_ARTICAL);
 		Element element = null;
-		String title = null, subTitle = null, md5 = null, time = null, src = null, newsUrl = null;
+		String title = null, subTitle = null,source="IT199", md5 = null, time = null, src = null, newsUrl = null;
 		md5 = MD5Utils.generate(url);
 		time = "今天";
 		time ="第"+pageNo+"页";
@@ -80,6 +88,7 @@ public class IT199NewsUtils
 				item.setTime(time);
 				item.setMd5(md5);
 				item.setUrl(newsUrl);
+				item.setSource(source);
 				item.setTitle(title);
 				item.setSubTitle(subTitle);
 				data.add(item);
@@ -97,5 +106,11 @@ public class IT199NewsUtils
 			newTime = time.split(" ")[0];
 		}
 		return newTime;
+	}
+
+	@Override
+	public LinkedList<NewsItem> getNewsList(String baseUrl, int pageNo) throws Exception
+	{
+		return  getIT199NewsList(baseUrl, pageNo);
 	}
 }

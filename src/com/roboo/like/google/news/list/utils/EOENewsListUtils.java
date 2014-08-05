@@ -10,7 +10,15 @@ import org.jsoup.select.Elements;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.MD5Utils;
 
-public class EOENewsUtils
+/**
+ * 获取EOE网站信息
+ * @author bo.li
+ *
+ * 2014-8-4 上午11:02:30
+ *
+ * TODO
+ */
+public class EOENewsListUtils extends BaseNewsListUtils
 {
 	private static final String BASE_EOE_BLOG_URL = "http://www.eoeandroid.com/home.php";
 
@@ -22,15 +30,15 @@ public class EOENewsUtils
 		String url = eoeUrl + pageNo + ".html";
 		if (url.startsWith(BASE_EOE_BLOG_URL))
 		{
-			url = eoeUrl+"&mod=space&do=blog&view=all&page="+pageNo;
+			url = eoeUrl + "&mod=space&do=blog&view=all&page=" + pageNo;
 		}
 		System.out.println("url = " + url);
 		Document document = Jsoup.connect(url).get();
 		System.out.println("document = " + document);
 		Elements elements = document.getElementsByClass("ue-body-new-list");
-		System.out.println("KKK"+elements);
+		System.out.println("KKK" + elements);
 		Element element = null;
-		String title = null, subTitle = null, md5 = null, time = null, src = null, newsUrl = null;
+		String title = null, subTitle = null,source="EOE", md5 = null, time = null, src = null, newsUrl = null;
 		md5 = MD5Utils.generate(url);
 		time = "今天";
 		if (!elements.isEmpty())
@@ -89,6 +97,7 @@ public class EOENewsUtils
 				item.setMd5(md5);
 				item.setUrl(newsUrl);
 				item.setTitle(title);
+				item.setSource(source);
 				item.setSubTitle(subTitle);
 				data.add(item);
 
@@ -106,5 +115,11 @@ public class EOENewsUtils
 			newTime = time.split(" ")[0];
 		}
 		return newTime;
+	}
+
+	@Override
+	public LinkedList<NewsItem> getNewsList(String baseUrl, int pageNo) throws Exception
+	{
+		return getEOENewsList(baseUrl, pageNo);
 	}
 }

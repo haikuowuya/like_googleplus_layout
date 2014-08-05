@@ -4,6 +4,7 @@
     <item name="iv_image" type="id"></item>
     <item name="btn_comment" type="id"></item>
     <item name="btn_retry" type="id"></item>
+    <item name="btn_webview" type="id"></item>
     <item name="vp_viewpager" type="id"/>
     <item name="titleDivider" type="id"/>
 

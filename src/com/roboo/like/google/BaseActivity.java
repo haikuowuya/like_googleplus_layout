@@ -23,11 +23,12 @@ import com.roboo.like.google.models.NewsTypeItem;
 public class BaseActivity extends FragmentActivity
 {
 	public static final String PREF_FAST_SCROLL = "fast_scroll";
-	public static final String PREF_ONLY_ANDROID="only_android";
-	public static final String PREF_EXACT_BUS="exact_bus";
+	public static final String PREF_ONLY_ANDROID = "only_android";
+	public static final String PREF_EXACT_BUS = "exact_bus";
 	private static final String PREF_FIRST_INSERT_IMG_URL = "insert_img_url";
 	private static final String PREF_FIRST_INSERT_NEWS_TYPE = "insert_news_type";
 	protected SharedPreferences mPreferences;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -42,25 +43,28 @@ public class BaseActivity extends FragmentActivity
 	{
 		super.onResume();
 		JPushInterface.onResume(this);
-		if (!mPreferences.contains(PREF_FIRST_INSERT_IMG_URL) || !mPreferences.getBoolean(PREF_FIRST_INSERT_IMG_URL, false))
+		LinkedList<NewsTypeItem> typeItems = NewsTypeItem.getNewsTypeItems(this);
+		NewsTypeItemDaoImpl newsTypeItemDao = new NewsTypeItemDaoImpl(new DBHelper(this));
+		boolean update = (null == newsTypeItemDao.getNewsTypeItems() || (typeItems != null && newsTypeItemDao.getNewsTypeItems().size() != typeItems.size()));
+ 
+		if (update || !mPreferences.contains(PREF_FIRST_INSERT_IMG_URL) || !mPreferences.getBoolean(PREF_FIRST_INSERT_IMG_URL, false))
 		{
 			insertImgUrls();
 		}
-		if (!mPreferences.contains(PREF_FIRST_INSERT_NEWS_TYPE) || !mPreferences.getBoolean(PREF_FIRST_INSERT_NEWS_TYPE, false))
+		if (update || !mPreferences.contains(PREF_FIRST_INSERT_NEWS_TYPE) || !mPreferences.getBoolean(PREF_FIRST_INSERT_NEWS_TYPE, false))
 		{
-			insertNewsType();
+			insertNewsType(newsTypeItemDao, typeItems);
 		}
 		GoogleApplication.mIsOnlyAndroid = mPreferences.getBoolean(PREF_ONLY_ANDROID, false);
 		GoogleApplication.mIsExactBus = mPreferences.getBoolean(PREF_EXACT_BUS, false);
 	}
 
-	private void insertNewsType()
+	private void insertNewsType(NewsTypeItemDaoImpl newsTypeItemDao, LinkedList<NewsTypeItem> typeItems)
 	{
-		LinkedList<NewsTypeItem> typeItems = NewsTypeItem.getNewsTypeItems(this);
-		NewsTypeItemDaoImpl newsTypeItemDao = new NewsTypeItemDaoImpl(new DBHelper(this));
 		if (null != typeItems)
 		{
 			boolean returnFlag = newsTypeItemDao.insertNewsTypeItems(typeItems);
+			returnFlag = true;//执行完成
 			mPreferences.edit().putBoolean(PREF_FIRST_INSERT_NEWS_TYPE, returnFlag).commit();
 			if (returnFlag)
 			{
@@ -80,6 +84,7 @@ public class BaseActivity extends FragmentActivity
 		{
 			ImgUrlDaoImpl imgUrlDao = new ImgUrlDaoImpl(new DBHelper(this));
 			boolean returnFlag = imgUrlDao.insertImgUrls(imgUrls);
+			returnFlag = true;//执行完成
 			mPreferences.edit().putBoolean(PREF_FIRST_INSERT_IMG_URL, returnFlag).commit();
 			if (returnFlag)
 			{
@@ -123,15 +128,17 @@ public class BaseActivity extends FragmentActivity
 	{
 		return mPreferences;
 	}
-	public void hideKeyBoard(View view )
+
+	public void hideKeyBoard(View view)
 	{
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		if(imm.isActive(view))
+		if (imm.isActive(view))
 		{
 			imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 		}
 	}
-	protected FragmentTransaction beginTransaction()
+
+	public FragmentTransaction beginTransaction()
 	{
 		int enter = R.anim.base_slide_right_in;
 		int exit = R.anim.base_slide_right_out;

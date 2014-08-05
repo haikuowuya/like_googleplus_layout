@@ -14,7 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.roboo.like.google.DidiActivity;
+import com.roboo.like.google.WebViewActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.models.SmsItem;
 
@@ -102,7 +102,7 @@ public class SMSAdapter extends BaseAdapter
 
 		public void onClick(View widget)
 		{
-			DidiActivity.actionDidi(mActivity, getURL());
+			WebViewActivity.actionDidi(mActivity, getURL());
 
 		}
 
