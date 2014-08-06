@@ -70,10 +70,13 @@ public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeade
 	public View getView(final int position, View convertView, ViewGroup parent)
 	{
 		final NewsTypeItem item = mData.get(position);
+		if(convertView == null)
+		{
 		convertView = mInflater.inflate(R.layout.list_news_type_item, null);// TODO
 		if (parent instanceof SwipeListView)
 		{
 			convertView = mInflater.inflate(R.layout.list_news_swipe_type_item, null);// TODO
+		}
 		}
 		TextView textView = ViewHolder.getView(convertView, R.id.tv_title);
 		ImageView imageView = ViewHolder.getView(convertView, R.id.iv_image);

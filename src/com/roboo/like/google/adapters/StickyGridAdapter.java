@@ -84,10 +84,13 @@ public class StickyGridAdapter extends BaseAdapter implements StickyHeadersAdapt
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
+		if(convertView == null)
+		{
 		convertView = mInflater.inflate(R.layout.picture_grid_item, parent, false);
 		if(parent instanceof StaggeredGridView)
 		{
 			convertView = mInflater.inflate(R.layout.picture_pin_item, parent, false);
+		}
 		}
 		final ImageView imageView = (ImageView) convertView.findViewById(R.id.iv_image);
 		String path = hasHeaderIdList.get(position).getPath();

@@ -518,7 +518,6 @@ public class MainGridFragment extends BaseMainFragment implements LoaderCallback
 		Map<String, Integer> mHeaderIdMap = new HashMap<String, Integer>();
 		int mHeaderId = 1;
 		LinkedList<NewsItem> hasHeaderIdList;
-
 		for (int i = 0; i < nonHeaderIdList.size(); i++)
 		{
 			NewsItem item = nonHeaderIdList.get(i);

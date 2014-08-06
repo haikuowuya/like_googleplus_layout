@@ -48,7 +48,10 @@ public class BusLineAdapter extends BaseAdapter
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		final BusLineItem item = mData.get(position);
+		if(convertView == null)
+		{
 		convertView = LayoutInflater.from(mActivity).inflate(R.layout.list_bus_line_item, null);// TODO
+		}
 		TextView tvStationName = ViewHolder.getView(convertView, R.id.tv_station_name);
 		TextView tvStationMark = ViewHolder.getView(convertView, R.id.tv_station_mark);
 		TextView tvIncomingBusNo = ViewHolder.getView(convertView, R.id.tv_incoming_bus_no);

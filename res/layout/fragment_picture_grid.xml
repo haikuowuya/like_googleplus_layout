@@ -4,7 +4,7 @@
 
     <com.roboo.like.google.views.StickyGridHeadersGridView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/sgh_gridview"
+        android:id="@+id/sghgv_gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"

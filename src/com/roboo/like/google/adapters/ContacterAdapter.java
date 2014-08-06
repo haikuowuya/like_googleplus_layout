@@ -1,7 +1,5 @@
 package com.roboo.like.google.adapters;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -10,12 +8,6 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.provider.MediaStore.Images.Media;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -65,7 +57,10 @@ public class ContacterAdapter extends BaseAdapter implements StickyHeadersAdapte
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
+		if(convertView == null)
+		{
 		convertView = LayoutInflater.from(mActivity).inflate(R.layout.contacter_list_item, null);
+		}
 		final CheckedTextView textView = (CheckedTextView) convertView.findViewById(R.id.ctv_text);
 		ImageView imageView = (ImageView) convertView.findViewById(R.id.iv_image);
 		ContacterItem item = mData.get(position);

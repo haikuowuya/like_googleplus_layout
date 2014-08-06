@@ -8,24 +8,23 @@
         android:layout_height="match_parent" >
 
         <com.roboo.like.google.views.StickyGridHeadersGridView
-             android:layoutAnimation="@anim/layout_grid_fade"
             android:id="@+id/sghgv_gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:cacheColorHint="@android:color/transparent"
             android:clipToPadding="false"
             android:columnWidth="100dp"
-        	android:paddingBottom="58dp"
             android:divider="@android:color/transparent"
             android:drawSelectorOnTop="true"
             android:fadeScrollbars="false"
-            android:fastScrollEnabled="true"
             android:fastScrollAlwaysVisible="true"
+            android:fastScrollEnabled="true"
             android:footerDividersEnabled="true"
             android:horizontalSpacing="8dp"
+            android:layoutAnimation="@anim/layout_grid_fade"
             android:listSelector="@android:color/transparent"
             android:numColumns="2"
-            
+            android:paddingBottom="58dp"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="none"
             android:stretchMode="columnWidth"

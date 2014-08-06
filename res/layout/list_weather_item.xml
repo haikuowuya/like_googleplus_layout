@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_item_selector"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/tv_day"
+        style="@style/City.List.Item.TextView.Style"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:singleLine="true" />
+
+    <ImageView
+        android:id="@+id/iv_day"
+        android:layout_width="80dp"
+        android:layout_height="80dp" />
+
+    <ImageView
+        android:id="@+id/iv_night"
+        android:layout_width="80dp"
+        android:layout_height="80dp" />
+
+    <TextView
+        android:id="@+id/tv_temp"
+        style="@style/City.List.Item.TextView.Style"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:singleLine="true" />
+
+</LinearLayout>

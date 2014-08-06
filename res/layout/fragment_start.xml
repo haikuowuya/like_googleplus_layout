@@ -31,7 +31,7 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="10dp"
         android:fadeScrollbars="false"
-        android:fastScrollEnabled="true"
+        android:fastScrollEnabled="false"
         android:footerDividersEnabled="true"
         android:listSelector="@android:color/transparent"
         android:scrollbarStyle="outsideOverlay"

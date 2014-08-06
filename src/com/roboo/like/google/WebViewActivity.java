@@ -116,7 +116,7 @@ public class WebViewActivity extends BaseLayoutActivity
 		mWebView.getSettings().setDatabaseEnabled(true);
 		mWebView.getSettings().setDisplayZoomControls(false);
 		mWebView.getSettings().setDomStorageEnabled(true);
-		mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+//		mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 		mWebView.getSettings().setLoadWithOverviewMode(true);
 		mWebView.setScrollBarStyle(0);
 		mWebView.cancelLongPress();

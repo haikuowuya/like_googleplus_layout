@@ -48,8 +48,10 @@ public class NewsTypeListAdapter extends BaseAdapter implements StickyHeadersAda
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-	
+		if(convertView == null)
+		{
 		convertView = LayoutInflater.from(activity).inflate(android.R.layout.simple_list_item_1, null);
+		}
 		TextView textView =  ViewHolder.getView(convertView, android.R.id.text1);
 		textView.setText(mData.get(position).name);
 		return convertView;

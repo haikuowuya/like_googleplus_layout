@@ -89,7 +89,10 @@ public class NewsGridAdapter extends BaseAdapter implements StickyHeadersAdapter
 			// }
 			// else
 			// {
+			if(convertView == null)
+			{
 			convertView = mInflater.inflate(R.layout.grid_news_item, null);
+			}
 			// }
 			ImageView imageView = ViewHolder.getView(convertView, R.id.iv_image);
 			TextView tvTitle = ViewHolder.getView(convertView, R.id.tv_title);

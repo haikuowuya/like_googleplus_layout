@@ -29,10 +29,8 @@
         <item name="android:autoCompleteTextViewStyle">@style/Custom.AutoComplete.TextView.Style</item>
         <!-- 还不启用 -->
         <!-- <item name="android:alertDialogStyle">@style/Custom.AlertDialog.Style</item> -->
-      
-         <item name="android:editTextBackground">@drawable/edittext_view_background_selector</item>
-        
-        
+
+        <item name="android:editTextBackground">@drawable/edittext_view_background_selector</item>
     </style>
 
     <style name="Custom.ActionBar.DropDown.Style" parent="@android:style/Widget.Holo.Light.Spinner">
@@ -44,12 +42,13 @@
 
     <style name="Custom.ActionBar.Style" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
         <item name="android:background">@color/white_color</item>
-          <item name="android:itemPadding">4dip</item>
+        <item name="android:itemPadding">8dip</item>
         <item name="android:titleTextStyle">@style/Custom.ActionBar.Title.Style</item>
     </style>
 
     <style name="Custom.ActionBar.Title.Style" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@drawable/actionbar_title_text_color_selector</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="Custom.ActionBar.DropDownListView.Style" parent="@android:style/Widget.Holo.ListView.DropDown">

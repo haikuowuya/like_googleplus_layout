@@ -47,7 +47,10 @@ public class CommentAdapter extends BaseAdapter
 		CommentItem item = mData.get(position);
 		if (null != item)
 		{
+			if(convertView == null)
+			{
 			convertView = LayoutInflater.from(mActivity).inflate(R.layout.comment_list_item, null);
+			}
 			TextView tvFloor = ViewHolder.getView(convertView, R.id.tv_floor);
 			TextView tvNick = ViewHolder.getView(convertView, R.id.tv_nick);
 			TextView tvPhoneType = ViewHolder.getView(convertView, R.id.tv_phone_type);

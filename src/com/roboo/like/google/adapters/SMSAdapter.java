@@ -53,7 +53,10 @@ public class SMSAdapter extends BaseAdapter
 		SmsItem item = mData.get(position);
 		if (null != item)
 		{
+			if(convertView == null)
+			{
 			convertView = LayoutInflater.from(mActivity).inflate(R.layout.list_sms_item, null);// TODO
+			}
 			TextView tvAddress = ViewHolder.getView(convertView, R.id.tv_address);
 			TextView tvBody = ViewHolder.getView(convertView, R.id.tv_body);
 			TextView tvType = ViewHolder.getView(convertView, R.id.tv_type);

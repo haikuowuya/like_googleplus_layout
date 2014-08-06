@@ -5,30 +5,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.roboo.like.google.fragments.WeatherFragment;
-import com.roboo.like.google.models.CityItem;
- 
-public class WeatherActivity extends BaseLayoutActivity
+import com.roboo.like.google.fragments.CityFragment;
+
+/** 短信界面 */
+public class CityActivity extends BaseLayoutActivity
 {
-	private static final String EXTRA_CITY_ITEM="city_item";
-	private CityItem mCityItem;
-	public static void actionWeather(Activity activity, CityItem cityItem)
+	public static void actionCity(Activity activity)
 	{
-		Intent intent = new Intent(activity, WeatherActivity.class);
-		intent.putExtra(EXTRA_CITY_ITEM, cityItem);
+		Intent intent = new Intent(activity, CityActivity.class);
 		activity.startActivity(intent);
 	}
 
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_weather);
-		mCityItem = (CityItem) getIntent().getSerializableExtra(EXTRA_CITY_ITEM);
+		setContentView(R.layout.activity_city);
 		initView();
 		customActionBar();
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_container) == null)
 		{
-			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, WeatherFragment.newInstance(mCityItem.cUrl)).commit();
+			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, CityFragment.newInstance()).commit();
 		}
 	}
 
@@ -50,7 +46,7 @@ public class WeatherActivity extends BaseLayoutActivity
 	private void customActionBar()
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(true);
-		mActionBar.setTitle(mCityItem.cName+" 天气");
+		mActionBar.setTitle("城市列表");
 		mActionBar.setLogo(R.drawable.ic_abs_picture_up);
 	}
 

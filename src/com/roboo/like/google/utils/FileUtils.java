@@ -11,6 +11,7 @@ public class FileUtils
 {
 	public static final String TYPE_IMG = "images";
 	public static final String TYPE_APK = "apks";
+	public static final String TYPE_WEATHER = "weather";
 	public static final String TYPE_DATA = "datas";
 	public static final String TYPE_NEWS_LIST="list";
 	public static final String TYPE_NEWS_CONTENT="content";

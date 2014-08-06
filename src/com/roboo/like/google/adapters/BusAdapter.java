@@ -46,12 +46,15 @@ public class BusAdapter extends BaseAdapter
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		BusItem item = mData.get(position);
-		convertView = LayoutInflater.from(mActivity).inflate(R.layout.list_bus_item, null);//TODO
-		TextView tvBusNo= ViewHolder.getView(convertView, R.id.tv_busNo);
-		TextView tvBuName = ViewHolder.getView(convertView, R.id.tv_busName);
-		if(TextUtils.isDigitsOnly(item.busNo))
+		if (convertView == null)
 		{
-			tvBusNo.setText(item.busNo +"路");
+			convertView = LayoutInflater.from(mActivity).inflate(R.layout.list_bus_item, null);// TODO
+		}
+		TextView tvBusNo = ViewHolder.getView(convertView, R.id.tv_busNo);
+		TextView tvBuName = ViewHolder.getView(convertView, R.id.tv_busName);
+		if (TextUtils.isDigitsOnly(item.busNo))
+		{
+			tvBusNo.setText(item.busNo + "路");
 		}
 		else
 		{

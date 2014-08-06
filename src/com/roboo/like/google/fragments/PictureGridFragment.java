@@ -34,7 +34,7 @@ public class PictureGridFragment extends BaseWithProgressFragment implements Loa
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View view = inflater.inflate(R.layout.fragment_picture_grid, null);//TODO
-		mSGHGridView = (StickyGridHeadersGridView) view.findViewById(R.id.sgh_gridview);
+		mSGHGridView = (StickyGridHeadersGridView) view.findViewById(R.id.sghgv_gridview);
 		return view;
 	}
 	@Override

@@ -19,7 +19,7 @@ import android.widget.SimpleAdapter;
 import com.roboo.like.google.BusActivity;
 import com.roboo.like.google.CameraActivity;
 import com.roboo.like.google.ContacterActivity;
-import com.roboo.like.google.WeatherActivity;
+import com.roboo.like.google.CityActivity;
 import com.roboo.like.google.WebViewActivity;
 import com.roboo.like.google.LocationActivity;
 import com.roboo.like.google.MainActivity;
@@ -120,7 +120,7 @@ public class LeftFragment extends BaseFragment
 				SMSActivity.actionSms(getActivity());
 				break;
 			case 5://天气信息
-				WeatherActivity.actionWeather(getActivity());
+				CityActivity.actionCity(getActivity());
 				break;
 			case 6:// 位置信息
 				LocationActivity.actionLocation(getActivity());
