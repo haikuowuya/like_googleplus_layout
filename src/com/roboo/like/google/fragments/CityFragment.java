@@ -16,25 +16,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.droidux.trial.ci;
 import com.roboo.like.google.R;
 import com.roboo.like.google.WeatherActivity;
-import com.roboo.like.google.WebViewActivity;
 import com.roboo.like.google.adapters.ProvCityAdapter;
 import com.roboo.like.google.async.CityAsyncTaskLoader;
 import com.roboo.like.google.models.CityItem;
-import com.roboo.like.google.views.StickyGridHeadersGridView;
+import com.roboo.like.google.views.StickyListHeadersListView;
 
 @SuppressLint("NewApi")
 public class CityFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<LinkedList<CityItem>>>
 {
-
-	private StickyGridHeadersGridView mStickyGridHeadersGridView;
+	private static final String SUZHOU_WEATHER_URL = "http://m.weathercn.com/index.do?cid=01011706&pid=010117";
+	private StickyListHeadersListView mListView;
 	private LinkedList<Integer> mSectionIndex = new LinkedList<Integer>();
 	private LinkedList<CityItem> mData;
 	private ProvCityAdapter mAdapter;
+	private View mHeaderView;
 
 	public static CityFragment newInstance()
 	{
@@ -49,9 +50,19 @@ public class CityFragment extends BaseWithProgressFragment implements LoaderCall
 		if (savedInstanceState == null)
 		{
 			view = inflater.inflate(R.layout.fragment_city, null);// TODO
-			mStickyGridHeadersGridView = (StickyGridHeadersGridView) view.findViewById(R.id.sghgv_gridview);
+			mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
 		}
+		mHeaderView = createHeaderView();
+//		mListView.addHeaderView(mHeaderView);
 		return view;
+	}
+
+	private View createHeaderView()
+	{
+		mHeaderView = LayoutInflater.from(getActivity()).inflate(R.layout.listview_city_header_view, null);// TODO ListView的HeaderView布局文件
+		final EditText editText = (EditText) mHeaderView.findViewById(R.id.et_text);
+		ImageButton ibtnSearch = (ImageButton) mHeaderView.findViewById(R.id.ibtn_search);
+		return mHeaderView;
 	}
 
 	@Override
@@ -71,21 +82,17 @@ public class CityFragment extends BaseWithProgressFragment implements LoaderCall
 		inflater.inflate(R.menu.activity_weather, menu);
 	}
 
-	 @Override
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		 switch (item.getItemId())
+		switch (item.getItemId())
 		{
 		case R.id.menu_sz:
-			String url = "http://m.weathercn.com/index.do?cid=01011706&pid=010117";
-//			WebViewActivity.actionWebView(getActivity(), url, "苏州");
+			// WebViewActivity.actionWebView(getActivity(), url, "苏州");
 			CityItem cityItem = new CityItem();
 			cityItem.cName = "苏州";
-			cityItem.cUrl = url;
-			WeatherActivity.actionWeather(getActivity(), cityItem );
-			break;
-
-		default:
+			cityItem.cUrl = SUZHOU_WEATHER_URL;
+			WeatherActivity.actionWeather(getActivity(), cityItem);
 			break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -93,7 +100,7 @@ public class CityFragment extends BaseWithProgressFragment implements LoaderCall
 
 	public void setListener()
 	{
-		mStickyGridHeadersGridView.setOnItemClickListener(getOnItemClickListener());
+		mListView.setOnItemClickListener(getOnItemClickListener());
 	}
 
 	private OnItemClickListener getOnItemClickListener()
@@ -107,7 +114,6 @@ public class CityFragment extends BaseWithProgressFragment implements LoaderCall
 			}
 		};
 	}
-
 	@Override
 	public Loader<LinkedList<LinkedList<CityItem>>> onCreateLoader(int id, Bundle args)
 	{
@@ -123,7 +129,7 @@ public class CityFragment extends BaseWithProgressFragment implements LoaderCall
 			mData = handleDataWithSectionIndex(data);
 			mAdapter = new ProvCityAdapter(getActivity(), mData, mSectionIndex);
 			mAdapter.setSectionIndex(mSectionIndex);
-			mStickyGridHeadersGridView.setAdapter(mAdapter);
+			mListView.setAdapter(mAdapter);
 		}
 	}
 

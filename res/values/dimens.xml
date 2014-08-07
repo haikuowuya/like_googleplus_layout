@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-	 <dimen  name="corner_radius">2dp</dimen>
-	 <dimen name="dimen_textview_padding_ltbr">10dp</dimen>
+
+    <dimen name="corner_radius">2dp</dimen>
+    <dimen name="dimen_textview_padding_ltbr">10dp</dimen>
+    <!-- 悬浮按钮 -->
+    <dimen name="fab_size_normal">56dp</dimen>
+    <dimen name="fab_size_mini">40dp</dimen>
+    <dimen name="fab_shadow_size">8dp</dimen>
+    <dimen name="fab_mini_shadow_size">6dp</dimen>
+    <!-- 悬浮按钮 -->
+
 </resources>

@@ -70,10 +70,9 @@ public class WebViewActivity extends BaseLayoutActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_webview);// TODO
 		initView();
-		initWebView();
 		mUrl = getIntent().getStringExtra(EXTRA_URL);
-		mTitle = getIntent().getStringExtra(EXTRA_TITLE);
 		customActionBar();
+		initWebView();
 		if (TextUtils.isEmpty(mUrl))
 		{
 			mUrl = URL;
@@ -116,7 +115,14 @@ public class WebViewActivity extends BaseLayoutActivity
 		mWebView.getSettings().setDatabaseEnabled(true);
 		mWebView.getSettings().setDisplayZoomControls(false);
 		mWebView.getSettings().setDomStorageEnabled(true);
-//		mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+		if (!mUrl.startsWith("http://m.weathercn.com"))
+		{
+			mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+		}
+		else
+		{
+			mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+		}
 		mWebView.getSettings().setLoadWithOverviewMode(true);
 		mWebView.setScrollBarStyle(0);
 		mWebView.cancelLongPress();
@@ -129,7 +135,7 @@ public class WebViewActivity extends BaseLayoutActivity
 	{
 		return new WebChromeClient()
 		{
-			
+
 			@Override
 			public void onProgressChanged(WebView view, int newProgress)
 			{
@@ -172,8 +178,9 @@ public class WebViewActivity extends BaseLayoutActivity
 			@Override
 			public void onPageStarted(WebView view, String url, Bitmap favicon)
 			{
-				 mProgressBar.setProgress(0);
+				mProgressBar.setProgress(0);
 			}
+
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url)
 			{
@@ -205,6 +212,7 @@ public class WebViewActivity extends BaseLayoutActivity
 
 	private void customActionBar()
 	{
+		mTitle = getIntent().getStringExtra(EXTRA_TITLE);
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		if (TextUtils.isEmpty(mTitle))
 		{
@@ -241,7 +249,7 @@ public class WebViewActivity extends BaseLayoutActivity
 		BitmapDrawable currentBitmapDrawable = (BitmapDrawable) stateListDrawable.getCurrent();
 		BitmapDrawable refreshBitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.ic_browser_refresh_pressed);
 		BitmapDrawable cancleBitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.ic_browser_cancle_pressed);
-		System.out.println( currentBitmapDrawable.getBitmap() + " "+refreshBitmapDrawable.getBitmap() + " " + cancleBitmapDrawable.getBitmap());
+		System.out.println(currentBitmapDrawable.getBitmap() + " " + refreshBitmapDrawable.getBitmap() + " " + cancleBitmapDrawable.getBitmap());
 		if (currentBitmapDrawable.getBitmap() == refreshBitmapDrawable.getBitmap())// 当前是刷新按钮
 		{
 			mWebView.reload();

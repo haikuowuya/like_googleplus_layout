@@ -46,6 +46,7 @@ public class AddFragment extends BaseFragment
 		View view = inflater.inflate(R.layout.fragment_start, null);// TODO
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
 		mSwipeListView = (SwipeListView) view.findViewById(R.id.slv_listview);
+		view.findViewById(R.id.fibtn_image).setVisibility(View.GONE);
 		return view;
 	}
 

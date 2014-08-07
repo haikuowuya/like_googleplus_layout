@@ -28,7 +28,7 @@ public class WeatherActivity extends BaseLayoutActivity
 		customActionBar();
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_container) == null)
 		{
-			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, WeatherFragment.newInstance(mCityItem.cUrl)).commit();
+			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, WeatherFragment.newInstance(mCityItem)).commit();
 		}
 	}
 
@@ -50,7 +50,7 @@ public class WeatherActivity extends BaseLayoutActivity
 	private void customActionBar()
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(true);
-		mActionBar.setTitle(mCityItem.cName+" 天气");
+		mActionBar.setTitle(mCityItem.cName+"天气");
 		mActionBar.setLogo(R.drawable.ic_abs_picture_up);
 	}
 

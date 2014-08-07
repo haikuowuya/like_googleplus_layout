@@ -17,7 +17,7 @@
             android:layout_margin="10dp"
             android:cacheColorHint="@android:color/transparent"
             android:divider="@android:color/transparent"
-            android:dividerHeight="10dp"
+            android:dividerHeight="4dp"
             android:fadeScrollbars="false"
             android:fadingEdge="none"
             android:footerDividersEnabled="true"

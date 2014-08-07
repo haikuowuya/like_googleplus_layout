@@ -9,7 +9,6 @@
         android:layout_height="match_parent" >
 
         <com.roboo.like.google.views.StickyListHeadersListView
-            
             android:id="@+id/slhlv_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -18,8 +17,8 @@
             android:dividerHeight="10dp"
             android:drawSelectorOnTop="true"
             android:fadeScrollbars="false"
-      android:fastScrollEnabled="true"
             android:fastScrollAlwaysVisible="true"
+            android:fastScrollEnabled="true"
             android:footerDividersEnabled="true"
             android:listSelector="@android:color/transparent"
             android:paddingBottom="58dp"

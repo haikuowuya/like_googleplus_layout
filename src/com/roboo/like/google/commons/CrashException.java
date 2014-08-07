@@ -26,10 +26,16 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.roboo.like.google.GoogleApplication;
-import com.roboo.like.google.MainActivity;
 import com.roboo.like.google.R;
-import com.roboo.like.google.StartActivity;
 
+/**
+ * 处理未捕获的异常， 并且把错误信息保存到文件中 ， 如果可以的话，再上传到服务器上进行错误分析
+ * @author bo.li
+ *
+ * 2014-8-7 下午12:57:49
+ *
+ * TODO
+ */
 public class CrashException implements UncaughtExceptionHandler
 {
 	private static final String PATH = Environment.getExternalStorageDirectory().getPath() + "/crash/";
@@ -171,7 +177,6 @@ public class CrashException implements UncaughtExceptionHandler
 					}
 				}).setPositiveButton("重新打开", new OnClickListener()
 				{
-
 					public void onClick(DialogInterface dialog, int which)
 					{
 						Intent intent = new Intent();

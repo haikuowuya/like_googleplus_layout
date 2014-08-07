@@ -1,58 +1,74 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:swipe="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res/com.roboo.like.google"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ivorg_color" >
 
-    <com.roboo.like.google.views.StickyListHeadersListView
-        android:id="@+id/slhlv_list"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:cacheColorHint="@android:color/transparent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10dp"
-        android:drawSelectorOnTop="true"
-        android:fadeScrollbars="false"
-        android:fastScrollEnabled="true"
-        android:footerDividersEnabled="true"
-        android:listSelector="@android:color/transparent"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="none"
-        android:visibility="gone" />
+        android:background="@color/ivorg_color" >
 
-    <com.roboo.like.google.swipelistview.SwipeListView
-        android:id="@+id/slv_listview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:cacheColorHint="@android:color/transparent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10dp"
-        android:fadeScrollbars="false"
-        android:fastScrollEnabled="false"
-        android:footerDividersEnabled="true"
-        android:listSelector="@android:color/transparent"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="none"
-        app:swipeActionLeft="reveal"
-        app:swipeActionRight="reveal"
-        app:swipeOffsetLeft="240dp"
-        app:swipeOffsetRight="210dp"
-        swipe:swipeAnimationTime="400"
-        swipe:swipeBackView="@+id/swipe_listview_back"
-        swipe:swipeCloseAllItemsWhenMoveList="true"
-        swipe:swipeFrontView="@+id/swipe_listview_font"
-        swipe:swipeMode="both" />
-      <TextView
-        android:id="@android:id/empty"
+        <com.roboo.like.google.views.StickyListHeadersListView
+            android:id="@+id/slhlv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10dp"
+            android:drawSelectorOnTop="true"
+            android:fadeScrollbars="false"
+            android:fastScrollEnabled="true"
+            android:footerDividersEnabled="true"
+            android:listSelector="@android:color/transparent"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="none"
+            android:visibility="gone" />
+
+        <com.roboo.like.google.swipelistview.SwipeListView
+            android:id="@+id/slv_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10dp"
+            android:fadeScrollbars="false"
+            android:fastScrollEnabled="false"
+            android:footerDividersEnabled="true"
+            android:listSelector="@android:color/transparent"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="none"
+            app:swipeActionLeft="reveal"
+            app:swipeActionRight="reveal"
+            app:swipeOffsetLeft="240dp"
+            app:swipeOffsetRight="210dp"
+            swipe:swipeAnimationTime="400"
+            swipe:swipeBackView="@+id/swipe_listview_back"
+            swipe:swipeCloseAllItemsWhenMoveList="true"
+            swipe:swipeFrontView="@+id/swipe_listview_font"
+            swipe:swipeMode="both" />
+
+        <TextView
+            android:id="@android:id/empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/tv_empty_data"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <com.roboo.like.google.view.floatingbutton.FloatingImageButton
+        android:id="@+id/fibtn_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="没有订阅数据"
-        android:visibility="gone" />
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/add_selector"
+         />
 
-</RelativeLayout>
+</FrameLayout>

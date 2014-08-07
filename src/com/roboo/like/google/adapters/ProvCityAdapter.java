@@ -10,13 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.roboo.like.google.R;
 import com.roboo.like.google.models.CityItem;
 
-public class ProvCityAdapter extends BaseAdapter implements StickyHeadersAdapter, SectionIndexer
+public class ProvCityAdapter extends BaseAdapter implements StickyHeadersAdapter, SectionIndexer 
 {
 	private static final boolean IS_CUSTOM_FAST_SCROLL_LABEL = false;
 	private Context context;
@@ -86,7 +88,7 @@ public class ProvCityAdapter extends BaseAdapter implements StickyHeadersAdapter
 			TextView textView1 = ViewHolder.getView(convertView, R.id.tv_today_news_count);
 			textView.setText(item.pName);
 			int count = null == mCityInProv.get(item.pName) ? 0 : mCityInProv.get(item.pName).intValue();
-			textView1.setText("总共 " + count + " 个城市");
+			textView1.setText(" " + count + " ");
 		}
 		return convertView;
 	}
@@ -165,5 +167,4 @@ public class ProvCityAdapter extends BaseAdapter implements StickyHeadersAdapter
 		}
 		mCityInProv.put(currentPName, count);// 最后一个日期
 	}
-
 }

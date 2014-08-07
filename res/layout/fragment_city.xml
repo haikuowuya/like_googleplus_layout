@@ -4,26 +4,21 @@
     android:layout_height="match_parent"
     android:background="@color/ivorg_color" >
 
-    <com.roboo.like.google.views.StickyGridHeadersGridView
-        android:id="@+id/sghgv_gridview"
+    <com.roboo.like.google.views.StickyListHeadersListView
+        android:id="@+id/slhlv_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:cacheColorHint="@android:color/transparent"
-        android:clipToPadding="false"
-        android:columnWidth="100dp"
         android:layout_margin="10dp"
+        android:cacheColorHint="@android:color/transparent"
         android:divider="@android:color/transparent"
+        android:dividerHeight="1dp"
         android:drawSelectorOnTop="true"
         android:fadeScrollbars="false"
         android:fastScrollAlwaysVisible="false"
         android:fastScrollEnabled="true"
         android:footerDividersEnabled="true"
-        android:horizontalSpacing="8dp"
         android:listSelector="@android:color/transparent"
-        android:numColumns="4"
         android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="none"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="8dp" />
+        android:scrollbars="none" />
 
 </FrameLayout>

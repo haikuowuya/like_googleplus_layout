@@ -22,6 +22,7 @@ import com.roboo.like.google.databases.DBHelper;
 import com.roboo.like.google.models.NewsTypeItem;
 import com.roboo.like.google.swipelistview.SwipeListView;
 import com.roboo.like.google.swipelistview.SwipeListViewListener;
+import com.roboo.like.google.view.floatingbutton.FloatingImageButton;
 import com.roboo.like.google.views.StickyListHeadersListView;
 
 public class StartFragment extends BaseFragment
@@ -31,7 +32,7 @@ public class StartFragment extends BaseFragment
 	private SwipeListView mSwipeListView;
 	private StickyListHeadersListView mListView;
 	private StartNewsTypeListAdapter mAdapter;
-
+	private FloatingImageButton mFIBtnImageButton;
 	public static StartFragment newInstance()
 	{
 		StartFragment fragment = new StartFragment();
@@ -46,6 +47,9 @@ public class StartFragment extends BaseFragment
 		View view = inflater.inflate(R.layout.fragment_start, null);// TODO
 		mListView = (StickyListHeadersListView) view.findViewById(R.id.slhlv_list);
 		mSwipeListView = (SwipeListView) view.findViewById(R.id.slv_listview);
+		mFIBtnImageButton = (FloatingImageButton) view.findViewById(R.id.fibtn_image);
+		mFIBtnImageButton.attachToListView(mSwipeListView);
+		mFIBtnImageButton.setVisibility(View.GONE);
 		return view;
 	}
 

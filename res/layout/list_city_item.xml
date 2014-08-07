@@ -9,7 +9,8 @@
     <TextView
         android:id="@+id/tv_city_name"
         style="@style/City.List.Item.TextView.Style"
-        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
         android:singleLine="true" />
 
 </LinearLayout>
