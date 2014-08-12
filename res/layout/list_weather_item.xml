@@ -11,7 +11,8 @@
         android:id="@+id/tv_day"
         style="@style/City.List.Item.TextView.Style"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_width="64dp"
+       
         android:singleLine="true" />
 
     <ImageView

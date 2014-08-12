@@ -87,11 +87,11 @@
     </style>
     <!-- 新闻List Item 中的标题样式 -->
     <style name="Title.News.List.Item.TextView.Style" parent="@style/News.List.Item.TextView.Style">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">17sp</item>
     </style>
     <!-- 新闻List Item 中的子标题样式 -->
     <style name="SubTitle.News.List.Item.TextView.Style" parent="@style/News.List.Item.TextView.Style">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:maxLines">4</item>
     </style>
