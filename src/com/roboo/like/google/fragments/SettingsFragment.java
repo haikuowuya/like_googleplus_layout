@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import com.roboo.like.google.BaseActivity;
 import com.roboo.like.google.GoogleApplication;
 import com.roboo.like.google.R;
 import com.roboo.like.google.WIFIActivity;
+import com.roboo.like.google.view.switchbutton.SwitchButton;
 
 /***
  * 设置Fragment
@@ -40,6 +43,10 @@ public class SettingsFragment extends BaseFragment
 	private CheckedTextView mCtvAndroid;
 	/** 公交番号准确查询 */
 	private CheckedTextView mCtvBus;
+	/**类似IOS的SwitchButton切换按钮*/
+	private SwitchButton mSBtnSwitch;
+	/**提示SwitchButton的开关*/
+	private TextView mTvSwitch;
 
 	// {{创建SettingsFragment实例方法体
 	/**
@@ -78,6 +85,8 @@ public class SettingsFragment extends BaseFragment
 		mTvAppGrade = (TextView) view.findViewById(R.id.tv_app_grade);
 		mTvRoot = (TextView) view.findViewById(R.id.tv_root);
 		mTvWifi = (TextView) view.findViewById(R.id.tv_wifi);
+		mTvSwitch = (TextView) view.findViewById(R.id.tv_switch);
+		mSBtnSwitch = (SwitchButton) view.findViewById(R.id.sbtn_switch);
 	}
 
 	// }} initView 方法体
@@ -103,9 +112,26 @@ public class SettingsFragment extends BaseFragment
 		mTvRoot.setOnClickListener(onclickListenerImpl);
 		mTvAppGrade.setOnClickListener(onclickListenerImpl);
 		mTvWifi.setOnClickListener(onclickListenerImpl);
+		mTvSwitch.setOnClickListener(onclickListenerImpl);
+		OnCheckedChangeListenerImpl onCheckedChangeListenerImpl = new OnCheckedChangeListenerImpl();
+		mSBtnSwitch.setOnCheckedChangeListener(onCheckedChangeListenerImpl);
 
 	}
-
+	private class OnCheckedChangeListenerImpl implements OnCheckedChangeListener
+	{
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+		{
+			if(isChecked)
+			{
+				mTvSwitch.setText("仿IOS切换按钮   开");
+			}
+			else
+			{
+				mTvSwitch.setText("仿IOS切换按钮   关");
+			}
+		}
+		
+	}
 	private class OnclickListenerImpl implements OnClickListener
 	{
 		@Override
@@ -143,14 +169,29 @@ public class SettingsFragment extends BaseFragment
 				break;
 			case R.id.tv_wifi:// 获取WIFI信息
 				wifiInfo();
-
+				break;
+			case R.id.tv_switch://切换按钮开关
+				changeSwitch();
 				break;
 			default:
 				break;
 			}
 		}
 	}
-
+	/**切换状态*/
+	public void changeSwitch()
+	{
+		 if(mSBtnSwitch.isChecked())
+		 {
+			 mSBtnSwitch.setChecked(false);
+				mTvSwitch.setText("仿IOS切换按钮   关");
+		 }
+		 else
+		 {
+			 mSBtnSwitch.setChecked(true);
+				mTvSwitch.setText("仿IOS切换按钮   开");
+		 }
+	}
 	private void wifiInfo()
 	{
 		WIFIActivity.actionWIFI(getActivity());
@@ -175,6 +216,8 @@ public class SettingsFragment extends BaseFragment
 		// }
 		// }
 	}
+
+
 
 	/***
 	 * 去应用市场给程序打分

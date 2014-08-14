@@ -47,13 +47,37 @@
                 android:layout_marginTop="10dp"
                 android:clickable="true"
                 android:text="获取WIFI信息" />
-                        <CheckedTextView
+
+            <CheckedTextView
                 android:id="@+id/ctv_bus"
-                android:layout_marginTop="10dp"
                 style="@style/Settings.TextView.Style"
+                android:layout_marginTop="10dp"
                 android:checkMark="@drawable/checked_textview_selector"
                 android:clickable="true"
                 android:text="公交番号准确查询" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/list_item_selector"
+                android:descendantFocusability="blocksDescendants" >
+
+                <TextView
+                    android:id="@+id/tv_switch"
+                    style="@style/Settings.TextView.Style"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:text="仿IOS切换按钮" />
+
+                <com.roboo.like.google.view.switchbutton.SwitchButton
+                    android:id="@+id/sbtn_switch"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp" />
+            </RelativeLayout>
         </LinearLayout>
     </net.dynamicandroid.listview.DynamicScrollView>
 
