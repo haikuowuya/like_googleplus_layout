@@ -115,7 +115,7 @@ public class BaseActivity extends FragmentActivity
 				flag = true;
 				break;
 			}
-			else if (str.toLowerCase(Locale.getDefault()).endsWith(".png") || str.toLowerCase(Locale.getDefault()).endsWith(".jpg") || str.toLowerCase(Locale.getDefault()).endsWith("gif"))
+			else if (str.toLowerCase(Locale.getDefault()).endsWith(".png") ||  str.toLowerCase(Locale.getDefault()).endsWith(".jpg") ||str.toLowerCase(Locale.getDefault()).endsWith(".jpeg") || str.toLowerCase(Locale.getDefault()).endsWith("gif"))
 			{
 				flag = true;
 				break;

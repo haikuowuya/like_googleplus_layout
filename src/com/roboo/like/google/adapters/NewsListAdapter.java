@@ -41,8 +41,11 @@ public class NewsListAdapter extends BaseAdapter implements StickyHeadersAdapter
 		this.mData = data;
 		this.mImageLoader = ImageLoader.getInstance();
 		mInflater = LayoutInflater.from(context);
+		if(!mImageLoader.isInited())
+		{
 		mImageLoader.init(ImageLoaderConfiguration.createDefault(context));
-
+		}
+		 
 	}
 
 	public NewsListAdapter(Context context, LinkedList<NewsItem> data, LinkedList<Integer> sectionIndex)

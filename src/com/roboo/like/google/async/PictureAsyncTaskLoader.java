@@ -1,5 +1,7 @@
 package com.roboo.like.google.async;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -10,11 +12,14 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Images.Media;
 
+import com.droidux.trial.bi;
 import com.roboo.like.google.models.PictureItem;
 
 public class PictureAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<PictureItem>>
@@ -62,7 +67,7 @@ public class PictureAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<Pictu
 				// 获取图片的添加到系统的毫秒数
 				long time = mCursor.getLong(mCursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED));
 				PictureItem item = new PictureItem(path, parseTimeToYMD(time));
-				System.out.println("item = " + item);
+			  
 				items.add(item);
 			}
 			mCursor.close();

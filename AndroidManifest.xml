@@ -117,7 +117,7 @@
         <activity android:name=".TextActivity" />
         <activity android:name=".PictureDetailActivity" />
         <activity android:name=".UserActivity" />
-        <activity android:name=".PinterestActivity" />
+        <activity android:name="com.roboo.like.google.DroidGalleryFlowActivity" />
         <activity android:name=".AddActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".WIFIActivity" />

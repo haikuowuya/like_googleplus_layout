@@ -45,7 +45,10 @@ public class StartNewsTypeListAdapter extends BaseAdapter implements StickyHeade
 		this.activity = activity;
 		mInflater = LayoutInflater.from(activity);
 		mImageLoader = ImageLoader.getInstance();
-		mImageLoader.init(ImageLoaderConfiguration.createDefault(activity));
+		if(!mImageLoader.isInited())
+		{
+			mImageLoader.init(ImageLoaderConfiguration.createDefault(activity));
+		}
 	}
 
 	@Override

@@ -23,13 +23,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.droidux.anim.FloorBounceAnimation;
+import com.droidux.components.DroidUxLib;
 import com.droidux.interfaces.GalleryFlowInterfaces.Adapters.AdapterLooper;
 import com.droidux.interfaces.GalleryFlowInterfaces.GalleryFlowViewInterface;
 import com.droidux.widget.adapters.UrlImageAdapter;
 import com.droidux.widget.gallery.GalleryFlowCarousel;
 import com.droidux.widget.gallery.GalleryFlowZoom;
 
-public class PinterestActivity extends BaseLayoutActivity implements AnimationListener
+public class DroidGalleryFlowActivity extends BaseLayoutActivity implements AnimationListener
 {
 	private GalleryFlowCarousel mGalleryFlowCarousel;
 	private GalleryFlowZoom mGalleryFlowZoom;
@@ -40,7 +41,8 @@ public class PinterestActivity extends BaseLayoutActivity implements AnimationLi
 
 	public static void actionPinterest(Activity activity)
 	{
-		Intent intent = new Intent(activity, PinterestActivity.class);
+		Intent intent = new Intent(activity, DroidGalleryFlowActivity.class);
+		DroidUxLib.register("enter-your-api-key-here", activity.getApplication());
 		activity.startActivity(intent);
 	}
 
@@ -72,7 +74,7 @@ public class PinterestActivity extends BaseLayoutActivity implements AnimationLi
 		{
 			public void onClick(View v)
 			{
-				 GalleryFlowActivity.actionGalleryFlow(PinterestActivity.this);
+				 GalleryFlowActivity.actionGalleryFlow(DroidGalleryFlowActivity.this);
 			}
 		});
 	}
@@ -117,7 +119,7 @@ public class PinterestActivity extends BaseLayoutActivity implements AnimationLi
 		{
 			public void onItemClick(AdapterView<?> parent, View view, int position, long arg3)
 			{
-				Toast.makeText(PinterestActivity.this, (1 + position) + "", Toast.LENGTH_SHORT).show();
+				Toast.makeText(DroidGalleryFlowActivity.this, (1 + position) + "", Toast.LENGTH_SHORT).show();
 				// ignore when the clicked item is not the same as the selected item
 				if (position != parent.getSelectedItemPosition())
 				{

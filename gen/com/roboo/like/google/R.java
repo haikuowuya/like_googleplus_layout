@@ -1104,8 +1104,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int poppyview=0x7f030046;
         public static final int popupwindow_comment=0x7f030047;
         public static final int ptr_default_header=0x7f030048;
-        public static final int sticky_header_view=0x7f030049;
-        public static final int toast_view=0x7f03004a;
+        public static final int simple_list_item=0x7f030049;
+        public static final int sticky_header_view=0x7f03004a;
+        public static final int toast_view=0x7f03004b;
     }
     public static final class menu {
         public static final int activity_bus=0x7f0c0000;

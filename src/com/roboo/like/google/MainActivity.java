@@ -17,8 +17,10 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 import com.roboo.like.google.adapters.NewsTypeListAdapter;
+import com.roboo.like.google.fragments.ActionSheetFragment;
 import com.roboo.like.google.fragments.BaseMainFragment;
 import com.roboo.like.google.fragments.LeftFragment;
 import com.roboo.like.google.fragments.MainGridFragment;
@@ -29,6 +31,7 @@ import com.roboo.like.google.models.SubNewsTypeItem;
 
 public class MainActivity extends BaseActivity
 {
+	public boolean mIsDownload = false;
 	private static final int STYLE_LIST = 1;
 	private static final int STYLE_GRID = 2;
 	private static final int STYLE_PINTEREST = 3;
@@ -221,10 +224,18 @@ public class MainActivity extends BaseActivity
 		case R.id.menu_help:// 帮助
 			return true;
 		case R.id.menu_gallery_flow:// GalleryFlow
-			PinterestActivity.actionPinterest(this);
+			DroidGalleryFlowActivity.actionPinterest(this);
 			return true;
 		case R.id.menu_download:
-			showDownloadDialog();
+//			showDownloadDialog();
+			if(getSupportFragmentManager().getBackStackEntryCount() ==0)
+			{
+				getSupportFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, ActionSheetFragment.newInstance()).addToBackStack("actionSheet").commit();
+			}
+			else
+			{
+				 getSupportFragmentManager().popBackStack();
+			}
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -295,6 +306,7 @@ public class MainActivity extends BaseActivity
 	{
 		if (WIFI.equals(GoogleApplication.mNetworkType))
 		{
+			mIsDownload = true;
 			Intent intent = new Intent(this, WIFIDownloadService.class);
 			startService(intent);
 		}
@@ -306,6 +318,7 @@ public class MainActivity extends BaseActivity
 		{
 			public void onClick(DialogInterface dialog, int which)
 			{
+				
 				wifiDownload();
 			}
 		}).create();

@@ -26,8 +26,8 @@ import com.droidux.components.DroidUxLib;
 
 public class GoogleApplication extends Application
 {
-	public static final int DB_VERSION= 0711;//7月11日
-	public static final String DB_NAME="android";
+	public static final int DB_VERSION = 0711;// 7月11日
+	public static final String DB_NAME = "android";
 	public static boolean mIsOnlyAndroid = false;
 	public static boolean mIsExactBus = false;
 	/**IT之家*/
@@ -51,9 +51,9 @@ public class GoogleApplication extends Application
 	/**网络尖刀*/
 	public static final int TYPE_WLJD = 9;
 	/**安卓网*/
-	public static final int TYPE_HIAPK=10;
+	public static final int TYPE_HIAPK = 10;
 	/**下厨房*/
-	public static final int TYPE_XCF=11;
+	public static final int TYPE_XCF = 11;
 	public static int mCurrentType = TYPE_CSDN;
 	private LinkedList<Activity> mActivities = new LinkedList<Activity>();
 	public static final String BASE_DIDI_URL = "http://pay.xiaojukeji.com/api/v2/webapp?city=";
@@ -71,7 +71,7 @@ public class GoogleApplication extends Application
 	public static boolean TEST = true;
 	/** DEBUG TAG */
 	private static final String DEBUG_LOG_TAG = "GoogleApplication";
-	private Intent mIntent;
+	private Intent mNetworkIntent;
 	/** 当前设备处于的网络类型 */
 	public static String mNetworkType = "NONE";
 
@@ -98,27 +98,30 @@ public class GoogleApplication extends Application
 	{
 		super.onCreate();
 		mInstance = this;
-	 
-		bindNetworkService();
-//		startYunBaService();
+
+		startNetworkService();
+		// bindNetworkService();
+		// startYunBaService();
 		initJPush();
-		DroidUxLib.register("enter-your-api-key-here", this);
 	}
 
-	 
-
-	private void bindNetworkService()
+	/***TODO 开启网络服务*/
+	private void startNetworkService()
 	{
+		mNetworkIntent = new Intent(this, NetworkService.class);
+		startService(mNetworkIntent);
+	}
 
-		mIntent = new Intent(this, NetworkService.class);
-		startService(mIntent);
-		// bindService(mIntent, mServiceConnection, BIND_AUTO_CREATE);
+	protected void bindNetworkService()
+	{
+		mNetworkIntent = new Intent(this, NetworkService.class);
+		bindService(mNetworkIntent, mServiceConnection, BIND_AUTO_CREATE);
 	}
 
 	public void unBindNetworkService()
 	{
 		// unbindService(mServiceConnection);
-		stopService(mIntent);
+		stopService(mNetworkIntent);
 	}
 
 	public BMapManager mBMapManager;
@@ -133,7 +136,8 @@ public class GoogleApplication extends Application
 
 		if (!mBMapManager.init(new MyGeneralListener()))
 		{
-			Toast.makeText(GoogleApplication.getInstance().getApplicationContext(), "BMapManager  初始化错误!", Toast.LENGTH_LONG).show();
+			Toast.makeText(GoogleApplication.getInstance().getApplicationContext(),
+				"BMapManager  初始化错误!", Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -145,11 +149,13 @@ public class GoogleApplication extends Application
 		{
 			if (iError == MKEvent.ERROR_NETWORK_CONNECT)
 			{
-				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(), "您的网络出错啦！", Toast.LENGTH_LONG).show();
+				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(), "您的网络出错啦！",
+					Toast.LENGTH_LONG).show();
 			}
 			else if (iError == MKEvent.ERROR_NETWORK_DATA)
 			{
-				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(), "输入正确的检索条件！", Toast.LENGTH_LONG).show();
+				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(),
+					"输入正确的检索条件！", Toast.LENGTH_LONG).show();
 			}
 
 		}
@@ -161,13 +167,15 @@ public class GoogleApplication extends Application
 			if (iError != 0)
 			{
 				// 授权Key错误：
-				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(), "请 输入正确的授权Key,并检查您的网络连接是否正常！error: " + iError, Toast.LENGTH_LONG).show();
+				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(),
+					"请 输入正确的授权Key,并检查您的网络连接是否正常！error: " + iError, Toast.LENGTH_LONG).show();
 				GoogleApplication.getInstance().m_bKeyRight = false;
 			}
 			else
 			{
 				GoogleApplication.getInstance().m_bKeyRight = true;
-				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(), "key认证成功", Toast.LENGTH_LONG).show();
+				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(), "key认证成功",
+					Toast.LENGTH_LONG).show();
 			}
 		}
 	}
@@ -178,13 +186,17 @@ public class GoogleApplication extends Application
 		return mInstance;
 	}
 
+	/**TODO 记录Activity*/
 	public void recordActivity(Activity activity)
 	{
 		mActivities.add(activity);
 	}
-
+	/**TODO 退出APP */
 	public void exitClient()
 	{
+		JPushInterface.stopPush(this);
+		JPushInterface.onKillProcess(this);
+		stopService(mNetworkIntent);
 		if (mActivities.size() > 0)
 		{
 			for (int i = 0; i < mActivities.size(); i++)
@@ -200,14 +212,16 @@ public class GoogleApplication extends Application
 		activityManager.killBackgroundProcesses(getPackageName());
 		android.os.Process.killProcess(android.os.Process.myPid());
 		System.exit(10);
-		
+
 	}
+
 	/** 初始化JPush */
 	private void initJPush()
 	{
 		JPushInterface.setDebugMode(true);
 		JPushInterface.init(this);
 	}
+
 	private void startYunBaService()
 	{
 		YunBaManager.start(getApplicationContext());
@@ -219,7 +233,8 @@ public class GoogleApplication extends Application
 				System.out.println("Subscribe succeed : " + topic);
 				// DemoUtil.showToast( "Subscribe succeed : " + topic, getApplicationContext());
 				StringBuilder showMsg = new StringBuilder();
-				showMsg.append("subscribe succ：").append(YunBaManager.MQTT_TOPIC).append(" = ").append(topic);
+				showMsg.append("subscribe succ：").append(YunBaManager.MQTT_TOPIC).append(" = ")
+					.append(topic);
 			}
 
 			@Override
@@ -232,9 +247,10 @@ public class GoogleApplication extends Application
 		};
 
 		// for test
-		YunBaManager.subscribe(getApplicationContext(), new String[] { "t1", "t2", "t3" }, listener);
+		YunBaManager
+			.subscribe(getApplicationContext(), new String[] { "t1", "t2", "t3" }, listener);
 
-//		 CoreManager.startService(getApplicationContext());
+		// CoreManager.startService(getApplicationContext());
 		// CoreManager.startService(getApplicationContext());
 		// CoreManager.startService(getApplicationContext());
 

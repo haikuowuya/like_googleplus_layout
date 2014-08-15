@@ -23,61 +23,75 @@ public class NewsContentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<S
 {
 	private String mNewsUrl;
 	private Context mContext;
- 
+	private LinkedList<String> mData;
 
 	public NewsContentAsyncTaskLoader(Context context, String newsUrl)
 	{
 		super(context);
 		mContext = context;
 		mNewsUrl = newsUrl;
-		System.out.println(" mNewsUrl = "+mNewsUrl);
+		System.out.println(" mNewsUrl = " + mNewsUrl);
+	}
+
+	@Override
+	public void deliverResult(LinkedList<String> data)
+	{
+//		System.out.println("deliverResult ");
+		super.deliverResult(mData);
 	}
 
 	@SuppressWarnings("unchecked")
 	public LinkedList<String> loadInBackground()
 	{
+//		System.out.println("loadInBackground " );
 		LinkedList<String> data = null;
-		try
+		if (null == mData)
 		{
-			File file = new File(FileUtils.getFileCacheDir(mContext, FileUtils.TYPE_NEWS_CONTENT), MD5Utils.generate(mNewsUrl));
-			if (!NetWorkUtils.isNetworkAvailable(mContext) && file.exists() )
+			try
 			{
-				data = getOfflineData(file);
+				File file = new File(FileUtils.getFileCacheDir(mContext,
+					FileUtils.TYPE_NEWS_CONTENT), MD5Utils.generate(mNewsUrl));
+				if (!NetWorkUtils.isNetworkAvailable(mContext) && file.exists())
+				{
+					data = getOfflineData(file);
+				}
+				else
+				{
+					data = NewsContentUtils.getNewsDataList(mNewsUrl);
+					saveNewsContentData(data);
+				}
+				mEndTime = System.currentTimeMillis();
+				if (mEndTime - mStartTime < THREAD_LEAST_DURATION_TIME)
+				{
+					Thread.sleep(THREAD_LEAST_DURATION_TIME);
+				}
 			}
-			else
+			catch (IOException e)
 			{
-				data = NewsContentUtils.getNewsDataList(mNewsUrl);
-				saveNewsContentData(data);
+				e.printStackTrace();
 			}
-			mEndTime = System.currentTimeMillis();
-			if (mEndTime - mStartTime < THREAD_LEAST_DURATION_TIME)
+			catch (ClassNotFoundException e)
 			{
-				Thread.sleep(THREAD_LEAST_DURATION_TIME);
+				e.printStackTrace();
 			}
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		catch (ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+			mData = data;
 		}
 		return data;
 	}
 
-	private LinkedList<String> getOfflineData(File file) throws StreamCorruptedException, IOException, FileNotFoundException, OptionalDataException, ClassNotFoundException
+	private LinkedList<String> getOfflineData(File file) throws StreamCorruptedException,
+		IOException, FileNotFoundException, OptionalDataException, ClassNotFoundException
 	{
 		LinkedList<String> data;
 		ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
 		data = (LinkedList<String>) objectInputStream.readObject();
 		objectInputStream.close();
 		GoogleApplication.TEST = true;
-		if(GoogleApplication.TEST)
+		if (GoogleApplication.TEST)
 		{
 			System.out.println("从本地文件读取对象成功");
 		}
@@ -90,13 +104,14 @@ public class NewsContentAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<S
 		File dataFile = new File(dirFile, MD5Utils.generate(mNewsUrl));
 		try
 		{
-			ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(dataFile));
+			ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(
+				dataFile));
 			objectOutputStream.writeObject(data);
 			objectOutputStream.close();
 			GoogleApplication.TEST = true;
 			if (GoogleApplication.TEST)
 			{
-				System.out.println("新闻内容对象写入文件成功 :: 文件路径 = "+dataFile.getAbsolutePath());
+				System.out.println("新闻内容对象写入文件成功 :: 文件路径 = " + dataFile.getAbsolutePath());
 			}
 		}
 		catch (FileNotFoundException e)

@@ -1,11 +1,14 @@
 package com.roboo.like.google.models;
 
+import android.graphics.Bitmap;
+
 public class PictureItem
 {
 	/** 图片的路径 */
 	public String path;
 	/** 图片加入手机的时间 */
 	public String time;
+	public Bitmap bitmap;
 	public int headerId;
 
 	public PictureItem(String path, String time)

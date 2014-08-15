@@ -17,7 +17,6 @@ public  abstract class BaseAsyncTaskLoader<T> extends AsyncTaskLoader<T>
 	@Override
 	protected void onStartLoading()
 	{
-		super.onStartLoading();
 		forceLoad();
 		mStartTime = System.currentTimeMillis();
 	}

@@ -58,12 +58,19 @@ import com.roboo.like.google.async.NewsContentAsyncTaskLoader;
 import com.roboo.like.google.models.NewsItem;
 import com.roboo.like.google.utils.GifDecoder;
 
-public class NewsFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<String>>
+public class NewsFragment extends BaseWithProgressFragment implements
+	LoaderCallbacks<LinkedList<String>>
 {
 	/** 向 ViewGroup 中添加view时动画持续时间 */
 	private static final int ANIMATION_DURATION_TIME = 100;
+	/**Fragment的Argument参数Tag Key*/
 	private static final String ARG_NEWS = "news";
-	private static final int[] COLORS_COLLECTION = new int[] { R.color.red_color, R.color.sky_blue_color, R.color.hotpink_color, R.color.lightseagreen_color, R.color.orangered_color, R.color.turquoise_color, R.color.fast_scroll_track_color, R.color.alpha_red_color, R.color.poppyview_default_color };
+	/**标题背景颜色随机选择数组*/
+	private static final int[] COLORS_COLLECTION = new int[] { R.color.red_color,
+		R.color.sky_blue_color, R.color.hotpink_color, R.color.lightseagreen_color,
+		R.color.orangered_color, R.color.turquoise_color, R.color.fast_scroll_track_color,
+		R.color.alpha_red_color, R.color.poppyview_default_color };
+	/**当前要加载的新闻*/
 	private NewsItem mItem;
 	/** 线性布局用于存放新闻内容 */
 	private LinearLayout mLinearContainer;
@@ -77,10 +84,11 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 	/** ViewGroup中添加View时的动画操作对象 */
 	private LayoutTransition mTransitioner;
 	private Handler mHandler = new Handler();
+	/**反弹ScrollView*/
 	private DynamicScrollView mScrollView;
 	private boolean mHasAddedFrontView = false;
 	private ImageView mIvImageView;
-	private LinkedList<String> mData ;
+	private LinkedList<String> mData;
 	/** 动画结束后执行隐藏进度圈和显示标题 */
 	private Runnable mHideProgressBarRunnable = new Runnable()
 	{
@@ -91,7 +99,7 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 			mTvTime.setVisibility(View.VISIBLE);
 		}
 	};
-	 
+
 	public static NewsFragment newInstance(NewsItem item)
 	{
 		NewsFragment fragment = new NewsFragment();
@@ -120,12 +128,13 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 	{
 		super.onActivityCreated(savedInstanceState);
 		mImageLoader = ImageLoader.getInstance();
-		ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(getActivity()).discCacheFileNameGenerator(new Md5FileNameGenerator()).build();
+		ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(
+			getActivity()).discCacheFileNameGenerator(new Md5FileNameGenerator()).build();
 		mImageLoader.init(imageLoaderConfiguration);
 		setListener();
-		if(mData == null)
+		if (mData == null)
 		{
-			getActivity().getSupportLoaderManager().restartLoader(0, getArguments(), this);
+			getActivity().getSupportLoaderManager().initLoader(0, getArguments(), this);
 		}
 	}
 
@@ -139,7 +148,7 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 			ViewGroup viewGroup = (ViewGroup) imageButton.getParent();
 			viewGroup.setVisibility(View.GONE);
 		}
-
+		getActivity().getSupportLoaderManager().getLoader(0).abandon();
 	}
 
 	@Override
@@ -151,6 +160,8 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 			ViewGroup viewGroup = (ViewGroup) imageButton.getParent();
 			viewGroup.setVisibility(View.VISIBLE);
 		}
+		boolean hasRunningLoaders = getActivity().getSupportLoaderManager().hasRunningLoaders();
+		System.out.println("hasRunningLoaders = " + hasRunningLoaders);
 	}
 
 	private void setListener()
@@ -160,6 +171,7 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 
 	public Loader<LinkedList<String>> onCreateLoader(int id, Bundle args)
 	{
+		System.out.println("onCreateLoader");
 		mItem = (NewsItem) args.getSerializable(ARG_NEWS);
 		return new NewsContentAsyncTaskLoader(getActivity(), mItem.getUrl());
 	}
@@ -167,6 +179,7 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 	@Override
 	public void onLoadFinished(Loader<LinkedList<String>> loader, LinkedList<String> data)
 	{
+		System.out.println("onLoadFinished");
 		int durationTime = ANIMATION_DURATION_TIME;
 		int lr = (int) (10 * getActivity().getResources().getDisplayMetrics().density);
 		if (null != data && data.size() > 0)
@@ -177,7 +190,8 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 			durationTime = ANIMATION_DURATION_TIME * data.size();
 			setLinearContainerAnimation();
 			int tb = 5;
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			params.bottomMargin = lr;
 			ArrayList<String> imageUrls = new ArrayList<String>();
 			int position = -1;
@@ -194,11 +208,16 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 					imageView.setBackgroundResource(R.drawable.list_item_selector);
 					if (str.startsWith("file"))// 只有在离线下载时才会发生
 					{
-						System.out.println("替换后的图片文件路径   = " + mImageLoader.getDiscCache().get(str));
+						System.out
+							.println("替换后的图片文件路径   = " + mImageLoader.getDiscCache().get(str));
 					}
 
-					DisplayImageOptions options = new DisplayImageOptions.Builder().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image).showImageOnFail(R.drawable.ic_default_image).cacheInMemory()
-						.cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
+					DisplayImageOptions options = new DisplayImageOptions.Builder()
+						.imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
+						.showStubImage(R.drawable.ic_default_image)
+						.showImageForEmptyUri(R.drawable.ic_default_image)
+						.showImageOnFail(R.drawable.ic_default_image).cacheInMemory().cacheOnDisc()
+						.bitmapConfig(Bitmap.Config.RGB_565).build();
 					mImageLoader.displayImage(str, imageView, options);
 					System.out.println("图片文件路径   = " + mImageLoader.getDiscCache().get(str));
 
@@ -222,7 +241,8 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 							str = str.replace("$", " ");
 							spannableString = new SpannableString(str);
 							ForegroundColorSpan redColorSpan = new ForegroundColorSpan(Color.RED);
-							spannableString.setSpan(redColorSpan, start, end, SpannableString.SPAN_INCLUSIVE_INCLUSIVE);
+							spannableString.setSpan(redColorSpan, start, end,
+								SpannableString.SPAN_INCLUSIVE_INCLUSIVE);
 
 						}
 					}
@@ -244,7 +264,7 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 			{
 				addCommentButton(params, lr);
 			}
-			//添加在网页中查看原文按钮
+			// 添加在网页中查看原文按钮
 			addToWebViewButton(lr);
 			// mHasAddedFrontView = addFrontView();
 		}
@@ -253,12 +273,12 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 			addRetryButton(lr);
 		}
 		int nextIndex = mRandom.nextInt(COLORS_COLLECTION.length);
-		((ViewGroup) mTvTitle.getParent()).setBackgroundColor(getResources().getColor(COLORS_COLLECTION[nextIndex]));
+		((ViewGroup) mTvTitle.getParent()).setBackgroundColor(getResources().getColor(
+			COLORS_COLLECTION[nextIndex]));
 		mTvTitle.setText(mItem.getTitle());
 		mTvTime.setText(mItem.getTime());
 		mHandler.postDelayed(mHideProgressBarRunnable, durationTime);
 		// playGif();
-
 	}
 
 	private void removeRetryButton()
@@ -282,7 +302,11 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 		BaseActivity activity = (BaseActivity) getActivity();
 		return activity.isImg(str);
 	}
-
+	/****
+	 *TODO  添加查看评论按钮
+	 * @param params
+	 * @param ltrb
+	 */
 	private void addCommentButton(android.widget.LinearLayout.LayoutParams params, int ltrb)
 	{
 		if (mLinearContainer.findViewById(R.id.btn_comment) == null)
@@ -302,15 +326,16 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 		}
 	}
 
-	/** 当没有获取到数据时添加重试按钮 */
+	/**TODO  当没有获取到数据时添加重试按钮 */
 	private void addRetryButton(int ltrb)
 	{
 		Button btnRetry = new Button(getActivity());
-		
 		btnRetry.setId(R.id.btn_retry);
 		if (btnRetry.getParent() == null)
 		{
-			android.widget.LinearLayout.LayoutParams params = new android.widget.LinearLayout.LayoutParams(android.widget.LinearLayout.LayoutParams.MATCH_PARENT, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
+			android.widget.LinearLayout.LayoutParams params = new android.widget.LinearLayout.LayoutParams(
+				android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
+				android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
 			params.gravity = Gravity.CENTER | Gravity.BOTTOM;
 			params.leftMargin = ltrb;
 			params.rightMargin = ltrb;
@@ -327,19 +352,22 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 		else
 		{
 			btnRetry.setVisibility(View.VISIBLE);
-
 		}
-		
 		addToWebViewButton(ltrb);
 	}
-
+	/***
+	 * TODO 添加查看原文按钮
+	 * @param ltrb
+	 */
 	private void addToWebViewButton(int ltrb)
 	{
-		Button  btnToWebView = new Button(getActivity()); 
+		Button btnToWebView = new Button(getActivity());
 		btnToWebView.setId(R.id.btn_webview);
 		if (mLinearContainer.findViewById(R.id.btn_webview) == null)
 		{
-			android.widget.LinearLayout.LayoutParams params = new android.widget.LinearLayout.LayoutParams(android.widget.LinearLayout.LayoutParams.MATCH_PARENT, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
+			android.widget.LinearLayout.LayoutParams params = new android.widget.LinearLayout.LayoutParams(
+				android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
+				android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
 			params.gravity = Gravity.CENTER | Gravity.BOTTOM;
 			params.leftMargin = ltrb;
 			params.rightMargin = ltrb;
@@ -353,7 +381,6 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 			btnToWebView.setBackgroundResource(R.drawable.list_item_selector);
 			mLinearContainer.addView(btnToWebView, params);
 			btnToWebView.setOnClickListener(new OnClickListenerImpl());
-
 		}
 		else
 		{
@@ -397,7 +424,8 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 				v.setVisibility(View.GONE);
 				getActivity().findViewById(R.id.btn_webview).setVisibility(View.GONE);
 				mProgressBar.setVisibility(View.VISIBLE);
-				getActivity().getSupportLoaderManager().restartLoader(0, getArguments(), NewsFragment.this);
+				getActivity().getSupportLoaderManager().restartLoader(0, getArguments(),
+					NewsFragment.this);
 				// Toast.makeText(getActivity(), "重试", Toast.LENGTH_SHORT).show();
 				break;
 			case R.id.btn_webview:// 网页中显示
@@ -417,7 +445,6 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 		setupCustomAnimations();
 		// 设置mLinearContainer布局改变时动画
 		mLinearContainer.setLayoutTransition(mTransitioner);
-
 	}
 
 	/** 定制ViewGroup添加View时显示的动画 */
@@ -430,7 +457,9 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 		PropertyValuesHolder pvhBottom = PropertyValuesHolder.ofInt("bottom", 0, 1);
 		PropertyValuesHolder pvhScaleX = PropertyValuesHolder.ofFloat("scaleX", 1f, 0f, 1f);
 		PropertyValuesHolder pvhScaleY = PropertyValuesHolder.ofFloat("scaleY", 1f, 0f, 1f);
-		final ObjectAnimator changeIn = ObjectAnimator.ofPropertyValuesHolder(this, pvhLeft, pvhTop, pvhRight, pvhBottom, pvhScaleX, pvhScaleY).setDuration(mTransitioner.getDuration(LayoutTransition.CHANGE_APPEARING));
+		final ObjectAnimator changeIn = ObjectAnimator.ofPropertyValuesHolder(this, pvhLeft,
+			pvhTop, pvhRight, pvhBottom, pvhScaleX, pvhScaleY).setDuration(
+			mTransitioner.getDuration(LayoutTransition.CHANGE_APPEARING));
 		mTransitioner.setAnimator(LayoutTransition.CHANGE_APPEARING, changeIn);
 		changeIn.addListener(new AnimatorListenerAdapter()
 		{
@@ -446,8 +475,11 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 		Keyframe kf0 = Keyframe.ofFloat(0f, 0f);
 		Keyframe kf1 = Keyframe.ofFloat(.9999f, 360f);
 		Keyframe kf2 = Keyframe.ofFloat(1f, 0f);
-		PropertyValuesHolder pvhRotation = PropertyValuesHolder.ofKeyframe("rotation", kf0, kf1, kf2);
-		final ObjectAnimator changeOut = ObjectAnimator.ofPropertyValuesHolder(this, pvhLeft, pvhTop, pvhRight, pvhBottom, pvhRotation).setDuration(mTransitioner.getDuration(LayoutTransition.CHANGE_DISAPPEARING));
+		PropertyValuesHolder pvhRotation = PropertyValuesHolder.ofKeyframe("rotation", kf0, kf1,
+			kf2);
+		final ObjectAnimator changeOut = ObjectAnimator.ofPropertyValuesHolder(this, pvhLeft,
+			pvhTop, pvhRight, pvhBottom, pvhRotation).setDuration(
+			mTransitioner.getDuration(LayoutTransition.CHANGE_DISAPPEARING));
 		mTransitioner.setAnimator(LayoutTransition.CHANGE_DISAPPEARING, changeOut);
 		changeOut.addListener(new AnimatorListenerAdapter()
 		{
@@ -459,7 +491,8 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 		});
 
 		// 添加时执行
-		ObjectAnimator animIn = ObjectAnimator.ofFloat(null, "rotationY", 90f, 0f).setDuration(mTransitioner.getDuration(LayoutTransition.APPEARING));
+		ObjectAnimator animIn = ObjectAnimator.ofFloat(null, "rotationY", 90f, 0f).setDuration(
+			mTransitioner.getDuration(LayoutTransition.APPEARING));
 		mTransitioner.setAnimator(LayoutTransition.APPEARING, animIn);
 		animIn.addListener(new AnimatorListenerAdapter()
 		{
@@ -471,7 +504,8 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 		});
 
 		// 移除View时执行的动画
-		ObjectAnimator animOut = ObjectAnimator.ofFloat(null, "rotationX", 0f, 90f).setDuration(mTransitioner.getDuration(LayoutTransition.DISAPPEARING));
+		ObjectAnimator animOut = ObjectAnimator.ofFloat(null, "rotationX", 0f, 90f).setDuration(
+			mTransitioner.getDuration(LayoutTransition.DISAPPEARING));
 		mTransitioner.setAnimator(LayoutTransition.DISAPPEARING, animOut);
 		animOut.addListener(new AnimatorListenerAdapter()
 		{
@@ -498,12 +532,14 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 		FrameLayout frameLayout = new FrameLayout(getActivity());
 		frameLayout.setPadding(paddingLTRB, paddingLTRB, paddingLTRB, paddingLTRB);
 
-		FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.CENTER);
+		FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(
+			LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.CENTER);
 
 		imageButton = new ImageButton(getActivity());
 		imageButton.setBackgroundResource(R.drawable.list_item_selector);
 		frameLayout.addView(imageButton, frameLayoutParams);
-		BitmapDrawable bitmapDrawable = (BitmapDrawable) getActivity().getResources().getDrawable(R.drawable.ic_down);
+		BitmapDrawable bitmapDrawable = (BitmapDrawable) getActivity().getResources().getDrawable(
+			R.drawable.ic_down);
 		initBitmap = bitmapDrawable.getBitmap();
 		imageButton.setImageDrawable(bitmapDrawable);
 		imageButton.setTag(imageButton.hashCode());
@@ -513,7 +549,8 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 			{
 				BitmapDrawable imageDrawable = (BitmapDrawable) imageButton.getDrawable();
 				Bitmap currentBitmap = imageDrawable.getBitmap();
-				System.out.println("initBitmap = " + initBitmap + " currentBitmap = " + currentBitmap);
+				System.out.println("initBitmap = " + initBitmap + " currentBitmap = "
+					+ currentBitmap);
 				if (initBitmap == currentBitmap)
 				{
 					imageButton.setImageResource(R.drawable.ic_up);
@@ -526,8 +563,11 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 				}
 			}
 		});
-		WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(imageButtonWH, imageButtonWH, android.view.WindowManager.LayoutParams.TYPE_PRIORITY_PHONE,
-			android.view.WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | android.view.WindowManager.LayoutParams.FLAG_TOUCHABLE_WHEN_WAKING, PixelFormat.TRANSPARENT);
+		WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(imageButtonWH,
+			imageButtonWH, android.view.WindowManager.LayoutParams.TYPE_PRIORITY_PHONE,
+			android.view.WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+				| android.view.WindowManager.LayoutParams.FLAG_TOUCHABLE_WHEN_WAKING,
+			PixelFormat.TRANSPARENT);
 		layoutParams.gravity = Gravity.RIGHT | Gravity.BOTTOM;
 		// 如果像在任何地方都出现悬浮View 自己新建一个token layoutParams.token = new Binder();
 		layoutParams.token = new Binder();
@@ -544,12 +584,16 @@ public class NewsFragment extends BaseWithProgressFragment implements LoaderCall
 			switch (event.getAction())
 			{
 			case MotionEvent.ACTION_MOVE:
-				System.out.println(" Y = " + mScrollView.getScrollY() + " :: " + mScrollView.getMeasuredHeight() + "  :: " + mScrollView.getTop() + " :: " + mScrollView.getBottom());
-				if (mScrollView.getScrollY() > mScrollView.getMeasuredHeight() && ((BitmapDrawable) imageButton.getDrawable()).getBitmap() == initBitmap)
+				System.out.println(" Y = " + mScrollView.getScrollY() + " :: "
+					+ mScrollView.getMeasuredHeight() + "  :: " + mScrollView.getTop() + " :: "
+					+ mScrollView.getBottom());
+				if (mScrollView.getScrollY() > mScrollView.getMeasuredHeight()
+					&& ((BitmapDrawable) imageButton.getDrawable()).getBitmap() == initBitmap)
 				{
 					imageButton.setImageResource(R.drawable.ic_up);
 				}
-				else if (mScrollView.getScrollY() < 100 && ((BitmapDrawable) imageButton.getDrawable()).getBitmap() != initBitmap)
+				else if (mScrollView.getScrollY() < 100
+					&& ((BitmapDrawable) imageButton.getDrawable()).getBitmap() != initBitmap)
 				{
 					imageButton.setImageResource(R.drawable.ic_down);
 				}

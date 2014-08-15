@@ -6,6 +6,7 @@ import java.util.Set;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
 import android.view.LayoutInflater;
@@ -18,9 +19,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.roboo.like.google.PictureDetailActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.listener.ImageLoadingListenerImpl;
@@ -30,7 +33,7 @@ import com.roboo.like.google.utils.BitmapUtils;
 
 public class StickyGridAdapter extends BaseAdapter implements StickyHeadersAdapter
 {
-	private static final boolean DEBUG=true;
+	private static final boolean DEBUG = true;
 	private List<PictureItem> hasHeaderIdList;
 
 	private LayoutInflater mInflater;
@@ -60,10 +63,10 @@ public class StickyGridAdapter extends BaseAdapter implements StickyHeadersAdapt
 		this.hasHeaderIdList = hasHeaderIdList;
 		mImageLoader = ImageLoader.getInstance();
 		ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(mActivity);
-		 if(!mImageLoader.isInited())
-		 {
-			 mImageLoader.init(configuration );
-		 }
+		if (!mImageLoader.isInited())
+		{
+			mImageLoader.init(configuration);
+		}
 	}
 
 	public int getCount()
@@ -84,26 +87,29 @@ public class StickyGridAdapter extends BaseAdapter implements StickyHeadersAdapt
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		if(convertView == null)
+		if (convertView == null)
 		{
-		convertView = mInflater.inflate(R.layout.picture_grid_item, parent, false);
-		if(parent instanceof StaggeredGridView)
-		{
-			convertView = mInflater.inflate(R.layout.picture_pin_item, parent, false);
-		}
+			convertView = mInflater.inflate(R.layout.picture_grid_item, parent, false);
+			if (parent instanceof StaggeredGridView)
+			{
+				convertView = mInflater.inflate(R.layout.picture_pin_item, parent, false);
+			}
 		}
 		final ImageView imageView = (ImageView) convertView.findViewById(R.id.iv_image);
 		String path = hasHeaderIdList.get(position).getPath();
-//		if (mLruCache.get(path) == null)
-//		{
-//			new BitmapWorkerTask(imageView).execute(path);
-//		}
-//		else
-//		{
-//			imageView.setImageBitmap(mLruCache.get(path));
-//		}
- 
-		mImageLoader.displayImage("file://"+path, imageView, new ImageLoadingListenerImpl());
+		// if (mLruCache.get(path) == null)
+		// {
+		// new BitmapWorkerTask(imageView).execute(path);
+		// }
+		// else
+		// {
+		// imageView.setImageBitmap(mLruCache.get(path));
+		// }
+
+		DisplayImageOptions     options = new DisplayImageOptions.Builder().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).showStubImage(R.drawable.ic_default_image).showImageForEmptyUri(R.drawable.ic_default_image).bitmapConfig(Config.RGB_565).build();
+		
+		mImageLoader.displayImage("file://" + path, imageView, options );
+//		mImageLoader.displayImage("file://" + path, imageView, new ImageLoadingListenerImpl());
 		imageView.setOnClickListener(new OnClickListenerImpl(path));
 		return convertView;
 	}
@@ -179,7 +185,8 @@ public class StickyGridAdapter extends BaseAdapter implements StickyHeadersAdapt
 			}
 		}
 
-		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+			int totalItemCount)
 		{
 			mFirstVisibleItem = firstVisibleItem;
 			mVisibleItemCount = visibleItemCount;

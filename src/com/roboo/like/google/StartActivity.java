@@ -33,7 +33,6 @@ public class StartActivity extends BaseLayoutActivity
 				beginTransaction().add(R.id.frame_container, StartFragment.newInstance()).commit();
 			}
 		}
-
 		customActionBar();
 		initView();
 	}
