@@ -115,7 +115,7 @@ public class SmsAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<SmsItem>>
 	{
 		String photoUri = null;
 		ContentResolver resolver = mContext.getContentResolver();
-		String[] strings = new String[] { Phone.DISPLAY_NAME, Photo.PHOTO_URI };
+		String[] strings = new String[] { Phone.DISPLAY_NAME, Photo.PHOTO_THUMBNAIL_URI };
 		Cursor phoneCursor = resolver.query(Phone.CONTENT_URI, strings, "name_raw_contact_id =?", new String[] { name }, null);// 获取手机联系人
 		name = NO_NAME;
 		if (phoneCursor != null && phoneCursor.getCount() > 0)
@@ -140,6 +140,7 @@ public class SmsAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<SmsItem>>
 					{
 						item.bitmap = bitmap;
 					}
+					
 				}
 				catch (FileNotFoundException e)
 				{

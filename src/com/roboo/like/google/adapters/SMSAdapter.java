@@ -70,6 +70,10 @@ public class SMSAdapter extends BaseAdapter
 			{
 				ivImageView.setImageBitmap(item.bitmap);
 			}
+			else
+			{
+				ivImageView.setImageResource(R.drawable.ic_default_image);
+			}
 //			handleLinkClick(tvBody);
 		}
 		return convertView;
