@@ -24,6 +24,7 @@ public class NewsListAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<News
 	private String mChannelUrl;
 	private int mPageNo;
 	private Context mContext;
+	private LinkedList<NewsItem> mData ;
 
 	public NewsListAsyncTaskLoader(Context context, String channelUrl)
 	{

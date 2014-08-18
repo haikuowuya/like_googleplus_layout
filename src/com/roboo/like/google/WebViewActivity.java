@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,12 +13,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.webkit.WebChromeClient;
-import android.webkit.WebSettings.PluginState;
 import android.webkit.WebSettings;
+import android.webkit.WebSettings.PluginState;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+
+import com.roboo.like.google.view.bounce.BounceListener;
+import com.roboo.like.google.view.bounce.BounceScroller;
+import com.roboo.like.google.view.bounce.BounceScroller.State;
 
 /** 新闻详情 */
 @SuppressLint("SetJavaScriptEnabled")
@@ -28,12 +30,16 @@ public class WebViewActivity extends BaseLayoutActivity
 {
 	private static final String EXTRA_URL = "url";
 	private static final String EXTRA_TITLE = "title";
-	private static final String URL = "http://pay.xiaojukeji.com/api/v2/webapp?city=%E5%8C%97%E4%BA%AC&maptype=wgs84&fromlat=39.98096907577634&fromlng=116.30000865410719&fromaddr=%E9%93%B6%E7%A7%91%E5%A4%A7%E5%8E%A6&toaddr=%E8%A5%BF%E4%BA%8C%E6%97%97&toshop=%E5%BE%97%E5%AE%9E%E5%A4%A7%E5%8E%A6&channel=1224&d=130002030203";
+	/**默认URL*/
+	private static final String DIDI_URL = "http://pay.xiaojukeji.com/api/v2/webapp?city=%E5%8C%97%E4%BA%AC&maptype=wgs84&fromlat=39.98096907577634&fromlng=116.30000865410719&fromaddr=%E9%93%B6%E7%A7%91%E5%A4%A7%E5%8E%A6&toaddr=%E8%A5%BF%E4%BA%8C%E6%97%97&toshop=%E5%BE%97%E5%AE%9E%E5%A4%A7%E5%8E%A6&channel=1224&d=130002030203";
+	/**默认标题*/
+	private static final String DIDI_TITLE = "嘀嘀打车";
+ 
 	/** WebView要加载的URL */
 	private String mUrl;
 	/** ActionBar标题 */
 	private String mTitle;
-
+	/**WebView */
 	private WebView mWebView;
 	/** WebView加载进度条 */
 	private ProgressBar mProgressBar;
@@ -46,19 +52,24 @@ public class WebViewActivity extends BaseLayoutActivity
 
 	public static void actionWebView(Activity activity)
 	{
-		Intent intent = new Intent(activity, WebViewActivity.class);
-		activity.startActivity(intent);
+		actionWebView(activity, DIDI_URL);
 	}
 
 	public static void actionWebView(Activity activity, String url)
 	{
-		Intent intent = new Intent(activity, WebViewActivity.class);
-		intent.putExtra(EXTRA_URL, url);
-		activity.startActivity(intent);
+		actionWebView(activity, url, DIDI_TITLE);
 	}
 
 	public static void actionWebView(Activity activity, String url, String title)
 	{
+		if (TextUtils.isEmpty(url))
+		{
+			url = DIDI_URL;
+		}
+		if (TextUtils.isEmpty(title))
+		{
+			title = DIDI_TITLE;
+		}
 		Intent intent = new Intent(activity, WebViewActivity.class);
 		intent.putExtra(EXTRA_URL, url);
 		intent.putExtra(EXTRA_TITLE, title);
@@ -73,14 +84,11 @@ public class WebViewActivity extends BaseLayoutActivity
 		mUrl = getIntent().getStringExtra(EXTRA_URL);
 		customActionBar();
 		initWebView();
-		if (TextUtils.isEmpty(mUrl))
-		{
-			mUrl = URL;
-		}
 		mWebView.loadUrl(mUrl);
 		setListener();
+		 
 	}
-
+ 
 	private void setListener()
 	{
 		OnClickListenerImpl onClickListenerImpl = new OnClickListenerImpl();
@@ -144,7 +152,8 @@ public class WebViewActivity extends BaseLayoutActivity
 				{
 					mProgressBar.setVisibility(View.GONE);
 					mProgressBar.setProgress(0);
-					mIBtnBrowserRefreshCancle.setImageDrawable(getResources().getDrawable(R.drawable.browser_refresh_selector));
+					mIBtnBrowserRefreshCancle.setImageDrawable(getResources().getDrawable(
+						R.drawable.browser_refresh_selector));
 					if (mWebView.canGoForward())
 					{
 						mIBtnBrowserForward.setEnabled(true);
@@ -164,7 +173,8 @@ public class WebViewActivity extends BaseLayoutActivity
 					{
 						mProgressBar.setProgress(newProgress);
 					}
-					mIBtnBrowserRefreshCancle.setImageDrawable(getResources().getDrawable(R.drawable.browser_cancle_selector));
+					mIBtnBrowserRefreshCancle.setImageDrawable(getResources().getDrawable(
+						R.drawable.browser_cancle_selector));
 				}
 			}
 
@@ -214,10 +224,6 @@ public class WebViewActivity extends BaseLayoutActivity
 	{
 		mTitle = getIntent().getStringExtra(EXTRA_TITLE);
 		mActionBar.setDisplayHomeAsUpEnabled(true);
-		if (TextUtils.isEmpty(mTitle))
-		{
-			mTitle = "嘀嘀打车";
-		}
 		mActionBar.setTitle(mTitle);
 		mActionBar.setLogo(R.drawable.ic_abs_didi_up);
 	}
@@ -245,11 +251,15 @@ public class WebViewActivity extends BaseLayoutActivity
 	/** 刷新 or 取消 */
 	public void refreshOrCancle()
 	{
-		StateListDrawable stateListDrawable = (StateListDrawable) mIBtnBrowserRefreshCancle.getDrawable();
+		StateListDrawable stateListDrawable = (StateListDrawable) mIBtnBrowserRefreshCancle
+			.getDrawable();
 		BitmapDrawable currentBitmapDrawable = (BitmapDrawable) stateListDrawable.getCurrent();
-		BitmapDrawable refreshBitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.ic_browser_refresh_pressed);
-		BitmapDrawable cancleBitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.ic_browser_cancle_pressed);
-		System.out.println(currentBitmapDrawable.getBitmap() + " " + refreshBitmapDrawable.getBitmap() + " " + cancleBitmapDrawable.getBitmap());
+		BitmapDrawable refreshBitmapDrawable = (BitmapDrawable) getResources().getDrawable(
+			R.drawable.ic_browser_refresh_pressed);
+		BitmapDrawable cancleBitmapDrawable = (BitmapDrawable) getResources().getDrawable(
+			R.drawable.ic_browser_cancle_pressed);
+		System.out.println(currentBitmapDrawable.getBitmap() + " "
+			+ refreshBitmapDrawable.getBitmap() + " " + cancleBitmapDrawable.getBitmap());
 		if (currentBitmapDrawable.getBitmap() == refreshBitmapDrawable.getBitmap())// 当前是刷新按钮
 		{
 			mWebView.reload();

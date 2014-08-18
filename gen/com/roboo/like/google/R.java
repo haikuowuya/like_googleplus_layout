@@ -1166,93 +1166,94 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f080001;
-        public static final int Base_List_Item_TextView_Style=0x7f080006;
+        public static final int Base_List_Item_TextView_Style=0x7f080007;
+        public static final int Base_TextView_Style=0x7f080006;
         /**  Bus信息List Item 样式 
          */
-        public static final int Bus_List_Item_TextView_Style=0x7f08000c;
-        /** 城市省份List Item样式  
+        public static final int Bus_List_Item_TextView_Style=0x7f08000d;
+        /**  城市省份List Item样式 
          */
-        public static final int City_List_Item_TextView_Style=0x7f08000e;
+        public static final int City_List_Item_TextView_Style=0x7f08000f;
         /**  评论List Item 样式 
          */
-        public static final int Comment_List_Item_TextView_Style=0x7f08000a;
+        public static final int Comment_List_Item_TextView_Style=0x7f08000b;
         /**  ActionBar上按钮样式 
          */
-        public static final int Custom_ActionBar_Button_Style=0x7f080020;
-        public static final int Custom_ActionBar_DropDown_Style=0x7f080012;
-        public static final int Custom_ActionBar_DropDownListView_Style=0x7f080015;
+        public static final int Custom_ActionBar_Button_Style=0x7f080021;
+        public static final int Custom_ActionBar_DropDown_Style=0x7f080013;
+        public static final int Custom_ActionBar_DropDownListView_Style=0x7f080016;
         /**  ActionBar上overflow按钮样式 
          */
-        public static final int Custom_ActionBar_OverFlow_Button_Style=0x7f080021;
-        public static final int Custom_ActionBar_Spinner_DropDownItem_Style=0x7f080016;
-        public static final int Custom_ActionBar_Style=0x7f080013;
-        public static final int Custom_ActionBar_Title_Style=0x7f080014;
+        public static final int Custom_ActionBar_OverFlow_Button_Style=0x7f080022;
+        public static final int Custom_ActionBar_Spinner_DropDownItem_Style=0x7f080017;
+        public static final int Custom_ActionBar_Style=0x7f080014;
+        public static final int Custom_ActionBar_Title_Style=0x7f080015;
         /**  AlertDialog  Style 
          */
-        public static final int Custom_AlertDialog_Style=0x7f080019;
+        public static final int Custom_AlertDialog_Style=0x7f08001a;
         /**  AlertDialog Theme Style 
          */
-        public static final int Custom_AlertDialog_Theme_Style=0x7f080018;
+        public static final int Custom_AlertDialog_Theme_Style=0x7f080019;
         /**  AlertDialog  Between Button Divider  Style 
          */
-        public static final int Custom_AlertDiaog_Button_Divider_Style=0x7f08001b;
+        public static final int Custom_AlertDiaog_Button_Divider_Style=0x7f08001c;
         /**  AlertDialog   Button   Style 
          */
-        public static final int Custom_AlertDiaog_Button_Style=0x7f08001c;
+        public static final int Custom_AlertDiaog_Button_Style=0x7f08001d;
         /**  ActionBar OverFlow Menu 样式 
          */
-        public static final int Custom_AutoComplete_TextView_Style=0x7f08001f;
+        public static final int Custom_AutoComplete_TextView_Style=0x7f080020;
         /**  Button Style 
          */
-        public static final int Custom_Button_Style=0x7f080017;
-        public static final int Custom_ListView_Style=0x7f080010;
+        public static final int Custom_Button_Style=0x7f080018;
+        public static final int Custom_ListView_Style=0x7f080011;
         /**  ActionBar OverFlow Menu 样式 
          */
-        public static final int Custom_PopupMenu_Style=0x7f08001e;
+        public static final int Custom_PopupMenu_Style=0x7f08001f;
         /**  不确定进度圈样式 
          */
-        public static final int Custom_ProgressBar_Style=0x7f08001d;
+        public static final int Custom_ProgressBar_Style=0x7f08001e;
         /**  AlertDialog Title Style 
          */
-        public static final int Custom_WindowTitle_Style=0x7f08001a;
-        public static final int Dialog_Theme=0x7f080011;
-        public static final int DroidUX=0x7f080022;
+        public static final int Custom_WindowTitle_Style=0x7f08001b;
+        public static final int Dialog_Theme=0x7f080012;
+        public static final int DroidUX=0x7f080023;
         /**  GalleryFlow styles 
          */
-        public static final int DroidUX_GalleryFlow=0x7f080023;
-        public static final int DroidUX_GalleryFlow_Linear=0x7f080024;
-        public static final int DroidUX_GalleryFlow_Linear_Coverflow=0x7f080025;
-        public static final int DroidUX_GalleryFlow_Linear_Scaleflow=0x7f080028;
-        public static final int DroidUX_GalleryFlow_Linear_Trainflow=0x7f080027;
-        public static final int DroidUX_GalleryFlow_Linear_Zoomflow=0x7f080026;
-        public static final int DroidUX_GalleryFlow_Radial=0x7f080029;
-        public static final int DroidUX_GalleryFlow_Radial_In=0x7f08002b;
-        public static final int DroidUX_GalleryFlow_Radial_Out=0x7f08002a;
+        public static final int DroidUX_GalleryFlow=0x7f080024;
+        public static final int DroidUX_GalleryFlow_Linear=0x7f080025;
+        public static final int DroidUX_GalleryFlow_Linear_Coverflow=0x7f080026;
+        public static final int DroidUX_GalleryFlow_Linear_Scaleflow=0x7f080029;
+        public static final int DroidUX_GalleryFlow_Linear_Trainflow=0x7f080028;
+        public static final int DroidUX_GalleryFlow_Linear_Zoomflow=0x7f080027;
+        public static final int DroidUX_GalleryFlow_Radial=0x7f08002a;
+        public static final int DroidUX_GalleryFlow_Radial_In=0x7f08002c;
+        public static final int DroidUX_GalleryFlow_Radial_Out=0x7f08002b;
         /**      <item name="dux_selectorDrawable">@drawable/dux_glrflwwl_cl_bg</item> 
          */
-        public static final int DroidUX_GalleryFlow_Radial_Wall=0x7f08002c;
-        public static final int DroidUX_GalleryFlow_Radial_Wall_In=0x7f08002e;
-        public static final int DroidUX_GalleryFlow_Radial_Wall_Out=0x7f08002d;
+        public static final int DroidUX_GalleryFlow_Radial_Wall=0x7f08002d;
+        public static final int DroidUX_GalleryFlow_Radial_Wall_In=0x7f08002f;
+        public static final int DroidUX_GalleryFlow_Radial_Wall_Out=0x7f08002e;
         /**  新闻List Item 样式 
          */
-        public static final int News_List_Item_TextView_Style=0x7f080007;
+        public static final int News_List_Item_TextView_Style=0x7f080008;
         /**  设置界面中 TextView  样式 
          */
-        public static final int Settings_TextView_Style=0x7f08000f;
+        public static final int Settings_TextView_Style=0x7f080010;
         /**  短信 List Item样式 
          */
-        public static final int Sms_List_Item_TextView_Style=0x7f08000d;
+        public static final int Sms_List_Item_TextView_Style=0x7f08000e;
         /**  新闻List Item 中的子标题样式 
          */
-        public static final int SubTitle_News_List_Item_TextView_Style=0x7f080009;
+        public static final int SubTitle_News_List_Item_TextView_Style=0x7f08000a;
         public static final int SwipeBackFrameLayout=0x7f080005;
         /**  新闻List Item 中的标题样式 
          */
-        public static final int Title_News_List_Item_TextView_Style=0x7f080008;
+        public static final int Title_News_List_Item_TextView_Style=0x7f080009;
         public static final int Widget_PullToRefresh_ProgressBar_Horizontal_Center=0x7f080004;
         /**  WIFI信息List Item 样式 
          */
-        public static final int Wifi_List_Item_TextView_Style=0x7f08000b;
+        public static final int Wifi_List_Item_TextView_Style=0x7f08000c;
     }
     public static final class styleable {
         /** Attributes that can be used with a CirclePageIndicator.

@@ -12,6 +12,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+/***
+ * 新闻评论适配器
+ * @author bo.li
+ *
+ * 2014-8-18 上午10:57:53
+ *
+ * TODO
+ */
 public class CommentAdapter extends BaseAdapter
 {
 	private LinkedList<CommentItem> mData;
@@ -47,9 +55,10 @@ public class CommentAdapter extends BaseAdapter
 		CommentItem item = mData.get(position);
 		if (null != item)
 		{
-			if(convertView == null)
+			if (convertView == null)
 			{
-			convertView = LayoutInflater.from(mActivity).inflate(R.layout.comment_list_item, null);
+				convertView = LayoutInflater.from(mActivity).inflate(R.layout.comment_list_item,
+					null);//TODO
 			}
 			TextView tvFloor = ViewHolder.getView(convertView, R.id.tv_floor);
 			TextView tvNick = ViewHolder.getView(convertView, R.id.tv_nick);
@@ -59,7 +68,7 @@ public class CommentAdapter extends BaseAdapter
 			TextView tvContent = ViewHolder.getView(convertView, R.id.tv_content);
 			TextView tvAgree = ViewHolder.getView(convertView, R.id.tv_agree);
 			TextView tvDisAgree = ViewHolder.getView(convertView, R.id.tv_disAgree);
-			((ViewGroup)tvFloor.getParent()).setVisibility(View.VISIBLE);
+			((ViewGroup) tvFloor.getParent()).setVisibility(View.VISIBLE);
 			tvFloor.setText(item.floor);
 			tvNick.setText(item.nick);
 			tvPhoneType.setText(item.phoneType);

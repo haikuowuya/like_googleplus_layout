@@ -67,19 +67,20 @@
         <item name="shadow_bottom">@drawable/shadow_bottom</item>
     </style>
 
-    <style name="Base.List.Item.TextView.Style" parent="@android:style/Widget.TextView">
+    <style name="Base.TextView.Style" parent="@android:style/Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@drawable/text_color_selector</item>
         <item name="android:padding">4dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:ellipsize">end</item>
     </style>
+    <style name="Base.List.Item.TextView.Style" parent="@style/Base.TextView.Style"></style>
     <!-- 新闻List Item 样式 -->
     <style name="News.List.Item.TextView.Style" parent="@style/Base.List.Item.TextView.Style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">2dp</item>
-        <item name="android:textColor">@drawable/text_color_selector</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:maxLines">2</item>
@@ -122,10 +123,9 @@
         <item name="android:layout_height">40dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:padding">10dp</item>
-        <item name="android:textColor">@drawable/text_color_selector</item>
         <item name="android:textSize">14sp</item>
         <item name="android:ellipsize">end</item>
-         <item name="android:singleLine">true</item>
+        <item name="android:singleLine">true</item>
         <item name="android:textStyle">normal</item>
         <item name="android:text">@string/app_name</item>
         <item name="android:gravity">center</item>
@@ -135,7 +135,6 @@
         <item name="android:layout_height">40dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:padding">10dp</item>
-        <item name="android:textColor">@drawable/text_color_selector</item>
         <item name="android:textSize">16sp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textStyle">bold</item>
@@ -143,12 +142,11 @@
         <item name="android:textColorLink">@drawable/text_color_selector</item>
         <item name="android:gravity">center_vertical</item>
     </style>
-    <!--城市省份List Item样式  -->
+    <!-- 城市省份List Item样式 -->
     <style name="City.List.Item.TextView.Style" parent="@style/Base.List.Item.TextView.Style">
         <item name="android:layout_height">40dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:padding">6dp</item>
-        <item name="android:textColor">@drawable/text_color_selector</item>
         <item name="android:textSize">16sp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textStyle">bold</item>
@@ -161,7 +159,6 @@
         <item name="android:layout_height">48dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:padding">10dp</item>
-        <item name="android:textColor">@drawable/text_color_selector</item>
         <item name="android:textSize">16sp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textStyle">bold</item>
