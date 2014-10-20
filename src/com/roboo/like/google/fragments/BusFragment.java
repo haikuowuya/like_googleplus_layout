@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.roboo.like.google.BaseActivity;
 import com.roboo.like.google.BusLineActivity;
 import com.roboo.like.google.R;
+import com.roboo.like.google.SettingsActivity;
 import com.roboo.like.google.adapters.BusAdapter;
 import com.roboo.like.google.async.BusAsyncTaskLoader;
 import com.roboo.like.google.models.BusItem;
@@ -155,6 +156,9 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 		{
 		case R.id.menu_refresh:// 重试
 			onRefresh();
+			break;
+		case R.id.menu_settings://设置
+			SettingsActivity.actionSettings(getActivity());
 			break;
 		}
 		return super.onOptionsItemSelected(item);

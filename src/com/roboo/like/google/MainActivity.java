@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -17,7 +18,9 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.roboo.like.google.adapters.NewsTypeListAdapter;
 import com.roboo.like.google.fragments.ActionSheetFragment;
@@ -51,7 +54,8 @@ public class MainActivity extends BaseActivity
 	/** 当mMainFragment为MainListFragment时 ，是否快速滑动开启 */
 	private boolean mFastScrollEnable;
 	/**为了减少一次数据加载，onCreate方法和设置ActionBar导航列表模式时都会去加载数据*/
-	private  boolean mIsFirstEnter = true;
+	private boolean mIsFirstEnter = true;
+
 	public static void actionMain(Activity activity)
 	{
 		Intent intent = new Intent(activity, MainActivity.class);
@@ -62,25 +66,52 @@ public class MainActivity extends BaseActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);// TODO
+		testLockScreen();
 		init();
 		initView();
 		initData();
 		customActionBar();
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_left_container) == null)
 		{
-			getSupportFragmentManager().beginTransaction().add(R.id.frame_left_container, LeftFragment.newInstance()).commit();
+			getSupportFragmentManager().beginTransaction()
+				.add(R.id.frame_left_container, LeftFragment.newInstance()).commit();
 		}
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_right_container) == null)
 		{
-			getSupportFragmentManager().beginTransaction().add(R.id.frame_right_container, RightFragment.newInstance()).commit();
+			getSupportFragmentManager().beginTransaction()
+				.add(R.id.frame_right_container, RightFragment.newInstance()).commit();
 		}
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_container) == null)
 		{
-			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, mMainFragment).commit();
+			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, mMainFragment)
+				.commit();
 		}
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.app_name, R.string.app_name);
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer,
+			R.string.app_name, R.string.app_name);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+	}
+
+	private void testLockScreen()
+	{
+//		makeFullScreen();
+		startService(new Intent(this, LockScreenService.class));
+	}
+
+	public void makeFullScreen()
+	{
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+			WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		if (Build.VERSION.SDK_INT < 19)
+		{ // View.SYSTEM_UI_FLAG_IMMERSIVE is only on API 19+
+			this.getWindow().getDecorView()
+				.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+		}
+		else
+		{
+			this.getWindow().getDecorView()
+				.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | 0x00000800);// View.SYSTEM_UI_FLAG_IMMERSIVE);
+		}
 	}
 
 	private void init()
@@ -116,7 +147,7 @@ public class MainActivity extends BaseActivity
 				{
 					SubNewsTypeItem item = (SubNewsTypeItem) mAdapter.getItem(itemPosition);
 					mCurrentURL = item.url;
-					if(!mIsFirstEnter)
+					if (!mIsFirstEnter)
 					{
 						updateFragment();
 						mIsFirstEnter = false;
@@ -227,14 +258,16 @@ public class MainActivity extends BaseActivity
 			DroidGalleryFlowActivity.actionPinterest(this);
 			return true;
 		case R.id.menu_download:
-//			showDownloadDialog();
-			if(getSupportFragmentManager().getBackStackEntryCount() ==0)
+			// showDownloadDialog();
+			if (getSupportFragmentManager().getBackStackEntryCount() == 0)
 			{
-				getSupportFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, ActionSheetFragment.newInstance()).addToBackStack("actionSheet").commit();
+				getSupportFragmentManager().beginTransaction()
+					.add(Window.ID_ANDROID_CONTENT, ActionSheetFragment.newInstance())
+					.addToBackStack("actionSheet").commit();
 			}
 			else
 			{
-				 getSupportFragmentManager().popBackStack();
+				getSupportFragmentManager().popBackStack();
 			}
 			return true;
 		}
@@ -275,7 +308,8 @@ public class MainActivity extends BaseActivity
 		{
 			mMainFragment = MainPinGridFragment.newInstance(mCurrentURL);
 		}
-		getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mMainFragment).commit();
+		getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, mMainFragment)
+			.commit();
 		mDrawerLayout.closeDrawers();
 	}
 
@@ -314,26 +348,30 @@ public class MainActivity extends BaseActivity
 
 	private void showDownloadDialog()
 	{
-		AlertDialog dialog = new AlertDialog.Builder(this).setIcon(getApplicationInfo().icon).setTitle("离线下载新闻").setMessage("是否WIFI下离线下载所有新闻").setNegativeButton("取消", null).setPositiveButton("确定", new OnClickListener()
-		{
-			public void onClick(DialogInterface dialog, int which)
+		AlertDialog dialog = new AlertDialog.Builder(this).setIcon(getApplicationInfo().icon)
+			.setTitle("离线下载新闻").setMessage("是否WIFI下离线下载所有新闻").setNegativeButton("取消", null)
+			.setPositiveButton("确定", new OnClickListener()
 			{
-				
-				wifiDownload();
-			}
-		}).create();
+				public void onClick(DialogInterface dialog, int which)
+				{
+
+					wifiDownload();
+				}
+			}).create();
 		dialog.show();
 	}
 
 	public void showCreateDesktopDialog()
 	{
-		AlertDialog dialog = new AlertDialog.Builder(this).setIcon(getApplicationInfo().icon).setTitle("创建快捷方式").setMessage("是否在桌面上创建一个快捷方式图标").setNegativeButton("取消", null).setPositiveButton("确定", new OnClickListener()
-		{
-			public void onClick(DialogInterface dialog, int which)
+		AlertDialog dialog = new AlertDialog.Builder(this).setIcon(getApplicationInfo().icon)
+			.setTitle("创建快捷方式").setMessage("是否在桌面上创建一个快捷方式图标").setNegativeButton("取消", null)
+			.setPositiveButton("确定", new OnClickListener()
 			{
-				createDesktop();
-			}
-		}).create();
+				public void onClick(DialogInterface dialog, int which)
+				{
+					createDesktop();
+				}
+			}).create();
 		dialog.setCanceledOnTouchOutside(false);
 		dialog.show();
 	}
@@ -351,7 +389,8 @@ public class MainActivity extends BaseActivity
 		shortcutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
 		// 快捷图标
-		ShortcutIconResource iconRes = Intent.ShortcutIconResource.fromContext(this, R.drawable.ic_launcher);
+		ShortcutIconResource iconRes = Intent.ShortcutIconResource.fromContext(this,
+			R.drawable.ic_launcher);
 		shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, iconRes);
 		// 发送广播
 		sendBroadcast(shortcut);

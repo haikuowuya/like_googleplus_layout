@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import com.roboo.like.google.utils.NetWorkUtils;
 @SuppressLint("NewApi")
 public class BusStationFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<BusStationItem>>
 {
+	private static final long NEXT_QUERY_DELAY_TIME= 10000L;
 	private ListView mListView;
 	public static final String ARG_BUS_LINE = "bus_line";
 	public static final String ARG_BUS_ITEM = "bus_item";
@@ -37,7 +39,16 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 	private View mHeaderView;
 	private BusStationAdapter mAdapter;
 	private int mListViewFirstPosition = 0;
-
+	private Handler mHandler = new Handler();
+	private  Runnable mQueryRunnable = new Runnable()
+	{
+		@Override
+		public void run()
+		{
+			doLoadData();
+		}
+	};
+	
 	public static BusStationFragment newInstance(String busLineUrl)
 	{
 		BusStationFragment fragment = new BusStationFragment();
@@ -67,6 +78,21 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 		super.onActivityCreated(savedInstanceState);
 		doLoadData();
 		setListener();
+	}
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		mHandler.removeCallbacks(mQueryRunnable);
+	}
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		if(mData != null)
+		{
+			mHandler.postDelayed(mQueryRunnable, NEXT_QUERY_DELAY_TIME);
+		}
 	}
 
 	private void doLoadData()
@@ -166,6 +192,7 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 		mProgressBar.setVisibility(View.GONE);
 		if (data != null)
 		{
+			mHandler.postDelayed(mQueryRunnable, NEXT_QUERY_DELAY_TIME);
 			mData = data;
 			mHeaderView.setVisibility(View.VISIBLE);
 			mAdapter = new BusStationAdapter(getActivity(), mData);

@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.roboo.like.google.fragments.BusFragment;
-import com.roboo.like.google.fragments.BusLineFragment;
-import com.roboo.like.google.models.BusItem;
 
 /** 公交界面 */
 public class BusActivity extends BaseLayoutActivity

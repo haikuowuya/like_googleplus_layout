@@ -5,10 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.roboo.like.google.fragments.BusFragment;
-import com.roboo.like.google.fragments.BusLineFragment;
 import com.roboo.like.google.fragments.BusStationFragment;
-import com.roboo.like.google.models.BusItem;
 import com.roboo.like.google.models.BusLineItem;
 
 /** 公交界面 */

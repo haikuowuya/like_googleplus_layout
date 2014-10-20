@@ -2,7 +2,6 @@ package com.roboo.like.google.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -52,6 +51,7 @@ public class HeaderView extends LinearLayout//CustomLinearLayout
 	{
 		return mIndicator;
 	}
+	/*
 	public boolean onInterceptTouchEvent(MotionEvent event)
 	{
 		boolean isHandle = super.onInterceptTouchEvent(event);
@@ -59,7 +59,9 @@ public class HeaderView extends LinearLayout//CustomLinearLayout
 		{
 			getParent().requestDisallowInterceptTouchEvent(true);
 		}
-//		 return false;
-		return true;//满足下拉刷新
+// 		 return false;
+//		return true;//满足下拉刷新
+		return isHandle;
 	}
+	*/
 }

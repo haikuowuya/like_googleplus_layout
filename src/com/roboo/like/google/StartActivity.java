@@ -58,6 +58,13 @@ public class StartActivity extends BaseLayoutActivity
 		super.onBackPressed();
 	}
 
+	@Override
+	protected void onDestroy()
+	{
+		GoogleApplication application = (GoogleApplication) getApplication();
+		application.exitClient();
+		super.onDestroy();
+	}
 	public void splashScreenEnd()
 	{
 		mActionBar.show();

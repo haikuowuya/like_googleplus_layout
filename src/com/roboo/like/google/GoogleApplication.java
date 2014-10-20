@@ -136,7 +136,8 @@ public class GoogleApplication extends Application
 
 		if (!mBMapManager.init(new MyGeneralListener()))
 		{
-			Toast.makeText(GoogleApplication.getInstance().getApplicationContext(),
+			Toast.makeText(
+				GoogleApplication.getInstance().getApplicationContext(),
 				"BMapManager  初始化错误!", Toast.LENGTH_LONG).show();
 		}
 	}
@@ -149,12 +150,14 @@ public class GoogleApplication extends Application
 		{
 			if (iError == MKEvent.ERROR_NETWORK_CONNECT)
 			{
-				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(), "您的网络出错啦！",
-					Toast.LENGTH_LONG).show();
+				Toast.makeText(
+					GoogleApplication.getInstance().getApplicationContext(),
+					"您的网络出错啦！", Toast.LENGTH_LONG).show();
 			}
 			else if (iError == MKEvent.ERROR_NETWORK_DATA)
 			{
-				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(),
+				Toast.makeText(
+					GoogleApplication.getInstance().getApplicationContext(),
 					"输入正确的检索条件！", Toast.LENGTH_LONG).show();
 			}
 
@@ -167,15 +170,18 @@ public class GoogleApplication extends Application
 			if (iError != 0)
 			{
 				// 授权Key错误：
-				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(),
-					"请 输入正确的授权Key,并检查您的网络连接是否正常！error: " + iError, Toast.LENGTH_LONG).show();
+				Toast.makeText(
+					GoogleApplication.getInstance().getApplicationContext(),
+					"请 输入正确的授权Key,并检查您的网络连接是否正常！error: " + iError,
+					Toast.LENGTH_LONG).show();
 				GoogleApplication.getInstance().m_bKeyRight = false;
 			}
 			else
 			{
 				GoogleApplication.getInstance().m_bKeyRight = true;
-				Toast.makeText(GoogleApplication.getInstance().getApplicationContext(), "key认证成功",
-					Toast.LENGTH_LONG).show();
+				Toast.makeText(
+					GoogleApplication.getInstance().getApplicationContext(),
+					"key认证成功", Toast.LENGTH_LONG).show();
 			}
 		}
 	}
@@ -191,11 +197,17 @@ public class GoogleApplication extends Application
 	{
 		mActivities.add(activity);
 	}
+
 	/**TODO 退出APP */
 	public void exitClient()
 	{
 		JPushInterface.stopPush(this);
 		JPushInterface.onKillProcess(this);
+		if (null != mBMapManager)
+		{
+			mBMapManager.stop();
+			mBMapManager.destroy();
+		}
 		stopService(mNetworkIntent);
 		if (mActivities.size() > 0)
 		{
@@ -233,12 +245,14 @@ public class GoogleApplication extends Application
 				System.out.println("Subscribe succeed : " + topic);
 				// DemoUtil.showToast( "Subscribe succeed : " + topic, getApplicationContext());
 				StringBuilder showMsg = new StringBuilder();
-				showMsg.append("subscribe succ：").append(YunBaManager.MQTT_TOPIC).append(" = ")
+				showMsg.append("subscribe succ：")
+					.append(YunBaManager.MQTT_TOPIC).append(" = ")
 					.append(topic);
 			}
 
 			@Override
-			public void onFailure(IMqttToken asyncActionToken, Throwable exception)
+			public void onFailure(IMqttToken asyncActionToken,
+				Throwable exception)
 			{
 				String msg = "Subscribe failed : " + exception.getMessage();
 				System.out.println("msg = " + msg);
@@ -247,8 +261,8 @@ public class GoogleApplication extends Application
 		};
 
 		// for test
-		YunBaManager
-			.subscribe(getApplicationContext(), new String[] { "t1", "t2", "t3" }, listener);
+		YunBaManager.subscribe(getApplicationContext(), new String[] { "t1",
+			"t2", "t3" }, listener);
 
 		// CoreManager.startService(getApplicationContext());
 		// CoreManager.startService(getApplicationContext());
