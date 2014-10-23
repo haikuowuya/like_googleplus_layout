@@ -190,9 +190,9 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 	public void onLoadFinished(Loader<LinkedList<BusStationItem>> loader, LinkedList<BusStationItem> data)
 	{
 		mProgressBar.setVisibility(View.GONE);
+		mHandler.postDelayed(mQueryRunnable, NEXT_QUERY_DELAY_TIME);
 		if (data != null)
 		{
-			mHandler.postDelayed(mQueryRunnable, NEXT_QUERY_DELAY_TIME);
 			mData = data;
 			mHeaderView.setVisibility(View.VISIBLE);
 			mAdapter = new BusStationAdapter(getActivity(), mData);

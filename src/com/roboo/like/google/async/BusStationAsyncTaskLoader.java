@@ -79,8 +79,8 @@ public class BusStationAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<Bu
 							Elements aElemens = tmpEleemnts.get(0).getElementsByTag("a");
 							if (!aElemens.isEmpty())
 							{
-								stationUrl = BASE_URL + aElemens.get(0).attr("href");
 								busNo = aElemens.get(0).text();
+								stationUrl = BASE_URL + aElemens.get(0).attr("href");
 							}
 							busTo = tmpEleemnts.get(1).text();
 							busLicensePlate = tmpEleemnts.get(2).text();

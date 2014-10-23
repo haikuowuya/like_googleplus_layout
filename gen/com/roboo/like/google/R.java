@@ -906,11 +906,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int frame_container=0x7f09001e;
         public static final int frame_left_container=0x7f09002c;
         public static final int frame_right_container=0x7f09002d;
-        public static final int framelayout=0x7f090048;
         public static final int fv_footerview=0x7f09004f;
         public static final int gallery_flow=0x7f090027;
         public static final int gfc_gallery=0x7f090031;
         public static final int gfz_gallery=0x7f090032;
+        public static final int hsv_scrollview=0x7f090048;
         public static final int ibtn_browser_back=0x7f09003a;
         public static final int ibtn_browser_forward=0x7f09003c;
         public static final int ibtn_browser_refresh_or_cancle=0x7f09003b;

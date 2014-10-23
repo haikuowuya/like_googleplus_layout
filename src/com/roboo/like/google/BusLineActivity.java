@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
-import com.roboo.like.google.fragments.BusLineFragment;
+import com.roboo.like.google.fragments.BusLineFragment2;
 import com.roboo.like.google.models.BusItem;
 
 /** 公交界面 */
@@ -47,7 +47,7 @@ public class BusLineActivity extends BaseLayoutActivity
 		customActionBar();
 		if (getSupportFragmentManager().findFragmentById(R.id.frame_container) == null)
 		{
-			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, BusLineFragment.newInstance(mBusItem.busUrl, mBusItem.busName)).commit();
+			getSupportFragmentManager().beginTransaction().add(R.id.frame_container, BusLineFragment2.newInstance(mBusItem.busUrl, mBusItem.busName)).commit();
 		}
 	}
 
@@ -73,12 +73,12 @@ public class BusLineActivity extends BaseLayoutActivity
 		{
 			if (!mIsInvert)
 			{
-				beginTransaction().replace(R.id.frame_container, BusLineFragment.newInstance(mBusInVertItem.busUrl, mBusInVertItem.busName)).commit();
+				beginTransaction().replace(R.id.frame_container, BusLineFragment2.newInstance(mBusInVertItem.busUrl, mBusInVertItem.busName)).commit();
 				mIsInvert = true;
 			}
 			else
 			{
-				beginTransaction().replace(R.id.frame_container, BusLineFragment.newInstance(mBusItem.busUrl, mBusItem.busName)).commit();
+				beginTransaction().replace(R.id.frame_container, BusLineFragment2.newInstance(mBusItem.busUrl, mBusItem.busName)).commit();
 				mIsInvert = false;
 			}
 		}

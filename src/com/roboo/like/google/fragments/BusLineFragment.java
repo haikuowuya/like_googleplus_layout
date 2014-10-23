@@ -134,7 +134,7 @@ public class BusLineFragment extends BaseWithProgressFragment implements LoaderC
 	private void other()
 	{
 		 getActivity().getSupportFragmentManager().beginTransaction()
-		 .add(R.id.frame_container, BusLineFragment2.newInstance(getArguments().getString(ARG_BUS_LINE), mBusName), "2").addToBackStack("1").commit();
+		 .replace(R.id.frame_container, BusLineFragment2.newInstance(getArguments().getString(ARG_BUS_LINE), mBusName), "2").addToBackStack("1").commit();
 	}
 
 	private void invert()

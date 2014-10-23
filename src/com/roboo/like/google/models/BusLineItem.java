@@ -13,6 +13,8 @@ public class BusLineItem extends BaseItem
 	public String incomingBusNo;
 	/**如果当前站台有公交车，进站时间*/
 	public String incomingBusTime;
+	/**站距*/
+	public String busStopSpacing;
 	@Override
 	public String toString()
 	{

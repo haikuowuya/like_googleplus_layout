@@ -83,8 +83,6 @@ public class BusLineAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusLi
 							stationMark = tmpEleemnts.get(1).text();
 							incomingBusNo = tmpEleemnts.get(2).text();
 							incomingBusTime = tmpEleemnts.get(3).text();
-							
-							
 							if(!TextUtils.isEmpty(stationName))
 							{
 								if(stationName.contains("（"))
@@ -127,6 +125,52 @@ public class BusLineAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusLi
 			}
 		}
 		return data;
+	}
+	
+	private String  getBusStation(String busNo1)
+	{
+		String   busStopSpacing = null,busNo = null;
+		if (!TextUtils.isEmpty(mBusLineUrl))
+		{
+			try
+			{
+				Document document = Jsoup.connect(mBusLineUrl).get();
+				Element element = document.getElementById("MainContent_DATA");
+				element = element.getElementsByTag("tbody").get(0);
+				Elements elements = element.getElementsByTag("tr");
+				Elements tmpEleemnts = null;
+			
+				if (!elements.isEmpty())
+				{
+					for (Element e : elements)
+					{
+						tmpEleemnts = e.getElementsByTag("td");
+						if (!tmpEleemnts.isEmpty() && tmpEleemnts.size() == 5)// size = 5
+						{
+							Elements aElemens = tmpEleemnts.get(0).getElementsByTag("a");
+							if (!aElemens.isEmpty())
+							{
+								busNo = aElemens.get(0).text();
+							}
+							if(busNo1.equals(busNo))
+							{
+								busStopSpacing = tmpEleemnts.get(4).text();
+								if("进站".equals(busStopSpacing))
+								{
+									busStopSpacing="0";
+								}
+								break;
+							}
+						}
+					}
+				}
+			}
+			catch (IOException e1)
+			{
+				e1.printStackTrace();
+			}
+		}
+		return busStopSpacing;
 	}
 
 }
