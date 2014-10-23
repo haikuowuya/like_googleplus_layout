@@ -97,7 +97,16 @@ public class BusLineActivity extends BaseLayoutActivity
 		}
 		mActionBar.setLogo(R.drawable.ic_abs_bus_up);
 	}
-
+	@Override
+	public void onBackPressed()
+	{
+		if(getSupportFragmentManager().getBackStackEntryCount() > 0)
+		{
+			getSupportFragmentManager().popBackStack();
+			return;
+		}
+		super.onBackPressed();
+	}
 	@Override
 	public void onUserInteraction()
 	{

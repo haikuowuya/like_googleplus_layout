@@ -111,9 +111,6 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 			}
 		});
 		return mHeaderView;
-		
-		
-		
 	}
 
 	private void doLoadData()
