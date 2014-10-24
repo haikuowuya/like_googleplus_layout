@@ -115,59 +115,63 @@ public class BusAsyncTaskLoader extends
 				System.out.println("生成要查询公交路线URL 失败");
 				return data;
 			}
-			Document document = Jsoup.connect( busLineUrl).get();
+			Document document = Jsoup.connect(busLineUrl).get();
 			Element element = document.getElementById("MainContent_DATA");
-			element = element.getElementsByTag("tbody").get(0);
-			Elements elements = element.getElementsByTag("tr");
-			Elements tmpEleemnts = null;
-			String busUrl = null, busNo = null, busName = null;
-			if (!elements.isEmpty())
+			if (!element.getElementsByTag("tbody").isEmpty())
 			{
-				data = new LinkedList<BusItem>();
-				for (Element e : elements)
+				element = element.getElementsByTag("tbody").get(0);
+				Elements elements = element.getElementsByTag("tr");
+				Elements tmpEleemnts = null;
+				String busUrl = null, busNo = null, busName = null;
+				if (!elements.isEmpty())
 				{
-					BusItem item = new BusItem();
-					tmpEleemnts = e.getElementsByTag("td");
-					if (!tmpEleemnts.isEmpty() && tmpEleemnts.size() == 2)
+					data = new LinkedList<BusItem>();
+					for (Element e : elements)
 					{
-						Elements aElemens = tmpEleemnts.get(0)
-							.getElementsByTag("a");
-						if (!aElemens.isEmpty())
+						BusItem item = new BusItem();
+						tmpEleemnts = e.getElementsByTag("td");
+						if (!tmpEleemnts.isEmpty() && tmpEleemnts.size() == 2)
 						{
-							busUrl = BASE_URL + aElemens.get(0).attr("href");
-							busNo = aElemens.get(0).text();
-						}
-						busName = tmpEleemnts.get(1).text();
-						if (!TextUtils.isEmpty(busName))
-						{
-							if (busName.contains("=>"))
+							Elements aElemens = tmpEleemnts.get(0)
+								.getElementsByTag("a");
+							if (!aElemens.isEmpty())
 							{
-								busName = busName.replace("=>", " — ");
+								busUrl = BASE_URL
+									+ aElemens.get(0).attr("href");
+								busNo = aElemens.get(0).text();
 							}
-						}
-						item.busName = busName;
-						item.busNo = busNo;
-						item.busUrl = busUrl;
-						if (!TextUtils.isEmpty(item.busNo)
-							&& !TextUtils.isEmpty(item.busName))
-						{
-							if (GoogleApplication.mIsExactBus)
+							busName = tmpEleemnts.get(1).text();
+							if (!TextUtils.isEmpty(busName))
 							{
-								if (mBusNo.equals(item.busNo))
+								if (busName.contains("=>"))
+								{
+									busName = busName.replace("=>", " — ");
+								}
+							}
+							item.busName = busName;
+							item.busNo = busNo;
+							item.busUrl = busUrl;
+							if (!TextUtils.isEmpty(item.busNo)
+								&& !TextUtils.isEmpty(item.busName))
+							{
+								if (GoogleApplication.mIsExactBus)
+								{
+									if (mBusNo.equals(item.busNo))
+									{
+										data.add(item);
+									}
+								}
+								else
 								{
 									data.add(item);
 								}
 							}
-							else
-							{
-								data.add(item);
-							}
 						}
 					}
-				}
-				if (data.size() == 0)
-				{
-					data = null;
+					if (data.size() == 0)
+					{
+						data = null;
+					}
 				}
 			}
 		}

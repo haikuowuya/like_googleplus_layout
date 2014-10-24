@@ -4,12 +4,17 @@ import java.io.DataOutputStream;
 import java.util.Calendar;
 import java.util.LinkedList;
 
+import android.R.integer;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.SpannedString;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -72,7 +77,6 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 			view = inflater.inflate(R.layout.fragment_bus_line2, null);// TODO
 			mHorizontalScrollView = (HorizontalScrollView) view
 				.findViewById(R.id.hsv_scrollview);
-
 		}
 		return view;
 	}
@@ -188,9 +192,10 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 
 		LayoutParams params = new LinearLayout.LayoutParams(dp_48,
 			LayoutParams.MATCH_PARENT);
-		for (int i = 0; i < mData.size(); i++)
+		for ( int i = 0; i < mData.size(); i++)
 		{
 			final BusLineItem item = mData.get(i);
+			final int ii = i;
 			final BusSiteView busItemView = new BusSiteView(getActivity());
 			busItemView.setPosition(i + 1);
 			busItemView.setText(item.stationName);
@@ -201,7 +206,7 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 				ImageView imageView = new ImageView(getActivity());
 				FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
 					dp_48 / 3, dp_48 / 3);
-				layoutParams.topMargin = dp_48 / 10;
+				layoutParams.topMargin = dp_48 / 12;
 				layoutParams.gravity = Gravity.TOP;
 				if (isArrived(item))
 				{
@@ -210,11 +215,25 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 				}
 				else if (i < mData.size() - 1)
 				{
-					layoutParams.leftMargin = dp_48 * (1+i) - dp_48 / 8;
+					layoutParams.leftMargin = dp_48 * (1 + i) - dp_48 / 8;
 					imageView.setImageResource(R.drawable.ic_bus_ontheway);
 				}
 				frameLayout.addView(imageView, layoutParams);
+				imageView.setOnClickListener(new OnClickListener()
+				{
+					public void onClick(View v)
+					{
 
+						SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(
+							"到达" + item.stationName + "时间是"
+								+ item.incomingBusTime);
+						spannableStringBuilder.setSpan(new ForegroundColorSpan(
+							0xFFFF0000), 2, 2 + item.stationName.length(),
+							Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+						Toast.makeText(getActivity(), spannableStringBuilder,
+							Toast.LENGTH_SHORT).show();
+					}
+				});
 			}
 			busItemView.setOnClickListener(new OnClickListener()
 			{
@@ -251,7 +270,7 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 		busCalendar.set(year, month, day, hourOfDay, minute, second);
 		// System.out.println(calendar.getTimeInMillis() + "\n"
 		// + busCalendar.getTimeInMillis());
-		return calendar.getTimeInMillis() - busCalendar.getTimeInMillis()< ONE_MINUTE_IN_MM;
+		return calendar.getTimeInMillis() - busCalendar.getTimeInMillis() < ONE_MINUTE_IN_MM;
 	}
 
 	@Override

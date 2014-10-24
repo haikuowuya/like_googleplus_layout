@@ -4,9 +4,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.TypedValue;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 
-public class BusSiteView extends LinearLayout
+public class BusSiteView extends LinearLayout  
 {
 	private Paint mCirclePaint;
 	private Paint mLinePaint;
@@ -64,10 +66,9 @@ public class BusSiteView extends LinearLayout
 		int startY = getHeight() / 8;
 		int endX = getWidth();
 		canvas.drawCircle(startX, startY, mRadius, mCirclePaint);
-	 
 		drawLine(canvas, startX, startY, endX);
-
 		drawText(canvas, halfWidth);
+//		System.out.println(mIsStart + " " + mIsEnd + " "+ mPosition + " " + mText + " " + mTextSize);
 	}
 
 	private void drawLine(Canvas canvas, int startX, int startY, int endX)
@@ -111,7 +112,6 @@ public class BusSiteView extends LinearLayout
 	{
 		mText = text;
 	}
-
 	public void setPosition(int position)
 	{
 		mPosition = position;
@@ -126,5 +126,8 @@ public class BusSiteView extends LinearLayout
 	{
 		this.mIsStart = isStart;
 	}
-
+	public void setTextPaintColor(int color)
+	{
+		this.mTextPaint.setColor(color);
+	}
 }
