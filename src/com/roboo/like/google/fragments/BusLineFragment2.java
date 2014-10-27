@@ -195,7 +195,6 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 		for ( int i = 0; i < mData.size(); i++)
 		{
 			final BusLineItem item = mData.get(i);
-			final int ii = i;
 			final BusSiteView busItemView = new BusSiteView(getActivity());
 			busItemView.setPosition(i + 1);
 			busItemView.setText(item.stationName);

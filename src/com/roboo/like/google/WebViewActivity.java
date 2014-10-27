@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.PluginState;
@@ -34,7 +35,6 @@ public class WebViewActivity extends BaseLayoutActivity
 	private static final String DIDI_URL = "http://pay.xiaojukeji.com/api/v2/webapp?city=%E5%8C%97%E4%BA%AC&maptype=wgs84&fromlat=39.98096907577634&fromlng=116.30000865410719&fromaddr=%E9%93%B6%E7%A7%91%E5%A4%A7%E5%8E%A6&toaddr=%E8%A5%BF%E4%BA%8C%E6%97%97&toshop=%E5%BE%97%E5%AE%9E%E5%A4%A7%E5%8E%A6&channel=1224&d=130002030203";
 	/**默认标题*/
 	private static final String DIDI_TITLE = "嘀嘀打车";
- 
 	/** WebView要加载的URL */
 	private String mUrl;
 	/** ActionBar标题 */
@@ -49,6 +49,7 @@ public class WebViewActivity extends BaseLayoutActivity
 	private ImageButton mIBtnBrowserForward;
 	/** 刷新 or 取消 */
 	private ImageButton mIBtnBrowserRefreshCancle;
+	private WebBackForwardList mBackForwardList;
 
 	public static void actionWebView(Activity activity)
 	{
@@ -80,15 +81,14 @@ public class WebViewActivity extends BaseLayoutActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_webview);// TODO
-		initView();
 		mUrl = getIntent().getStringExtra(EXTRA_URL);
-		customActionBar();
+		initView();
 		initWebView();
+		customActionBar();
 		mWebView.loadUrl(mUrl);
 		setListener();
-		 
 	}
- 
+
 	private void setListener()
 	{
 		OnClickListenerImpl onClickListenerImpl = new OnClickListenerImpl();
@@ -125,7 +125,8 @@ public class WebViewActivity extends BaseLayoutActivity
 		mWebView.getSettings().setDomStorageEnabled(true);
 		if (!mUrl.startsWith("http://m.weathercn.com"))
 		{
-			mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+			mWebView.getSettings().setCacheMode(
+				WebSettings.LOAD_CACHE_ELSE_NETWORK);
 		}
 		else
 		{
@@ -143,7 +144,6 @@ public class WebViewActivity extends BaseLayoutActivity
 	{
 		return new WebChromeClient()
 		{
-
 			@Override
 			public void onProgressChanged(WebView view, int newProgress)
 			{
@@ -152,8 +152,8 @@ public class WebViewActivity extends BaseLayoutActivity
 				{
 					mProgressBar.setVisibility(View.GONE);
 					mProgressBar.setProgress(0);
-					mIBtnBrowserRefreshCancle.setImageDrawable(getResources().getDrawable(
-						R.drawable.browser_refresh_selector));
+					mIBtnBrowserRefreshCancle.setImageDrawable(getResources()
+						.getDrawable(R.drawable.browser_refresh_selector));
 					if (mWebView.canGoForward())
 					{
 						mIBtnBrowserForward.setEnabled(true);
@@ -173,8 +173,14 @@ public class WebViewActivity extends BaseLayoutActivity
 					{
 						mProgressBar.setProgress(newProgress);
 					}
-					mIBtnBrowserRefreshCancle.setImageDrawable(getResources().getDrawable(
-						R.drawable.browser_cancle_selector));
+					mIBtnBrowserRefreshCancle.setImageDrawable(getResources()
+						.getDrawable(R.drawable.browser_cancle_selector));
+				}
+				mBackForwardList = mWebView.copyBackForwardList();
+				if (null != mBackForwardList)
+				{
+//					System.out.println("mBackForwardList.getSize() = "
+//						+ mBackForwardList.getSize());
 				}
 			}
 
@@ -253,18 +259,22 @@ public class WebViewActivity extends BaseLayoutActivity
 	{
 		StateListDrawable stateListDrawable = (StateListDrawable) mIBtnBrowserRefreshCancle
 			.getDrawable();
-		BitmapDrawable currentBitmapDrawable = (BitmapDrawable) stateListDrawable.getCurrent();
-		BitmapDrawable refreshBitmapDrawable = (BitmapDrawable) getResources().getDrawable(
-			R.drawable.ic_browser_refresh_pressed);
-		BitmapDrawable cancleBitmapDrawable = (BitmapDrawable) getResources().getDrawable(
-			R.drawable.ic_browser_cancle_pressed);
+		BitmapDrawable currentBitmapDrawable = (BitmapDrawable) stateListDrawable
+			.getCurrent();
+		BitmapDrawable refreshBitmapDrawable = (BitmapDrawable) getResources()
+			.getDrawable(R.drawable.ic_browser_refresh_pressed);
+		BitmapDrawable cancleBitmapDrawable = (BitmapDrawable) getResources()
+			.getDrawable(R.drawable.ic_browser_cancle_pressed);
 		System.out.println(currentBitmapDrawable.getBitmap() + " "
-			+ refreshBitmapDrawable.getBitmap() + " " + cancleBitmapDrawable.getBitmap());
-		if (currentBitmapDrawable.getBitmap() == refreshBitmapDrawable.getBitmap())// 当前是刷新按钮
+			+ refreshBitmapDrawable.getBitmap() + " "
+			+ cancleBitmapDrawable.getBitmap());
+		if (currentBitmapDrawable.getBitmap() == refreshBitmapDrawable
+			.getBitmap())// 当前是刷新按钮
 		{
 			mWebView.reload();
 		}
-		else if (currentBitmapDrawable.getBitmap() == cancleBitmapDrawable.getBitmap())// 当前是停止按钮
+		else if (currentBitmapDrawable.getBitmap() == cancleBitmapDrawable
+			.getBitmap())// 当前是停止按钮
 		{
 			mWebView.stopLoading();
 		}
