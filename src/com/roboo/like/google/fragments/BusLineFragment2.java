@@ -2,6 +2,7 @@ package com.roboo.like.google.fragments;
 
 import java.io.DataOutputStream;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.LinkedList;
 
 import android.annotation.SuppressLint;
@@ -240,15 +241,37 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 				{
 					public void onClick(View v)
 					{
-						getNearestCar();
 						busItemView.getVerticalTextView().setTextColor(
 							0xFFFF0000);
+						String busStopSpacing = getNearestCar();
+						SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(
+							"到达" + item.stationName + "时间是"
+								+ item.incomingBusTime);
+						spannableStringBuilder.setSpan(new ForegroundColorSpan(
+							0xFFFF0000), 2, 2 + item.stationName.length(),
+							Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+						Toast.makeText(getActivity(), spannableStringBuilder,
+							Toast.LENGTH_SHORT).show();
 						// BusStationActivity.actionBusStation(getActivity(), item);
 					}
 
-					private void getNearestCar()
+					private String  getNearestCar()
 					{
-						
+						String busStopSpacing = "0";
+						int position = mData.indexOf(item);
+						if(position > -1)
+						{
+							for(int i = position ;i>=0;i--)
+							{
+								BusLineItem tmp = mData.get(i);
+								if(!TextUtils.isEmpty(item.incomingBusTime))
+								{
+									busStopSpacing = tmp.busStopSpacing;
+									break;
+								}
+							}
+						}
+						return busStopSpacing;
 					}
 				});
 			busItemView.setOnClickListener(

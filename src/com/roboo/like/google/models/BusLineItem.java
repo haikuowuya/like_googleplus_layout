@@ -1,5 +1,7 @@
 package com.roboo.like.google.models;
 
+import cn.jpush.android.a.o;
+
 @SuppressWarnings("serial")
 public class BusLineItem extends BaseItem
 {
@@ -21,5 +23,16 @@ public class BusLineItem extends BaseItem
 	  return "站台名称 = "+ stationName + " 站台编号 = "+stationMark 
 		  +" 到站公交车车牌号 = "+ incomingBusNo +" 到此站台时间 = "+ incomingBusTime
 		  +"站台URL = " + stationUrl;
+	}
+	@Override
+	public boolean equals(Object obj)
+	{
+		 
+		if(obj != null &&  obj instanceof BusLineItem)
+		{
+			BusLineItem item = (BusLineItem) obj;
+			return item.stationMark.equals(stationMark);
+		}
+		return false;
 	}
 }
