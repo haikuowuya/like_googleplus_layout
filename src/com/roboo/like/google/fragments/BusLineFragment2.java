@@ -4,7 +4,6 @@ import java.io.DataOutputStream;
 import java.util.Calendar;
 import java.util.LinkedList;
 
-import android.R.integer;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,7 +11,6 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
@@ -183,7 +181,7 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 		int dp_48 = (int) (48 * getResources().getDisplayMetrics().density);
 		FrameLayout frameLayout = new FrameLayout(getActivity());
 		FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(
-			LayoutParams.MATCH_PARENT, 4 * dp_48);
+			LayoutParams.MATCH_PARENT, 5 * dp_48);
 		frameLayoutParams.gravity = Gravity.CENTER_VERTICAL;
 		mHorizontalScrollView.addView(frameLayout, frameLayoutParams);
 		LinearLayout linearLayout = new LinearLayout(getActivity());
@@ -192,7 +190,7 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 
 		LayoutParams params = new LinearLayout.LayoutParams(dp_48,
 			LayoutParams.MATCH_PARENT);
-		for ( int i = 0; i < mData.size(); i++)
+		for (int i = 0; i < mData.size(); i++)
 		{
 			final BusLineItem item = mData.get(i);
 			final BusSiteView busItemView = new BusSiteView(getActivity());
@@ -203,26 +201,29 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 			if (!TextUtils.isEmpty(item.incomingBusNo))
 			{
 				ImageView imageView = new ImageView(getActivity());
+				int imageViewWH = dp_48 * 2 / 3;
 				FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-					dp_48 / 3, dp_48 / 3);
-				layoutParams.topMargin = dp_48 / 12;
+					imageViewWH, imageViewWH);
+				layoutParams.topMargin = 0;
+				int paddingLTRB = dp_48 / 12;
 				layoutParams.gravity = Gravity.TOP;
 				if (isArrived(item))
 				{
-					layoutParams.leftMargin = dp_48 * (1 + i) - dp_48 * 2 / 3;
+					layoutParams.leftMargin = dp_48 * i + imageViewWH / 4;
 					imageView.setImageResource(R.drawable.ic_bus_arrive);
 				}
 				else if (i < mData.size() - 1)
 				{
-					layoutParams.leftMargin = dp_48 * (1 + i) - dp_48 / 8;
+					layoutParams.leftMargin = dp_48 * (1 + i) - imageViewWH / 2;
 					imageView.setImageResource(R.drawable.ic_bus_ontheway);
 				}
 				frameLayout.addView(imageView, layoutParams);
+				imageView.setPadding(paddingLTRB, paddingLTRB, paddingLTRB,
+					paddingLTRB);
 				imageView.setOnClickListener(new OnClickListener()
 				{
 					public void onClick(View v)
 					{
-
 						SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(
 							"到达" + item.stationName + "时间是"
 								+ item.incomingBusTime);
@@ -238,7 +239,8 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 			{
 				public void onClick(View v)
 				{
-					BusStationActivity.actionBusStation(getActivity(), item);
+					busItemView.getVerticalTextView().setTextColor(0xFFFF0000);
+					// BusStationActivity.actionBusStation(getActivity(), item);
 				}
 			});
 			linearLayout.addView(busItemView, params);

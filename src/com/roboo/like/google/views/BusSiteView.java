@@ -4,11 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.TypedValue;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 
-public class BusSiteView extends LinearLayout  
+public class BusSiteView extends LinearLayout
 {
 	private Paint mCirclePaint;
 	private Paint mLinePaint;
@@ -16,11 +14,13 @@ public class BusSiteView extends LinearLayout
 	private float mRadius = 6;// DP
 	private float mLineWidth = 1.5f;// DP
 	private float mTextSize = 18;// SP;
+	private int mViewWidth = 48;// DP;
+	private int mTopMargin = mViewWidth * 3 / 2;// DP
 	private boolean mIsEnd;
 	private boolean mIsStart;
 	private String mText;
 	private int mPosition;
- 
+	private VerticalTextView mVerticalTextView;
 
 	public BusSiteView(Context context)
 	{
@@ -40,6 +40,19 @@ public class BusSiteView extends LinearLayout
 	private void init()
 	{
 		setWillNotDraw(false);
+
+		mTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
+			mTextSize, getResources().getDisplayMetrics());
+		mRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+			mRadius, getResources().getDisplayMetrics());
+		mLineWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+			mLineWidth, getResources().getDisplayMetrics());
+		mViewWidth = (int) TypedValue.applyDimension(
+			TypedValue.COMPLEX_UNIT_DIP, mViewWidth, getResources()
+				.getDisplayMetrics());
+		mTopMargin = (int) TypedValue.applyDimension(
+			TypedValue.COMPLEX_UNIT_DIP, mTopMargin, getResources()
+				.getDisplayMetrics());
 		mCirclePaint = new Paint();
 		mCirclePaint.setColor(0xFF4CB649);
 		mLinePaint = new Paint();
@@ -48,13 +61,13 @@ public class BusSiteView extends LinearLayout
 		mTextPaint.setAntiAlias(true);
 		mTextPaint.setColor(0xFF00DDFF);
 		mLinePaint.setColor(0xFF4CB649);
-		mTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
-			mTextSize, getResources().getDisplayMetrics());
-		mRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-			mRadius, getResources().getDisplayMetrics());
-		mLineWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-			mLineWidth, getResources().getDisplayMetrics());
 		mTextPaint.setTextSize(mTextSize);
+		mVerticalTextView = new VerticalTextView(getContext());
+		LinearLayout.LayoutParams params = new LayoutParams(mViewWidth,
+			LayoutParams.MATCH_PARENT);
+		params.topMargin = mTopMargin;
+		addView(mVerticalTextView, params);
+		setBackgroundColor(0xFFDDDDDD);
 	}
 
 	@Override
@@ -63,12 +76,13 @@ public class BusSiteView extends LinearLayout
 		super.onDraw(canvas);
 		int halfWidth = getWidth() / 2;
 		int startX = halfWidth;
-		int startY = getHeight() / 8;
+		int startY = mTopMargin / 2;
 		int endX = getWidth();
+		mVerticalTextView.setPadding(0, startY, 0, 0);
 		canvas.drawCircle(startX, startY, mRadius, mCirclePaint);
 		drawLine(canvas, startX, startY, endX);
-		drawText(canvas, halfWidth);
-//		System.out.println(mIsStart + " " + mIsEnd + " "+ mPosition + " " + mText + " " + mTextSize);
+		// drawText(canvas, startY ,halfWidth);
+		drawCurrentIndex(canvas, startY, halfWidth);
 	}
 
 	private void drawLine(Canvas canvas, int startX, int startY, int endX)
@@ -85,7 +99,7 @@ public class BusSiteView extends LinearLayout
 			+ mLineWidth / 2, mLinePaint);
 	}
 
-	private void drawText(Canvas canvas, int halfWidth)
+	private void drawText(Canvas canvas, int startY, int halfWidth)
 	{
 		char[] chars = mText.toCharArray();
 		String position = mPosition + "";
@@ -93,14 +107,26 @@ public class BusSiteView extends LinearLayout
 		{
 			position = " " + position;
 		}
-		canvas.drawText(position, halfWidth - mTextSize / 2, getHeight() / 7
-			+ mTextSize / 2 + mRadius * 2, mTextPaint);
+		canvas.drawText(position, halfWidth - mTextSize / 2, startY + mTextSize
+			/ 2 + mRadius * 2, mTextPaint);
 		for (int i = 0; i < chars.length; i++)
 		{
 			canvas.drawText(chars[i] + "", halfWidth - mTextSize / 2,
 				getHeight() / 7 + mTextSize * 2 + mRadius * 2 + mTextSize * i,
 				mTextPaint);
 		}
+	}
+
+	private void drawCurrentIndex(Canvas canvas, int startY, int halfWidth)
+	{
+		String position = mPosition + "";
+		if (mPosition < 10)
+		{
+			position = " " + position;
+		}
+		canvas.drawText(position, halfWidth - mTextSize / 2, startY + mTextSize
+			 + mRadius * 2, mTextPaint);
+
 	}
 
 	public String getText()
@@ -111,7 +137,9 @@ public class BusSiteView extends LinearLayout
 	public void setText(String text)
 	{
 		mText = text;
+		mVerticalTextView.setText(mText);
 	}
+
 	public void setPosition(int position)
 	{
 		mPosition = position;
@@ -126,8 +154,17 @@ public class BusSiteView extends LinearLayout
 	{
 		this.mIsStart = isStart;
 	}
+
 	public void setTextPaintColor(int color)
 	{
 		this.mTextPaint.setColor(color);
 	}
+
+	public VerticalTextView getVerticalTextView()
+	{
+		return mVerticalTextView;
+	}
+
+	
+	
 }
