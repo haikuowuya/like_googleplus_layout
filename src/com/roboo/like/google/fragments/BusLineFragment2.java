@@ -235,14 +235,31 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 					}
 				});
 			}
-			busItemView.setOnClickListener(new OnClickListener()
-			{
-				public void onClick(View v)
+			busItemView.getVerticalTextView().setOnClickListener(
+				new OnClickListener()
 				{
-					busItemView.getVerticalTextView().setTextColor(0xFFFF0000);
-					// BusStationActivity.actionBusStation(getActivity(), item);
-				}
-			});
+					public void onClick(View v)
+					{
+						getNearestCar();
+						busItemView.getVerticalTextView().setTextColor(
+							0xFFFF0000);
+						// BusStationActivity.actionBusStation(getActivity(), item);
+					}
+
+					private void getNearestCar()
+					{
+						
+					}
+				});
+			busItemView.setOnClickListener(
+				new OnClickListener()
+				{
+					public void onClick(View v)
+					{
+						BusStationActivity
+							.actionBusStation(getActivity(), item);
+					}
+				});
 			linearLayout.addView(busItemView, params);
 		}
 
