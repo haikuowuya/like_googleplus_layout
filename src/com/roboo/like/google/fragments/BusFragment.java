@@ -42,7 +42,7 @@ public class BusFragment extends BaseWithProgressFragment implements LoaderCallb
 	private BusAdapter mAdapter;
 	private View mHeaderView;
 	private View mEmptyView;
-	private String mBusNo = "18";
+	private String mBusNo = "110";
 	private int mListViewFirstPosition = 0;
 	private Button mBtnRetry;
 

@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.roboo.like.google.BusLineActivity;
 import com.roboo.like.google.R;
 import com.roboo.like.google.models.BusStationItem;
 
@@ -48,47 +49,61 @@ public class BusStationAdapter extends BaseAdapter
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		final BusStationItem item = mData.get(position);
-		if(convertView == null)
+		if (convertView == null)
 		{
-		convertView = LayoutInflater.from(mActivity).inflate(R.layout.list_bus_station_item, null);// TODO
+			convertView = LayoutInflater.from(mActivity).inflate(
+				R.layout.list_bus_station_item, null);// TODO
 		}
 		TextView tvBusNo = ViewHolder.getView(convertView, R.id.tv_bus_no);
 		TextView tvBusTo = ViewHolder.getView(convertView, R.id.tv_bus_to);
-		TextView tvBusLicensePlate = ViewHolder.getView(convertView, R.id.tv_bus_license_plate);
-		TextView tvBusUpdateTime = ViewHolder.getView(convertView, R.id.tv_bus_update_time);
-		TextView tvBusStopSpacing = ViewHolder.getView(convertView, R.id.tv_bus_stop_spacing);
-		tvBusNo.setText(item.busNo+"路");
+		TextView tvBusLicensePlate = ViewHolder.getView(convertView,
+			R.id.tv_bus_license_plate);
+		TextView tvBusUpdateTime = ViewHolder.getView(convertView,
+			R.id.tv_bus_update_time);
+		TextView tvBusStopSpacing = ViewHolder.getView(convertView,
+			R.id.tv_bus_stop_spacing);
+		tvBusNo.setText(item.busNo + "路");
 		tvBusTo.setText(item.busTo);
 		tvBusLicensePlate.setText(item.busLicensePlate);
 		tvBusUpdateTime.setText(item.busUpdateTime);
 		tvBusStopSpacing.setText(item.busStopSpacing);
-		if(TextUtils.isEmpty(item.busUpdateTime))
+		if (TextUtils.isEmpty(item.busUpdateTime))
 		{
 			tvBusUpdateTime.setText("无");
 		}
-		
-		if(!TextUtils.isEmpty(item.busStopSpacing))
+
+		if (!TextUtils.isEmpty(item.busStopSpacing))
 		{
-			if(TextUtils.isDigitsOnly(item.busStopSpacing) || "进站".equals(item.busStopSpacing))
+			if (TextUtils.isDigitsOnly(item.busStopSpacing)
+				|| "进站".equals(item.busStopSpacing))
 			{
 				tvBusStopSpacing.setTextColor(0xFFFF0000);
 			}
-			if("无车".equals(item.busStopSpacing))
+			if ("无车".equals(item.busStopSpacing))
 			{
 				tvBusStopSpacing.setTextColor(0xFF0000FF);
 			}
 		}
-		if(!TextUtils.isEmpty(item.busTo)&& item.busTo.length() > 9)
+		if (!TextUtils.isEmpty(item.busTo) && item.busTo.length() > 9)
 		{
 			tvBusTo.setOnClickListener(new OnClickListener()
 			{
 				@Override
 				public void onClick(View v)
 				{
-					Toast.makeText(mActivity, item.busTo, Toast.LENGTH_SHORT).show();
+					Toast.makeText(mActivity, item.busTo, Toast.LENGTH_SHORT)
+						.show();
 				}
 			});
-			
+
+		}
+		if(mActivity instanceof BusLineActivity)
+		{
+			convertView.setBackgroundResource(0);
+			tvBusLicensePlate.setVisibility(View.GONE);
+			tvBusTo.setVisibility(View.GONE);
+//			tvBusUpdateTime.setVisibility(View.INVISIBLE);
+		 
 		}
 		return convertView;
 	}

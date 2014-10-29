@@ -1,6 +1,5 @@
 package com.roboo.like.google.models;
 
-import cn.jpush.android.a.o;
 
 @SuppressWarnings("serial")
 public class BusLineItem extends BaseItem
@@ -27,7 +26,6 @@ public class BusLineItem extends BaseItem
 	@Override
 	public boolean equals(Object obj)
 	{
-		 
 		if(obj != null &&  obj instanceof BusLineItem)
 		{
 			BusLineItem item = (BusLineItem) obj;

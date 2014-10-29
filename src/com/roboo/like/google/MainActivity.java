@@ -290,7 +290,6 @@ public class MainActivity extends BaseActivity
 				updateFragment();
 				return true;
 			}
-
 		});
 	}
 

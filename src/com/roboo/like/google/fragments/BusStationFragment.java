@@ -29,9 +29,10 @@ import com.roboo.like.google.models.BusStationItem;
 import com.roboo.like.google.utils.NetWorkUtils;
 
 @SuppressLint("NewApi")
-public class BusStationFragment extends BaseWithProgressFragment implements LoaderCallbacks<LinkedList<BusStationItem>>
+public class BusStationFragment extends BaseWithProgressFragment implements
+	LoaderCallbacks<LinkedList<BusStationItem>>
 {
-	private static final long NEXT_QUERY_DELAY_TIME= 10000L;
+	private static final long NEXT_QUERY_DELAY_TIME = 10000L;
 	private ListView mListView;
 	public static final String ARG_BUS_LINE = "bus_line";
 	public static final String ARG_BUS_ITEM = "bus_item";
@@ -40,15 +41,18 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 	private BusStationAdapter mAdapter;
 	private int mListViewFirstPosition = 0;
 	private Handler mHandler = new Handler();
-	private  Runnable mQueryRunnable = new Runnable()
+	private Runnable mQueryRunnable = new Runnable()
 	{
 		@Override
 		public void run()
 		{
-			doLoadData();
+			if (mProgressBar.getVisibility() == View.GONE)
+			{
+				doLoadData();
+			}
 		}
 	};
-	
+
 	public static BusStationFragment newInstance(String busLineUrl)
 	{
 		BusStationFragment fragment = new BusStationFragment();
@@ -59,7 +63,8 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+		Bundle savedInstanceState)
 	{
 		View view = null;
 		if (savedInstanceState == null)
@@ -79,17 +84,19 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 		doLoadData();
 		setListener();
 	}
+
 	@Override
 	public void onPause()
 	{
 		super.onPause();
 		mHandler.removeCallbacks(mQueryRunnable);
 	}
+
 	@Override
 	public void onResume()
 	{
 		super.onResume();
-		if(mData != null)
+		if (mData != null)
 		{
 			mHandler.postDelayed(mQueryRunnable, NEXT_QUERY_DELAY_TIME);
 		}
@@ -108,7 +115,8 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 	 */
 	private View createHeaderView()
 	{
-		mHeaderView = LayoutInflater.from(getActivity()).inflate(R.layout.listview_bus_station_header_view, null);// TODO ListView的HeaderView布局文件
+		mHeaderView = LayoutInflater.from(getActivity()).inflate(
+			R.layout.listview_bus_station_header_view, null);// TODO ListView的HeaderView布局文件
 		return mHeaderView;
 	}
 
@@ -155,7 +163,8 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 			}
 
 			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+			public void onScroll(AbsListView view, int firstVisibleItem,
+				int visibleItemCount, int totalItemCount)
 			{}
 		});
 	}
@@ -165,15 +174,16 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 		return new OnItemClickListener()
 		{
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			public void onItemClick(AdapterView<?> parent, View view,
+				int position, long id)
 			{
-				
-				BusStationItem item = (BusStationItem) parent.getAdapter().getItem(position);
+
+				BusStationItem item = (BusStationItem) parent.getAdapter()
+					.getItem(position);
 				BusItem busItem = new BusItem();
-			 
 				busItem.busNo = item.busNo;
 				busItem.busUrl = item.stationUrl;
-				 
+
 				BusLineActivity.actionBusLine(getActivity(), busItem);
 			}
 
@@ -183,11 +193,13 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 	@Override
 	public Loader<LinkedList<BusStationItem>> onCreateLoader(int id, Bundle args)
 	{
-		return new BusStationAsyncTaskLoader(getActivity(), getArguments().getString(ARG_BUS_LINE, null));
+		return new BusStationAsyncTaskLoader(getActivity(), getArguments()
+			.getString(ARG_BUS_LINE, null));
 	}
 
 	@Override
-	public void onLoadFinished(Loader<LinkedList<BusStationItem>> loader, LinkedList<BusStationItem> data)
+	public void onLoadFinished(Loader<LinkedList<BusStationItem>> loader,
+		LinkedList<BusStationItem> data)
 	{
 		mProgressBar.setVisibility(View.GONE);
 		mHandler.postDelayed(mQueryRunnable, NEXT_QUERY_DELAY_TIME);
@@ -204,7 +216,7 @@ public class BusStationFragment extends BaseWithProgressFragment implements Load
 		}
 		else
 		{
-			
+
 			if (NetWorkUtils.isNetworkAvailable(getActivity()))
 			{
 

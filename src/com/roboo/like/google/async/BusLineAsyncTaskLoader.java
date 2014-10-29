@@ -13,7 +13,8 @@ import android.text.TextUtils;
 
 import com.roboo.like.google.models.BusLineItem;
 
-public class BusLineAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusLineItem>>
+public class BusLineAsyncTaskLoader extends
+	BaseAsyncTaskLoader<LinkedList<BusLineItem>>
 {
 	public static final String BASE_URL = "http://www.szjt.gov.cn/apts/";
 	public static final String URL = "http://www.szjt.gov.cn/apts/APTSLine.aspx?__VIEWSTATE=%2FwEPDwUJNDk3MjU2MjgyD2QWAmYPZBYCAgMPZBYCAgEPZBYCAgYPDxYCHgdWaXNpYmxlaGRkZLSbkOWJhbw7r9tBdPn33bPCSlJcKXww5ounfGoyhKl3&__EVENTVALIDATION=%2FwEWAwLeub7XBwL88Oh8AqX89aoK1GKT3VlKUTd%2FxyQgZexCetMuo%2Fi%2FLRDnisAyha1YxN0%3D&ctl00%24MainContent%24LineName=18&ctl00%24MainContent%24SearchLine=%E6%90%9C%E7%B4%A2";// 18
@@ -60,51 +61,59 @@ public class BusLineAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusLi
 			{
 				Document document = Jsoup.connect(mBusLineUrl).get();
 				Element element = document.getElementById("MainContent_DATA");
-				element = element.getElementsByTag("tbody").get(0);
-				Elements elements = element.getElementsByTag("tr");
-				Elements tmpEleemnts = null;
-
-				String stationUrl = null, stationName = null, stationMark = null, incomingBusNo = null, incomingBusTime = null;
-				if (!elements.isEmpty())
+				if (element.getElementsByTag("tbody") != null
+					&& !element.getElementsByTag("tbody").isEmpty())
 				{
-					data = new LinkedList<BusLineItem>();
-					for (Element e : elements)
+					element = element.getElementsByTag("tbody").get(0);
+					Elements elements = element.getElementsByTag("tr");
+					Elements tmpEleemnts = null;
+					String stationUrl = null, stationName = null, stationMark = null, incomingBusNo = null, incomingBusTime = null;
+					if (!elements.isEmpty())
 					{
-						BusLineItem item = new BusLineItem();
-						tmpEleemnts = e.getElementsByTag("td");
-						if (!tmpEleemnts.isEmpty() && tmpEleemnts.size() > 2)// size = 4
+						data = new LinkedList<BusLineItem>();
+						for (Element e : elements)
 						{
-							Elements aElemens = tmpEleemnts.get(0).getElementsByTag("a");
-							if (!aElemens.isEmpty())
+							BusLineItem item = new BusLineItem();
+							tmpEleemnts = e.getElementsByTag("td");
+							if (!tmpEleemnts.isEmpty()
+								&& tmpEleemnts.size() > 2)// size = 4
 							{
-								stationUrl = BASE_URL + aElemens.get(0).attr("href");
-								stationName = aElemens.get(0).text();
-							}
-							stationMark = tmpEleemnts.get(1).text();
-							incomingBusNo = tmpEleemnts.get(2).text();
-							incomingBusTime = tmpEleemnts.get(3).text();
-							if(!TextUtils.isEmpty(stationName))
-							{
-								if(stationName.contains("（"))
+								Elements aElemens = tmpEleemnts.get(0)
+									.getElementsByTag("a");
+								if (!aElemens.isEmpty())
 								{
-									stationName = stationName.replace("（", "[");
+									stationUrl = BASE_URL
+										+ aElemens.get(0).attr("href");
+									stationName = aElemens.get(0).text();
 								}
-								if(stationName.contains("）"))
+								stationMark = tmpEleemnts.get(1).text();
+								incomingBusNo = tmpEleemnts.get(2).text();
+								incomingBusTime = tmpEleemnts.get(3).text();
+								if (!TextUtils.isEmpty(stationName))
 								{
-									stationName = stationName.replace(")", "]");
+									if (stationName.contains("（"))
+									{
+										stationName = stationName.replace("（",
+											"[");
+									}
+									if (stationName.contains("）"))
+									{
+										stationName = stationName.replace(")",
+											"]");
+									}
 								}
+								item.stationName = stationName;
+								item.incomingBusNo = incomingBusNo;
+								item.incomingBusTime = incomingBusTime;
+								item.stationMark = stationMark;
+								item.stationUrl = stationUrl;
+								data.add(item);
 							}
-							item.stationName = stationName;
-							item.incomingBusNo = incomingBusNo;
-							item.incomingBusTime = incomingBusTime;
-							item.stationMark = stationMark;
-							item.stationUrl = stationUrl;
-							data.add(item);
 						}
-					}
-					if(data.size() ==0)
-					{
-						data = null;
+						if (data.size() == 0)
+						{
+							data = null;
+						}
 					}
 				}
 			}
@@ -126,10 +135,10 @@ public class BusLineAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusLi
 		}
 		return data;
 	}
-	
-	private String  getBusStation(String busNo1)
+
+	private String getBusStation(String busNo1)
 	{
-		String   busStopSpacing = null,busNo = null;
+		String busStopSpacing = null, busNo = null;
 		if (!TextUtils.isEmpty(mBusLineUrl))
 		{
 			try
@@ -139,7 +148,7 @@ public class BusLineAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusLi
 				element = element.getElementsByTag("tbody").get(0);
 				Elements elements = element.getElementsByTag("tr");
 				Elements tmpEleemnts = null;
-			
+
 				if (!elements.isEmpty())
 				{
 					for (Element e : elements)
@@ -147,17 +156,18 @@ public class BusLineAsyncTaskLoader extends BaseAsyncTaskLoader<LinkedList<BusLi
 						tmpEleemnts = e.getElementsByTag("td");
 						if (!tmpEleemnts.isEmpty() && tmpEleemnts.size() == 5)// size = 5
 						{
-							Elements aElemens = tmpEleemnts.get(0).getElementsByTag("a");
+							Elements aElemens = tmpEleemnts.get(0)
+								.getElementsByTag("a");
 							if (!aElemens.isEmpty())
 							{
 								busNo = aElemens.get(0).text();
 							}
-							if(busNo1.equals(busNo))
+							if (busNo1.equals(busNo))
 							{
 								busStopSpacing = tmpEleemnts.get(4).text();
-								if("进站".equals(busStopSpacing))
+								if ("进站".equals(busStopSpacing))
 								{
-									busStopSpacing="0";
+									busStopSpacing = "0";
 								}
 								break;
 							}

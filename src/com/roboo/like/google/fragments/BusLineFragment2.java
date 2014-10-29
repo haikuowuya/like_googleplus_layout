@@ -2,12 +2,12 @@ package com.roboo.like.google.fragments;
 
 import java.io.DataOutputStream;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.LinkedList;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.text.Spannable;
@@ -32,27 +32,67 @@ import android.widget.Toast;
 import com.roboo.like.google.BusLineActivity;
 import com.roboo.like.google.BusStationActivity;
 import com.roboo.like.google.R;
+import com.roboo.like.google.adapters.BusStationAdapter2;
 import com.roboo.like.google.async.BusLineAsyncTaskLoader;
 import com.roboo.like.google.models.BusLineItem;
+import com.roboo.like.google.models.BusStationItem;
+import com.roboo.like.google.utils.BusUtils;
 import com.roboo.like.google.views.BusSiteView;
 
 @SuppressLint("NewApi")
 public class BusLineFragment2 extends BaseWithProgressFragment implements
 	LoaderCallbacks<LinkedList<BusLineItem>>
 {
-	private static final long NEXT_QUERY_DELAY_TIME = 10000L;
+	private static final String NO_CAR = "前方暂无到达车辆";
+	private static final String IN_CAR = "进站";
+	private static final String ZERO = "0";
+	private static final long NEXT_QUERY_DELAY_TIME = 12000L;
 	private static final long ONE_MINUTE_IN_MM = 60 * 1000L;
 	public static final String ARG_BUS_LINE = "bus_line";
 	public static final String ARG_BUS_NAME = "bus_name";
 	private LinkedList<BusLineItem> mData;
+	/**是否自动刷新*/
+	private boolean mIsAutoRefresh = true;
+	private LinkedList<BusStationItem> mBusStationItems = null;
+	private int mClickPosition = -1;
+	private int mPreviousClickPosition = -1;
 	private HorizontalScrollView mHorizontalScrollView;
-	private Handler mHandler = new Handler();
+	private BusLineItem mClickedBusLineItem;
+	private BusLineActivity mHostActivity;
+	private Handler mHandler = new Handler()
+	{
+		public void handleMessage(Message msg)
+		{
+			mBusStationItems = (LinkedList<BusStationItem>) msg.obj;
+			if (null != mBusStationItems && mBusStationItems.size() > 0)
+			{
+				 
+				BusStationAdapter2 adapter = new BusStationAdapter2(
+					mHostActivity, mBusStationItems);
+				mHostActivity.showNavActionBar(adapter);
+			}
+		};
+	};
 	private Runnable mQueryRunnable = new Runnable()
 	{
 		@Override
 		public void run()
 		{
-			doLoadData();
+			if (mIsAutoRefresh && mProgressBar.getVisibility() == View.GONE)
+			{
+				doLoadData();
+			}
+		}
+	};
+	private Runnable mGetBusStationRunnable = new Runnable()
+	{
+		public void run()
+		{
+			LinkedList<BusStationItem> data = BusUtils
+				.getBusStation(mClickedBusLineItem.stationUrl);
+			Message message = mHandler.obtainMessage();
+			message.obj = data;
+			mHandler.sendMessage(message);
 		}
 	};
 
@@ -84,6 +124,7 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
+		mHostActivity = (BusLineActivity) getActivity();
 		doLoadData();
 	}
 
@@ -105,13 +146,19 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 		}
 	}
 
-	private void setListener()
-	{}
+	private void doLoadBusStationData()
+	{
+		new Thread(mGetBusStationRunnable).start();
+	}
 
 	private void doLoadData()
 	{
 		getActivity().getSupportLoaderManager().restartLoader(0, null, this);
 		mProgressBar.setVisibility(View.VISIBLE);
+		if (null != mBusStationItems)// 前面点击过
+		{
+			doLoadBusStationData();
+		}
 	}
 
 	@Override
@@ -138,6 +185,14 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 			break;
 		case R.id.menu_invert:// 换方向
 			invert();
+			break;
+		case R.id.menu_auto_refresh:// 自动刷新
+			mIsAutoRefresh = !item.isChecked();
+			item.setChecked(mIsAutoRefresh);
+			if (mIsAutoRefresh)
+			{
+				mHandler.post(mQueryRunnable);
+			}
 			break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -168,7 +223,6 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 	{
 		mProgressBar.setVisibility(View.GONE);
 		mHandler.postDelayed(mQueryRunnable, NEXT_QUERY_DELAY_TIME);
-
 		if (data != null)
 		{
 			mData = data;
@@ -180,17 +234,25 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 	{
 		mHorizontalScrollView.removeAllViews();
 		int dp_48 = (int) (48 * getResources().getDisplayMetrics().density);
-		FrameLayout frameLayout = new FrameLayout(getActivity());
+		final FrameLayout frameLayout = new FrameLayout(getActivity());
 		FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(
 			LayoutParams.MATCH_PARENT, 5 * dp_48);
 		frameLayoutParams.gravity = Gravity.CENTER_VERTICAL;
 		mHorizontalScrollView.addView(frameLayout, frameLayoutParams);
-		LinearLayout linearLayout = new LinearLayout(getActivity());
+		final LinearLayout linearLayout = new LinearLayout(getActivity());
 		frameLayout.addView(linearLayout, new FrameLayout.LayoutParams(
 			LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-
 		LayoutParams params = new LinearLayout.LayoutParams(dp_48,
 			LayoutParams.MATCH_PARENT);
+		if (TextUtils.isEmpty(mHostActivity.getStationMark()))
+		{
+			mClickPosition = mData.size() / 2;
+			mHostActivity.setStationMark(mData.get(mClickPosition).stationMark);
+		}
+		else
+		{
+			mClickPosition = getDefaultPosition();
+		}
 		for (int i = 0; i < mData.size(); i++)
 		{
 			final BusLineItem item = mData.get(i);
@@ -199,6 +261,11 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 			busItemView.setText(item.stationName);
 			busItemView.setIsEnd(i == mData.size() - 1);
 			busItemView.setIsStart(i == 0);
+			if (item.stationMark.equals(mHostActivity.getStationMark()))
+			{
+				busItemView.getVerticalTextView().setTextColor(
+					busItemView.getClickTextColor());
+			}
 			if (!TextUtils.isEmpty(item.incomingBusNo))
 			{
 				ImageView imageView = new ImageView(getActivity());
@@ -241,51 +308,132 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 				{
 					public void onClick(View v)
 					{
-						busItemView.getVerticalTextView().setTextColor(
-							0xFFFF0000);
-						String busStopSpacing = getNearestCar();
-						SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(
-							"到达" + item.stationName + "时间是"
-								+ item.incomingBusTime);
-						spannableStringBuilder.setSpan(new ForegroundColorSpan(
-							0xFFFF0000), 2, 2 + item.stationName.length(),
-							Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-						Toast.makeText(getActivity(), spannableStringBuilder,
-							Toast.LENGTH_SHORT).show();
-						// BusStationActivity.actionBusStation(getActivity(), item);
+						mClickedBusLineItem = item;
+						mHostActivity.setStationMark(item.stationMark);
+						mPreviousClickPosition = mClickPosition;
+						View childView = linearLayout
+							.getChildAt(mPreviousClickPosition);
+						if (childView instanceof BusSiteView)
+						{
+							((BusSiteView) childView).getVerticalTextView()
+								.setTextColor(busItemView.getTextColor());
+							// System.out.println("mPreviousClickPosition ="
+							// + mPreviousClickPosition);
+						}
+						onTextViewClick(item, busItemView);
+						doLoadBusStationData();
 					}
 
-					private String  getNearestCar()
+					private void onTextViewClick(final BusLineItem item,
+						final BusSiteView busItemView)
 					{
-						String busStopSpacing = "0";
-						int position = mData.indexOf(item);
-						if(position > -1)
+						mClickPosition = getClickPosition();
+						busItemView.getVerticalTextView().setTextColor(
+							busItemView.getClickTextColor());
+						String busStopSpacing = getNearestCar();
+
+						if (isArrived(item))
 						{
-							for(int i = position ;i>=0;i--)
+							SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(
+								"正在进站");
+							spannableStringBuilder.setSpan(
+								new ForegroundColorSpan(0xFFFF0000), 0, 4,
+								Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+							Toast.makeText(getActivity(),
+								spannableStringBuilder, Toast.LENGTH_SHORT)
+								.show();
+						}
+						else if (NO_CAR.equals(busStopSpacing))
+						{
+							Toast.makeText(getActivity(), NO_CAR,
+								Toast.LENGTH_SHORT).show();
+						}
+						else if (ZERO.equals(busStopSpacing))
+						{
+							SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(
+								"即将到达" + item.stationName);
+							spannableStringBuilder.setSpan(
+								new ForegroundColorSpan(0xFFFF0000), 4,
+								4 + item.stationName.length(),
+								Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+							Toast.makeText(getActivity(),
+								spannableStringBuilder, Toast.LENGTH_SHORT)
+								.show();
+						}
+						else
+						{
+							SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(
+								"还有" + busStopSpacing + "站到达"
+									+ item.stationName);
+							spannableStringBuilder.setSpan(
+								new ForegroundColorSpan(0xFFFF0000), 2,
+								2 + busStopSpacing.length(),
+								Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+							Toast.makeText(getActivity(),
+								spannableStringBuilder, Toast.LENGTH_SHORT)
+								.show();
+						}
+					}
+
+					private String getNearestCar()
+					{
+						String busStopSpacing = "-1";
+						// System.out.println("position = " + position);
+						for (int i = mClickPosition; i >= 0; i--)
+						{
+							BusLineItem tmp = mData.get(i);
+							if (!TextUtils.isEmpty(tmp.incomingBusTime))
 							{
-								BusLineItem tmp = mData.get(i);
-								if(!TextUtils.isEmpty(item.incomingBusTime))
-								{
-									busStopSpacing = tmp.busStopSpacing;
-									break;
-								}
+								busStopSpacing = mClickPosition - (i + 1) + "";
+								break;
 							}
+						}
+						if ("-1".equals(busStopSpacing))
+						{
+							busStopSpacing = NO_CAR;
+						}
+						if (IN_CAR.equals(busStopSpacing))
+						{
+							busStopSpacing = "0";
 						}
 						return busStopSpacing;
 					}
-				});
-			busItemView.setOnClickListener(
-				new OnClickListener()
-				{
-					public void onClick(View v)
+
+					private int getClickPosition()
 					{
-						BusStationActivity
-							.actionBusStation(getActivity(), item);
+						for (int ii = 0; ii < mData.size(); ii++)
+						{
+							if (mData.get(ii).stationMark
+								.equals(item.stationMark))
+							{
+								return ii;
+							}
+						}
+						return 0;
 					}
 				});
+			busItemView.setOnClickListener(new OnClickListener()
+			{
+				public void onClick(View v)
+				{
+					BusStationActivity.actionBusStation(getActivity(), item);
+				}
+			});
 			linearLayout.addView(busItemView, params);
 		}
+	}
 
+	private int getDefaultPosition()
+	{
+		for(int i = 0; i< mData.size();i++)
+		{
+			if(mData.get(i).stationMark.equals(mHostActivity.getStationMark()))
+			{
+				return i ;
+			}
+		}
+		return  mData.size()/2;
 	}
 
 	private boolean isArrived(BusLineItem item)

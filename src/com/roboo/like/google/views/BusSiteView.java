@@ -1,5 +1,6 @@
 package com.roboo.like.google.views;
 
+import android.R.integer;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -16,10 +17,14 @@ public class BusSiteView extends LinearLayout
 	private float mTextSize = 18;// SP;
 	private int mViewWidth = 48;// DP;
 	private int mTopMargin = mViewWidth * 3 / 2;// DP
+	private int mTextColor = 0xFF00DDFF;
+	private int mClickTextColor = 0xFFFF0000;
+	private int mLineColor = 0xFF4CB649;
 	private boolean mIsEnd;
 	private boolean mIsStart;
 	private String mText;
 	private int mPosition;
+ 
 	private VerticalTextView mVerticalTextView;
 
 	public BusSiteView(Context context)
@@ -54,13 +59,13 @@ public class BusSiteView extends LinearLayout
 			TypedValue.COMPLEX_UNIT_DIP, mTopMargin, getResources()
 				.getDisplayMetrics());
 		mCirclePaint = new Paint();
-		mCirclePaint.setColor(0xFF4CB649);
+		mCirclePaint.setColor(mLineColor);
 		mLinePaint = new Paint();
 		mLinePaint.setAntiAlias(true);
 		mTextPaint = new Paint();
 		mTextPaint.setAntiAlias(true);
-		mTextPaint.setColor(0xFF00DDFF);
-		mLinePaint.setColor(0xFF4CB649);
+		mTextPaint.setColor(mTextColor);
+		mLinePaint.setColor(mLineColor);
 		mTextPaint.setTextSize(mTextSize);
 		mVerticalTextView = new VerticalTextView(getContext());
 		LinearLayout.LayoutParams params = new LayoutParams(mViewWidth,
@@ -79,6 +84,8 @@ public class BusSiteView extends LinearLayout
 		int startY = mTopMargin / 2;
 		int endX = getWidth();
 		mVerticalTextView.setPadding(0, startY, 0, 0);
+	 
+		 
 		canvas.drawCircle(startX, startY, mRadius, mCirclePaint);
 		drawLine(canvas, startX, startY, endX);
 		// drawText(canvas, startY ,halfWidth);
@@ -144,6 +151,7 @@ public class BusSiteView extends LinearLayout
 	{
 		mPosition = position;
 	}
+	 
 
 	public void setIsEnd(boolean isEnd)
 	{
@@ -159,7 +167,14 @@ public class BusSiteView extends LinearLayout
 	{
 		this.mTextPaint.setColor(color);
 	}
-
+	public int getTextColor()
+	{
+		return mTextColor;
+	}
+	public int getClickTextColor()
+	{
+		return mClickTextColor;
+	}
 	public VerticalTextView getVerticalTextView()
 	{
 		return mVerticalTextView;

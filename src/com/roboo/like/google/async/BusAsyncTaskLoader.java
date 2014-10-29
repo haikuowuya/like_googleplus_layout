@@ -117,7 +117,7 @@ public class BusAsyncTaskLoader extends
 			}
 			Document document = Jsoup.connect(busLineUrl).get();
 			Element element = document.getElementById("MainContent_DATA");
-			if (!element.getElementsByTag("tbody").isEmpty())
+			if (element.getElementsByTag("tbody") != null &&!element.getElementsByTag("tbody").isEmpty())
 			{
 				element = element.getElementsByTag("tbody").get(0);
 				Elements elements = element.getElementsByTag("tr");
