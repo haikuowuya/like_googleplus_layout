@@ -20,12 +20,13 @@ public class BusStationAdapter2 extends BaseAdapter
 {
 	private LinkedList<BusStationItem> mData;
 	private Activity mActivity;
-
+	private String mBusNo ;
 	public BusStationAdapter2(Activity mActivity,
-		LinkedList<BusStationItem> data)
+		LinkedList<BusStationItem> data,String busNo )
 	{
 		this.mData = data;
 		this.mActivity = mActivity;
+		this.mBusNo = busNo;
 	}
 
 	@Override
@@ -83,24 +84,14 @@ public class BusStationAdapter2 extends BaseAdapter
 				tvBusStopSpacing.setTextColor(0xFF0000FF);
 			}
 		}
-//		convertView.setOnClickListener(new OnClickListener()
-//		{
-//			@Override
-//			public void onClick(View v)
-//			{
-//				if (mActivity instanceof BusLineActivity)
-//				{
-//					BusLineActivity busLineActivity = (BusLineActivity) mActivity;
-//					busLineActivity
-//						.beginTransaction()
-//						.replace(
-//							R.id.frame_container,
-//							BusLineFragment2.newInstance(item.stationUrl,
-//								item.busNo)).commit();
-//					busLineActivity.customActionBar(item.busNo);
-//				}
-//			}
-//		});
+		if(null != mBusNo && mBusNo.equals(item.busNo))
+		{
+			convertView.setBackgroundColor(0x44FF0000);
+		}
+		else
+		{
+			convertView.setBackgroundResource(0);
+		}
 		return convertView;
 	}
 }

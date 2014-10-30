@@ -49,7 +49,7 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 	private static final long NEXT_QUERY_DELAY_TIME = 12000L;
 	private static final long ONE_MINUTE_IN_MM = 60 * 1000L;
 	public static final String ARG_BUS_LINE = "bus_line";
-	public static final String ARG_BUS_NAME = "bus_name";
+	public static final String ARG_BUS_NO = "bus_no";
 	private LinkedList<BusLineItem> mData;
 	/**是否自动刷新*/
 	private boolean mIsAutoRefresh = true;
@@ -67,8 +67,24 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 			if (null != mBusStationItems && mBusStationItems.size() > 0)
 			{
 				 
+				BusStationItem busStationItem = null;
+				 for(int i = 0;i < mBusStationItems.size();i++)
+				 {
+					 BusStationItem tmp = mBusStationItems.get(i);
+					 if(tmp.busNo.equals(getArguments().getString(ARG_BUS_NO)))
+					 {
+						 busStationItem = tmp;
+						 break;
+					 }
+				 }
+				 if(null != busStationItem)
+				 {
+					 mBusStationItems.remove(busStationItem);
+					 mBusStationItems.addFirst(busStationItem);
+				 }
+			 
 				BusStationAdapter2 adapter = new BusStationAdapter2(
-					mHostActivity, mBusStationItems);
+					mHostActivity, mBusStationItems,getArguments().getString(ARG_BUS_NO));
 				mHostActivity.showNavActionBar(adapter);
 			}
 		};
@@ -101,7 +117,7 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 		BusLineFragment2 fragment = new BusLineFragment2();
 		Bundle bundle = new Bundle();
 		bundle.putString(ARG_BUS_LINE, busLineUrl);
-		bundle.putString(ARG_BUS_NAME, busName);
+		bundle.putString(ARG_BUS_NO, busName);
 		fragment.setArguments(bundle);
 		return fragment;
 	}
@@ -125,6 +141,7 @@ public class BusLineFragment2 extends BaseWithProgressFragment implements
 	{
 		super.onActivityCreated(savedInstanceState);
 		mHostActivity = (BusLineActivity) getActivity();
+	 
 		doLoadData();
 	}
 

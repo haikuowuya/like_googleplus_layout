@@ -61,7 +61,7 @@ public class BusLineActivity extends BaseLayoutActivity
 				.add(
 					R.id.frame_container,
 					BusLineFragment2.newInstance(mBusItem.busUrl,
-						mBusItem.busName)).commit();
+						mBusItem.busNo)).commit();
 		}
 	}
 
@@ -90,7 +90,7 @@ public class BusLineActivity extends BaseLayoutActivity
 				beginTransaction().replace(
 					R.id.frame_container,
 					BusLineFragment2.newInstance(mBusInVertItem.busUrl,
-						mBusInVertItem.busName)).commit();
+						mBusInVertItem.busNo )).commit();
 				mIsInvert = true;
 			}
 			else
@@ -98,7 +98,7 @@ public class BusLineActivity extends BaseLayoutActivity
 				beginTransaction().replace(
 					R.id.frame_container,
 					BusLineFragment2.newInstance(mBusItem.busUrl,
-						mBusItem.busName)).commit();
+						mBusItem.busNo)).commit();
 				mIsInvert = false;
 			}
 		}
@@ -118,13 +118,14 @@ public class BusLineActivity extends BaseLayoutActivity
 			mActionBar.setTitle("公交 - " + busNo);
 		}
 		mActionBar.setLogo(R.drawable.ic_abs_bus_up);
-		mIsActuralSelected = false;
+		
 	}
 
 	public void showNavActionBar(final BusStationAdapter2 adapter)
 	{
 		mActionBar.setDisplayHomeAsUpEnabled(true);
 		mActionBar.setHomeButtonEnabled(true);
+		mIsActuralSelected = false;
 		mActionBar.setDisplayShowTitleEnabled(false);
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		mActionBar.setListNavigationCallbacks(adapter,

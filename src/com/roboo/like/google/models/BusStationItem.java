@@ -16,4 +16,15 @@ public class BusStationItem
 	public String busUpdateTime;
 	/** 站距 */
 	public String busStopSpacing;
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj != null && obj instanceof BusStationItem)
+		{
+			BusStationItem 	item = (BusStationItem)  obj;
+			return item.busNo.equals(busNo);
+		}
+		 return false;
+	}
+	 
 }
